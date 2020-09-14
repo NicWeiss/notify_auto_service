@@ -1,0 +1,20 @@
+.error{
+  background-color: rgb(247, 110, 110);
+}
+.logo {
+  background: url(../assets/images/logo.png);
+  min-width: 52px;
+  min-height: 40px;
+  background-size: cover;
+  margin: 0px 17px 10px 10px;
+}
+
+.navigation-container{
+  background-color: #de6c20;
+}
+
+.btn-navigation{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

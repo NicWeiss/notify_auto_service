@@ -1,0 +1,6 @@
+      <p>Список уведомлений</p>
+      {{#each @notifyLists as | notify|}}
+        <li {{action @onSelectNotify notify}}>
+          <Notify @notify={{notify}} />
+        </li>
+      {{/each}}

@@ -1,0 +1,16 @@
+<?php
+/**
+ * Class cfg
+ * provided data for DB connect
+ */
+
+final class cfg{
+    public static $siteconf = array(
+        'host' => 'motmom-back.lo',
+        'dbhost' => 'localhost',
+        'dbname' => 'product',
+        'dbuser' => 'root',
+        'dbpass' => '1234',
+        'debug' => true,
+    );
+}
