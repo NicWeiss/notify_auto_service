@@ -4,7 +4,7 @@ import { action } from '@ember/object';
 
 
 
-export default class MainPageComponent extends Component {
+export default class ListComponent extends Component {
   @tracked selectedNotify = null;
 
 

@@ -2,16 +2,13 @@
 
   <div class="navigation-container d-flex flex-row">
     <Navigation::Logo />
+    <LinkTo @route="manage.list" class="btn btn-navigation">
+      Уведомлеия
+    </LinkTo>
 
-    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-      <label class="btn active btn-navigation">
-        <input type="radio" name="options" id="option1" autocomplete="off" checked> Уведомлеия
-      </label>
-
-      <label class="btn btn-navigation">
-        <input type="radio" name="options" id="option2" autocomplete="off"> Создать новое
-      </label>
-    </div>
+    <LinkTo @route="manage.new" class="btn btn-navigation">
+      Создать новое
+    </LinkTo>
   </div>
 
 </div>

@@ -18,3 +18,27 @@
   justify-content: center;
   align-items: center;
 }
+
+.custom-form{
+  display: flex;
+  justify-content: center;
+}
+
+.form-container{
+  width: 700px;
+}
+
+.header-text{
+  margin: 30px 0 50px 0;
+}
+
+.btn-switch{
+  margin: 0 10px;
+}
+
+.flatpickr-input{
+  text-align: center;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}

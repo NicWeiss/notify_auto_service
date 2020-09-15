@@ -1,0 +1,10 @@
+<div class="d-flex justify-content-start">
+  <div>
+    <p>Список уведомлений</p>
+      {{#each @model as | notify|}}
+        <li {{action onSelectNotify notify}}>
+          Notify: {{notify.name}}
+        </li>
+      {{/each}}
+  </div>
+</div>
