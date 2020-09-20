@@ -1,0 +1,57 @@
+<div class="auth-form-container">
+  <div class="auth-container">
+      <form class="auth-form validate-form">
+        <span class="auth-form-logo">
+          <i class="auth-logo"></i>
+        </span>
+
+        <span class="auth-form-title p-b-34 p-t-27">
+          Log in
+        </span>
+
+        <div class="wrap-input-auth validate-input" data-validate="Enter username">
+          <Input class="auth-input" 
+                 type="text" 
+                 name="username" 
+                 placeholder="Username" 
+                 onclick={{action onStartEdit "user"}} 
+                 onblur={{action onEndEdit "user"}}
+                 @value={{user}}
+          />
+          <span class="focus-input-auth {{if userSelected 'has-val'}}" data-placeholder="&#xf207;"></span>
+        </div>
+
+        <div class="wrap-input-auth validate-input" data-validate="Enter password">
+          <Input class="auth-input" 
+                 type="password" 
+                 name="pass" 
+                 placeholder="Password" 
+                 onclick={{action onStartEdit "password"}}
+                 onblur={{action onEndEdit "password"}}
+                 @value={{password}}
+          />
+          <span class="focus-input-auth {{if passwordSelected 'has-val'}}" data-placeholder="&#xf191;"></span>
+        </div>
+
+        <div class="contact-auth-form-checkbox">
+          <Input class="input-checkbox-auth" 
+                 id="ckb1" 
+                 type="checkbox" 
+                 name="remember-me" 
+                 onclick={{action onChaangeRemember}}  
+          />
+          <label class="label-checkbox-auth" for="ckb1">
+            Remember me
+          </label>
+        </div>
+
+        <div class="container-login-auth-form-btn">
+          <button class="login-auth-form-btn"
+            {{action onSubmit}}      
+          >
+            Login
+          </button>
+        </div>
+      </form>
+  </div>
+</div>

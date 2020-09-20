@@ -8,12 +8,12 @@
 
     <div class="form-group d-flex justify-content-center">
       <button type="button"
-              class="btn btn-switch {{if periodic 'btn-warning' 'btn-outline-warning'}}"
+              class="btn btn-switch {{if periodic 'btn-warning' 'btn-outline-warning'}} btn-lg"
               onclick={{action onPeriodic}}>
         Периодическое
       </button>
       <button type="button"
-              class="btn btn-switch {{unless periodic 'btn-warning' 'btn-outline-warning'}}"
+              class="btn btn-switch {{unless periodic 'btn-warning' 'btn-outline-warning'}} btn-lg"
               onclick={{action onSingle}}>
         Разовое
       </button>

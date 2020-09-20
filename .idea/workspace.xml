@@ -2,26 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1199e378-b037-43a4-874e-67c5b8060f4b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/app/pods/components/list/template.hbs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/app/pods/components/new/component.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/app/pods/manage/new/route.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/app/pods/manage/new/template.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pods/components/main-page/component.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pods/components/list/component.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pods/components/main-page/template.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pods/components/new/template.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pods/components/navigation/template.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pods/components/navigation/template.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pods/components/notify-list/component.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pods/components/notify-list/template.hbs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pods/components/notify/component.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pods/components/notify/template.hbs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pods/components/post-content/template.hbs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pods/list/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pods/manage/list/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pods/list/template.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pods/manage/list/template.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/styles/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/styles/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/ember-cli-build.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/ember-cli-build.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nginx.conf" beforeDir="false" afterPath="$PROJECT_DIR$/nginx.conf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,6 +69,7 @@
       <workItem from="1600117665740" duration="66000" />
       <workItem from="1600117757195" duration="2166000" />
       <workItem from="1600192692148" duration="10770000" />
+      <workItem from="1600470322204" duration="31000" />
     </task>
     <servers />
   </component>

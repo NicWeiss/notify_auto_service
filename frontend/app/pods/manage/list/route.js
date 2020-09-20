@@ -4,7 +4,15 @@ import { tracked } from '@glimmer/tracking';
 
 export default class IndexRoute extends Route {
   @service store;
+  @service auth;
   @tracked object = null;
+
+  beforeModel(){
+    if (!this.auth.isAuthenticated) {
+      console.log('transition');
+      this.transitionTo('auth');
+    }
+  }
 
   async model() {
     //return this.store.findAll('list');

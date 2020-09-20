@@ -1,6 +1,13 @@
+@import "bootstrap";
+@import "auth";
+@import "flex";
+
+
 .error{
   background-color: rgb(247, 110, 110);
 }
+
+
 .logo {
   background: url(../assets/images/logo.png);
   min-width: 52px;
@@ -34,6 +41,11 @@
 
 .btn-switch{
   margin: 0 10px;
+}
+
+.btn:focus, .btn:active:focus, .btn {
+  outline: none;
+  border: 1px solid transparent;
 }
 
 .flatpickr-input{
