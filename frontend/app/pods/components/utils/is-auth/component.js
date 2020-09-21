@@ -5,13 +5,14 @@ import { inject as service } from '@ember/service';
 
 
 export default class iIsAuthComponent extends Component {
-  @service auth;
+  @service session;
 
   @tracked isAuth = false;
 
   constructor(owner, args) {
     super(owner, args);
-    if (this.auth.isAuthenticated) {
+    console.log('auth check');
+    if (this.session.isAuthenticated) {
       this.isAuth = true;
     }
   }

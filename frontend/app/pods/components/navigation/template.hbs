@@ -1,14 +1,20 @@
-<div class="navigation-container d-flex justify-content-between">
+<div class="navigation-container d-flex lex-row justify-content-between">
 
-  <div class="navigation-container d-flex flex-row">
-    <Navigation::Logo />
-    <LinkTo @route="manage.list" class="btn btn-navigation">
-      Уведомлеия
-    </LinkTo>
+    <div class="d-flex flex-row justify-content-start">
+      <Navigation::Logo />
+      <LinkTo @route="manage.list" class="btn btn-navigation">
+        Уведомлеия
+      </LinkTo>
 
-    <LinkTo @route="manage.new" class="btn btn-navigation">
-      Создать новое
-    </LinkTo>
-  </div>
+      <LinkTo @route="manage.new" class="btn btn-navigation">
+        Создать новое
+      </LinkTo>
+    </div>
+
+    <div class="d-flex flex-row justify-content-end">
+      <LinkTo @route="auth.logout" class="btn btn-navigation">
+        Выйти
+      </LinkTo>
+    </div>
 
 </div>

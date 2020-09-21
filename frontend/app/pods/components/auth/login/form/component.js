@@ -5,9 +5,9 @@ import { inject as service } from '@ember/service';
 
 
 
-export default class AuthComponent extends Component {
+export default class LoginComponent extends Component {
   @service notify;
-  @service auth;
+  @service session;
 
   @tracked userSelected = false;
   @tracked passwordSelected = false;
@@ -45,15 +45,23 @@ export default class AuthComponent extends Component {
   }
 
   @action
-  onSubmit() {
-    this.auth.logout();
+  async onSubmit() {
     if (!this.user || !this.password) {
       this.notify.error('Пользователь или пароль неверны');
       return;
     }
     // запрос к серверу, если успех - сохраняем логин и сессию, делаем редирект на список нотификаций
   
-    this.auth.setSesion(this.user , '@#%@GF$HY%$&U$%H%$U');
+    const identification = "wew43r34g#$G3$Y#$@R@F@#";
+    const password = "44959";
+    let request = null;
+    try {
+      request = await this.session.authenticate('authenticator:custom', identification, password);
+    } catch(error) {
+      this.errorMessage = error.error || error;
+    }
+
+    console.log(this.session.isAuthenticated);
     this.args.onLoginDone();
   }
 }
