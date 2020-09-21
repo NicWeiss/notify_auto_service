@@ -8,15 +8,15 @@ export default class NewRoute extends Route {
   @tracked object = null;
 
   beforeModel(){
-    if (!this.auth.isAuthenticated) {
-      console.log('transition');
-      // this.transitionTo('auth');
+    const isAuth = this.auth.isAuthenticated;
+    if (!isAuth) {
+      console.log('not Authenticated back to auth');
+      this.transitionTo('auth');
     }
   }
 
   async model() {
     //return this.store.findAll('list');
-    console.log('new');
     this.object = [];
     return this.object
   }

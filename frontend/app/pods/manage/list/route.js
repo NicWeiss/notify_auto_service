@@ -9,10 +9,11 @@ export default class IndexRoute extends Route {
 
   beforeModel(){
     if (!this.auth.isAuthenticated) {
-      console.log('transition');
+      console.log('not Authenticated back to auth');
       this.transitionTo('auth');
     }
   }
+
 
   async model() {
     //return this.store.findAll('list');

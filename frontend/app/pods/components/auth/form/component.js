@@ -15,16 +15,6 @@ export default class AuthComponent extends Component {
   @tracked password = null;
   @tracked isRemember = false;
 
-  constructor(owner, args) {
-    super(owner, args);
-    //document.cookie = "user=John; max-age=0";
-    // console.log(this.getCookie('user'));
-    // if (this.getCookie('user')) {
-    //   this.isAuth = true;
-    // }
-    console.log(this.onLoginDone);
-  }
-
   @action
   onStartEdit(field) {
     if (field == 'user') {
@@ -56,6 +46,7 @@ export default class AuthComponent extends Component {
 
   @action
   onSubmit() {
+    this.auth.logout();
     if (!this.user || !this.password) {
       this.notify.error('Пользователь или пароль неверны');
       return;
