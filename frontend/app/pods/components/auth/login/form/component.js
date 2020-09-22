@@ -13,7 +13,6 @@ export default class LoginComponent extends Component {
   @tracked passwordSelected = false;
   @tracked user = null;
   @tracked password = null;
-  @tracked isRemember = false;
 
   @action
   onStartEdit(field) {
@@ -35,14 +34,6 @@ export default class LoginComponent extends Component {
     }
   }
 
-  @action
-  onChaangeRemember() {
-    if (this.isRemember) {
-      this.isRemember = false;
-    } else {
-      this.isRemember = true;
-    }
-  }
 
   @action
   async onSubmit() {
@@ -61,7 +52,6 @@ export default class LoginComponent extends Component {
       this.errorMessage = error.error || error;
     }
 
-    console.log(this.session.isAuthenticated);
     this.args.onLoginDone();
   }
 }

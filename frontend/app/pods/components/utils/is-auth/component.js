@@ -1,21 +1,20 @@
-import Component from '@glimmer/component';
+import Component from '@ember/component';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 
 
 
-export default class iIsAuthComponent extends Component {
-  @service session;
+export default Component.extend({
+  session: service(),
 
-  @tracked isAuth = false;
+  isAuth: tracked(),
 
-  constructor(owner, args) {
-    super(owner, args);
-    console.log('auth check');
-    if (this.session.isAuthenticated) {
+  didRender: function(){
+    if (this.session.isAuthenticated && !this.isAuth) {
       this.isAuth = true;
+    } 
+    if (!this.session.isAuthenticated && this.isAuth) {
+      this.isAuth = false;
     }
   }
-
-
-}
+})

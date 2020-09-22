@@ -1,5 +1,5 @@
 <div class="auth-form-container">
-  <div class="auth-container">
+  <div class="auth-container auth-container-login">
       <form class="auth-form validate-form">
         <span class="auth-form-logo">
           <i class="auth-logo"></i>
@@ -10,7 +10,7 @@
         </span>
 
         <div class="wrap-input-auth validate-input" data-validate="Enter username">
-          <Input class="auth-input" 
+          <Input class="auth-input input-autofill-transpanent" 
                  type="text" 
                  name="username" 
                  placeholder="Username" 
@@ -22,7 +22,7 @@
         </div>
 
         <div class="wrap-input-auth validate-input" data-validate="Enter password">
-          <Input class="auth-input" 
+          <Input class="auth-input input-autofill-transpanent" 
                  type="password" 
                  name="pass" 
                  placeholder="Password" 
@@ -33,25 +33,20 @@
           <span class="focus-input-auth {{if passwordSelected 'has-val'}}" data-placeholder="&#xf191;"></span>
         </div>
 
-        <div class="contact-auth-form-checkbox">
-          <Input class="input-checkbox-auth" 
-                 id="ckb1" 
-                 type="checkbox" 
-                 name="remember-me" 
-                 onclick={{action onChaangeRemember}}  
-          />
-          <label class="label-checkbox-auth" for="ckb1">
-            Remember me
-          </label>
-        </div>
-
         <div class="container-login-auth-form-btn">
-          <button class="login-auth-form-btn"
+          <button class="login-auth-form-btn auth-form-btn"
             {{action onSubmit}}      
           >
             Login
           </button>
         </div>
+
+					<div class="text-center sign-up">
+            <LinkTo @route="auth.signup" class="btn auth-sign-up-link">
+							Зарегистрироваться
+						</LinkTo>
+					</div>
+
       </form>
   </div>
 </div>

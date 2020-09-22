@@ -1,0 +1,83 @@
+<div class="auth-form-container">
+  <div class="auth-container auth-container-signup">
+      <form class="auth-form validate-form" autocomplete="off" >
+        <span class="auth-form-logo">
+          <i class="auth-logo"></i>
+        </span>
+
+        <span class="auth-form-title p-b-34 p-t-27">
+          Sign Up
+        </span>
+
+        <div class="wrap-input-auth validate-input" data-validate="Enter username">
+          <Input class="auth-input input-autofill-transpanent" 
+                 type="text" 
+                 name="username" 
+                 placeholder="Username" 
+                 onclick={{action onStartEdit "user"}} 
+                 onblur={{action deselect}}
+                 @value={{user}}
+          />
+          <span class="focus-input-auth {{if userSelected 'has-val'}}" data-placeholder="&#xf207;"></span>
+        </div>
+
+        <div class="wrap-input-auth validate-input" data-validate="Enter password">
+          <Input class="auth-input input-autofill-transpanent" 
+                 type="password" 
+                 name="pass" 
+                 placeholder="Password" 
+                 onclick={{action onStartEdit "password"}}
+                 onblur={{action deselect}}
+                 @value={{password}}
+          />
+          <span class="focus-input-auth {{if passwordSelected 'has-val'}}" data-placeholder="&#xf191;"></span>
+        </div>
+
+        <div class="wrap-input-auth validate-input" data-validate="Enter email">
+          <Input class="auth-input input-autofill-transpanent" 
+                 type="email" 
+                 name="email" 
+                 placeholder="Email" 
+                 onclick={{action onStartEdit "email"}}
+                 onblur={{action deselect}}
+                 @value={{email}}
+          />
+          <span class="focus-input-auth {{if emailSelected 'has-val'}}" data-placeholder="&#xf15a;"></span>
+        </div>
+
+        <div class="wrap-input-auth validate-input" data-validate="Enter code">
+          <Input class="auth-input input-autofill-transpanent" 
+                 type="text" 
+                 name="code" 
+                 placeholder="Code" 
+                 oninput={{action codeCange value="target.value"}}
+                 onclick={{action onStartEdit "code"}}
+                 onblur={{action deselect}}
+                 @value={{code}}
+          />
+          <span class="focus-input-auth {{if codedSelected 'has-val'}}" data-placeholder="&#xf1c7;"></span>
+        </div>
+
+        {{#if isCanSignUp}}
+          <div class="container-login-auth-form-btn">
+            <button class="sign-up-auth-form-btn auth-form-btn" {{action onSubmit}}>
+              Sign Up
+            </button>
+          </div>
+        {{else}}
+          <div class="container-login-auth-form-btn">
+            <button class="sign-up-auth-form-btn auth-form-btn" {{action onGetCode}}>
+              Get code
+            </button>
+          </div>
+        {{/if}}
+
+					<div class="text-center sign-up">
+            <LinkTo @route="auth.login" class="btn auth-sign-up-link">
+							Уже есть аккаунт?
+						</LinkTo>
+					</div>
+
+      </form>
+  </div>
+</div>

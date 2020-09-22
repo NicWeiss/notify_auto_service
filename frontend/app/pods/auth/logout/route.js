@@ -11,7 +11,6 @@ export default class LogoutRoute extends Route {
     console.log('logout');
     this.session.invalidate();
     this.transitionTo('auth.login');
-    window.location.reload(true);
   }
 
 }

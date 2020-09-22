@@ -59,17 +59,27 @@
   z-index: 1;
   background-image: url(images/auth-bg.jpg);
 }
- 
+
 .auth-container{
   width: 500px;
   border-radius: 10px;
   overflow: hidden;
   padding: 55px 55px 37px 55px;
-  background: #e7660c;
+  background: #444342;
+}
+ 
+.auth-container-login{
   background: -webkit-linear-gradient(top, #e7660c, #030201);
   background: -o-linear-gradient(top, #e7660c, #030201);
   background: -moz-linear-gradient(top, #e7660c, #030201);
   background: linear-gradient(top, #e7660c, #030201);
+}
+
+.auth-container-signup{
+  background: -webkit-linear-gradient(top, #4b4a9e, #030201);
+  background: -o-linear-gradient(top, #4b4a9e, #030201);
+  background: -moz-linear-gradient(top, #4b4a9e, #030201);
+  background: linear-gradient(top, #4b4a9e, #030201);
 }
 
 .auth-form-logo {
@@ -178,7 +188,7 @@
   justify-content: center;
 }
 
-.login-auth-form-btn {
+.auth-form-btn {
   font-family: Poppins-Medium;
   font-size: 16px;
   color: #555555;
@@ -207,6 +217,12 @@
 
 .login-auth-form-btn:hover{
   background: #ec9141;
+}
+
+
+
+.sign-up-auth-form-btn:hover{
+  background: #5cb4e8;
 }
 
 .validate-input {
@@ -334,4 +350,24 @@
 
 textarea:focus, input:focus {
   border-color: transparent !important;
+}
+
+.input-autofill-transpanent{
+  border: 0;
+  -webkit-text-fill-color: #fff;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+  transition: background-color 5000s ease-in-out 0s;
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(0, 174, 255, 0.04) 15560%, rgba(255, 255, 255, 0) 51%, rgba(0, 174, 255, 0.03) 100%);
+}
+
+.sign-up{
+  margin-top: 40px;
+}
+
+.auth-sign-up-link{
+  color: bisque;
+}
+
+.auth-sign-up-link:hover{
+  color: white;
 }
