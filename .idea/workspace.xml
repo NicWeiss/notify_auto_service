@@ -2,29 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1199e378-b037-43a4-874e-67c5b8060f4b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/migration/reg_code.sql" beforeDir="false" afterPath="$PROJECT_DIR$/api/migration/reg_code.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/migration/session.sql" beforeDir="false" afterPath="$PROJECT_DIR$/api/migration/session.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/migration/user.sql" beforeDir="false" afterPath="$PROJECT_DIR$/api/migration/user.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/req/control/auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/req/control/auth.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/req/defines.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/req/defines.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/req/generic/component.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/req/generic/component.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/req/lib/request.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/req/lib/request.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/req/model/auth_base.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/req/model/auth_base.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/req/routes.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/req/routes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/tmp/config.ini.php.example" beforeDir="false" afterPath="$PROJECT_DIR$/api/tmp/config.ini.php.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pods/auth/login/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pods/auth/login/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pods/auth/logout/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pods/auth/logout/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pods/auth/signup/route.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pods/auth/signup/route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pods/components/auth/login/form/component.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pods/components/auth/login/form/component.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pods/components/auth/login/form/template.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pods/components/auth/login/form/template.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pods/components/auth/sign-up/form/component.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pods/components/auth/sign-up/form/component.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pods/components/auth/sign-up/form/template.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pods/components/auth/sign-up/form/template.hbs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/styles/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/styles/app.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/styles/fonts/material-iconic/material-iconic.scss" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/styles/fonts/material-iconic/material-iconic.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +88,7 @@
       <workItem from="1600192692148" duration="10770000" />
       <workItem from="1600470322204" duration="31000" />
       <workItem from="1600800437927" duration="13365000" />
-      <workItem from="1600881640731" duration="13111000" />
+      <workItem from="1600881640731" duration="13356000" />
     </task>
     <servers />
   </component>
