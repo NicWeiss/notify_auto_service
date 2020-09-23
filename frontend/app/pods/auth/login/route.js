@@ -10,21 +10,17 @@ export default class AuthRoute extends Route {
 
   beforeModel() {
     if (this.session.isAuthenticated) {
-      console.log('Authenticated. Transition to manage');
       this.transitionTo('manage.list');
     }
-    console.log('Not authenticated', this.session.isAuthenticated);
   }
 
   async model() {
-    console.log('Auth login model: start');
     this.object = {};
     return this.object
   }
 
   @action
   onLoginDone() {
-    console.log('login done. to manage');
     window.location.reload(true);
   }
 

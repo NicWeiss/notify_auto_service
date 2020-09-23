@@ -8,7 +8,6 @@ export default class LogoutRoute extends Route {
   @tracked object = null;
 
   afterModel() {
-    console.log('logout');
     this.session.invalidate();
     this.transitionTo('auth.login');
   }

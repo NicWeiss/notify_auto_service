@@ -4,7 +4,7 @@ namespace model;
 
 use lib\dba as dba;
 
-final class base
+final class auth_base
 {
     public static function create_user($data)
     {
@@ -61,5 +61,23 @@ final class base
         $res = dba::fetch_assoc();
         if (!is_array($res)) return false;
         return count($res) > 0 ? true : false;
+    }
+
+    public static function get_reg_code($email, $current)
+    {
+        $DB = TABLE_OF_REG_CODES;
+        $sql = "SELECT * FROM  $DB  WHERE email='" . $email . "' and expire_at > '" . $current . "'";
+        dba:: query($sql);
+        $res = dba::fetch_assoc();
+        return $res['code'];
+    }
+
+    public static function get_user($email, $password)
+    {
+        $DB = TABLE_OF_USERS;
+        $sql = "SELECT * FROM  $DB  WHERE email='" . $email . "' and password = '" . $password . "'";
+        dba:: query($sql);
+        $res = dba::fetch_assoc();
+        return $res;
     }
 }

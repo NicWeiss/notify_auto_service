@@ -34,6 +34,11 @@ final class request{
 
     public static function get_from_client_Json($name){
         $data =  json_decode(file_get_contents('php://input'), true);
+        if (!$data[$name]){
+            http_response_code(422);
+            echo 'Unprocessable Entity';
+            die;
+        }
         return $data[$name];
     }
 

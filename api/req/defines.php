@@ -3,4 +3,6 @@
  * SET GLOBAL DEFINES
  */
 
-define('PAGE_POSTS_LIMIT', 20);
+define('TABLE_OF_USERS', 'user');
+define('TABLE_OF_SESSIONS', 'session');
+define('TABLE_OF_REG_CODES', 'reg_codes');

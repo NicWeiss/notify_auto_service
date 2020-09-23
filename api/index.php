@@ -5,6 +5,7 @@ use lib\request as request;
 
 require_once("req/std.php");
 require_once('tmp/config.ini.php');
+http_response_code(200);
 std_env_init();
 
 
@@ -16,7 +17,14 @@ final class myapp
         std_autoload($object['control_class']);
         $class = $object['control_class'];
         $method = $object["control_function"];
-        echo json_encode($class::$method());
+        $class::$method();
+        $answer = $class::get_answer();
+        if (!$answer) {
+            http_response_code(404);
+        } else {
+            http_response_code($answer['code']);
+            echo json_encode($answer['data']);
+        }
     }
 
 }

@@ -21,7 +21,6 @@ export default class SignUpRoute extends Route {
 
   @action
   onSignUpDone() {
-    console.log('login done. to manage');
     window.location.reload(true);
   }
 

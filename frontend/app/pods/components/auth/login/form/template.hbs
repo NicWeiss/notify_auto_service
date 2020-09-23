@@ -9,16 +9,16 @@
           Log in
         </span>
 
-        <div class="wrap-input-auth validate-input" data-validate="Enter username">
+        <div class="wrap-input-auth validate-input" data-validate="Enter email">
           <Input class="auth-input input-autofill-transpanent" 
                  type="text" 
-                 name="username" 
-                 placeholder="Username" 
-                 onclick={{action onStartEdit "user"}} 
-                 onblur={{action onEndEdit "user"}}
-                 @value={{user}}
+                 name="email" 
+                 placeholder="Email" 
+                 onclick={{action onStartEdit "email"}} 
+                 onblur={{action deselect}}
+                 @value={{email}}
           />
-          <span class="focus-input-auth {{if userSelected 'has-val'}}" data-placeholder="&#xf207;"></span>
+          <span class="focus-input-auth {{if userSelected 'has-val'}}" data-placeholder="&#xf15a;"></span>
         </div>
 
         <div class="wrap-input-auth validate-input" data-validate="Enter password">
@@ -27,7 +27,7 @@
                  name="pass" 
                  placeholder="Password" 
                  onclick={{action onStartEdit "password"}}
-                 onblur={{action onEndEdit "password"}}
+                 onblur={{action deselect}}
                  @value={{password}}
           />
           <span class="focus-input-auth {{if passwordSelected 'has-val'}}" data-placeholder="&#xf191;"></span>

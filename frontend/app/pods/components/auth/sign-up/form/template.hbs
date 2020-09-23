@@ -9,11 +9,23 @@
           Sign Up
         </span>
 
-        <div class="wrap-input-auth validate-input" data-validate="Enter username">
+        <div class="wrap-input-auth validate-input" data-validate="Enter email">
+          <Input class="auth-input input-autofill-transpanent" 
+                 type="email" 
+                 name="email" 
+                 placeholder="Email" 
+                 onclick={{action onStartEdit "email"}}
+                 onblur={{action deselect}}
+                 @value={{email}}
+          />
+          <span class="focus-input-auth {{if emailSelected 'has-val'}}" data-placeholder="&#xf15a;"></span>
+        </div>
+
+        <div class="wrap-input-auth validate-input" data-validate="Enter name">
           <Input class="auth-input input-autofill-transpanent" 
                  type="text" 
-                 name="username" 
-                 placeholder="Username" 
+                 name="name" 
+                 placeholder="Name" 
                  onclick={{action onStartEdit "user"}} 
                  onblur={{action deselect}}
                  @value={{user}}
@@ -31,18 +43,6 @@
                  @value={{password}}
           />
           <span class="focus-input-auth {{if passwordSelected 'has-val'}}" data-placeholder="&#xf191;"></span>
-        </div>
-
-        <div class="wrap-input-auth validate-input" data-validate="Enter email">
-          <Input class="auth-input input-autofill-transpanent" 
-                 type="email" 
-                 name="email" 
-                 placeholder="Email" 
-                 onclick={{action onStartEdit "email"}}
-                 onblur={{action deselect}}
-                 @value={{email}}
-          />
-          <span class="focus-input-auth {{if emailSelected 'has-val'}}" data-placeholder="&#xf15a;"></span>
         </div>
 
         <div class="wrap-input-auth validate-input" data-validate="Enter code">

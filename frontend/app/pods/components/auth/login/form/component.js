@@ -7,47 +7,47 @@ import { inject as service } from '@ember/service';
 
 export default class LoginComponent extends Component {
   @service notify;
+  @service request;
   @service session;
 
-  @tracked userSelected = false;
+  @tracked emailSelected = false;
   @tracked passwordSelected = false;
-  @tracked user = null;
+  
+  @tracked email = null;
   @tracked password = null;
 
   @action
   onStartEdit(field) {
-    if (field == 'user') {
-      this.userSelected = true;
-      this.passwordSelected = false;
-    } else {
-      this.userSelected = false;
-      this.passwordSelected = true;
-    }
+    this.deselect()
+    if (field == 'password') { this.passwordSelected = true; }
+    if (field == 'email') { this.emailSelected = true; }
   }
 
   @action
-  onEndEdit(field) {
-    if (field == 'user') {
-      this.userSelected = false;
-    } else {
-      this.passwordSelected = false;
-    }
+  deselect() {
+    this.passwordSelected = false;
+    this.emailSelected = false;
   }
 
 
   @action
   async onSubmit() {
-    if (!this.user || !this.password) {
-      this.notify.error('Пользователь или пароль неверны');
+    if (!this.email || !this.password) {
+      this.notify.error('Email или пароль не заполнены');
       return;
     }
-    // запрос к серверу, если успех - сохраняем логин и сессию, делаем редирект на список нотификаций
-  
-    const identification = "wew43r34g#$G3$Y#$@R@F@#";
-    const password = "44959";
-    let request = null;
+    let responce = null
+
     try {
-      request = await this.session.authenticate('authenticator:custom', identification, password);
+      responce = await this.request.toApi('auth/login', {'email': this.email, 'password': this.password})
+    } catch (errorCode) {
+      if (errorCode === 403) this.notify.error('Неправильный email или пароль');
+      if (errorCode === 500) this.notify.error('Ошибка на сервере');
+      return;
+    }
+
+    try {
+      request = await this.session.authenticate('authenticator:custom', responce.sesion, responce.user);
     } catch(error) {
       this.errorMessage = error.error || error;
     }

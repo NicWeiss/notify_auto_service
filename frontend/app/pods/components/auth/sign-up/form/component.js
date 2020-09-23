@@ -47,19 +47,25 @@ export default class LoginComponent extends Component {
 
   @action
   async onGetCode() {
-    let responce;
-    try {
-      await this.request.toApi('auth/get_code')
-    } catch (error) {
-      console.log(error);
+    if (!this.user || !this.password || !this.email) {
+      this.notify.error('Не все данные заполнены ');
       return;
     }
+    try {
+      await this.request.toApi('auth/get_code',{'email': this.email})
+    } catch (errorCode) {
+      if (errorCode === 403) this.notify.error('Код уже был выслан');
+      if (errorCode === 422) this.notify.error('Email уже занят или не корректен или');
+      if (errorCode === 500) this.notify.error('Ошибка на сервере');
+      return;
+    }
+    this.notify.info('Код подтверждения отправлен');
   }
 
 
   @action
   async onSubmit() {
-    if (!this.user || !this.password || !this.password) {
+    if (!this.user || !this.password || !this.email) {
       this.notify.error('Не все данные заполнены ');
       return;
     }
@@ -67,13 +73,16 @@ export default class LoginComponent extends Component {
     let session = null;
 
     try {
-      session = await this.request.toApi('auth/check_code', {'user': this.user,
+      session = await this.request.toApi('auth/sign_up', {'user': this.user,
                                                    'email': this.email,
                                                    'password': this.password,
                                                    'code': this.code})
     } catch (errorCode) {
-      console.log(errorCode);
-      if (errorCode === 403) this.notify.error('Неверный код');
+      if (errorCode === 403) {
+        this.notify.error('Неверный код');
+        this.code = null;
+        this.isCanSignUp = false;
+      }
       if (errorCode === 422) this.notify.error('Пользователь с таким email уже существует');
       if (errorCode === 500) this.notify.error('Ошибка на сервере');
       return
