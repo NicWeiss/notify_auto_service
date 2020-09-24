@@ -5,7 +5,7 @@ export default Service.extend({
 
   toApi: async function (method, data = null) {
     return new Promise((resolves, rejects) => {
-      const url = 'http://notifier.lo/api/' + method
+      const url = '/api/' + method
 
       const request = new XMLHttpRequest()
       request.open('POST', url, false)
