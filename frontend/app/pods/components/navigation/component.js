@@ -11,11 +11,18 @@ export default class NavigationComponent extends Component {
   }
 
   @action
-  onDropdown(){ 
+  onDropdown() {
     if ($('#nav-dropdown').css("display") === "none") {
       $('#nav-dropdown').css("display", "block");
     } else {
       $('#nav-dropdown').css("display", "none");
+    }
+  }
+
+  @action
+  onSelectNav() {
+    if ($('#navbarSupportedContent').css("display") === "block") {
+      $('.navbar-toggler').click()
     }
   }
 }
