@@ -1,6 +1,21 @@
-@import "bootstrap";
+// @import "bootstrap";
 @import "auth";
 @import "flex";
+
+@import "components/style.scss";
+@import "components/new/style.scss";
+@import "components/list/style.scss";
+@import "components/navbar/style.scss";
+
+
+body {
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: rgba(255, 255, 255, 0.0);
+}
 
 .error{
   background-color: rgb(247, 110, 110);
@@ -9,50 +24,6 @@
   background-color: rgb(108, 201, 80);
 }
 
-
-.logo {
-  background: url(../assets/images/logo.png);
-  min-width: 52px;
-  min-height: 40px;
-  background-size: cover;
-  margin: 0px 17px 10px 10px;
-}
-
-.navigation-container{
-  background-color: #de6c20;
-}
-
-.btn-navigation{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.custom-form{
-  display: flex;
-  justify-content: center;
-}
-
-.form-container{
-  width: 700px;
-}
-
-.header-text{
-  margin: 30px 0 50px 0;
-}
-
-.btn-switch{
-  margin: 0 10px;
-}
-
-.btn:focus, .btn:active:focus, .btn {
-  outline: none;
-  border: 1px solid transparent;
-}
-
-.flatpickr-input{
-  text-align: center;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+a {
+  color: black;    
 }

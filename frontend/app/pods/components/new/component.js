@@ -20,24 +20,4 @@ export default class NewComponent extends Component {
   @action
   onSingle(){ this.periodic = false; }
 
-  @action
-  onSelectDate(){
-    console.log('select date')
-  }
-
-  @action
-  onSelectTime(){
-    console.log('select time')
-  }
-
-  @action
-  onDateReady(_selectedDates, _dateStr, instance) {
-    this.flatpickrDateRef = instance;
-  }
-  @action
-  onTimeReady(_selectedDates, _dateStr, instance) {
-    this.flatpickrTimeRef = instance;
-  }
-
-
 }

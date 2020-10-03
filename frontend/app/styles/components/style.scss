@@ -1,0 +1,26 @@
+.header-text {
+  margin: 30px 0 50px 0;
+  text-align: center;
+}
+
+
+.header-text::after {
+  content: " ";
+  display: block;
+  margin: 0 auto;
+  width: 200px;
+  height: 2px;
+  background-color: #de6c20;
+}
+
+
+
+.form-container {
+  width: 900px;
+  padding: 20px;
+}
+
+.list-container {
+  width: 1200px;
+  padding: 20px;
+}

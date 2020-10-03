@@ -1,0 +1,54 @@
+<div class="form-group">
+  <label for="notify-name">Название</label>
+  <input type="text" class="form-control" id="notify-name">
+</div>
+
+<div class="form-group">
+  <label for="notify-text">Содержание</label>
+  <textarea type="text" class="form-control notify-text" id="notify-text"/>
+</div>
+
+<div class="form-group">
+  <label for="periodic-select">Периодичность</label>
+  <select class="form-control" id="periodic-select" onchange={{action 'onChangePeriodic' value="target.value"}}>
+    <option value="day_of_week">День недели</option>
+    <option value="everyday">Каждый день</option>
+    <option value="workday">По будням</option>
+    <option value="weekend">По выходным</option>
+    <option value="first_month_day">Первый день месяца</option>
+    <option value="last_month_day">Последний день месяца</option>
+  </select>
+</div>
+
+{{#if (eq this.periodic "day_of_week")}}
+  <div class="form-group">
+    <label for="weekday-select">День недели</label>
+    <select class="form-control" id="weekday-select" onchange={{action 'onChangeWeekDay' value="target.value"}}>
+      <option value="1">Понедельник</option>
+      <option value="2">Вторник</option>
+      <option value="3">Среда</option>
+      <option value="4">Четверг</option>
+      <option value="5">Пятница</option>
+      <option value="6">Суббота</option>
+      <option value="7">Воскресенье</option>
+    </select>
+  </div>
+{{/if}}
+
+
+<div class="form-group half-container d-flex flex-column">
+  <label>Время: </label>
+  <EmberFlatpickr class="datetime-custom" @date={{this.date}} @dateFormat="H:i:s" @enableTime={{true}}
+    @noCalendar={{true}} @time_24hr={{true}} @onChange={{this.onSelectTime}} @onReady={{this.onTimeReady}} />
+</div>
+
+<div class="form-group">
+  <label for="acceptors">Метод оповещения</label>
+  <input type="text" class="form-control" id="acceptors">
+</div>
+
+<div class="d-flex justify-content-center">
+  <button type="button" class="btn btn-primary btn-complete" onclick={{action onComplete}}>
+    Создать
+  </button>
+</div>

@@ -27,3 +27,13 @@
   -ms-flex-pack: distribute!important;
   justify-content: space-around!important;
 }
+
+.flex-column {
+  -ms-flex-direction: column!important;
+  flex-direction: column!important;
+}
+
+.flex-column-reverse {
+  -ms-flex-direction: column-reverse!important;
+  flex-direction: column-reverse!important;
+}

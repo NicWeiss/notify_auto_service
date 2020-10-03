@@ -1,10 +1,43 @@
-<div class="d-flex justify-content-start">
-  <div>
-    <p>Список уведомлений</p>
-      {{#each @model as | notify|}}
-        <li {{action onSelectNotify notify}}>
-          Notify: {{notify.name}}
-        </li>
-      {{/each}}
+<form class="custom-form">
+  <div class="list-container">
+    <h1 class="header-text">Список уведомлений</h1>
+
+    <div class="form-group d-flex justify-content-center table-responsive">
+      <table class="rwd-table">
+        <tr>
+          <th>#</th>
+          <th>Статус</th>
+          <th>Периодичность</th>
+          <th>Название</th>
+          <th>День выполнения</th>
+          <th>Время выполнения</th>
+        </tr>
+        <tr>
+          <th data-th="#">1</th>
+          <td data-th="Статус" style="color: green;">Активно</td>
+          <td data-th="Периодичность">Последний день месяца</td>
+          <td data-th="Название">Вода</td>
+          <td data-th="День выполнения">31.10.2020</td>
+          <td data-th="Время выполнения">20:20</td>
+        </tr>
+        <tr>
+          <th data-th="#">2</th>
+          <td data-th="Статус" style="color: green;">Активно</td>
+          <td data-th="Периодичность">По будням</td>
+          <td data-th="Название">Check-in</td>
+          <td data-th="День выполнения">05.10.2020</td>
+          <td data-th="Время выполнения">15:00</td>
+        </tr>
+        <tr>
+          <th data-th="#">3</th>
+          <td data-th="Статус" style="color: red;">Отключено</td>
+          <td data-th="Периодичность">Разовое</td>
+          <td data-th="Название">Будильник</td>
+          <td data-th="День выполнения">04.10.2020</td>
+          <td data-th="Время выполнения">09:00</td>
+        </tr>
+      </table>
+    </div>
+
   </div>
-</div>
+</form>

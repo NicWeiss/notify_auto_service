@@ -1,10 +1,6 @@
 <form class="custom-form">
   <div class="form-container">
     <h1 class="header-text">Создать новое уведомление</h1>
-    <div class="form-group">
-      <label for="name">Название</label>
-      <input type="text" class="form-control" id="name">
-    </div>
 
     <div class="form-group d-flex justify-content-center">
       <button type="button"
@@ -20,38 +16,10 @@
     </div>
 
     {{#if periodic}}
-      Форма для создания периодического уведомления
+      <New::Periodic/>
     {{else}}
-      <div class="form-group d-flex justify-content-between">
-        <div>
-        <label>День: </label>
-          <EmberFlatpickr
-                  @date={{this.date}}
-                  @dateFormat="d.m.Y"
-                  @onChange={{this.onSelectDate}}
-                  @prevArrow="<"
-                  @nextArrow=">"
-                  @onReady={{this.onDateReady}}/>
-        </div>
-
-        <div>
-          <label>Время: </label>
-          <EmberFlatpickr
-                  @date={{this.date}}
-                  @dateFormat="H:i:s"
-                  @enableTime={{true}}
-                  @noCalendar={{true}}
-                  @time_24hr={{true}}
-                  @onChange={{this.onSelectTime}}
-                  @onReady={{this.onTimeReady}}/>
-        </div>
-      </div>
-    <div class="form-group">
-      <label for="name">Получатели</label>
-      <input type="text" class="form-control" id="acceptors">
-    </div>
+      <New::Once/>
     {{/if}}
 
-    <button class="btn btn-primary">Сохранить</button>
   </div>
 </form>
