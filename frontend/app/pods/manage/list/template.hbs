@@ -1,1 +1,18 @@
-<List @model={{model}} />
+<form class="custom-form">
+  <div class="list-container">
+    <h1 class="header-text">Список уведомлений</h1>
+
+    <div class="d-flex justify-content-between custom-form">
+      <div class="btn-outline-orange btn">
+        {{fa-icon "filter"}} Фильтр
+      </div>
+      
+      <LinkTo @route="manage.new" class="btn-outline-orange btn">
+        {{fa-icon "plus"}} Создать
+      </LinkTo>
+    </div>
+
+    <List @model={{model}} />
+
+  </div>
+</form>

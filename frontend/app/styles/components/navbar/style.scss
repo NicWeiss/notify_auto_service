@@ -5,6 +5,10 @@
   font-style: normal;
 }
 
+.navbar {
+  padding: 0 !important;
+}
+
 .navbar-collapse.collapse.in {
   display: block !important;
 }
@@ -29,10 +33,10 @@
 .btn-navigation{
   display: inline-block;
   font-weight: 400;
-  color: #212529;
+  color: #292d2f;
   -moz-user-select: none;
   -ms-user-select: none;
-  padding: 20px 10px;
+  padding: 10px 10px;
   font-size: 18px !important;
   border: none;
   box-shadow: none;
@@ -41,8 +45,8 @@
 }
 
 .btn-navigation:hover {
-  color: #212529;    
-  background-color: #ffb684;;
+  color: black;    
+  text-shadow: black 0 0 1px;
   text-decoration: none;
 }
 
