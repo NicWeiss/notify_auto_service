@@ -23,12 +23,22 @@
       </li>
       <li class="nav-item">
         <LinkTo @route="manage.new" class=" btn-navigation">
-          Создать новое
+          Создать Новое
+        </LinkTo>
+      </li>
+      <li class="nav-item">
+        <LinkTo @route="manage.new" class=" btn-navigation">
+          Категории
+        </LinkTo>
+      </li>
+      <li class="nav-item">
+        <LinkTo @route="manage.new" class=" btn-navigation">
+          Получатели
         </LinkTo>
       </li>
     </ul>
       <div class="nav-profile nav-item dropdown" {{action onDropdown}}>
-        <a class="dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="dropdown-toggle btn-navigation" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Профиль
         </a>
         <div id="nav-dropdown" class="dropdown-menu" aria-labelledby="navbarDropdown">

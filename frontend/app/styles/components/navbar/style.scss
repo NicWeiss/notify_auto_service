@@ -11,6 +11,7 @@
 
 .nav-name {
   font: normal normal normal 35px 'MK-90';
+  padding: 5px 0 5px 20px;
 }
 
 .bg-orange {
@@ -31,20 +32,28 @@
   color: #212529;
   -moz-user-select: none;
   -ms-user-select: none;
-  padding: 0.375rem 0.75rem;
-  font-size: 20px !important;
+  padding: 20px 10px;
+  font-size: 18px !important;
   border: none;
   box-shadow: none;
+  width: 150px;
+  text-align: center;
 }
 
 .btn-navigation:hover {
-  color: #212529;
-  box-shadow: black 0 0 2px;
+  color: #212529;    
+  background-color: #ffb684;;
   text-decoration: none;
 }
 
 .nav-profile {
-  width: 150px;
+  padding: 0 20px 0 0;
+  width: 170px;
   text-align: right;
   cursor: pointer;
+}
+
+.navbar-expand-lg {
+  margin: 0 !important;
+  padding: 0 !important;
 }
