@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1199e378-b037-43a4-874e-67c5b8060f4b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/api/req/control/acceptor.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/req/routes/acceptor.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/req/routes/auth.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/req/generic/component.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/req/generic/component.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/req/lib/request.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/req/lib/request.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/req/routes.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/req/routes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/app/pods/components/acceptors/new/template.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/pods/components/acceptors/new/template.hbs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/req/routes/acceptor.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/req/routes/acceptor.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,6 +95,7 @@
       <workItem from="1600800437927" duration="13365000" />
       <workItem from="1600881640731" duration="13356000" />
       <workItem from="1602785065087" duration="3939000" />
+      <workItem from="1602793044417" duration="703000" />
     </task>
     <servers />
   </component>

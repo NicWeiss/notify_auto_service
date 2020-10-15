@@ -8,14 +8,13 @@ use lib\request;
 class component
 {
 
-    protected static $is_model = false;
     protected static $model_name = null;
     protected static $answer = [];
     protected static $http_code = 200;
 
-    public static function get_answer()
+    public static function get_answer($is_ember_model)
     {
-        if (self::$is_model){
+        if ($is_ember_model){
             return [ self::$model_name => self::$answer];
         }
         return self::$answer;
@@ -57,7 +56,6 @@ class component
 
     public static function getModelData()
     {
-        self::$is_model = true;
         self::$model_name = key(json_decode(file_get_contents('php://input'), true));
         return request::get_from_client_Json(self::$model_name);
     }
