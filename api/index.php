@@ -22,8 +22,8 @@ final class myapp
         if (!$answer) {
             http_response_code(404);
         } else {
-            http_response_code($answer['code']);
-            echo json_encode($answer['data']);
+            http_response_code($class::get_http_responce_code());
+            echo json_encode($answer);
         }
     }
 

@@ -4,7 +4,7 @@
 
     <div class="form-group">
       <label for="notify-name">Название</label>
-      <input type="text" class="form-control" id="notify-name">
+      <Input type="text" class="form-control" id="notify-name" @value={{@model.name}}/>
     </div>
 
     <div class="form-group">
@@ -19,7 +19,7 @@
 
     <div class="form-group">
       <label for="notify-text">Аккаунт получателя</label>
-      <input type="text" class="form-control" id="notify-text"/>
+      <Input type="text" class="form-control" id="notify-text" @value={{@model.account}}/>
     </div>
 
     <div class="form-group">

@@ -2,40 +2,63 @@
 
 namespace generic;
 
+
 use lib\request;
 
+class component
+{
 
-class component{
-
-    protected static $code = 200;
+    protected static $is_model = false;
+    protected static $model_name = null;
     protected static $answer = [];
+    protected static $http_code = 200;
 
-    public static function get_answer(){
+    public static function get_answer()
+    {
+        if (self::$is_model){
+            return [ self::$model_name => self::$answer];
+        }
         return self::$answer;
     }
 
-    protected static function set_data($data){
-        self::$answer['code'] = 200;
-        self::$answer['data'] = $data;
+    public static function get_http_responce_code() {
+        return self::$http_code;
     }
 
-    protected static function has_no_permission(){
-        self::$answer['code'] = 403;
-        self::$answer['data'] = 'You do not have access';
+    protected static function set_data($data)
+    {
+        self::$http_code = 200;
+        self::$answer = $data;
     }
 
-    protected static function not_found(){
-        self::$answer['code'] = 404;
-        self::$answer['data'] = 'Not found';
+    protected static function has_no_permission()
+    {
+        self::$http_code = 403;
+        self::$answer = 'You do not have access';
     }
 
-    protected static function critical_error(){
-        self::$answer['code'] = 500;
-        self::$answer['data'] = 'Critical error';
+    protected static function not_found()
+    {
+        self::$http_code = 404;
+        self::$answer = 'Not found';
     }
 
-    protected static function unprocessable_entity(){
-        self::$answer['code'] = 422;
-        self::$answer['data'] = 'Unprocessable entity';
+    protected static function critical_error()
+    {
+        self::$http_code = 500;
+        self::$answer = 'Critical error';
+    }
+
+    protected static function unprocessable_entity()
+    {
+        self::$http_code = 422;
+        self::$answer = 'Unprocessable entity';
+    }
+
+    public static function getModelData()
+    {
+        self::$is_model = true;
+        self::$model_name = key(json_decode(file_get_contents('php://input'), true));
+        return request::get_from_client_Json(self::$model_name);
     }
 }
