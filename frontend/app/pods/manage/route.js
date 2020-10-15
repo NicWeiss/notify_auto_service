@@ -14,16 +14,4 @@ export default class ManageRoute extends Route {
     }
   }
 
-  // async model() {
-  //   console.log('Auth login model: start');
-  //   this.object = {};
-  //   return this.object
-  // }
-
-  // @action
-  // onLoginDone() {
-  //   console.log('login done. to manage');
-  //   window.location.reload(true);
-  // }
-
 }

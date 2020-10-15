@@ -1,10 +1,8 @@
-
-
-$breakpoint-alpha: 700px; // adjust to your needs
+$breakpoint-alpha: 700px; 
 
 .rwd-table {
   margin: 1em 0;
-  min-width: 300px; // adjust to your needs
+  min-width: 300px;
   
   tr {
     border-top: 1px solid #ddd;
@@ -12,11 +10,12 @@ $breakpoint-alpha: 700px; // adjust to your needs
   }
   
   th {
-    display: none; // for accessibility, use a visually hidden method here instead! Thanks, reddit!   
+    display: none;
   }
   
   td {
     display: block; 
+    white-space: nowrap;
     
     &:first-child {
       padding-top: .5em;
@@ -26,13 +25,11 @@ $breakpoint-alpha: 700px; // adjust to your needs
     }
 
     &:before {
-      content: attr(data-th)": "; // who knew you could do this? The internet, that's who.
+      content: attr(data-th); 
       font-weight: bold;
 
-      // optional stuff to make it look nicer
-      width: 10.5em; // magic number :( adjust according to your own content
+      min-width: 10em; 
       display: inline-block;
-      // end options
       
       @media (min-width: $breakpoint-alpha) {
         display: none;

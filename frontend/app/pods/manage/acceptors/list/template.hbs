@@ -1,0 +1,18 @@
+<form class="custom-form">
+  <div class="list-container">
+    <h1 class="header-text">Список получателей</h1>
+
+    <div class="d-flex justify-content-between custom-form">
+      <div class="btn-outline-orange btn">
+        {{fa-icon "filter"}} Фильтр
+      </div>
+      
+      <LinkTo @route="manage.acceptors.new" class="btn-outline-orange btn">
+        {{fa-icon "plus"}} Доавить
+      </LinkTo>
+    </div>
+
+    <Acceptors::List @model={{model}} />
+
+  </div>
+</form>
