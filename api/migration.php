@@ -87,6 +87,7 @@ final class migration_$id extends migration
         return true;
     }
 } 
+
 CLASS;
             $filename = MIGRATION_PATH . "migration_" . $id . ".php";
             file_put_contents($filename, $class);

@@ -8,13 +8,10 @@
     </div>
 
     <div class="form-group">
-      <label for="periodic-select">Система получателя</label>
-      <select class="form-control" id="periodic-select" onchange={{action 'onChangeSystem' value="target.value"}}>
-        <option value="tg">Telegram</option>
-        <option value="email">Почта</option>
-        <option value="vk">Вконтакте</option>
-        <option value="viber">Viber</option>
-      </select>
+      <Form::SelectList 
+        @modelName="system"
+        @label="Система получателя"
+        @onSelect={{action 'onSelectSystem'}} />
     </div>
 
     <div class="form-group">

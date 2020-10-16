@@ -1,0 +1,6 @@
+<label>{{this.label}}</label>
+<select class="form-control" onchange={{action @onSelect value="target.value"}}>
+  {{#each model as | item|}}
+    <option value="{{item}}">{{item.name}}</option>
+  {{/each}}
+</select>

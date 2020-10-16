@@ -34,4 +34,4 @@ final class migration_20201016_233734_432650 extends migration
 
         return true;
     }
-} 
+}

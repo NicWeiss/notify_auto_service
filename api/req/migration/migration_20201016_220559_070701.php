@@ -27,4 +27,4 @@ final class migration_20201016_220559_070701 extends migration
     protected function down(){
         return true;
     }
-} 
+}
