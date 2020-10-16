@@ -84,6 +84,61 @@ final class dba{
         return self :: _execute($query);
     }
 
+    public static function query_insert($tblname, $row, $as_is = array()){
+        $rows = array($row);
+        $query = self :: build_insert_query($tblname, $rows, $as_is);
+        return self :: _execute($query);
+    }
+
+    public static function build_insert_query($tblname, $data, $as_is = array()){
+        $query = "INSERT INTO `".$tblname."`";
+        //fetch field names
+        reset($data);
+        $fields = current($data);
+        $fields = array_keys($fields);
+        //escape field names
+        foreach ($fields as &$field)
+            $field = "`{$field}`";
+        //
+        $fields = implode(',', $fields);
+        $fields = " ({$fields}) ";
+        //
+        $value = [];
+        foreach ($data as $elem){
+            $_value = array();
+            foreach ($elem as $fname => $fvalue){
+                if (array_search($fname, $as_is) !== false)
+                    $_value[] = "{$fvalue}";
+                else if ($fvalue === null)
+                    $_value[] = 'NULL';
+                else{
+                    $fvalue = str_replace('?', '[q]', $fvalue);
+                    $_value[] = "'".mysqli_real_escape_string(self :: $link, $fvalue)."'";
+                }
+            }
+            $_value = implode(',', $_value);
+            $value[] = ' ('.$_value.') ';
+        }
+        if ($value)
+            $value = ' VALUES '.implode(', ', $value);
+        return str_replace('[q]', '?', $query.$fields.$value);
+    }
+
+    public static function num_rows(){
+        $qhnd = self :: $qhnd;
+        switch ($qhnd){
+            case true:
+                $res = mysqli_affected_rows(self :: $link);
+                break;
+            case false:
+                $res = -1;
+                break;
+            default:
+                $res = mysqli_num_rows($qhnd);
+        }
+        return $res;
+    }
+
     /**
      * query values count
      * @param string $tblname table name
