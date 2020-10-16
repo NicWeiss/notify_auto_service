@@ -63,6 +63,7 @@ for ($ci = 1; $ci < $argc; $ci++) {
 
 namespace migration;
 use generic\migration;
+use lib\dba;
     
     
 final class migration_$id extends migration
@@ -71,12 +72,19 @@ final class migration_$id extends migration
     protected \$comment = 'No comment';
 
     protected function up(){
-        //up method
-        return false;
+        \$query ="";
+        if(!dba::query(\$query))
+            return false;
+
+        return true;
     }
+    
     protected function down(){
-        //down method
-        return false;
+        \$query ="";
+        if(!dba::query(\$query))
+            return false;
+
+        return true;
     }
 } 
 CLASS;

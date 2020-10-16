@@ -12,10 +12,10 @@ class component
     protected static $answer = [];
     protected static $http_code = 200;
 
-    public static function get_answer($is_ember_model)
+    public static function get_answer($ember_model)
     {
-        if ($is_ember_model){
-            return [ self::$model_name => self::$answer];
+        if ($ember_model){
+            return [ $ember_model => self::$answer];
         }
         return self::$answer;
     }

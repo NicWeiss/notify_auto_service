@@ -5,7 +5,9 @@
  */
 namespace control;
 
-class stub
+use generic\component;
+
+class stub extends component
 {
     public static function init(){
         $array = [

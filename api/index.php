@@ -19,10 +19,10 @@ final class myapp
 
         $class = $object['control_class'];
         $method = $object["control_function"];
-        $is_ember_model = is_null($object["is_ember_model"]) ? False : $object["is_ember_model"];
+        $ember_model = is_null($object["ember_model"]) ? False : $object["ember_model"];
 
         $class::$method();
-        $answer = $class::get_answer($is_ember_model);
+        $answer = $class::get_answer($ember_model);
 
         if (!$answer) {
             http_response_code(404);
