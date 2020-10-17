@@ -8,6 +8,7 @@ export default class AcceptorsNewComponent extends Component {
   @service store;
 
   @tracked selectedSystem = null;
+  @tracked systemHelp = null;
 
   constructor(owner, args) {
     super(owner, args);
@@ -15,12 +16,13 @@ export default class AcceptorsNewComponent extends Component {
 
   @action
   onSelectSystem(value) {
-    console.log(value);
+    this.args.model.system = value;
+    let system = this.store.peekRecord('system', value)
+    this.systemHelp = system.help;
   }
 
   @action
   onComplete() {
-    console.log('send to backend');
     this.args.model.save()
   }
 }

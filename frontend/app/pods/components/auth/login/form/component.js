@@ -47,7 +47,7 @@ export default class LoginComponent extends Component {
     }
 
     try {
-      request = await this.session.authenticate('authenticator:custom', responce.sesion, responce.user);
+      request = await this.session.authenticate('authenticator:custom', responce.session, this.password);
     } catch(error) {
       this.errorMessage = error.error || error;
     }

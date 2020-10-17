@@ -89,7 +89,7 @@ export default class LoginComponent extends Component {
     }
 
     try {
-      request = await this.session.authenticate('authenticator:custom', session, this.user);
+      request = await this.session.authenticate('authenticator:custom', session, this.password);
     } catch (error) {
       this.errorMessage = error.error || error;
     }

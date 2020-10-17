@@ -13,6 +13,13 @@ final class myapp
 {
     public static function run(){
         request :: init();
+        $user_session_id = null;
+
+        foreach (getallheaders() as $key => $value) {
+            if ($key == 'Session') {
+                $user_session_id = $value;
+            }
+        }
 
         $object = dispatcher :: dispatch();
         std_autoload($object['control_class']);
@@ -20,6 +27,11 @@ final class myapp
         $class = $object['control_class'];
         $method = $object["control_function"];
         $ember_model = is_null($object["ember_model"]) ? False : $object["ember_model"];
+
+        if (!$user_session_id && $class != 'control\auth') {
+            http_response_code(403);
+            return;
+        }
 
         $class::$method();
         $answer = $class::get_answer($ember_model);
