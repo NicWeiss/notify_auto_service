@@ -22,17 +22,17 @@ final class dispatcher
         $path = request::$path;
         $resource = "";
         $matches = null;
-        foreach (self::$route_map as $url => $t_resource)
+        foreach (self::$route_map as $url => $t_resource){
             if (preg_match("~^{$url}$~u", $path, $matches)) {
                 $resource = $t_resource;
                 break;
-            }
+            }}
         array_shift($matches);
         foreach ($matches as &$val)
             if (preg_match("~^(\d+)$~u", $val))
                 $val = intval($val, 10);
 
-        $resource['entity_id'] = $matches[0];
+        $resource['entity_id'] =  count($matches) > 0 ? $matches[0] : "";
         if (!$resource) $resource = array(
             'control_class' => 'control\stub',
             'control_function' => 'init'

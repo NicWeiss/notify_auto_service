@@ -22,7 +22,13 @@ export default class AcceptorsNewComponent extends Component {
   }
 
   @action
-  onComplete() {
-    this.args.model.save()
+  onSaveAcceptor() {
+    try {
+      this.args.model.save()
+    } catch (error) {
+      console.log(error);
+    }
+
+    this.args.onComplete();
   }
 }

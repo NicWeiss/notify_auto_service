@@ -27,10 +27,10 @@ final class myapp
         $object = dispatcher:: dispatch();
 
         $class = $object['control_class'];
-        $method = $object["control_function"];
 
-        $entity_id = is_null($object["entity_id"]) ? False : $object["entity_id"];
-        $ember_model = is_null($object["ember_model"]) ? False : $object["ember_model"];
+        $method = array_key_exists("control_function", $object) ?  $object["control_function"] : 'get';
+        $entity_id = array_key_exists("entity_id", $object) ? $object["entity_id"] : False;
+        $ember_model = array_key_exists("ember_model", $object) ? $object["ember_model"] : False;
 
         if (!$user_session_id && $class != 'control\auth') {
             http_response_code(403);
@@ -46,9 +46,10 @@ final class myapp
             }
         }
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $class::get();
             if ($entity_id) {
                 $class::get_by_id($entity_id);
+            } else {
+                $class::get();
             }
         }
         if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
@@ -58,7 +59,6 @@ final class myapp
             $class::delete($entity_id);
         }
 
-//        $class::$method();
         $answer = $class::get_answer($ember_model);
 
         if (!$answer) {

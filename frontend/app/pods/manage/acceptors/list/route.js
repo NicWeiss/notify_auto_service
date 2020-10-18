@@ -7,8 +7,6 @@ export default class AcceptorsListRoute extends Route {
   @tracked object = null;
 
   async model() {
-    //return await this.store.findAll('acceptor');
-    this.object = [{}];
-    return this.object
+    return await this.store.findAll('acceptor');
   }
 }

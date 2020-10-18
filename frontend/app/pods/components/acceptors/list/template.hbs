@@ -7,26 +7,14 @@
       <th>Аккаунт</th>
       <th></th>
     </tr>
-    <tr>
-      <th data-th="# ">1</th>
-      <td data-th="Тип: ">TG</td>
-      <td data-th="Название: ">Телефон</td>
-      <td data-th="Аккаунт: ">346861354848448</td>
-      <td data-th="">отключить|включить удалить</td>
-    </tr>
-    <tr>
-      <th data-th="# ">2</th>
-      <td data-th="Тип: ">Email</td>
-      <td data-th="Название: ">Рабочее мыло</td>
-      <td data-th="Аккаунт: ">example@example.com</td>
-      <td data-th="">отключить|включить удалить</td>
-    </tr>
-    <tr>
-      <th data-th="# ">3</th>
-      <td data-th="Тип: ">VK</td>
-      <td data-th="Название: ">Страничка в ВК</td>
-      <td data-th="Аккаунт: ">984848</td>
-      <td data-th="">отключить|включить удалить</td>
-    </tr>
+      {{#each @model as | item|}}
+      <tr>
+        <th data-th="# ">{{item.id}}</th>
+        <td data-th="Тип: ">{{item.type}}</td>
+        <td data-th="Название: ">{{item.name}}</td>
+        <td data-th="Аккаунт: ">{{item.account}}</td>
+        <td data-th="">отключить|включить удалить</td>
+      </tr>
+      {{/each}}
   </table>
 </div>
