@@ -10,4 +10,9 @@ final class acceptor_model
     {
         $table = TABLE_OF_ACCEPTORS;
     }
+
+    public static function create_acceptor($acceptor, $user) {
+
+        return true;
+    }
 }

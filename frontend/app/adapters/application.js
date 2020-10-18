@@ -10,11 +10,12 @@ export default RESTAdapter.extend({
     let obj = JSON.parse(localStorage.getItem('ember_simple_auth-session')).authenticated;
 
     for (const [key, value] of Object.entries(obj)) {
-      if (!parseInt(key)) {
+      if (isNaN(key)) {
         continue;
       }
       session += value;
     }
+    
     return {
       'session': session
     };

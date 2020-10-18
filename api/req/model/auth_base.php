@@ -80,4 +80,17 @@ final class auth_base
         $res = dba::fetch_assoc();
         return $res;
     }
+
+    public static function get_user_by_session($user_session_id)
+    {
+        $sesions = TABLE_OF_SESSIONS;
+        $users = TABLE_OF_USERS;
+
+        $sql = "SELECT u.user, u.email, u.id, s.session FROM $users u
+            left join $sesions s on s.user_id = u.id
+            WHERE s.session = '$user_session_id'";
+
+        dba:: query($sql);
+        return dba::fetch_assoc();
+    }
 }

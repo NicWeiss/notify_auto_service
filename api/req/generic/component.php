@@ -3,6 +3,7 @@
 namespace generic;
 
 
+use model\auth_base as auth;
 use lib\request;
 
 class component
@@ -11,16 +12,23 @@ class component
     protected static $model_name = null;
     protected static $answer = [];
     protected static $http_code = 200;
+    protected static $user = null;
 
     public static function get_answer($ember_model)
     {
-        if ($ember_model){
-            return [ $ember_model => self::$answer];
+        if ($ember_model) {
+            return [$ember_model => self::$answer];
         }
         return self::$answer;
     }
 
-    public static function get_http_responce_code() {
+    public static function set_session($user_session_id)
+    {
+        self::$user = auth::get_user_by_session($user_session_id);
+    }
+
+    public static function get_http_responce_code()
+    {
         return self::$http_code;
     }
 
@@ -58,5 +66,21 @@ class component
     {
         self::$model_name = key(json_decode(file_get_contents('php://input'), true));
         return request::get_from_client_Json(self::$model_name);
+    }
+
+    public static function get() {
+        self::not_found();
+    }
+
+    public static function get_by_id($entity_id) {
+        self::not_found();
+    }
+
+    public static function update($entity_id) {
+        self::not_found();
+    }
+
+    public static function delete($entity_id) {
+        self::not_found();
     }
 }

@@ -11,7 +11,7 @@ use model\system_model as sm;
 
 class system extends component
 {
-    public static function get_all()
+    public static function get()
     {
         $systems = sm::get_all();
         self::set_data($systems);

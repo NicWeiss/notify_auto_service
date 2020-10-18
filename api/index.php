@@ -1,5 +1,6 @@
 <?php
 header("Access-Control-Allow-Origin: *");
+
 use lib\request as request;
 
 
@@ -11,21 +12,24 @@ std_env_init();
 
 final class myapp
 {
-    public static function run(){
-        request :: init();
+    public static function run()
+    {
+        request:: init();
         $user_session_id = null;
 
         foreach (getallheaders() as $key => $value) {
             if ($key == 'Session') {
                 $user_session_id = $value;
+                //TO-DO добавить проверку валидности полученного токена сессии
             }
         }
 
-        $object = dispatcher :: dispatch();
-        std_autoload($object['control_class']);
+        $object = dispatcher:: dispatch();
 
         $class = $object['control_class'];
         $method = $object["control_function"];
+
+        $entity_id = is_null($object["entity_id"]) ? False : $object["entity_id"];
         $ember_model = is_null($object["ember_model"]) ? False : $object["ember_model"];
 
         if (!$user_session_id && $class != 'control\auth') {
@@ -33,7 +37,28 @@ final class myapp
             return;
         }
 
-        $class::$method();
+        $class::set_session($user_session_id);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $class::$method();
+            if ($entity_id) {
+                $class::$method($entity_id);
+            }
+        }
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $class::get();
+            if ($entity_id) {
+                $class::get_by_id($entity_id);
+            }
+        }
+        if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+            $class::update($entity_id);
+        }
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+            $class::delete($entity_id);
+        }
+
+//        $class::$method();
         $answer = $class::get_answer($ember_model);
 
         if (!$answer) {
@@ -45,4 +70,5 @@ final class myapp
     }
 
 }
-myapp :: run();
+
+myapp:: run();

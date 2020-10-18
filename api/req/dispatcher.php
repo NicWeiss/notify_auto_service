@@ -11,20 +11,29 @@ final class dispatcher
 
     private static $route_map = array();
 
-    public static function add($url, $resource){
+    public static function add($url, $resource)
+    {
         self::$route_map[$url] = $resource;
     }
 
 
-    public static function dispatch(){
+    public static function dispatch()
+    {
         $path = request::$path;
         $resource = "";
+        $matches = null;
         foreach (self::$route_map as $url => $t_resource)
-            if (preg_match("~^{$url}$~u", $path, $t_matches)){
+            if (preg_match("~^{$url}$~u", $path, $matches)) {
                 $resource = $t_resource;
                 break;
             }
-        if (!$resource) $resource =  array(
+        array_shift($matches);
+        foreach ($matches as &$val)
+            if (preg_match("~^(\d+)$~u", $val))
+                $val = intval($val, 10);
+
+        $resource['entity_id'] = $matches[0];
+        if (!$resource) $resource = array(
             'control_class' => 'control\stub',
             'control_function' => 'init'
         );

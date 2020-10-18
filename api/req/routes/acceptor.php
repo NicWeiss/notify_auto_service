@@ -1,7 +1,14 @@
 <?php
 
-dispatcher :: add('api/acceptor-new', array(
+dispatcher:: add('api/acceptor-new', array(
     'control_class' => 'control\acceptor',
     'control_function' => 'add',
-    'is_ember_model' => 'acceptorNew'
+    'ember_model' => 'acceptorNew'
+));
+
+
+dispatcher:: add('api/acceptor/(\d+)', array(
+    'control_class' => 'control\acceptor',
+    'control_function' => 'get',
+    'ember_model' => 'acceptor'
 ));
