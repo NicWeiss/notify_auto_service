@@ -43,8 +43,10 @@
 </div>
 
 <div class="form-group">
-  <label for="acceptors">Метод оповещения</label>
-  <input type="text" class="form-control" id="acceptors">
+  <Form::MultiSelectList 
+    @value={{acceptorList}}
+    @modelName="acceptor"
+    @label="Получатели"/>
 </div>
 
 <div class="d-flex justify-content-center">
