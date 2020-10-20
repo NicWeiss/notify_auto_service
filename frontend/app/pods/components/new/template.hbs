@@ -16,9 +16,9 @@
     </div>
 
     {{#if periodic}}
-      <New::Periodic/>
+      <New::Periodic @notifyNew={{notifyNew}} @onComplete={{action @onComplete}}/>
     {{else}}
-      <New::Once/>
+      <New::Once @notifyNew={{notifyNew}} @onComplete={{action @onComplete}}/>
     {{/if}}
 
   </div>

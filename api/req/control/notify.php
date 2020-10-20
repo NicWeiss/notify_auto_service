@@ -9,20 +9,20 @@ namespace control;
 use generic\component;
 use lib\email;
 use lib\request;
-use model\acceptor_model as am;
+use model\notify_model as nf;
 
-class acceptor extends component
+class notify extends component
 {
     public static function add()
     {
         $data = self::getModelData();
-        $acceptor = am::create_acceptor($data, self::$user);
-        self::set_data($acceptor);
+        $notify = nf::create_notify($data, self::$user);
+        self::set_data($notify);
     }
 
     public static function get()
     {
-        $acceptor = am::get_acceptors(self::$user);
+        $acceptor = nf::get_all_notify(self::$user);
         self::set_data($acceptor);
     }
 

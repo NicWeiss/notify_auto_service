@@ -7,30 +7,18 @@
       <th>Название</th>
       <th>День выполнения</th>
       <th>Время выполнения</th>
+      <th></th>
     </tr>
+    {{#each @model as | item|}}
     <tr>
-      <th data-th="#">1</th>
-      <td data-th="Статус" style="color: green;">Активно</td>
-      <td data-th="Периодичность">Последний день месяца</td>
-      <td data-th="Название">Вода</td>
-      <td data-th="День выполнения">31.10.2020</td>
-      <td data-th="Время выполнения">20:20</td>
+      <th data-th="# ">{{item.id}}</th>
+      <td data-th="Статус: ">{{item.status}}</td>
+      <td data-th="Периодичность: ">{{item.periodic}}</td>
+      <td data-th="Название: ">{{item.name}}</td>
+      <td data-th="День выполнения: ">{{item.date}}</td>
+      <td data-th="Время выполнения: ">{{item.time}}</td>
+      <td data-th="">отключить|включить удалить</td>
     </tr>
-    <tr>
-      <th data-th="#">2</th>
-      <td data-th="Статус" style="color: green;">Активно</td>
-      <td data-th="Периодичность">По будням</td>
-      <td data-th="Название">Check-in</td>
-      <td data-th="День выполнения">05.10.2020</td>
-      <td data-th="Время выполнения">15:00</td>
-    </tr>
-    <tr>
-      <th data-th="#">3</th>
-      <td data-th="Статус" style="color: red;">Отключено</td>
-      <td data-th="Периодичность">Разовое</td>
-      <td data-th="Название">Будильник</td>
-      <td data-th="День выполнения">04.10.2020</td>
-      <td data-th="Время выполнения">09:00</td>
-    </tr>
+    {{/each}}
   </table>
 </div>

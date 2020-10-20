@@ -1,16 +1,17 @@
 <div class="form-group">
   <label for="notify-name">Название</label>
-  <input type="text" class="form-control" id="notify-name">
+  <Input type="text" class="form-control" id="notify-name" @value={{this.notifyNew.name}} />
 </div>
 
 <div class="form-group">
   <label for="notify-text">Содержание</label>
-  <textarea type="text" class="form-control notify-text" id="notify-text"/>
+  <Textarea type="text" class="form-control notify-text" id="notify-text" @value={{this.notifyNew.text}} />
 </div>
 
 <div class="form-group">
   <label for="periodic-select">Периодичность</label>
   <select class="form-control" id="periodic-select" onchange={{action 'onChangePeriodic' value="target.value"}}>
+    <option>Выберите периодичность</option>
     <option value="day_of_week">День недели</option>
     <option value="everyday">Каждый день</option>
     <option value="workday">По будням</option>
@@ -20,10 +21,11 @@
   </select>
 </div>
 
-{{#if (eq this.periodic "day_of_week")}}
+{{#if (eq this.notifyNew.periodic "day_of_week")}}
   <div class="form-group">
     <label for="weekday-select">День недели</label>
     <select class="form-control" id="weekday-select" onchange={{action 'onChangeWeekDay' value="target.value"}}>
+      <option>Выберите день недели</option>
       <option value="1">Понедельник</option>
       <option value="2">Вторник</option>
       <option value="3">Среда</option>
@@ -38,7 +40,7 @@
 
 <div class="form-group half-container d-flex flex-column">
   <label>Время: </label>
-  <EmberFlatpickr class="datetime-custom" @date={{this.date}} @dateFormat="H:i:s" @enableTime={{true}}
+  <EmberFlatpickr class="datetime-custom" @date={{this.time}} @dateFormat="H:i:s" @enableTime={{true}}
     @noCalendar={{true}} @time_24hr={{true}} @onChange={{this.onSelectTime}} @onReady={{this.onTimeReady}} />
 </div>
 

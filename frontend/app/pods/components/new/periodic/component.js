@@ -6,31 +6,23 @@ import { inject as service } from '@ember/service';
 
 export default class PeriodicComponent extends Component {
   @service store;
+  @service notify;
 
   @tracked periodic = "day_of_week";
-  @tracked weekDay = "1";
+  @tracked notifyNew = null;
   @tracked acceptorList = null;
+  @tracked time = null;
 
   constructor(owner, args) {
     super(owner, args);
-    this.date = new Date();
+    this.notifyNew = this.args.notifyNew;
+    this.time = new Date();
     this.acceptorList = this.store.createRecord('acceptor-list', {});
   }
 
   @action
-  onSelectDate() {
-    console.log('select date')
-  }
+  onSelectTime() {}
 
-  @action
-  onSelectTime() {
-    console.log('select time')
-  }
-
-  @action
-  onDateReady(_selectedDates, _dateStr, instance) {
-    this.flatpickrDateRef = instance;
-  }
   @action
   onTimeReady(_selectedDates, _dateStr, instance) {
     this.flatpickrTimeRef = instance;
@@ -38,18 +30,51 @@ export default class PeriodicComponent extends Component {
 
   @action
   onChangePeriodic(value) {
-    this.periodic = value;
+    this.notifyNew['periodic'] = value;
   }
 
   @action
-  onChangeWeekDay (value) {
-    this.weekDay = value;
+  onChangeWeekDay(value) {
+    this.notifyNew['dayOfWeek'] = value;
+  }
+
+  validate() {
+    let isValid = true;
+    let acceptors = [];
+
+    this.acceptorList.acceptor.map(item => { acceptors.push(item.id) })
+
+    this.notifyNew['acceptors'] = acceptors;
+    this.notifyNew['time'] = this.flatpickrTimeRef.latestSelectedDateObj.getTime();
+
+    if (acceptors.length == 0) {
+      isValid = false;
+    }
+    if (!this.notifyNew['periodic']) {
+      isValid = false;
+    }
+    if (this.notifyNew['periodic'] ==='day_of_week') {
+      if (!this.notifyNew['dayOfWeek']) {
+        isValid = false;
+      }
+    }
+    if (!this.notifyNew['name']) {
+      isValid = false;
+    }
+
+    if (!isValid) {
+      this.notify.error('Остались пустые поля');
+    }
+    return isValid;
   }
 
   @action
   onComplete() {
-    console.log(this.periodic, this.weekDay);
-    console.log('create periodic notify and send to server');
+    if (!this.validate()) {
+      return;
+    }
+    this.notifyNew.save()
+    this.args.onComplete();
   }
 
 }

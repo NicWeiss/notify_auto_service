@@ -9,3 +9,5 @@ define('TABLE_OF_SESSIONS', 'session');
 define('TABLE_OF_REG_CODES', 'reg_codes');
 define('TABLE_OF_SYSTEMS', 'system');
 define('MIGRATION','migration');
+define('TABLE_OF_NOTIFY','notify');
+define('TABLE_OF_NOTIFY_ACCEPTORS','notify_acceptors');
