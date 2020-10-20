@@ -10,3 +10,8 @@ dispatcher:: add('api/notify', array(
     'control_class' => 'control\notify',
     'ember_model' => 'notify'
 ));
+
+dispatcher:: add('api/notify/(\d+)', array(
+    'control_class' => 'control\notify',
+    'ember_model' => 'notify'
+));

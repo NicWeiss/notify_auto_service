@@ -51,9 +51,6 @@ final class notify_model
     }
 
     public static function get_all_notify($user) {
-        $notify_acceptors = TABLE_OF_NOTIFY_ACCEPTORS;
-        $acceptor = TABLE_OF_ACCEPTORS;
-        $system = TABLE_OF_SYSTEMS;
         $notify = TABLE_OF_NOTIFY;
 
         $sql = "SELECT * FROM $notify  WHERE user_id= '$user[id]';";
@@ -66,4 +63,51 @@ final class notify_model
 
         return $notify_list;
     }
+
+    public static function update_notify($entity_id, $notify, $user) {
+        $table = TABLE_OF_NOTIFY;
+        $notify_acceptors = TABLE_OF_NOTIFY_ACCEPTORS;
+
+        $acceptors = explode(',', $notify['acceptors']);
+
+        $notify['day_of_week'] = array_key_exists("day_of_week", $notify) ?  $notify["day_of_week"] : '';
+        $notify['text'] = array_key_exists("text", $notify) ?  $notify["text"] : '';
+        $notify['time'] = array_key_exists("time", $notify) ?  $notify["time"] : '';
+
+        $sql = "UPDATE $table SET `name`='$notify[name]', `text`='$notify[text]', `periodic`='$notify[periodic]', 
+                 `day_of_week`='$notify[day_of_week]', `date`='$notify[date]', `time`='$notify[time]', `status`=$notify[status]
+                WHERE `id`= '$entity_id' and `user_id` = '$user[id]'
+                ";
+        dba:: query($sql);
+
+        $sql = "SELECT * FROM $table WHERE `id`= '$entity_id' and `user_id` = '$user[id]'";
+        dba:: query($sql);
+        $notify = dba::fetch_assoc();
+
+        $sql = "DELETE FROM $notify_acceptors WHERE `id`= '$entity_id' and `user_id` = '$user[id]'";
+        dba:: query($sql);
+
+        foreach ($acceptors as $acceptor_idr) {
+            $sql = "INSERT INTO  $notify_acceptors ( `notify_id`, `acceptor_id`) 
+                    VALUES ('$notify[id]',  '$acceptor_idr')";
+            dba:: query($sql);
+        }
+
+        $notify['acceptorsList'] = self::get_acceptors_by_notify_id($notify['id']);
+
+        return $notify;
+    }
+
+    public static function delete_notify($entity_id, $user) {
+        $table = TABLE_OF_NOTIFY;
+        $notify_acceptors = TABLE_OF_NOTIFY_ACCEPTORS;
+
+        $sql = "DELETE FROM $table WHERE `id`= '$entity_id' and `user_id` = '$user[id]'";
+        dba:: query($sql);
+        $sql = "DELETE FROM $notify_acceptors WHERE `id`= '$entity_id' and `user_id` = '$user[id]'";
+        dba:: query($sql);
+
+        return true;
+    }
+
 }

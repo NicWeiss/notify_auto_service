@@ -1,5 +1,13 @@
 $breakpoint-alpha: 700px; 
 
+.buttons-bar {
+  display: flex;
+}
+
+.btn{
+  margin: 0 5px;
+}
+
 .rwd-table {
   margin: 1em 0;
   min-width: 300px;

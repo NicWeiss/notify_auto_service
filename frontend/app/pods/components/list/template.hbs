@@ -12,12 +12,21 @@
     {{#each @model as | item|}}
     <tr>
       <th data-th="# ">{{item.id}}</th>
-      <td data-th="Статус: ">{{item.status}}</td>
-      <td data-th="Периодичность: ">{{item.periodic}}</td>
+      <td data-th="Статус: "><Utils::StatusColored @status={{item.status}} /></td>
+      <td data-th="Периодичность: ">{{get PERIODIC item.periodic}}</td>
       <td data-th="Название: ">{{item.name}}</td>
-      <td data-th="День выполнения: ">{{item.date}}</td>
-      <td data-th="Время выполнения: ">{{item.time}}</td>
-      <td data-th="">отключить|включить удалить</td>
+      <td data-th="День выполнения: "><Utils::FromTimestamp @type='date' @timestamp={{item.date}} /></td>
+      <td data-th="Время выполнения: "><Utils::FromTimestamp @type='time' @timestamp={{item.time}} /></td>
+      <td data-th="">
+        <div class="buttons-bar">
+          {{#if (eq item.status "1")}}
+            <div class="btn btn-outline-warning" {{action 'onChangeStatus' item}}>{{fa-icon "bell-slash"}} отключить</div>
+          {{else}}
+            <div class="btn btn-outline-success" {{action 'onChangeStatus' item}}>{{fa-icon "bell"}} активировать</div>
+          {{/if}}
+          <div class="btn btn-outline-danger" {{action 'onDelete' item}}>{{fa-icon "trash"}} удалить</div>
+        </div>
+      </td>
     </tr>
     {{/each}}
   </table>

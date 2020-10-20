@@ -22,15 +22,20 @@ class notify extends component
 
     public static function get()
     {
-        $acceptor = nf::get_all_notify(self::$user);
-        self::set_data($acceptor);
+        $notify = nf::get_all_notify(self::$user);
+        self::set_data($notify);
     }
 
     public static function update($entity_id)
     {
         $data = self::getModelData();
-//        $acceptor = am::create_acceptor($data, self::$user);
-//        std_debug($acceptor);
-        self::set_data(['id' => $entity_id, 'status' => 'TEST']);
+        $notify = nf::update_notify($entity_id, $data, self::$user);
+        self::set_data($notify);
+    }
+
+    public static function delete($entity_id)
+    {
+        $notify = nf::delete_notify($entity_id, self::$user);
+        self::set_data($notify);
     }
 }
