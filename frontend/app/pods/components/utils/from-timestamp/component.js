@@ -10,8 +10,8 @@ export default class FromTimestamp extends Component {
   constructor(owner, args) {
     super(owner, args);
 
-    this.type = this.args.type;
     this.timestamp = this.args.timestamp;
+    this.type = this.args.type;
 
     var date = new Date();
     date.setTime(this.timestamp);

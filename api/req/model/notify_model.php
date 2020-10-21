@@ -36,16 +36,18 @@ final class notify_model
         return $notify;
     }
 
-    public static function get_acceptors_by_notify_id($id) {
+    public static function get_acceptors_by_notify_id($id, $status = null) {
         $acceptor = TABLE_OF_ACCEPTORS;
         $system = TABLE_OF_SYSTEMS;
         $notify_acceptors = TABLE_OF_NOTIFY_ACCEPTORS;
+
+        $status = $status ? " and a.status= '$status'" : null;
 
         $sql = "SELECT a.id, a.name, a.system_id, a.account, a.status, s.type
                     FROM $notify_acceptors na
                     left join $acceptor a on a.id = na.acceptor_id
                     left join $system s on s.id = a.system_id
-                    where `notify_id` = '$id'  ORDER BY `id`;";
+                    where na.notify_id = '$id' $status ORDER BY `id` ;";
         dba:: query($sql);
         return dba::fetch_assoc_all();
     }
@@ -108,6 +110,20 @@ final class notify_model
         dba:: query($sql);
 
         return true;
+    }
+
+    public static function get_notify_for_cron() {
+        $notify = TABLE_OF_NOTIFY;
+
+        $sql = "SELECT * FROM $notify  WHERE status= '1';";
+        dba:: query($sql);
+        $notify_list = dba::fetch_assoc_all();
+
+        foreach ($notify_list as $key => $value) {
+            $notify_list[$key]['acceptorsList'] = self::get_acceptors_by_notify_id($value['id'], '1');
+        }
+
+        return $notify_list;
     }
 
 }
