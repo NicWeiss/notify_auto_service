@@ -19,11 +19,12 @@ $breakpoint-alpha: 700px;
   
   th {
     display: none;
+
   }
   
   td {
+    
     display: block; 
-    white-space: nowrap;
     
     &:first-child {
       padding-top: .5em;
@@ -41,14 +42,16 @@ $breakpoint-alpha: 700px;
       
       @media (min-width: $breakpoint-alpha) {
         display: none;
+        
       }
+
     }
   }
   
   th, td {
     text-align: left;
-    
     font-size: 13px;
+
     @media (min-width: $breakpoint-alpha) {
       font-size: 16px;
       display: table-cell;
@@ -63,17 +66,20 @@ $breakpoint-alpha: 700px;
       }
     }
 
+    @media (min-width: 700px) and (max-width: 900px) { 
+      padding: 5px 2px !important;
+      font-size: 13px;
+    }
+
   }
   
   
 }
 
-
-
 .rwd-table {
   color: #000;
-  border-radius: .4em;
-  overflow: hidden;
+  border-radius: .4em;    
+  white-space: nowrap;
   width: 100%;
   tr {
     border-color: lighten(#ccc, 10%);
@@ -81,7 +87,7 @@ $breakpoint-alpha: 700px;
   th, td {
     margin: .5em 1em;
     @media (min-width: $breakpoint-alpha) { 
-      padding: 1em !important; 
+      padding: 1em; 
     }
   }
   th, td:before {

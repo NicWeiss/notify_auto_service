@@ -1,14 +1,18 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
 
-export default Component.extend({
-  output: tracked(),
-  type: tracked(),
-  timestamp: tracked(),
+export default class FromTimestamp extends Component {
+  @tracked output = null;
+  @tracked type = null;
+  @tracked timestamp = null;
 
-  init() {
-    this._super(...arguments);
+  constructor(owner, args) {
+    super(owner, args);
+
+    this.type = this.args.type;
+    this.timestamp = this.args.timestamp;
+
     var date = new Date();
     date.setTime(this.timestamp);
     
@@ -29,4 +33,4 @@ export default Component.extend({
     }
 
   }
-})
+}
