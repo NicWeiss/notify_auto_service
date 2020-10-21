@@ -9,12 +9,10 @@ export default class ListComponent extends Component {
   @service notify;
 
   @tracked selectedNotify = null;
+  @tracked isShowingModal = false;
+  @tracked itemForDelete = null;
 
   PERIODIC = PERIODIC
-
-  constructor(owner, args){
-    super(owner, args);
-  }
 
   @action
   onSelectNotify(notify) {
@@ -30,8 +28,20 @@ export default class ListComponent extends Component {
   }
 
   @action
-  onDelete(record){
-    record.destroyRecord();
+  onDelete(){
+    this.itemForDelete.destroyRecord();
+    this.onClose();
+  }
+
+  @action
+  onDeleteWindow(record){
+    this.isShowingModal = true;
+    this.itemForDelete = record;
+  }
+
+  @action
+  onClose(){
+    this.isShowingModal = false;
   }
 
 }

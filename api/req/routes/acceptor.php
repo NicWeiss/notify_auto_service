@@ -11,8 +11,7 @@ dispatcher:: add('api/acceptor', array(
     'ember_model' => 'acceptor'
 ));
 
-//dispatcher:: add('api/acceptor/(\d+)', array(
-//    'control_class' => 'control\acceptor',
-//    'control_function' => 'get',
-//    'ember_model' => 'acceptor'
-//));
+dispatcher:: add('api/acceptor/(\d+)', array(
+    'control_class' => 'control\acceptor',
+    'ember_model' => 'acceptor'
+));

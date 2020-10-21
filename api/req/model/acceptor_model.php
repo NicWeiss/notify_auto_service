@@ -32,4 +32,30 @@ final class acceptor_model
         dba:: query($sql);
         return dba::fetch_assoc_all();
     }
+
+    public static function delete_acceptor($entity_id, $user) {
+        $table = TABLE_OF_ACCEPTORS;
+
+        $sql = "DELETE FROM $table WHERE `id`= '$entity_id' and `user_id` = '$user[id]'";
+        dba:: query($sql);
+
+        return true;
+    }
+
+    public static function update_acceptor($entity_id, $acceptor, $user) {
+        $table = TABLE_OF_ACCEPTORS;
+
+        $sql = "UPDATE $table SET `name`='$acceptor[name]', `system_id`='$acceptor[system_id]', 
+                 `account`='$acceptor[account]', `status`='$acceptor[status]'
+                WHERE `id`= '$entity_id' and `user_id` = '$user[id]'
+                ";
+        dba:: query($sql);
+
+        $sql = "SELECT * FROM $table WHERE `id`= '$entity_id' and `user_id` = '$user[id]'";
+        dba:: query($sql);
+        $acceptor = dba::fetch_assoc();
+
+
+        return $acceptor;
+    }
 }

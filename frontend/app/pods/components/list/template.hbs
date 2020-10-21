@@ -24,10 +24,42 @@
           {{else}}
             <div class="btn btn-outline-success" {{action 'onChangeStatus' item}}>{{fa-icon "bell"}} активировать</div>
           {{/if}}
-          <div class="btn btn-outline-danger" {{action 'onDelete' item}}>{{fa-icon "trash"}} удалить</div>
+          <div class="btn btn-outline-danger" {{action 'onDeleteWindow' item}}>{{fa-icon "trash"}} удалить</div>
         </div>
       </td>
     </tr>
     {{/each}}
   </table>
 </div>
+
+
+{{#if isShowingModal}}
+  {{#modal-dialog 
+        translucentOverlay=true}}
+        <div class="header">Удалить уведомление #{{itemForDelete.id}}?</div>
+        <div class="body">
+          <table>
+            <tr>
+              <td>Название:</td>
+              <td>{{itemForDelete.name}}</td>
+            </tr>
+            <tr>
+              <td>Периодичность:</td>
+              <td>{{get PERIODIC itemForDelete.periodic}}</td>
+            </tr>
+            <tr>
+              <td>День выполнения:</td>
+              <td><Utils::FromTimestamp @type='date' @timestamp={{itemForDelete.date}} /></td>
+            </tr>
+            <tr>
+              <td>Время выполнения:</td>
+              <td><Utils::FromTimestamp @type='time' @timestamp={{itemForDelete.time}} /></td>
+            </tr>
+          </table>
+        </div>
+        <div class="buttons-bar">
+          <div class="btn btn-outline-secondary" {{action 'onClose'}}>Отмена</div>
+          <div class="btn btn-outline-danger" {{action 'onDelete'}}>Подтвердить</div>
+        </div>
+  {{/modal-dialog}}
+{{/if}}

@@ -29,8 +29,13 @@ class acceptor extends component
     public static function update($entity_id)
     {
         $data = self::getModelData();
-//        $acceptor = am::create_acceptor($data, self::$user);
-//        std_debug($acceptor);
-        self::set_data(['id' => $entity_id, 'status' => 'TEST']);
+        $notify = am::update_acceptor($entity_id, $data, self::$user);
+        self::set_data($notify);
+    }
+
+    public static function delete($entity_id)
+    {
+        $notify = am::delete_acceptor($entity_id, self::$user);
+        self::set_data($notify);
     }
 }

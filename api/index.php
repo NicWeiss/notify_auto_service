@@ -40,9 +40,10 @@ final class myapp
         $class::set_session($user_session_id);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $class::$method();
             if ($entity_id) {
                 $class::$method($entity_id);
+            } else {
+                $class::$method();
             }
         }
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {

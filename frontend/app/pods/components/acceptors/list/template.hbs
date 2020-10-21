@@ -3,6 +3,7 @@
     <tr>
       <th>#</th>
       <th>Тип</th>
+      <th>Статус</th>
       <th>Название</th>
       <th>Аккаунт</th>
       <th></th>
@@ -10,11 +11,44 @@
       {{#each @model as | item|}}
       <tr>
         <th data-th="# ">{{item.id}}</th>
-        <td data-th="Тип: ">{{item.type}}</td>
-        <td data-th="Название: ">{{item.name}}</td>
-        <td data-th="Аккаунт: ">{{item.account}}</td>
-        <td data-th="">отключить|включить удалить</td>
+        <td data-th="Тип: " style="width: 10%;"><Utils::FancyType @type={{item.type}}/></td>
+        <td data-th="Статус: " style="width: 10%;"><Utils::StatusColored @status={{item.status}} /></td>
+        <td data-th="Название: " style="width: 50%;">{{item.name}}</td>
+        <td data-th="Аккаунт: " style="width: 50%;">{{item.account}}</td>
+        <td data-th="">
+          <div class="buttons-bar">
+            {{#if (eq item.status "1")}}
+              <div class="btn btn-outline-warning" {{action 'onChangeStatus' item}}>{{fa-icon "bell-slash"}} отключить</div>
+            {{else}}
+              <div class="btn btn-outline-success" {{action 'onChangeStatus' item}}>{{fa-icon "bell"}} активировать</div>
+            {{/if}}
+          <div class="btn btn-outline-danger" {{action 'onDeleteWindow' item}}>{{fa-icon "trash"}} удалить</div>
+        </div>
+        </td>
       </tr>
       {{/each}}
   </table>
 </div>
+
+{{#if isShowingModal}}
+  {{#modal-dialog 
+        translucentOverlay=true}}
+        <div class="header">Удалить получателя #{{itemForDelete.id}}?</div>
+        <div class="body">
+          <table>
+            <tr>
+              <td>Название:</td>
+              <td>{{itemForDelete.name}}</td>
+            </tr>
+            <tr>
+              <td>Аккаунт:</td>
+              <td>{{itemForDelete.account}}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="buttons-bar">
+          <div class="btn btn-outline-secondary" {{action 'onClose'}}>Отмена</div>
+          <div class="btn btn-outline-danger" {{action 'onDelete'}}>Подтвердить</div>
+        </div>
+  {{/modal-dialog}}
+{{/if}}

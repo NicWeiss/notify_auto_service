@@ -1,6 +1,6 @@
 export const PERIODIC = {
     'once': 'Разовое',
-    'day_of_week': 'День екдели',
+    'day_of_week': 'День недели',
     'everyday': 'Каждый день',
     'workday': 'По будням',
     'weekend': 'По выходным',
