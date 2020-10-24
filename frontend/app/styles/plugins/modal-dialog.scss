@@ -1,5 +1,5 @@
 .ember-modal-dialog {
-  .header{    
+  .header {
     font-size: 24px;
     text-align: center;
     font-weight: 600;
@@ -12,45 +12,47 @@
     display: flex;
     justify-content: center;
     padding: 10px;
-}
-
-.body {
-  padding: 0 25%;
-  @media (max-width: 575.98px) { 
-    padding: 0;
-   }
-}
-
-table {
-  width: 100%;
-  tr,th {
-    line-height: 40px;
-    border-top: 1px solid #e1e1e1;;
   }
-}
 
-// Экстрамалые девайсы («портретные телефоны», < 576px)
-@media (max-width: 575.98px) { 
-  width: 300px;
- }
+  .body {
+    padding: 0 25%;
 
-// Малые девайсы («ландшафтные», >= 575px)
-@media (min-width: 576px) and (max-width: 767.98px) { 
-  width: 500px;
- }
+    @media (max-width: 575.98px) {
+      padding: 0;
+    }
+  }
 
-// Средние девайсы («таблетки», >= 768px) 
-@media (min-width: 768px) and (max-width: 991.98px) { 
-  width: 700px;
-}
+  table {
+    width: 100%;
 
-// Большие девайсы (большие десктопы, >= 992px)
-@media (min-width: 992px) and (max-width: 1199.98px) { 
-  width: 900px;
- }
+    tr, th, td {
+      border-top: 1px solid #e1e1e1;
+      padding: 20px 0;
+    }
+  }
 
-// Большие девайсы (большие десктопы, >= 1200px)
-@media (min-width: 1200px) { 
-  width: 1024px;
- }
+  // Экстрамалые девайсы («портретные телефоны», < 576px)
+  @media (max-width: 575.98px) {
+    width: 300px;
+  }
+
+  // Малые девайсы («ландшафтные», >= 575px)
+  @media (min-width: 576px) and (max-width: 767.98px) {
+    width: 500px;
+  }
+
+  // Средние девайсы («таблетки», >= 768px) 
+  @media (min-width: 768px) and (max-width: 991.98px) {
+    width: 700px;
+  }
+
+  // Большие девайсы (большие десктопы, >= 992px)
+  @media (min-width: 992px) and (max-width: 1199.98px) {
+    width: 900px;
+  }
+
+  // Большие девайсы (большие десктопы, >= 1200px)
+  @media (min-width: 1200px) {
+    width: 1024px;
+  }
 }
