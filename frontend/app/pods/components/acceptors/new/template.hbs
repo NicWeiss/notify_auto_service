@@ -8,7 +8,7 @@
     </div>
 
     <div class="form-group">
-      <Form::SelectList 
+      <Form::SelectList
         @modelName="system"
         @label="Система получателя"
         @onSelect={{action 'onSelectSystem'}} />
@@ -17,7 +17,7 @@
     <div class="form-group">
       <label for="notify-text">Аккаунт получателя</label>
       <Input type="text" class="form-control" id="notify-text" @value={{@model.account}}/>
-      <label class="text-muted">{{systemHelp}}</label>
+      <label class="text-muted">{{{systemHelp}}}</label>
     </div>
 
     <div class="d-flex justify-content-center">

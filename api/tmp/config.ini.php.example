@@ -17,4 +17,7 @@ final class cfg{
         'email' => 'emai@mail.com',
         'password' => '1234'
     );
+
+
+    public static $telegram_bot_token = "000000000:000000000000000000000000000000000000";
 }

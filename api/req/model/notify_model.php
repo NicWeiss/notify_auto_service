@@ -14,12 +14,14 @@ final class notify_model
 
         $acceptors = explode(',', $notify['acceptors']);
 
-        $notify['day_of_week'] = array_key_exists("day_of_week", $notify) ?  $notify["day_of_week"] : '';
+        $notify['dayOfWeek'] = array_key_exists("dayOfWeek", $notify) ?  $notify["dayOfWeek"] : '';
         $notify['text'] = array_key_exists("text", $notify) ?  $notify["text"] : '';
         $notify['time'] = array_key_exists("time", $notify) ?  $notify["time"] : '';
 
-        $sql = "INSERT INTO  $table ( `user_id`, `name`, `text`, `periodic`, `day_of_week`, `date`, `time`) 
-                VALUES ('$user[id]',  '$notify[name]', '$notify[text]', '$notify[periodic]', '$notify[day_of_week]', '$notify[date]', '$notify[time]' )";
+        $sql = "INSERT INTO  $table ( `user_id`, `name`, `text`, `periodic`, `day_of_week`,
+                                      `date`, `time`, `time_zone_offset`) 
+                VALUES ('$user[id]',  '$notify[name]', '$notify[text]', '$notify[periodic]',
+                        '$notify[dayOfWeek]', '$notify[date]', '$notify[time]',  '$notify[timeZoneOffset]' )";
         dba:: query($sql);
 
         $sql = "SELECT * FROM $table  ORDER BY `id` DESC Limit 1;";
@@ -72,12 +74,13 @@ final class notify_model
 
         $acceptors = explode(',', $notify['acceptors']);
 
-        $notify['day_of_week'] = array_key_exists("day_of_week", $notify) ?  $notify["day_of_week"] : '';
+        $notify['dayOfWeek'] = array_key_exists("dayOfWeek", $notify) ?  $notify["dayOfWeek"] : '';
         $notify['text'] = array_key_exists("text", $notify) ?  $notify["text"] : '';
         $notify['time'] = array_key_exists("time", $notify) ?  $notify["time"] : '';
 
         $sql = "UPDATE $table SET `name`='$notify[name]', `text`='$notify[text]', `periodic`='$notify[periodic]', 
-                 `day_of_week`='$notify[day_of_week]', `date`='$notify[date]', `time`='$notify[time]', `status`=$notify[status]
+                 `day_of_week`='$notify[dayOfWeek]', `date`='$notify[date]', `time`='$notify[time]',
+                 `status`=$notify[status], `time_zone_offset`=$notify[timeZoneOffset]
                 WHERE `id`= '$entity_id' and `user_id` = '$user[id]'
                 ";
         dba:: query($sql);
@@ -112,10 +115,12 @@ final class notify_model
         return true;
     }
 
-    public static function get_notify_for_cron() {
+    public static function get_notify_for_cron($type, $day_of_week = null) {
         $notify = TABLE_OF_NOTIFY;
 
-        $sql = "SELECT * FROM $notify  WHERE status= '1';";
+        $day_of_week = $day_of_week ? " and `day_of_week` = '$day_of_week'" : '';
+
+        $sql = "SELECT * FROM $notify  WHERE status= '1' and `periodic` = '$type' $day_of_week;";
         dba:: query($sql);
         $notify_list = dba::fetch_assoc_all();
 

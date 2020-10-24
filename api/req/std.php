@@ -16,9 +16,7 @@ function std_autoload($classname){
 }
 
 function std_debug($var, $die = true){
-    echo '<div id="fe-debug"><pre>';
-    print_r($var);
-    echo '</pre></div>';
+    var_dump($var);
     if ($die)
         die;
 }

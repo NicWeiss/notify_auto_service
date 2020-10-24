@@ -41,7 +41,7 @@ final class email{
 
 //Отправка сообщения
         if (!$mail->send()) {
-//            return false
+            return false;
         }
         return true;
     }

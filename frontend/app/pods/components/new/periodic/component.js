@@ -46,6 +46,7 @@ export default class PeriodicComponent extends Component {
 
     this.notifyNew['acceptors'] = acceptors;
     this.notifyNew['time'] = this.flatpickrTimeRef.latestSelectedDateObj.getTime();
+    this.notifyNew['timeZoneOffset'] = this.flatpickrTimeRef.latestSelectedDateObj.getTimezoneOffset()/60;
 
     if (acceptors.length == 0) {
       isValid = false;
