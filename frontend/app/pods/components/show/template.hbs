@@ -1,0 +1,36 @@
+  {{#modal-dialog 
+        translucentOverlay=true}}
+        <div class="header">Уведомление #{{@model.id}}</div>
+        <div class="body">
+          <table>
+            <tr>
+              <td>Название:</td>
+              <td>{{@model.name}}</td>
+            </tr>
+            <tr>
+              <td>Содержимое:</td>
+              <td>{{@model.text}}</td>
+            </tr>
+            <tr>
+              <td>Получатели:</td>
+              <td>{{this.acceptorList}}</td>
+            </tr>
+            <tr>
+              <td>Периодичность:</td>
+              <td>{{get PERIODIC @model.periodic}}</td>
+            </tr>
+            <tr>
+              <td>День выполнения:</td>
+              <td><Utils::FromTimestamp @type='date' @timestamp={{@model.date}} /></td>
+            </tr>
+            <tr>
+              <td>Время выполнения:</td>
+              <td><Utils::FromTimestamp @type='time' @timestamp={{@model.time}} /></td>
+            </tr>
+          </table>
+        </div>
+        <div class="buttons-bar">
+          <div class="btn btn-outline-warning" >Редактировать</div>
+          <div class="btn btn-outline-secondary" {{action 'onClose'}}>Закрыть</div>
+        </div>
+  {{/modal-dialog}}

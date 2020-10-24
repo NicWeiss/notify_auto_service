@@ -68,6 +68,18 @@ final class notify_model
         return $notify_list;
     }
 
+    public static function get_notify($notify_id, $user) {
+        $notify = TABLE_OF_NOTIFY;
+
+        $sql = "SELECT * FROM $notify  WHERE `id` = $notify_id and `user_id`= '$user[id]';";
+        dba:: query($sql);
+        $notify_list = dba::fetch_assoc();
+
+        $notify_list['acceptorsList'] = self::get_acceptors_by_notify_id($notify_list['id']);
+
+        return $notify_list;
+    }
+
     public static function update_notify($entity_id, $notify, $user) {
         $table = TABLE_OF_NOTIFY;
         $notify_acceptors = TABLE_OF_NOTIFY_ACCEPTORS;

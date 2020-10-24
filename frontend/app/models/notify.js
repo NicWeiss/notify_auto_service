@@ -1,4 +1,4 @@
-import Model, { attr, belongsTo } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 
 export default class NotifyModel extends Model {
   @attr('string') name
@@ -10,5 +10,5 @@ export default class NotifyModel extends Model {
   @attr('string') status
   @attr('string') timeZoneOffset
 
-  @belongsTo('acceptor-list') acceptorList
+  @hasMany('acceptor') acceptorsList
 }

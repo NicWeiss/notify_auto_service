@@ -26,6 +26,12 @@ class notify extends component
         self::set_data($notify);
     }
 
+    public static function get_by_id($entity_id)
+    {
+        $notify = nf::get_notify($entity_id, self::$user);
+        self::set_data($notify);
+    }
+
     public static function update($entity_id)
     {
         $data = self::getModelData();

@@ -11,6 +11,8 @@ export default class ListComponent extends Component {
   @tracked selectedNotify = null;
   @tracked isShowingModal = false;
   @tracked itemForDelete = null;
+  @tracked previewNotify = null;
+  @tracked isDetail = null;
 
   PERIODIC = PERIODIC
 
@@ -22,26 +24,37 @@ export default class ListComponent extends Component {
   }
 
   @action
-  onChangeStatus(record){
+  onChangeStatus(record) {
     record.status = record.status == 0 ? 1 : 0;
     record.save();
   }
 
   @action
-  onDelete(){
+  onDelete() {
     this.itemForDelete.destroyRecord();
     this.onClose();
   }
 
   @action
-  onDeleteWindow(record){
+  onDeleteWindow(record) {
     this.isShowingModal = true;
     this.itemForDelete = record;
   }
 
   @action
-  onClose(){
+  onClose() {
     this.isShowingModal = false;
+  }
+
+  @action
+  onShowPreview(notify) {
+    this.previewNotify = notify;
+    this.isDetail = !this.isDetail;
+  }
+
+  @action
+  onClosePreview() {
+    this.isDetail = !this.isDetail;
   }
 
 }
