@@ -10,7 +10,7 @@
       <th></th>
     </tr>
     {{#each @model as | item|}}
-    <tr {{action onShowPreview item}}>
+    <tr onclick={{action onShowPreview item}}>
       <th data-th="# ">{{item.id}}</th>
       <td data-th="Статус: "><Utils::StatusColored @status={{item.status}} /></td>
       <td data-th="Название: ">{{item.name}}</td>

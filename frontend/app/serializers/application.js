@@ -1,12 +1,11 @@
 import RESTSerializer from '@ember-data/serializer/rest';
 
 export default RESTSerializer.extend({
-  // serialize(snapshot, options) {
-  //   let json = this._super(...arguments);
-   
+  keyForAttribute: function (key) {
+    return Ember.String.camelize(key);
+  },
 
-  //   json.session = session;
-
-  //   return json;
-  // },
+  keyForRelationship: function (key) {
+    return Ember.String.camelize(key);
+  },
 });

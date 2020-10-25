@@ -25,6 +25,7 @@ export default class ListComponent extends Component {
 
   @action
   onChangeStatus(record) {
+    this.isDetail = false;
     record.status = record.status == 0 ? 1 : 0;
     record.save();
   }
@@ -37,7 +38,6 @@ export default class ListComponent extends Component {
 
   @action
   onDeleteWindow(record) {
-    this.isShowingModal = true;
     this.itemForDelete = record;
   }
 
@@ -49,12 +49,12 @@ export default class ListComponent extends Component {
   @action
   onShowPreview(notify) {
     this.previewNotify = notify;
-    this.isDetail = !this.isDetail;
+    this.isDetail = true;
   }
 
   @action
   onClosePreview() {
-    this.isDetail = !this.isDetail;
+    this.isDetail = false;
   }
 
 }

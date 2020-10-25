@@ -14,7 +14,7 @@ final class notify_model
 
         $acceptors = explode(',', $notify['acceptors']);
 
-        $notify['dayOfWeek'] = array_key_exists("dayOfWeek", $notify) ?  $notify["dayOfWeek"] : '';
+        $notify['day_of_week'] = array_key_exists("day_of_week", $notify) ?  $notify["day_of_week"] : '';
         $notify['text'] = array_key_exists("text", $notify) ?  $notify["text"] : '';
         $notify['time'] = array_key_exists("time", $notify) ?  $notify["time"] : '';
 
@@ -83,16 +83,16 @@ final class notify_model
     public static function update_notify($entity_id, $notify, $user) {
         $table = TABLE_OF_NOTIFY;
         $notify_acceptors = TABLE_OF_NOTIFY_ACCEPTORS;
-
         $acceptors = explode(',', $notify['acceptors']);
+//        std_debug($notify);
 
-        $notify['dayOfWeek'] = array_key_exists("dayOfWeek", $notify) ?  $notify["dayOfWeek"] : '';
+        $notify['day_of_week'] = array_key_exists("day_of_week", $notify) ?  $notify["day_of_week"] : '';
         $notify['text'] = array_key_exists("text", $notify) ?  $notify["text"] : '';
         $notify['time'] = array_key_exists("time", $notify) ?  $notify["time"] : '';
 
         $sql = "UPDATE $table SET `name`='$notify[name]', `text`='$notify[text]', `periodic`='$notify[periodic]', 
-                 `day_of_week`='$notify[dayOfWeek]', `date`='$notify[date]', `time`='$notify[time]',
-                 `status`=$notify[status], `time_zone_offset`=$notify[timeZoneOffset]
+                 `day_of_week`='$notify[day_of_week]', `date`='$notify[date]', `time`='$notify[time]',
+                 `status`=$notify[status], `time_zone_offset`='$notify[time_zone_offset]'
                 WHERE `id`= '$entity_id' and `user_id` = '$user[id]'
                 ";
         dba:: query($sql);
