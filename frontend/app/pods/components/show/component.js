@@ -2,10 +2,11 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
-import { PERIODIC } from 'frontend/constants';
+import { PERIODIC, WEEK } from 'frontend/constants';
 
 export default class ShowComponent extends Component {
   PERIODIC = PERIODIC
+  WEEK = WEEK
 
   @tracked acceptorList = null;
 

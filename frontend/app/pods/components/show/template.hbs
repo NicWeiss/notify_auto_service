@@ -1,4 +1,4 @@
-  {{#modal-dialog 
+  {{#modal-dialog
         translucentOverlay=true}}
         <div class="header">Уведомление #{{@model.id}}</div>
         <div class="body">
@@ -21,7 +21,12 @@
             </tr>
             <tr>
               <td>День выполнения:</td>
-              <td><Utils::FromTimestamp @type='date' @timestamp={{@model.date}} /></td>
+              <td>
+                {{#if @model.dayOfWeek}}
+                  {{get WEEK @model.dayOfWeek}}
+                {{/if}}
+                <Utils::FromTimestamp @type='date' @timestamp={{@model.date}} />
+              </td>
             </tr>
             <tr>
               <td>Время выполнения:</td>

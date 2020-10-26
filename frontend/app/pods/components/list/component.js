@@ -3,7 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
-import { PERIODIC } from 'frontend/constants';
+import { PERIODIC, WEEK } from 'frontend/constants';
 
 export default class ListComponent extends Component {
   @service notify;
@@ -15,6 +15,7 @@ export default class ListComponent extends Component {
   @tracked isDetail = null;
 
   PERIODIC = PERIODIC
+  WEEK = WEEK
 
   @action
   onSelectNotify(notify) {

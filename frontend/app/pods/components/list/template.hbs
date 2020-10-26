@@ -14,7 +14,12 @@
       <th data-th="# ">{{item.id}}</th>
       <td data-th="Статус: "><Utils::StatusColored @status={{item.status}} /></td>
       <td data-th="Название: ">{{item.name}}</td>
-      <td data-th="День выполнения: "><Utils::FromTimestamp @type='date' @timestamp={{item.date}} /></td>
+      <td data-th="День выполнения: ">
+        {{#if item.dayOfWeek}}
+          {{get WEEK item.dayOfWeek}}
+        {{/if}}
+        <Utils::FromTimestamp @type='date' @timestamp={{item.date}} />
+      </td>
       <td data-th="Время выполнения: "><Utils::FromTimestamp @type='time' @timestamp={{item.time}} /></td>
       <td data-th="Периодичность: ">{{get PERIODIC item.periodic}}</td>
       <td data-th="">
