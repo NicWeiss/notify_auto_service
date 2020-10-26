@@ -20,7 +20,6 @@ export default class ListComponent extends Component {
   onSelectNotify(notify) {
     this.selectedNotify = notify;
     console.log(notify);
-    console.log('set notify');
   }
 
   @action
@@ -38,7 +37,9 @@ export default class ListComponent extends Component {
 
   @action
   onDeleteWindow(record) {
+    this.isDetail = false;
     this.itemForDelete = record;
+    this.isShowingModal = true;
   }
 
   @action

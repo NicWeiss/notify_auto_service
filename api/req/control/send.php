@@ -19,10 +19,11 @@ class send extends component
 
     public static function run()
     {
-        $first_day = '04';
+        $first_day = '01';
         $last_day = date("t");
         $current_day = date("d");
         $day_of_week = date("w");
+        $day_of_week = $day_of_week == '0' ? '7' : $day_of_week;
 
         self::process_notify('once');
         self::process_notify('everyday');
@@ -58,16 +59,12 @@ class send extends component
             $current_date = date('d-m-Y');
 
             # получаем дату и  время нотификаций с учётом временной зоны
-//            std_debug("offset: $notify[time_zone_offset]", false);
             $notify_time = null;
             $notify_date = null;
             if ($notify['date']) {
                 $notify_date = date('d-m-Y', substr($notify['date'], 0, -3));
-//                std_debug($notify_date ." = ". $current_date , false);
             }
             $notify_time = date('H:i', substr($notify['time'], 0, -3));
-//            std_debug($current_time ." = ". $notify_time , false);
-//            std_debug($current_time == $notify_time? true : false , false);
             if ($current_time == $notify_time) {
                 if ($notify_date != $current_date && $notify_date != null) {
                     continue;
