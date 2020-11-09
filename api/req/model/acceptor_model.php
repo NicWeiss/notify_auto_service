@@ -42,6 +42,20 @@ final class acceptor_model
         return true;
     }
 
+    public static function get_acceptor($acceptor_id, $user) {
+        $acceptor = TABLE_OF_ACCEPTORS;
+        $system = TABLE_OF_SYSTEMS;
+
+        $sql = "SELECT a.id, a.name, a.system_id, a.account, a.status, s.type 
+                    FROM $acceptor a
+                    left join $system s on s.id = a.system_id
+                    WHERE a.id = $acceptor_id and a.user_id= '$user[id]';";
+        dba:: query($sql);
+        $acceptor = dba::fetch_assoc();
+
+        return $acceptor;
+    }
+
     public static function update_acceptor($entity_id, $acceptor, $user) {
         $table = TABLE_OF_ACCEPTORS;
 
