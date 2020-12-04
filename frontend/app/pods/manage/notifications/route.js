@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object'
 
-export default class IndexRoute extends Route {
+export default class NotifyRoute extends Route {
   @service store;
   @tracked object = null;
 
@@ -13,7 +13,7 @@ export default class IndexRoute extends Route {
 
   @action
   show(notify){
-    this.transitionTo('manage.list.show', notify.id);
+    this.transitionTo('manage.notifications.show', notify.id);
   }
 
   @action

@@ -5,7 +5,7 @@ import { inject as service } from '@ember/service';
 
 import { PERIODIC, WEEK } from 'frontend/constants';
 
-export default class ListComponent extends Component {
+export default class NotificationsComponent extends Component {
   @service notify;
 
   @tracked isShowDeleteModal = false;

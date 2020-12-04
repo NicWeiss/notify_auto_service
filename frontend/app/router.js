@@ -17,7 +17,7 @@ Router.map(function () {
   });
 
   this.route('manage', function () {
-    this.route('list', function () {
+    this.route('notifications', function () {
       this.route('show', { path: '/:notify_id' });
     });
     this.route('new');

@@ -13,7 +13,7 @@ export default class NotifyShowRoute extends Route {
 
   @action
   onClose(){
-    this.transitionTo('manage.list');
+    this.transitionTo('manage.notifications');
   }
 
   // @action

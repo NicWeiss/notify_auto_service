@@ -4,7 +4,7 @@ import { tracked } from '@glimmer/tracking';
 
 import { PERIODIC, WEEK } from 'frontend/constants';
 
-export default class ShowComponent extends Component {
+export default class NotificationsShowComponent extends Component {
   PERIODIC = PERIODIC
   WEEK = WEEK
 

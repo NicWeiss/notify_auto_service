@@ -14,7 +14,7 @@ export default class NewRoute extends Route {
 
   @action
   onComplete() {
-    this.transitionTo('manage.list');
+    this.transitionTo('manage.notifications');
     this.notify.info('Уведомление добавлено');
   }
 }

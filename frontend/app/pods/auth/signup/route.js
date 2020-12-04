@@ -10,7 +10,7 @@ export default class SignUpRoute extends Route {
 
   beforeModel() {
     if (this.session.isAuthenticated) {
-      this.transitionTo('manage.list');
+      this.transitionTo('manage.notifications');
     }
   }
 
