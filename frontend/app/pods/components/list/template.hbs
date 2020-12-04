@@ -10,7 +10,7 @@
       <th></th>
     </tr>
     {{#each @model as | item|}}
-    <tr onclick={{action onShowPreview item}}>
+    <tr {{action this.args.onShow item}}>
       <th data-th="# ">{{item.id}}</th>
       <td data-th="Статус: "><Utils::StatusColored @status={{item.status}} /></td>
       <td data-th="Название: ">{{item.name}}</td>
@@ -25,11 +25,11 @@
       <td data-th="">
         <div class="buttons-bar">
           {{#if (eq item.status "1")}}
-            <div class="btn btn-outline-warning" {{action 'onChangeStatus' item}}>{{fa-icon "bell-slash"}} отключить</div>
+            <div class="btn btn-outline-warning" {{action 'onChangeStatus' item bubbles=false}}>{{fa-icon "bell-slash"}}</div>
           {{else}}
-            <div class="btn btn-outline-success" {{action 'onChangeStatus' item}}>{{fa-icon "bell"}} активировать</div>
+            <div class="btn btn-outline-success" {{action 'onChangeStatus' item bubbles=false}}>{{fa-icon "bell"}}</div>
           {{/if}}
-          <div class="btn btn-outline-danger" {{action 'onDeleteWindow' item}}>{{fa-icon "trash"}} удалить</div>
+          <div class="btn btn-outline-danger" {{action 'onDeleteNotify' item bubbles=false}}>{{fa-icon "trash"}}</div>
         </div>
       </td>
     </tr>
@@ -37,38 +37,6 @@
   </table>
 </div>
 
-
-{{#if isShowingModal}}
-  {{#modal-dialog
-        translucentOverlay=true}}
-        <div class="header">Удалить уведомление #{{itemForDelete.id}}?</div>
-        <div class="body">
-          <table>
-            <tr>
-              <td>Название:</td>
-              <td>{{itemForDelete.name}}</td>
-            </tr>
-            <tr>
-              <td>Периодичность:</td>
-              <td>{{get PERIODIC itemForDelete.periodic}}</td>
-            </tr>
-            <tr>
-              <td>День выполнения:</td>
-              <td><Utils::FromTimestamp @type='date' @timestamp={{itemForDelete.date}} /></td>
-            </tr>
-            <tr>
-              <td>Время выполнения:</td>
-              <td><Utils::FromTimestamp @type='time' @timestamp={{itemForDelete.time}} /></td>
-            </tr>
-          </table>
-        </div>
-        <div class="buttons-bar">
-          <div class="btn btn-outline-secondary" {{action 'onClose'}}>Отмена</div>
-          <div class="btn btn-outline-danger" {{action 'onDelete'}}>Подтвердить</div>
-        </div>
-  {{/modal-dialog}}
-{{/if}}
-
-{{#if isDetail}}
-  <Show @model={{previewNotify}} @onClose={{action 'onClosePreview'}} />
+{{#if isShowDeleteModal}}
+  <List::Delete @notify={{itemForDelete}} @onClose={{action onClose}} />
 {{/if}}

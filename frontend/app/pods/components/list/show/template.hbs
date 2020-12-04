@@ -1,0 +1,31 @@
+<table>
+  <tr>
+    <td>Название:</td>
+    <td>{{@model.name}}</td>
+  </tr>
+  <tr>
+    <td>Содержимое:</td>
+    <td>{{@model.text}}</td>
+  </tr>
+  <tr>
+    <td>Получатели:</td>
+    <td>{{this.acceptorList}}</td>
+  </tr>
+  <tr>
+    <td>Периодичность:</td>
+    <td>{{get PERIODIC @model.periodic}}</td>
+  </tr>
+  <tr>
+    <td>День выполнения:</td>
+    <td>
+      {{#if @model.dayOfWeek}}
+        {{get WEEK @model.dayOfWeek}}
+      {{/if}}
+      <Utils::FromTimestamp @type='date' @timestamp={{@model.date}} />
+    </td>
+  </tr>
+  <tr>
+    <td>Время выполнения:</td>
+    <td><Utils::FromTimestamp @type='time' @timestamp={{@model.time}} /></td>
+  </tr>
+</table>

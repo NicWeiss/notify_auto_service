@@ -6,13 +6,18 @@
       <div class="btn-outline-orange btn">
         {{fa-icon "filter"}} Фильтр
       </div>
-      
+
       <LinkTo @route="manage.new" class="btn-outline-orange btn">
         {{fa-icon "plus"}} Создать
       </LinkTo>
     </div>
 
-    <List @model={{model}} />
+    <List @model={{model}}
+      @onShow={{route-action 'show'}}
+      @onRefresh={{route-action 'onRefresh'}}
+    />
 
   </div>
 </form>
+
+{{outlet}}

@@ -17,7 +17,9 @@ Router.map(function () {
   });
 
   this.route('manage', function () {
-    this.route('list');
+    this.route('list', function () {
+      this.route('show', { path: '/:notify_id' });
+    });
     this.route('new');
 
     this.route('acceptors', function () {
@@ -25,5 +27,5 @@ Router.map(function () {
       this.route('new');
     });
   });
-  
+
 });

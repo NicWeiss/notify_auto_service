@@ -8,55 +8,40 @@ import { PERIODIC, WEEK } from 'frontend/constants';
 export default class ListComponent extends Component {
   @service notify;
 
-  @tracked selectedNotify = null;
-  @tracked isShowingModal = false;
+  @tracked isShowDeleteModal = false;
   @tracked itemForDelete = null;
-  @tracked previewNotify = null;
-  @tracked isDetail = null;
 
   PERIODIC = PERIODIC
   WEEK = WEEK
 
-  @action
-  onSelectNotify(notify) {
-    this.selectedNotify = notify;
-    console.log(notify);
+  constructor(owner, args)  {
+    super(owner, args)
   }
 
   @action
   onChangeStatus(record) {
-    this.isDetail = false;
     record.status = record.status == 0 ? 1 : 0;
     record.save();
   }
 
   @action
-  onDelete() {
-    this.itemForDelete.destroyRecord();
-    this.onClose();
-  }
-
-  @action
-  onDeleteWindow(record) {
-    this.isDetail = false;
+  onDeleteNotify(record) {
     this.itemForDelete = record;
-    this.isShowingModal = true;
+    this.isShowDeleteModal = true;
   }
 
   @action
   onClose() {
-    this.isShowingModal = false;
+    this.isShowDeleteModal = false;
+    this.args.onRefresh();
   }
 
   @action
-  onShowPreview(notify) {
-    this.previewNotify = notify;
-    this.isDetail = true;
+  row(){
+    console.log('row');
   }
-
   @action
-  onClosePreview() {
-    this.isDetail = false;
+  col(id){
+    console.log('col - ', id);
   }
-
 }
