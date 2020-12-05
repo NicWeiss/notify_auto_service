@@ -79,6 +79,9 @@ class send extends component
                 } else {
                     std_log('dates equal or null');
                 }
+                if (!$notify['acceptorsList']) {
+                    std_error_log("У уведомления " . $notify['id'] . " : " . $notify['name'] . " нет получателей");
+                }
                 foreach ($notify['acceptorsList'] as $acceptor) {
                     array_push(self::$notify_pool, ['notify' => $notify, 'acceptor' => $acceptor]);
                     std_log('Notify for' . $acceptor['name'] . ' added in queue');
@@ -98,6 +101,9 @@ class send extends component
             $title = $item['notify']['name'];
             $text = $item['notify']['text'] ? $item['notify']['text'] : ' ';
             $type = $item['acceptor']['type'];
+            if (!$type) {
+                std_error_log("У получателя " . $item['acceptor']['name'] . " : " . $item['acceptor']['account'] . " нет типа");
+            }
 
             if ($type == 'email') {
                 email::send([
