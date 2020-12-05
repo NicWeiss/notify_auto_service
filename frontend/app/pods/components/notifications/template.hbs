@@ -23,13 +23,13 @@
       <td data-th="Время выполнения: "><Utils::FromTimestamp @type='time' @timestamp={{item.time}} /></td>
       <td data-th="Периодичность: ">{{get PERIODIC item.periodic}}</td>
       <td data-th="">
-        <div class="buttons-bar">
+        <div class="buttons-bar justify-content-around">
           {{#if (eq item.status "1")}}
-            <div class="btn btn-outline-warning" {{action 'onChangeStatus' item bubbles=false}}>{{fa-icon "bell-slash"}}</div>
+            <div class="btn btn-outline-warning btn-icon" {{action 'onChangeStatus' item bubbles=false}}>{{fa-icon "bell-slash"}}</div>
           {{else}}
-            <div class="btn btn-outline-success" {{action 'onChangeStatus' item bubbles=false}}>{{fa-icon "bell"}}</div>
+            <div class="btn btn-outline-success btn-icon" {{action 'onChangeStatus' item bubbles=false}}>{{fa-icon "bell"}}</div>
           {{/if}}
-          <div class="btn btn-outline-danger" {{action 'onDeleteNotify' item bubbles=false}}>{{fa-icon "trash"}}</div>
+          <div class="btn btn-outline-danger btn-icon" {{action 'onDeleteNotify' item bubbles=false}}>{{fa-icon "trash"}}</div>
         </div>
       </td>
     </tr>
