@@ -17,7 +17,7 @@
 
   <div class="full-container d-flex flex-column">
     <label>Время: </label>
-    <EmberFlatpickr class="datetime-custom" @date={{this.date}} @dateFormat="H:i:s" @enableTime={{true}} @noCalendar={{true}}
+    <EmberFlatpickr class="datetime-custom" @date={{this.time}} @dateFormat="H:i:s" @enableTime={{true}} @noCalendar={{true}}
       @time_24hr={{true}} @onChange={{this.onSelectTime}} @onReady={{this.onTimeReady}} />
   </div>
 </div>

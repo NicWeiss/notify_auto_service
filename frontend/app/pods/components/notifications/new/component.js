@@ -13,20 +13,15 @@ export default class NewComponent extends Component {
   constructor(owner, args) {
     super(owner, args);
     this.notifyNew = this.args.model;
+
     if (!this.args.model.id) {
       this.notifyNew = this.store.createRecord('notify');
       this.notifyNew.status = '1';
-    } else {
-      this.setModel();
     }
+
     if (this.notifyNew.periodic === 'once') {
       this.periodic = false;
     }
-  }
-
-  async setModel() {
-    let list = await this.notifyNew.acceptorsList;
-    console.log(list.length);
   }
 
   @action

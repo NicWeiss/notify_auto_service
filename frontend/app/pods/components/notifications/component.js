@@ -14,7 +14,7 @@ export default class NotificationsComponent extends Component {
   PERIODIC = PERIODIC
   WEEK = WEEK
 
-  constructor(owner, args)  {
+  constructor(owner, args) {
     super(owner, args)
   }
 
@@ -37,11 +37,11 @@ export default class NotificationsComponent extends Component {
   }
 
   @action
-  row(){
+  row() {
     console.log('row');
   }
   @action
-  col(id){
+  col(id) {
     console.log('col - ', id);
   }
 }

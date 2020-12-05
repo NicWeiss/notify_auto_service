@@ -25,7 +25,9 @@
   table {
     width: 100%;
 
-    tr, th, td {
+    tr,
+    th,
+    td {
       border-top: 1px solid #e1e1e1;
       padding: 20px 0;
     }
@@ -33,12 +35,12 @@
 
   // Экстрамалые девайсы («портретные телефоны», < 576px)
   @media (max-width: 575.98px) {
-    width: 300px;
+    width: 100%;
   }
 
   // Малые девайсы («ландшафтные», >= 575px)
   @media (min-width: 576px) and (max-width: 767.98px) {
-    width: 500px;
+    width: 100%;
   }
 
   // Средние девайсы («таблетки», >= 768px)
@@ -71,7 +73,6 @@
   position: relative;
   height: auto;
   min-height: 100vh;
-  padding: 1em;
   display: flex;
   align-items: flex-start;
   justify-content: center;
