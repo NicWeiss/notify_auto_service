@@ -12,12 +12,11 @@
   <label for="periodic-select">Периодичность</label>
   <select class="form-control" id="periodic-select" onchange={{action 'onChangePeriodic' value="target.value"}}>
     <option>Выберите периодичность</option>
-    <option value="day_of_week">День недели</option>
-    <option value="everyday">Каждый день</option>
-    <option value="workday">По будням</option>
-    <option value="weekend">По выходным</option>
-    <option value="first_month_day">Первый день месяца</option>
-    <option value="last_month_day">Последний день месяца</option>
+      {{#each PERIODIC_SELECT as |periodic|}}
+        <option value={{periodic.value}} selected={{if (eq this.args.notifyNew.periodic periodic.value) 'selected'}}>
+          {{periodic.title}}
+        </option>
+      {{/each}}
   </select>
 </div>
 
@@ -26,13 +25,11 @@
     <label for="weekday-select">День недели</label>
     <select class="form-control" id="weekday-select" onchange={{action 'onChangeWeekDay' value="target.value"}}>
       <option>Выберите день недели</option>
-      <option value="1">Понедельник</option>
-      <option value="2">Вторник</option>
-      <option value="3">Среда</option>
-      <option value="4">Четверг</option>
-      <option value="5">Пятница</option>
-      <option value="6">Суббота</option>
-      <option value="7">Воскресенье</option>
+      {{#each WEEK_SELECT as |dayOfWeek|}}
+        <option value={{dayOfWeek.value}} selected={{if (eq this.args.notifyNew.dayOfWeek dayOfWeek.value) 'selected'}}>
+          {{dayOfWeek.title}}
+        </option>
+      {{/each}}
     </select>
   </div>
 {{/if}}
@@ -56,6 +53,6 @@
     Отменить
   </button>
   <button type="button" class="btn btn-primary btn-complete" onclick={{action onComplete}}>
-    Создать
+    Сохранить
   </button>
 </div>

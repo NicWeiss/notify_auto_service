@@ -6,24 +6,30 @@ import { inject as service } from '@ember/service';
 
 export default class OnceComponent extends Component {
   @service store;
+  @service notify;
 
   @tracked flatpickrDateRef = null;
   @tracked flatpickrTimeRef = null;
 
   constructor(owner, args) {
     super(owner, args);
-    this.time = new Date();
-    this.date = new Date();
-    this.args.notifyNew.periodic = 'once';
+    if (!this.args.notifyNew.id) {
+      this.time = new Date();
+      this.date = new Date();
+      this.args.notifyNew.periodic = 'once';
+    } else {
+      this.time = new Date(Number(this.args.notifyNew.time));
+      this.date = new Date(Number(this.args.notifyNew.date));
+    }
   }
 
   @action
-  onSelectDate(){
+  onSelectDate() {
     this.args.notifyNew.date = this.flatpickrDateRef.latestSelectedDateObj.getTime();
   }
 
   @action
-  onSelectTime(){
+  onSelectTime() {
     this.args.notifyNew.time = this.flatpickrTimeRef.latestSelectedDateObj.getTime();
   }
 
@@ -42,7 +48,7 @@ export default class OnceComponent extends Component {
   validate() {
     let isValid = true;
 
-    this.args.notifyNew.timeZoneOffset = this.flatpickrTimeRef.latestSelectedDateObj.getTimezoneOffset()/60;
+    this.args.notifyNew.timeZoneOffset = this.flatpickrTimeRef.latestSelectedDateObj.getTimezoneOffset() / 60;
 
     if (this.args.notifyNew.acceptorsList.length == 0) {
       isValid = false;

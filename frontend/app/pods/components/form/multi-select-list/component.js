@@ -28,6 +28,7 @@ export default class MultiSelectListComponent extends Component {
     } catch (error) {
       console.log(error);
     }
+    this.updateLocalValue();
   }
 
   updateLocalValue(){

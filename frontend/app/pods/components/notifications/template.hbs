@@ -29,6 +29,7 @@
           {{else}}
             <div class="btn btn-outline-success btn-icon" {{action 'onChangeStatus' item bubbles=false}}>{{fa-icon "bell"}}</div>
           {{/if}}
+          <div class="btn btn-outline-primary btn-icon" {{action this.args.onEdit item bubbles=false}}>{{fa-icon "pencil"}}</div>
           <div class="btn btn-outline-danger btn-icon" {{action 'onDeleteNotify' item bubbles=false}}>{{fa-icon "trash"}}</div>
         </div>
       </td>

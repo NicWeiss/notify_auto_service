@@ -48,14 +48,10 @@ class send extends component
 
     private static function process_notify($type, $day_of_week = null)
     {
-        std_log("");
-        std_log("");
-        std_log(' ------------ Get all notifies by ' . $type . '---------------');
         $notify_list = nf::get_notify_for_cron($type, $day_of_week);
 
         foreach ($notify_list as $notify) {
             date_default_timezone_set('Etc/GMT' . $notify['time_zone_offset']);
-            std_log('Check notify: ' . $notify['name']);
 
             # получаем дату и время сервера с учётом временной зоны
             $current_time = date('H:i');
@@ -69,29 +65,21 @@ class send extends component
             }
             $notify_time = date('H:i', substr($notify['time'], 0, -3));
 
-            std_log('compare times: ' . $notify_time  .' and '. $current_time);
             if ($current_time == $notify_time) {
-                std_log('compare dates: ' . $notify_date  .' and '. $current_date);
 
                 if ($notify_date != $current_date && $notify_date != null) {
-                    std_log('!!! dates not match! : EXIT');
                     continue;
-                } else {
-                    std_log('dates equal or null');
                 }
                 if (!$notify['acceptorsList']) {
                     std_error_log("У уведомления " . $notify['id'] . " : " . $notify['name'] . " нет получателей");
                 }
                 foreach ($notify['acceptorsList'] as $acceptor) {
                     array_push(self::$notify_pool, ['notify' => $notify, 'acceptor' => $acceptor]);
-                    std_log('Notify for' . $acceptor['name'] . ' added in queue');
                 }
             } else {
                 std_log('!!! times not match! : EXIT');
             }
-            std_log('');
         }
-        std_log('========== DONE ============');
     }
 
     private static function send_notify()

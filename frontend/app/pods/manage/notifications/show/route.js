@@ -16,13 +16,8 @@ export default class NotifyShowRoute extends Route {
     this.transitionTo('manage.notifications');
   }
 
-  // @action
-  // edit(notify){
-  //   this.transitionTo('manage/edit', notify.id);
-  // }
-
-  // @action
-  // show(notify){
-  //   this.transitionTo('manage/show', notify.id);
-  // }
+  @action
+  onEdit(notify_id){
+    this.transitionTo('manage.notifications.edit', notify_id);
+  }
 }

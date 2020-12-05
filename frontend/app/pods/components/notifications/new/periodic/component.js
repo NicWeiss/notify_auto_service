@@ -3,16 +3,23 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
+import { PERIODIC_SELECT, WEEK_SELECT } from 'frontend/constants';
 
 export default class PeriodicComponent extends Component {
   @service store;
   @service notify;
 
-  @tracked periodic = "day_of_week";
+  PERIODIC_SELECT = PERIODIC_SELECT;
+  WEEK_SELECT = WEEK_SELECT;
 
   constructor(owner, args) {
     super(owner, args);
-    this.time = new Date();
+    if (!this.args.notifyNew.id) {
+      this.time = new Date();
+      this.args.notifyNew.periodic = "";
+    } else {
+      this.time = new Date(Number(this.args.notifyNew.time));
+    }
   }
 
   @action

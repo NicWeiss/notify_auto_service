@@ -8,16 +8,21 @@ export default class NotifyRoute extends Route {
   @tracked object = null;
 
   async model() {
-    return await this.store.findAll('notify',  {reload: true});
+    return await this.store.findAll('notify', { reload: true });
   }
 
   @action
-  show(notify){
+  show(notify) {
     this.transitionTo('manage.notifications.show', notify.id);
   }
 
   @action
-  onRefresh(){
+  onEdit(notify) {
+    this.transitionTo('manage.notifications.edit', notify.id);
+  }
+
+  @action
+  onRefresh() {
     this.refreshModel()
   }
 
