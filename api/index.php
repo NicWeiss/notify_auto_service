@@ -28,7 +28,7 @@ final class myapp
 
         $class = $object['control_class'];
 
-        $method = array_key_exists("control_function", $object) ?  $object["control_function"] : 'get';
+        $method = array_key_exists("control_function", $object) ?  $object["control_function"] : 'post';
         $entity_id = array_key_exists("entity_id", $object) ? $object["entity_id"] : False;
         $ember_model = array_key_exists("ember_model", $object) ? $object["ember_model"] : False;
 

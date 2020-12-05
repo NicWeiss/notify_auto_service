@@ -9,57 +9,50 @@ export default class PeriodicComponent extends Component {
   @service notify;
 
   @tracked periodic = "day_of_week";
-  @tracked notifyNew = null;
-  @tracked acceptorList = null;
-  @tracked time = null;
 
   constructor(owner, args) {
     super(owner, args);
-    this.notifyNew = this.args.notifyNew;
     this.time = new Date();
-    this.acceptorList = this.store.createRecord('acceptor-list', {});
   }
 
   @action
-  onSelectTime() {}
+  onSelectTime() {
+    this.args.notifyNew.time = this.flatpickrTimeRef.latestSelectedDateObj.getTime();
+  }
 
   @action
   onTimeReady(_selectedDates, _dateStr, instance) {
     this.flatpickrTimeRef = instance;
+    this.args.notifyNew.time = this.flatpickrTimeRef.latestSelectedDateObj.getTime();
   }
 
   @action
   onChangePeriodic(value) {
-    this.notifyNew['periodic'] = value;
+    this.args.notifyNew.periodic = value;
   }
 
   @action
   onChangeWeekDay(value) {
-    this.notifyNew['dayOfWeek'] = value;
+    this.args.notifyNew.dayOfWeek = value;
   }
 
   validate() {
     let isValid = true;
-    let acceptors = [];
 
-    this.acceptorList.acceptor.map(item => { acceptors.push(item.id) })
+    this.args.notifyNew.timeZoneOffset = this.flatpickrTimeRef.latestSelectedDateObj.getTimezoneOffset() / 60;
 
-    this.notifyNew['acceptors'] = acceptors;
-    this.notifyNew['time'] = this.flatpickrTimeRef.latestSelectedDateObj.getTime();
-    this.notifyNew['timeZoneOffset'] = this.flatpickrTimeRef.latestSelectedDateObj.getTimezoneOffset()/60;
-
-    if (acceptors.length == 0) {
+    if (this.args.notifyNew.acceptorsList.length === 0) {
       isValid = false;
     }
-    if (!this.notifyNew['periodic']) {
+    if (!this.args.notifyNew.periodic) {
       isValid = false;
     }
-    if (this.notifyNew['periodic'] ==='day_of_week') {
-      if (!this.notifyNew['dayOfWeek']) {
+    if (this.args.notifyNew.periodic === 'day_of_week') {
+      if (!this.args.notifyNew.dayOfWeek) {
         isValid = false;
       }
     }
-    if (!this.notifyNew['name']) {
+    if (!this.args.notifyNew.name) {
       isValid = false;
     }
 
@@ -74,7 +67,7 @@ export default class PeriodicComponent extends Component {
     if (!this.validate()) {
       return;
     }
-    this.notifyNew.save()
+    this.args.notifyNew.save()
     this.args.onComplete();
   }
 

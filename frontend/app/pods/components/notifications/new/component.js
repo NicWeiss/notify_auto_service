@@ -8,15 +8,13 @@ export default class NewComponent extends Component {
   @service store;
 
   @tracked periodic = true;
-  @tracked date = null;
-  @tracked flatpickrDateRef = null;
-  @tracked flatpickrTimeRef = null;
   @tracked notifyNew = null;
 
   constructor(owner, args) {
     super(owner, args);
     this.date = new Date();
-    this.notifyNew = this.store.createRecord('notify-new');
+    this.notifyNew = this.store.createRecord('notify');
+    this.notifyNew.status = '1';
   }
 
   @action
@@ -24,5 +22,11 @@ export default class NewComponent extends Component {
 
   @action
   onSingle(){ this.periodic = false; }
+
+  @action
+  cancel(){
+    this.notifyNew.destroyRecord();
+    this.args.onCancel();
+  }
 
 }

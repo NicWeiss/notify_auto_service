@@ -1,0 +1,30 @@
+<form class="custom-form">
+  <div class="form-container">
+
+    <div class="form-group d-flex justify-content-center">
+      <button type="button"
+              class="btn btn-switch {{if periodic 'btn-warning' 'btn-outline-warning'}} btn-switch"
+              onclick={{action onPeriodic}}>
+        Периодическое
+      </button>
+      <button type="button"
+              class="btn btn-switch {{unless periodic 'btn-warning' 'btn-outline-warning'}} btn-switch"
+              onclick={{action onSingle}}>
+        Разовое
+      </button>
+    </div>
+
+    {{#if periodic}}
+      <Notifications::New::Periodic @notifyNew={{notifyNew}}
+        @onComplete={{action @onComplete}}
+        @onCancel={{action cancel}}
+      />
+    {{else}}
+      <Notifications::New::Once @notifyNew={{notifyNew}}
+        @onComplete={{action @onComplete}}
+        @onCancel={{action cancel}}
+      />
+    {{/if}}
+
+  </div>
+</form>

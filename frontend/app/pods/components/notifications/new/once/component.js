@@ -10,54 +10,47 @@ export default class OnceComponent extends Component {
   @tracked flatpickrDateRef = null;
   @tracked flatpickrTimeRef = null;
 
-  @tracked notifyNew = null;
-  @tracked acceptorList = null;
-  @tracked data = null;
-  @tracked time = null;
-
   constructor(owner, args) {
     super(owner, args);
-    this.notifyNew = this.args.notifyNew;
     this.time = new Date();
     this.date = new Date();
-    this.notifyNew['periodic'] = 'once';
-    this.acceptorList = this.store.createRecord('acceptor-list', {});
+    this.args.notifyNew.periodic = 'once';
   }
 
   @action
-  onSelectDate(){}
+  onSelectDate(){
+    this.args.notifyNew.date = this.flatpickrDateRef.latestSelectedDateObj.getTime();
+  }
 
   @action
-  onSelectTime(){}
+  onSelectTime(){
+    this.args.notifyNew.time = this.flatpickrTimeRef.latestSelectedDateObj.getTime();
+  }
 
   @action
   onDateReady(_selectedDates, _dateStr, instance) {
     this.flatpickrDateRef = instance;
+    this.args.notifyNew.date = this.flatpickrDateRef.latestSelectedDateObj.getTime();
   }
   @action
   onTimeReady(_selectedDates, _dateStr, instance) {
     this.flatpickrTimeRef = instance;
+    this.args.notifyNew.time = this.flatpickrTimeRef.latestSelectedDateObj.getTime();
   }
 
 
   validate() {
     let isValid = true;
-    let acceptors = [];
 
-    this.acceptorList.acceptor.map(item => { acceptors.push(item.id) })
+    this.args.notifyNew.timeZoneOffset = this.flatpickrTimeRef.latestSelectedDateObj.getTimezoneOffset()/60;
 
-    this.notifyNew['acceptors'] = acceptors;
-    this.notifyNew['time'] = this.flatpickrTimeRef.latestSelectedDateObj.getTime();
-    this.notifyNew['date'] = this.flatpickrDateRef.latestSelectedDateObj.getTime();
-    this.notifyNew['timeZoneOffset'] = this.flatpickrTimeRef.latestSelectedDateObj.getTimezoneOffset()/60;
-
-    if (acceptors.length == 0) {
+    if (this.args.notifyNew.acceptorsList.length == 0) {
       isValid = false;
     }
-    if (!this.notifyNew['date']) {
+    if (!this.args.notifyNew.date) {
       isValid = false;
     }
-    if (!this.notifyNew['name']) {
+    if (!this.args.notifyNew.name) {
       isValid = false;
     }
 
@@ -72,7 +65,7 @@ export default class OnceComponent extends Component {
     if (!this.validate()) {
       return;
     }
-    this.notifyNew.save()
+    this.args.notifyNew.save()
     this.args.onComplete();
   }
 

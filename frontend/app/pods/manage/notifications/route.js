@@ -8,7 +8,7 @@ export default class NotifyRoute extends Route {
   @tracked object = null;
 
   async model() {
-    return await this.store.findAll('notify');
+    return await this.store.findAll('notify',  {reload: true});
   }
 
   @action

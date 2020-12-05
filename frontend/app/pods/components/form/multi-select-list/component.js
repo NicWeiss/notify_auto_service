@@ -31,21 +31,21 @@ export default class MultiSelectListComponent extends Component {
   }
 
   updateLocalValue(){
-    this.localValue = this.value.get(this.modelName);
+    this.localValue = this.value;
   }
 
 
   @action
   onSelect(record) {
-    this.value.get(this.modelName).pushObject(record);
+    this.value.pushObject(record);
     this.onShow();
-    this.updateLocalValue();    
+    this.updateLocalValue();
   }
 
   @action
   onDeselect(record) {
-    this.value.get(this.modelName).removeObject(record)
-    this.updateLocalValue();    
+    this.value.removeObject(record)
+    this.updateLocalValue();
   }
 
   @action

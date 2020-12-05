@@ -68,6 +68,10 @@ class component
         return request::get_from_client_Json(self::$model_name);
     }
 
+    public static function post() {
+        self::not_found();
+    }
+
     public static function get() {
         self::not_found();
     }

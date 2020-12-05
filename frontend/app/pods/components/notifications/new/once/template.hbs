@@ -1,11 +1,11 @@
 <div class="form-group">
   <label for="notify-name">Название</label>
-  <Input type="text" class="form-control" id="notify-name" @value={{this.notifyNew.name}} />
+  <Input type="text" class="form-control" id="notify-name" @value={{@notifyNew.name}} />
 </div>
 
 <div class="form-group">
   <label for="notify-text">Содержание</label>
-  <Textarea type="text" class="form-control notify-text" id="notify-text" @value={{this.notifyNew.text}} />
+  <Textarea type="text" class="form-control notify-text" id="notify-text" @value={{@notifyNew.text}} />
 </div>
 
 <div class="form-group d-flex justify-content-between">
@@ -23,14 +23,17 @@
 </div>
 
 <div class="form-group">
-  <Form::MultiSelectList 
-    @value={{acceptorList}}
+  <Form::MultiSelectList
+    @value={{@notifyNew.acceptorsList}}
     @modelName="acceptor"
     @label="Получатели"/>
 </div>
 
 
 <div class="d-flex justify-content-center">
+  <button type="button" class="btn btn-secondary btn-complete" onclick={{action this.args.onCancel}}>
+    Отменить
+  </button>
   <button type="button" class="btn btn-primary btn-complete" onclick={{action onComplete}}>
     Создать
   </button>

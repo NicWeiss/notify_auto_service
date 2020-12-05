@@ -13,7 +13,7 @@ use model\notify_model as nf;
 
 class notify extends component
 {
-    public static function add()
+    public static function post()
     {
         $data = self::getModelData();
         $notify = nf::create_notify($data, self::$user);

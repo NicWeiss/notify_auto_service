@@ -6,12 +6,12 @@ dispatcher:: add('api/acceptor-new', array(
     'ember_model' => 'acceptorNew'
 ));
 
-dispatcher:: add('api/acceptor', array(
+dispatcher:: add('api/acceptors', array(
     'control_class' => 'control\acceptor',
     'ember_model' => 'acceptor'
 ));
 
-dispatcher:: add('api/acceptor/(\d+)', array(
+dispatcher:: add('api/acceptors/(\d+)', array(
     'control_class' => 'control\acceptor',
     'ember_model' => 'acceptor'
 ));

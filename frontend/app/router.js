@@ -18,9 +18,9 @@ Router.map(function () {
 
   this.route('manage', function () {
     this.route('notifications', function () {
+    this.route('new');
       this.route('show', { path: '/:notify_id' });
     });
-    this.route('new');
 
     this.route('acceptors', function () {
       this.route('list');
