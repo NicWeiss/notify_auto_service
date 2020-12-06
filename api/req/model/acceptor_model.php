@@ -14,7 +14,7 @@ final class acceptor_model
     public static function create_acceptor($acceptor, $user) {
         $table = TABLE_OF_ACCEPTORS;
         $sql = "INSERT INTO  $table ( `user_id`, `name`, `system_id`, `account`, `status`) 
-                VALUES ('$user[id]',  '$acceptor[name]', '$acceptor[system]', '$acceptor[account]', true )";
+                VALUES ('$user[id]',  '$acceptor[name]', '$acceptor[system_id]', '$acceptor[account]', true )";
         dba:: query($sql);
 
         $sql = "SELECT * FROM $table  ORDER BY `id` DESC Limit 1;";
@@ -35,8 +35,11 @@ final class acceptor_model
 
     public static function delete_acceptor($entity_id, $user) {
         $table = TABLE_OF_ACCEPTORS;
+        $notify_acceptors = TABLE_OF_NOTIFY_ACCEPTORS;
 
         $sql = "DELETE FROM $table WHERE `id`= '$entity_id' and `user_id` = '$user[id]'";
+        dba:: query($sql);
+        $sql = "DELETE FROM $notify_acceptors WHERE `acceptor_id`= '$entity_id'";
         dba:: query($sql);
 
         return true;

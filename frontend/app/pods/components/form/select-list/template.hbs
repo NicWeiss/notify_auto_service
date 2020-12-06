@@ -1,7 +1,9 @@
 <label>{{this.label}}</label>
-<select class="form-control" onchange={{action @onSelect value="target.value"}}>
+<select class="form-control" onchange={{action select value="target.value"}}>
   <option disabled selected value> -- Выберите систему -- </option>
   {{#each this.model as | item|}}
-    <option value={{item.id}}>{{item.name}}</option>
+    <option value={{item.id}} selected={{if (eq selected item) 'selected'}}>
+      {{item.name}}
+    </option>
   {{/each}}
 </select>

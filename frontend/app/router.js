@@ -19,13 +19,13 @@ Router.map(function () {
   this.route('manage', function () {
     this.route('notifications', function () {
       this.route('new');
-      this.route('edit', {path: '/:notify_id/edit'});
+      this.route('edit', { path: '/:notify_id/edit' });
       this.route('show', { path: '/:notify_id' });
     });
 
     this.route('acceptors', function () {
-      this.route('list');
       this.route('new');
+      this.route('edit', { path: '/:acceptor_id/edit' });
     });
   });
 

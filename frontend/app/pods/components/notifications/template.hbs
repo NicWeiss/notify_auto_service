@@ -13,7 +13,13 @@
     <tr {{action this.args.onShow item}}>
       <th data-th="# ">{{item.id}}</th>
       <td data-th="Статус: "><Utils::StatusColored @status={{item.status}} /></td>
-      <td data-th="Название: ">{{item.name}}</td>
+      <td data-th="Название: ">
+        {{item.name}}
+        {{#unless item.acceptorsList}}
+          <br>
+          <span class="text-danger">Нет получателей</span>
+        {{/unless}}
+      </td>
       <td data-th="День выполнения: ">
         {{#if item.dayOfWeek}}
           {{get WEEK item.dayOfWeek}}

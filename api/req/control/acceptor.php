@@ -13,7 +13,7 @@ use model\acceptor_model as am;
 
 class acceptor extends component
 {
-    public static function add()
+    public static function post()
     {
         $data = self::getModelData();
         $acceptor = am::create_acceptor($data, self::$user);

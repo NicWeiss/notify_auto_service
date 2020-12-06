@@ -35,13 +35,4 @@ export default class NotificationsComponent extends Component {
     this.isShowDeleteModal = false;
     this.args.onRefresh();
   }
-
-  @action
-  row() {
-    console.log('row');
-  }
-  @action
-  col(id) {
-    console.log('col - ', id);
-  }
 }

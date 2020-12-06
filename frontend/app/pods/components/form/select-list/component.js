@@ -10,6 +10,7 @@ export default class SelectListComponent extends Component {
   @tracked model = null;
   @tracked modelName = null;
   @tracked isDisabled = false;
+  @tracked selected = null;
   @tracked label = null;
   @tracked value = null;
 
@@ -19,6 +20,12 @@ export default class SelectListComponent extends Component {
     if (!this.isDisabled) {
       this.loadData()
     }
+  }
+
+  @action
+  select(id) {
+    let record = this.store.peekRecord(this.modelName, id);
+    this.onSelect(record);
   }
 
   async loadData() {

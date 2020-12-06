@@ -6,13 +6,17 @@
       <div class="btn-outline-orange btn">
         {{fa-icon "filter"}} Фильтр
       </div>
-      
+
       <LinkTo @route="manage.acceptors.new" class="btn-outline-orange btn">
         {{fa-icon "plus"}} Доавить
       </LinkTo>
     </div>
 
-    <Acceptors::List @model={{model}} />
+    <Acceptors::List @model={{model}}
+      @onEdit={{route-action 'onEdit'}}
+    />
 
   </div>
 </form>
+
+{{outlet}}
