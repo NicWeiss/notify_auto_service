@@ -100,7 +100,7 @@ final class notify_model
         dba:: query($sql);
         $notify = dba::fetch_assoc();
 
-        $sql = "DELETE FROM $notify_acceptors WHERE `id`= '$entity_id'";
+        $sql = "DELETE FROM $notify_acceptors WHERE `notify_id`= '$entity_id'";
         dba:: query($sql);
 
         foreach ($acceptors as $acceptor) {
