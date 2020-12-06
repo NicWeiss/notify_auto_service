@@ -83,8 +83,7 @@ final class notify_model
     public static function update_notify($entity_id, $notify, $user) {
         $table = TABLE_OF_NOTIFY;
         $notify_acceptors = TABLE_OF_NOTIFY_ACCEPTORS;
-        $acceptors = explode(',', $notify['acceptors']);
-//        std_debug($notify);
+        $acceptors = $notify['acceptorsList'];
 
         $notify['day_of_week'] = array_key_exists("day_of_week", $notify) ?  $notify["day_of_week"] : '';
         $notify['text'] = array_key_exists("text", $notify) ?  $notify["text"] : '';
@@ -104,9 +103,9 @@ final class notify_model
         $sql = "DELETE FROM $notify_acceptors WHERE `id`= '$entity_id'";
         dba:: query($sql);
 
-        foreach ($acceptors as $acceptor_idr) {
+        foreach ($acceptors as $acceptor) {
             $sql = "INSERT INTO  $notify_acceptors ( `notify_id`, `acceptor_id`) 
-                    VALUES ('$notify[id]',  '$acceptor_idr')";
+                    VALUES ('$notify[id]',  '" . $acceptor['id'] . "')";
             dba:: query($sql);
         }
 
