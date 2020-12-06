@@ -20,6 +20,7 @@ export default class AcceptorsNewComponent extends Component {
 
   async setSelectedSystem() {
     this.selectedSystem = await this.store.findRecord('system', this.args.model.systemId);
+    this.onSelectSystem(this.selectedSystem);
   }
 
   @action
