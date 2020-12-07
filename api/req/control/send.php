@@ -89,6 +89,10 @@ class send extends component
             $title = $item['notify']['name'];
             $text = $item['notify']['text'] ? $item['notify']['text'] : ' ';
             $type = $item['acceptor']['type'];
+
+            if ($title){
+
+            }
             if (!$type) {
                 std_error_log("У получателя " . $item['acceptor']['name'] . " : " . $item['acceptor']['account'] . " нет типа");
             }

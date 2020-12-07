@@ -1,30 +1,73 @@
 <form class="custom-form">
   <div class="form-container">
 
-    <div class="form-group d-flex justify-content-center">
-      <button type="button"
-              class="btn btn-switch {{if periodic 'btn-warning' 'btn-outline-warning'}} btn-switch"
-              onclick={{action onPeriodic}}>
-        Периодическое
-      </button>
-      <button type="button"
-              class="btn btn-switch {{unless periodic 'btn-warning' 'btn-outline-warning'}} btn-switch"
-              onclick={{action onSingle}}>
-        Разовое
-      </button>
+    <div class="form-group">
+      <label for="notify-name">Название</label>
+      <Input type="text" class="form-control" id="notify-name" @value={{this.notifyNew.name}} />
     </div>
 
-    {{#if periodic}}
-      <Notifications::New::Periodic @notifyNew={{notifyNew}}
-        @onComplete={{action @onComplete}}
-        @onCancel={{action cancel}}
-      />
-    {{else}}
-      <Notifications::New::Once @notifyNew={{notifyNew}}
-        @onComplete={{action @onComplete}}
-        @onCancel={{action cancel}}
-      />
+    <div class="form-group">
+      <label for="notify-text">Содержание</label>
+      <Textarea type="text" class="form-control notify-text" id="notify-text" @value={{this.notifyNew.text}} />
+    </div>
+
+    <div class="form-group">
+      <label for="periodic-select">Периодичность</label>
+      <select class="form-control" id="periodic-select" onchange={{action 'onChangePeriodic' value="target.value"}}>
+        <option>Выберите периодичность</option>
+          {{#each PERIODIC_SELECT as |periodic|}}
+            <option value={{periodic.value}} selected={{if (eq this.notifyNew.periodic periodic.value) 'selected'}}>
+              {{periodic.title}}
+            </option>
+          {{/each}}
+      </select>
+    </div>
+
+    {{#if (eq this.notifyNew.periodic "day_of_week")}}
+      <div class="form-group">
+        <label for="weekday-select">День недели</label>
+        <select class="form-control" id="weekday-select" onchange={{action 'onChangeWeekDay' value="target.value"}}>
+          <option>Выберите день недели</option>
+          {{#each WEEK_SELECT as |dayOfWeek|}}
+            <option value={{dayOfWeek.value}} selected={{if (eq this.notifyNew.dayOfWeek dayOfWeek.value) 'selected'}}>
+              {{dayOfWeek.title}}
+            </option>
+          {{/each}}
+        </select>
+      </div>
     {{/if}}
+
+    <div class="form-group d-flex {{unless isDate 'half-container'}} justify-content-between">
+      {{#if isDate}}
+      <div class="full-container d-flex flex-column">
+        <label>День: </label>
+        <EmberFlatpickr class="datetime-custom" @date={{this.date}} @dateFormat="d.m.Y" @onChange={{this.onSelectDate}} @prevArrow="<"
+          @nextArrow=">" @onReady={{this.onDateReady}} />
+      </div>
+      {{/if}}
+
+      <div class="full-container d-flex flex-column">
+        <label>Время: </label>
+        <EmberFlatpickr class="datetime-custom" @date={{this.time}} @dateFormat="H:i:s" @enableTime={{true}} @noCalendar={{true}}
+          @time_24hr={{true}} @onChange={{this.onSelectTime}} @onReady={{this.onTimeReady}} />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <Form::MultiSelectList
+        @value={{this.notifyNew.acceptorsList}}
+        @modelName="acceptor"
+        @label="Получатели"/>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <button type="button" class="btn btn-secondary btn-complete" onclick={{action cancel}}>
+        Отменить
+      </button>
+      <button type="button" class="btn btn-primary btn-complete" onclick={{action complete}}>
+        Сохранить
+      </button>
+    </div>
 
   </div>
 </form>

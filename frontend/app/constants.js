@@ -6,10 +6,15 @@ export const PERIODIC = {
   'weekend': 'По выходным',
   'first_month_day': 'Первый день месяца',
   'last_month_day': 'Последний день месяца',
-  'every_year': 'Каждый год'
+  'every_month': 'Ежемесячно',
+  'every_year': 'Ежегодно'
 }
 
 export const PERIODIC_SELECT = [
+  {
+    'title': 'Разовое',
+    'value': 'once'
+  },
   {
     'title': 'День недели',
     'value': 'day_of_week'
@@ -33,8 +38,18 @@ export const PERIODIC_SELECT = [
   {
     'title': 'Последний день месяца',
     'value': 'last_month_day'
+  },
+  {
+    'title': 'Ежемесячно',
+    'value': 'every_month'
+  },
+  {
+    'title': 'Ежегодно',
+    'value': 'every_year'
   }
 ]
+
+export const PERIDOIC_TYPES_NEED_DAY = ['every_month', 'every_year', 'once']
 
 export const WEEK = {
   '1': 'Понедельник',
