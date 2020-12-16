@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  DB migrations system
  *
@@ -32,15 +33,15 @@ use model\migration as mmigration;
 
 function print_help()
 {
-    die(
-    "usage: 
+    die("usage:
     php migration.php  {command} [params]
 commands:
-    create          - Create new migration;
-    up [count]      - Apply migrations (applying all migrations if count is not defined);
-    down [count|migration_id] - Rollback migration (default count=1);
-    stat            - Show new migrations without applying it.
-    resolve         - Trying to find and down migrations that been deleted from disk, but exists in DB.
+    init                            - Инициализация таблицы миграций
+    create                          - Создать миграцию;
+    up [count]                      - Применить миграции (применит все доступные миграции);
+    down [count|migration_id]       - Откатить миграции (default count=1);
+    stat                            - Показать доступные миграции без применения.
+    resolve                         - Попытаться найти и откатить миграцию которая была удалена с диска, но есть базе.
 ");
 }
 
@@ -64,8 +65,8 @@ for ($ci = 1; $ci < $argc; $ci++) {
 namespace migration;
 use generic\migration;
 use lib\dba;
-    
-    
+
+
 final class migration_$id extends migration
 {
 
@@ -78,7 +79,7 @@ final class migration_$id extends migration
 
         return true;
     }
-    
+
     protected function down(){
         \$query ="";
         if(!dba::query(\$query))
@@ -86,7 +87,7 @@ final class migration_$id extends migration
 
         return true;
     }
-} 
+}
 
 CLASS;
             $filename = MIGRATION_PATH . "migration_" . $id . ".php";
@@ -218,6 +219,16 @@ CLASS;
             }
             break;
             break;
+        case 'init':
+            if (mmigration::init()) {
+                echo "Инициализация прошла успешно \n";
+                print_help();
+                break;
+            } else {
+                echo "Инициализация не удалась";
+            }
+            break;
+
         default:
             print_help();
             break;
@@ -264,7 +275,6 @@ function std_mig_exception_handler($ex)
 
     if ($file_to_delete)
         unlink($file_to_delete);
-
 }
 
 /**

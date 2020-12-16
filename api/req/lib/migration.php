@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  *
@@ -18,19 +19,25 @@ class migration
      * returns not applied migrations list
      * @return array
      */
-    public static function get_available_migrations(){
-        $migrations = scandir ('req/migration/');
+    public static function get_available_migrations()
+    {
+        $migrations = scandir('req/migration/');
         $db_migrations = mmigration::get_list();
+
+        if (gettype($db_migrations) != 'array') {
+            print('Таблица миграций не инициализирована!');
+            die;
+        }
 
         $result = [];
 
-        foreach ($migrations as $m){
-            if(in_array($m,['.','..']))
+        foreach ($migrations as $m) {
+            if (in_array($m, ['.', '..']))
                 continue;
 
-            $mn = substr($m,0,strrpos($m,'.'));
+            $mn = substr($m, 0, strrpos($m, '.'));
 
-            if(!in_array($mn,$db_migrations)){
+            if (!in_array($mn, $db_migrations)) {
                 $result[] = $mn;
             }
         }
@@ -43,8 +50,9 @@ class migration
      * @param $migration string
      * @return bool
      */
-    public static function apply_migration($migration_id){
-        $classname = 'migration\\'.$migration_id;
+    public static function apply_migration($migration_id)
+    {
+        $classname = 'migration\\' . $migration_id;
         /**
          * @var $m \generic\migration
          */
@@ -56,8 +64,9 @@ class migration
      * @param $migration string
      * @return bool
      */
-    public static function rollback_migration($migration_id){
-        $classname = 'migration\\'.$migration_id;
+    public static function rollback_migration($migration_id)
+    {
+        $classname = 'migration\\' . $migration_id;
         /**
          * @var $m \generic\migration
          */
@@ -70,7 +79,8 @@ class migration
      * returns all applied migrations
      * @return array|bool
      */
-    public static function get_full_applied_list(){
+    public static function get_full_applied_list()
+    {
         return mmigration::get_list();
     }
 
@@ -79,11 +89,12 @@ class migration
      * @param bool $as_file_names
      * @return array
      */
-    public static function get_not_exist_migrations($as_file_names = false){
+    public static function get_not_exist_migrations($as_file_names = false)
+    {
         $not_exist = [];
-        foreach (mmigration::get_list() as $m){
-            $filename = 'req/migration/'.$m.'.php';
-            if(!file_exists($filename))
+        foreach (mmigration::get_list() as $m) {
+            $filename = 'req/migration/' . $m . '.php';
+            if (!file_exists($filename))
                 $not_exist[] = $as_file_names ? $filename : $m;
         }
         arsort($not_exist);
