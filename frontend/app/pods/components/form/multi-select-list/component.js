@@ -12,8 +12,9 @@ export default class MultiSelectListComponent extends Component {
   @tracked isDisabled = false;
   @tracked label = null;
   @tracked value = null;
-  @tracked show =false;
+  @tracked show = false;
   @tracked localValue = null;
+  @tracked queryParams = {};
 
   init() {
     super.init(...arguments);
@@ -24,14 +25,15 @@ export default class MultiSelectListComponent extends Component {
 
   async loadData() {
     try {
-      this.model = await this.store.findAll(this.modelName);
+      console.log('queryParams', this.queryParams);
+      this.model = await this.store.query(this.modelName, this.queryParams);
     } catch (error) {
       console.log(error);
     }
     this.updateLocalValue();
   }
 
-  updateLocalValue(){
+  updateLocalValue() {
     this.localValue = this.value;
   }
 

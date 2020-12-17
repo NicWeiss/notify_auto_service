@@ -14,7 +14,7 @@ final class myapp
 {
     public static function run()
     {
-        request:: init();
+        request::init();
         $user_session_id = null;
 
         foreach (getallheaders() as $key => $value) {
@@ -24,7 +24,7 @@ final class myapp
             }
         }
 
-        $object = dispatcher:: dispatch();
+        $object = dispatcher::dispatch();
 
         $class = $object['control_class'];
 
@@ -69,7 +69,6 @@ final class myapp
             echo json_encode($answer);
         }
     }
-
 }
 
-myapp:: run();
+myapp::run();

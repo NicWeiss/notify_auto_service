@@ -1,4 +1,5 @@
 <?php
+
 /**
  * class acceptor
  * отвечает за управление списком получателей
@@ -43,7 +44,6 @@ class send extends component
         }
 
         self::send_notify();
-
     }
 
     private static function process_notify($type, $day_of_week = null)
@@ -90,8 +90,7 @@ class send extends component
             $text = $item['notify']['text'] ? $item['notify']['text'] : ' ';
             $type = $item['acceptor']['type'];
 
-            if ($title){
-
+            if ($title) {
             }
             if (!$type) {
                 std_error_log("У получателя " . $item['acceptor']['name'] . " : " . $item['acceptor']['account'] . " нет типа");
@@ -113,5 +112,4 @@ class send extends component
             }
         }
     }
-
 }

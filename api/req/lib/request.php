@@ -1,19 +1,24 @@
 <?php
+
 /**
  * lib provided splited data for dispatcher
  */
+
 namespace lib;
 
-final class request{
+final class request
+{
 
     public static $url = array();
     public static $referrer = array();
+    public static $query_params = array();
     public static $path = '';
     public static $req = array();
     private static $ip = null;
 
 
-    public static function split_given_url($url = null){
+    public static function split_given_url($url = null)
+    {
         $url = @parse_url($url, PHP_URL_PATH);
         $url = urldecode($url);
         $arr = explode('/', $url);
@@ -25,16 +30,18 @@ final class request{
         return $url;
     }
 
-    public static function get($name, $default = null, $int = false){
-        $res = (array_key_exists($name, self :: $req)) ? self :: $req[$name] : $default;
+    public static function get($name, $default = null, $int = false)
+    {
+        $res = (array_key_exists($name, self::$req)) ? self::$req[$name] : $default;
         if ($int)
             $res = intval($res, 10);
         return $res;
     }
 
-    public static function get_from_client_Json($name){
+    public static function get_from_client_Json($name)
+    {
         $data =  json_decode(file_get_contents('php://input'), true);
-        if (is_null($data[$name])){
+        if (is_null($data[$name])) {
             http_response_code(422);
             echo 'Unprocessable Entity';
             die;
@@ -42,14 +49,17 @@ final class request{
         return $data[$name];
     }
 
-    public static function init($url = null){
+    public static function init($url = null)
+    {
         if (!$url)
             $url = $_SERVER['REQUEST_URI'];
 
-        $url = self :: split_given_url($url);
-        self :: $url = $url;
-        self :: $referrer = isset($_SERVER['HTTP_REFERER']) ? self :: split_given_url($_SERVER['HTTP_REFERER']) : [];
-        self :: $path = implode('/', $url);
-        self :: $req = array_merge($_GET, $_POST);
+        parse_str($_SERVER['QUERY_STRING'], self::$query_params);
+
+        $url = self::split_given_url($url);
+        self::$url = $url;
+        self::$referrer = isset($_SERVER['HTTP_REFERER']) ? self::split_given_url($_SERVER['HTTP_REFERER']) : [];
+        self::$path = implode('/', $url);
+        self::$req = array_merge($_GET, $_POST);
     }
 }

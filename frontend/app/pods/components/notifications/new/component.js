@@ -19,6 +19,7 @@ export default class NewComponent extends Component {
   @tracked flatpickrTimeRef = null;
   @tracked notifyNew = null;
   @tracked isDate = false;
+  @tracked queryParams = { 'status': 1 };
 
   constructor(owner, args) {
     super(owner, args);
