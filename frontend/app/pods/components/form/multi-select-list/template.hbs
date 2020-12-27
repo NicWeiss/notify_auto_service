@@ -1,24 +1,30 @@
 <label>{{this.label}}</label>
-<input type="text" class="form-control input_readonly" readonly {{action onShow}} placeholder="Добавить получателя">
-{{#if show}}
-  <div class="multi-select-drop-down-container">
-    <div class="multi-select-drop-down">
-      {{#each this.model as | item|}}
-        <div class="multi-select-drop-down-item " {{action onSelect item}}>{{item.name}}</div>
-      {{/each}}
+<div class="multiselect-container">
+ <input type="text"
+        class="form-control input_readonly"
+        readonly {{action onShow}}
+        placeholder="Добавить получателя">
+
+  {{#if show}}
+    <div class="multi-select-drop-down-container">
+      <div class="multi-select-drop-down">
+        {{#each this.model as | item|}}
+          <div class="multi-select-drop-down-item " {{action onSelect item}}>{{item.name}}</div>
+        {{/each}}
+      </div>
     </div>
+  {{/if}}
+
+  <div class="multi-select-selected-list ">
+    {{#each localValue as | item|}}
+      <div class="multi-select-selected-item">
+        {{item.name}}
+        <span class="multi-select-deselect-item" {{action onDeselect item}}><b>X</b></span>
+      </div>
+    {{/each}}
   </div>
-{{/if}}
-  <div>
-    <div class="multi-select-selected-list ">
-          {{#each localValue as | item|}}
-            <div class="multi-select-selected-item">
-              {{item.name}} 
-              <span class="multi-select-deselect-item" {{action onDeselect item}}>X</span>
-            </div>
-          {{/each}}
-    </div>
 </div>
+
 
 
 
