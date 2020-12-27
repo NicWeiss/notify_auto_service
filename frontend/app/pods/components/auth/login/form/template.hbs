@@ -10,22 +10,22 @@
         </span>
 
         <div class="wrap-input-auth validate-input" data-validate="Enter email">
-          <Input class="auth-input input-autofill-transpanent" 
-                 type="text" 
-                 name="email" 
-                 placeholder="Email" 
-                 onclick={{action onStartEdit "email"}} 
+          <Input class="auth-input input-autofill-transpanent"
+                 type="text"
+                 name="email"
+                 placeholder="Email"
+                 onclick={{action onStartEdit "email"}}
                  onblur={{action deselect}}
                  @value={{email}}
           />
-          <span class="focus-input-auth {{if userSelected 'has-val'}}" data-placeholder="&#xf15a;"></span>
+          <span class="focus-input-auth {{if emailSelected 'has-val'}}" data-placeholder="&#xf15a;"></span>
         </div>
 
         <div class="wrap-input-auth validate-input" data-validate="Enter password">
-          <Input class="auth-input input-autofill-transpanent" 
-                 type="password" 
-                 name="pass" 
-                 placeholder="Password" 
+          <Input class="auth-input input-autofill-transpanent"
+                 type="password"
+                 name="pass"
+                 placeholder="Password"
                  onclick={{action onStartEdit "password"}}
                  onblur={{action deselect}}
                  @value={{password}}
@@ -35,7 +35,7 @@
 
         <div class="container-login-auth-form-btn">
           <button class="login-auth-form-btn auth-form-btn"
-            {{action onSubmit}}      
+            {{action onSubmit}}
           >
             Login
           </button>

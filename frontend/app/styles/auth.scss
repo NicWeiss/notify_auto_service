@@ -2,22 +2,22 @@
 
 @font-face {
   font-family: Poppins-Regular;
-  src: url(fonts/poppins/Poppins-Regular.ttf); 
+  src: url(fonts/poppins/Poppins-Regular.ttf);
 }
 
 @font-face {
   font-family: Poppins-Medium;
-  src: url(fonts/poppins/Poppins-Medium.ttf); 
+  src: url(fonts/poppins/Poppins-Medium.ttf);
 }
 
 @font-face {
   font-family: Poppins-Bold;
-  src: url(fonts/poppins/Poppins-Bold.ttf); 
+  src: url(fonts/poppins/Poppins-Bold.ttf);
 }
 
 @font-face {
   font-family: Poppins-SemiBold;
-  src: url(fonts/poppins/Poppins-SemiBold.ttf); 
+  src: url(fonts/poppins/Poppins-SemiBold.ttf);
 }
 
 .auth-logo{
@@ -62,12 +62,11 @@
 
 .auth-container{
   width: 500px;
-  border-radius: 10px;
   overflow: hidden;
   padding: 55px 55px 37px 55px;
   background: #444342;
 }
- 
+
 .auth-container-login{
   background: -webkit-linear-gradient(top, #e7660c, #030201);
   background: -o-linear-gradient(top, #e7660c, #030201);
@@ -125,7 +124,7 @@
   width: 100%;
   height: 45px;
   background: transparent;
-  padding: 0 5px 0 38px;    
+  padding: 0 5px 0 38px;
   outline: none;
   border: none;
 }
@@ -365,7 +364,7 @@ textarea:focus, input:focus {
 }
 
 .auth-sign-up-link{
-  color: bisque;
+  color: bisque !important;
 }
 
 .auth-sign-up-link:hover{
