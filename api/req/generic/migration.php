@@ -1,13 +1,14 @@
 <?php
+
 /**
  * migration generic class
  *
  * @author Tomilin Dmitriy <bankastudio@gmail.com>
- * @copyright Copyright (c) 2018, Tomilin Dmitriy
  * @package
  */
 
 namespace generic;
+
 use lib\dba;
 use model\migration as mmigration;
 
@@ -24,7 +25,8 @@ class migration
      * migration up method
      * @return bool
      */
-    protected function up(){
+    protected function up()
+    {
         return false;
     }
 
@@ -32,7 +34,8 @@ class migration
      * migration down method
      * @return bool
      */
-    protected function down(){
+    protected function down()
+    {
         return false;
     }
 
@@ -41,8 +44,9 @@ class migration
      * public up method
      * @return bool
      */
-    final public function do_up(){
-        if(!$this->up())
+    final public function do_up()
+    {
+        if (!$this->up())
             return false;
         mmigration::register_migration($this->migration_id, $this->comment);
         return true;
@@ -52,8 +56,9 @@ class migration
      * public down method
      * @return bool
      */
-    final public function do_down(){
-        if(!$this->down())
+    final public function do_down()
+    {
+        if (!$this->down())
             return false;
 
         mmigration::unregister_migration($this->migration_id);
@@ -64,14 +69,15 @@ class migration
      * @param $q - query separated by ';'
      * @return bool
      */
-    protected function bunch_query($q){
-        $query=explode(";",$q);
+    protected function bunch_query($q)
+    {
+        $query = explode(";", $q);
 
-        foreach ($query as $qu){
+        foreach ($query as $qu) {
             $qu = trim($qu);
-            if(!$qu)
+            if (!$qu)
                 continue;
-            if(!dba::query($qu))
+            if (!dba::query($qu))
                 return false;
         }
         return true;
@@ -80,7 +86,8 @@ class migration
     /**
      * @param string $migration_id
      */
-    public function __construct($migration_id){
-        $this -> migration_id = $migration_id;
+    public function __construct($migration_id)
+    {
+        $this->migration_id = $migration_id;
     }
 }

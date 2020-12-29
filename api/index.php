@@ -2,6 +2,7 @@
 header("Access-Control-Allow-Origin: *");
 
 use lib\request as request;
+use lib\rest as rest;
 
 
 require_once("req/std.php");
@@ -39,26 +40,7 @@ final class myapp
 
         $class::set_session($user_session_id);
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if ($entity_id) {
-                $class::$method($entity_id);
-            } else {
-                $class::$method();
-            }
-        }
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            if ($entity_id) {
-                $class::get_by_id($entity_id);
-            } else {
-                $class::get();
-            }
-        }
-        if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-            $class::update($entity_id);
-        }
-        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-            $class::delete($entity_id);
-        }
+        rest::process($class, $method, $entity_id);
 
         $answer = $class::get_answer($ember_model);
 

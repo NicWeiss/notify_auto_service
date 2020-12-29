@@ -1,10 +1,7 @@
 <?php
 
 /**
- *
- *
  * @author Tomilin Dmitriy <bankastudio@gmail.com>
- * @copyright Copyright (c) 2018, Tomilin Dmitriy
  * @package
  */
 

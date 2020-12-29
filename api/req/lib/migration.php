@@ -1,13 +1,5 @@
 <?php
 
-/**
- *
- *
- * @author Tomilin Dmitriy <bankastudio@gmail.com>
- * @copyright Copyright (c) 2018, Tomilin Dmitriy
- * @package
- */
-
 namespace lib;
 
 use \model\migration as mmigration;

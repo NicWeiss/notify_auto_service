@@ -4,7 +4,6 @@
  *  DB migrations system
  *
  * @author Tomilin Dmitriy <bankastudio@gmail.com>
- * @copyright Copyright (c) 2018, Tomilin Dmitriy
  */
 
 if (php_sapi_name() != 'cli')
