@@ -1,7 +1,7 @@
 .ember-modal-dialog {
 
   margin-top: 100px;
-  margin-bottom: 400px;
+  margin-bottom: 100px;
 
   .header {
     font-size: 24px;
@@ -85,4 +85,8 @@
 /* basic modal style (an example, this is not necessary for the centering) */
 .centered-scrolling-container {
   position: relative;
+}
+
+.ember-modal-wrapper {
+  overflow-x: hidden;
 }

@@ -7,7 +7,7 @@
 
   {{#if show}}
     <div class="multi-select-drop-down-container">
-      <div class="multi-select-drop-down">
+      <div class="multi-select-drop-down {{this.position}}">
         {{#each this.model as | item|}}
           <div class="multi-select-drop-down-item " {{action onSelect item}}>{{item.name}}</div>
         {{/each}}
@@ -17,9 +17,9 @@
 
   <div class="multi-select-selected-list ">
     {{#each localValue as | item|}}
-      <div class="multi-select-selected-item">
-        {{item.name}}
-        <span class="multi-select-deselect-item" {{action onDeselect item}}><b>X</b></span>
+      <div class="item">
+        <div class="name">{{item.name}}</div>
+        <div class="deselect" {{action onDeselect item}}><b>X</b></div>
       </div>
     {{/each}}
   </div>

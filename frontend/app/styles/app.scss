@@ -24,18 +24,30 @@ body {
   background: rgba(255, 255, 255, 0.0);
 }
 
-.error{
+.error {
   background-color: rgb(247, 110, 110);
 }
-.info{
+
+.info {
   background-color: rgb(108, 201, 80);
 }
 
 a {
-  color: black;    
+  color: black;
 }
 
 .btn-outline-orange {
   color: #8a4411 !important;
   border-color: #904b16 !important;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  background: white;
+}
+
+::-webkit-scrollbar-track {}
+
+::-webkit-scrollbar-thumb {
+  background-color: gray;
 }

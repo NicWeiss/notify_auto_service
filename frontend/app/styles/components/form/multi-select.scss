@@ -1,6 +1,7 @@
 .multiselect-container {
   border: 1px solid #ced4da;
   border-radius: 4px;
+
   input {
     border: none;
     outline: none;
@@ -15,10 +16,16 @@
   position: absolute;
   min-width: 100%;
   background-color: white;
+  max-height: 150px;
+  overflow-x: auto;
 }
 
 .multi-select-drop-down-container {
   position: relative;
+
+  .top {
+    bottom: 40px;
+  }
 }
 
 .multi-select-drop-down-item {
@@ -36,29 +43,34 @@
 .multi-select-selected-list {
   display: flex;
   flex-wrap: wrap;
+
+  .item {
+    background: #ffffff;
+    border-radius: 4px 0 0 4px;
+    color: black;
+    margin: 0px 4px 4px 4px;
+    border: 1px solid #b8b5ac;
+    white-space: nowrap;
+    display: flex;
+
+    .name {
+      padding: 0 5px;
+    }
+
+    .deselect {
+      background-color: #ffa6a6;
+      color: black;
+      padding: 0 8px;
+      cursor: pointer;
+    }
+
+    .deselect:hover {
+      background-color: #d21d1d;
+      color: white;
+    }
+  }
 }
 
-.multi-select-selected-item {
-  background: #ffffff;
-  border-radius: 4px 0 0 4px;
-  color: black;
-  padding: 2px 0px 0px 4px;
-  margin: 0px 4px 4px 4px;
-  border: 1px solid #b8b5ac;
-  white-space: nowrap;
-}
-
-.multi-select-deselect-item {
-  background-color: #ffa6a6;
-  color: black;
-  padding: 5px 11px 4px 11px;
-  cursor: pointer;
-}
-
-.multi-select-deselect-item:hover {
-  background-color: #d21d1d;
-  color: white;
-}
 
 .input_readonly {
   color: black !important;

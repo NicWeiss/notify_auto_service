@@ -8,6 +8,10 @@ $breakpoint-alpha: 700px;
   margin: 0 5px;
 }
 
+.table-responsive {
+  overflow: unset !important;
+}
+
 .rwd-table {
   margin: 1em 0;
   min-width: 300px;
