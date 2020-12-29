@@ -34,6 +34,9 @@ export default class NewComponent extends Component {
     } else {
       this.date = new Date(Number(this.notifyNew.date));
       this.time = new Date(Number(this.notifyNew.time));
+      if (PERIDOIC_TYPES_NEED_DAY.includes(this.notifyNew.periodic)) {
+        this.isDate = true;
+      }
     }
   }
 
