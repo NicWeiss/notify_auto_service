@@ -51,3 +51,36 @@ a {
 ::-webkit-scrollbar-thumb {
   background-color: gray;
 }
+
+.btn-primary {
+  color: #fff !important;
+  background-color: #de6c20 !important;
+  border-color: #de6c20 !important;
+}
+
+.btn-primary:hover {
+  color: #fff !important;
+  background-color: #c6550a !important;
+  border-color: #c6550a !important;
+}
+
+
+.btn-outline-primary {
+  color: #de6c20 !important;
+  border-color: #de6c20 !important;
+}
+
+.btn-outline-primary:hover {
+  color: #fff !important;
+  background-color: #c6550a !important;
+  border-color: #c6550a !important;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgb(198 112 46 / 25%) !important;
+  border-color: #f6a05e !important;
+}
+
+option:hover {
+  background: #f6a05e !important;
+}

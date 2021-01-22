@@ -2,6 +2,10 @@ $breakpoint-alpha: 700px;
 
 .buttons-bar {
   display: flex;
+
+  .without-border {
+    border: unset !important;
+  }
 }
 
 .btn {
