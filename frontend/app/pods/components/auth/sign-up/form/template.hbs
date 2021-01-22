@@ -1,19 +1,18 @@
 <div class="auth-form-container">
-  <div class="auth-container auth-container-signup">
-      <form class="auth-form validate-form" autocomplete="off" >
-        <span class="auth-form-logo">
-          <i class="auth-logo"></i>
-        </span>
-
+  <div class="auth-container auth-container-login">
+      <div class="login-header">
         <span class="auth-form-title p-b-34 p-t-27">
           Sign Up
         </span>
+      </div>
+
+      <form class="auth-form validate-form" autocomplete="off" >
 
         <div class="wrap-input-auth validate-input" data-validate="Enter email">
-          <Input class="auth-input input-autofill-transpanent" 
-                 type="email" 
-                 name="email" 
-                 placeholder="Email" 
+          <Input class="auth-input input-autofill-transpanent"
+                 type="email"
+                 name="email"
+                 placeholder="Email"
                  onclick={{action onStartEdit "email"}}
                  onblur={{action deselect}}
                  @value={{email}}
@@ -22,11 +21,11 @@
         </div>
 
         <div class="wrap-input-auth validate-input" data-validate="Enter name">
-          <Input class="auth-input input-autofill-transpanent" 
-                 type="text" 
-                 name="name" 
-                 placeholder="Name" 
-                 onclick={{action onStartEdit "user"}} 
+          <Input class="auth-input input-autofill-transpanent"
+                 type="text"
+                 name="name"
+                 placeholder="Name"
+                 onclick={{action onStartEdit "user"}}
                  onblur={{action deselect}}
                  @value={{user}}
           />
@@ -34,10 +33,10 @@
         </div>
 
         <div class="wrap-input-auth validate-input" data-validate="Enter password">
-          <Input class="auth-input input-autofill-transpanent" 
-                 type="password" 
-                 name="pass" 
-                 placeholder="Password" 
+          <Input class="auth-input input-autofill-transpanent"
+                 type="password"
+                 name="pass"
+                 placeholder="Password"
                  onclick={{action onStartEdit "password"}}
                  onblur={{action deselect}}
                  @value={{password}}
@@ -46,10 +45,10 @@
         </div>
 
         <div class="wrap-input-auth validate-input" data-validate="Enter code">
-          <Input class="auth-input input-autofill-transpanent" 
-                 type="text" 
-                 name="code" 
-                 placeholder="Code" 
+          <Input class="auth-input input-autofill-transpanent"
+                 type="text"
+                 name="code"
+                 placeholder="Code"
                  oninput={{action codeCange value="target.value"}}
                  onclick={{action onStartEdit "code"}}
                  onblur={{action deselect}}
@@ -59,14 +58,14 @@
         </div>
 
         {{#if isCanSignUp}}
-          <div class="container-login-auth-form-btn">
-            <button class="sign-up-auth-form-btn auth-form-btn" {{action onSubmit}}>
+          <div class="container-auth-form-btn">
+            <button class="login-auth-form-btn auth-form-btn login" {{action onSubmit}}>
               Sign Up
             </button>
           </div>
         {{else}}
-          <div class="container-login-auth-form-btn">
-            <button class="sign-up-auth-form-btn auth-form-btn" {{action onGetCode}}>
+          <div class="container-auth-form-btn">
+            <button class="sign-up-auth-form-btn auth-form-btn signup" {{action onGetCode}}>
               Get code
             </button>
           </div>

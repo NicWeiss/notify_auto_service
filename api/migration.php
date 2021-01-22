@@ -221,7 +221,6 @@ CLASS;
         case 'init':
             if (mmigration::init()) {
                 echo "Инициализация прошла успешно \n";
-                print_help();
                 break;
             } else {
                 echo "Инициализация не удалась";
