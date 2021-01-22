@@ -2,7 +2,6 @@
   <table class="rwd-table">
     <tr>
       <th>#</th>
-      <th>Статус</th>
       <th>Название</th>
       <th>День выполнения</th>
       <th>Время выполнения</th>
@@ -12,7 +11,6 @@
     {{#each @model as | item|}}
     <tr {{action this.args.onShow item}}>
       <th data-th="# ">{{item.id}}</th>
-      <td data-th="Статус: "><Utils::StatusColored @status={{item.status}} /></td>
       <td data-th="Название: ">
         {{item.name}}
         {{#unless item.acceptorsList}}
@@ -31,12 +29,12 @@
       <td data-th="">
         <div class="buttons-bar justify-content-around">
           {{#if (eq item.status "1")}}
-            <div class="btn btn-outline-warning btn-icon" {{action 'onChangeStatus' item bubbles=false}}>{{fa-icon "bell-slash"}}</div>
+            <div class="btn btn-outline-success btn-icon without-border" {{action 'onChangeStatus' item bubbles=false}}>{{fa-icon "bell"}}</div>
           {{else}}
-            <div class="btn btn-outline-success btn-icon" {{action 'onChangeStatus' item bubbles=false}}>{{fa-icon "bell"}}</div>
+            <div class="btn btn-outline-secondary btn-icon without-border" {{action 'onChangeStatus' item bubbles=false}}>{{fa-icon "bell-slash"}}</div>
           {{/if}}
-          <div class="btn btn-outline-primary btn-icon" {{action this.args.onEdit item bubbles=false}}>{{fa-icon "pencil"}}</div>
-          <div class="btn btn-outline-danger btn-icon" {{action 'onDeleteNotify' item bubbles=false}}>{{fa-icon "trash"}}</div>
+          <div class="btn btn-outline-primary btn-icon without-border" {{action this.args.onEdit item bubbles=false}}>{{fa-icon "pencil"}}</div>
+          <div class="btn btn-outline-danger btn-icon without-border" {{action 'onDeleteNotify' item bubbles=false}}>{{fa-icon "trash"}}</div>
         </div>
       </td>
     </tr>

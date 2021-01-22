@@ -2,10 +2,18 @@ $breakpoint-alpha: 700px;
 
 .buttons-bar {
   display: flex;
+
+  .without-border {
+    border: unset !important;
+  }
 }
 
 .btn {
   margin: 0 5px;
+}
+
+.table-responsive {
+  overflow: unset !important;
 }
 
 .rwd-table {

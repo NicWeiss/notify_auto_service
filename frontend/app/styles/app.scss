@@ -24,18 +24,63 @@ body {
   background: rgba(255, 255, 255, 0.0);
 }
 
-.error{
+.error {
   background-color: rgb(247, 110, 110);
 }
-.info{
+
+.info {
   background-color: rgb(108, 201, 80);
 }
 
 a {
-  color: black;    
+  color: black;
 }
 
 .btn-outline-orange {
   color: #8a4411 !important;
   border-color: #904b16 !important;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  background: white;
+}
+
+::-webkit-scrollbar-track {}
+
+::-webkit-scrollbar-thumb {
+  background-color: gray;
+}
+
+.btn-primary {
+  color: #fff !important;
+  background-color: #de6c20 !important;
+  border-color: #de6c20 !important;
+}
+
+.btn-primary:hover {
+  color: #fff !important;
+  background-color: #c6550a !important;
+  border-color: #c6550a !important;
+}
+
+
+.btn-outline-primary {
+  color: #de6c20 !important;
+  border-color: #de6c20 !important;
+}
+
+.btn-outline-primary:hover {
+  color: #fff !important;
+  background-color: #c6550a !important;
+  border-color: #c6550a !important;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgb(198 112 46 / 25%) !important;
+  border-color: #f6a05e !important;
+}
+
+option:hover {
+  background: #f6a05e !important;
 }

@@ -15,6 +15,7 @@ export default class MultiSelectListComponent extends Component {
   @tracked show = false;
   @tracked localValue = null;
   @tracked queryParams = {};
+  @tracked position = null;
 
   init() {
     super.init(...arguments);
@@ -25,7 +26,6 @@ export default class MultiSelectListComponent extends Component {
 
   async loadData() {
     try {
-      console.log('queryParams', this.queryParams);
       this.model = await this.store.query(this.modelName, this.queryParams);
     } catch (error) {
       console.log(error);

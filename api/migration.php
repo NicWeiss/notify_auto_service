@@ -4,7 +4,6 @@
  *  DB migrations system
  *
  * @author Tomilin Dmitriy <bankastudio@gmail.com>
- * @copyright Copyright (c) 2018, Tomilin Dmitriy
  */
 
 if (php_sapi_name() != 'cli')
@@ -222,7 +221,6 @@ CLASS;
         case 'init':
             if (mmigration::init()) {
                 echo "Инициализация прошла успешно \n";
-                print_help();
                 break;
             } else {
                 echo "Инициализация не удалась";

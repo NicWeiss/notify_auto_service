@@ -1,13 +1,12 @@
 <div class="auth-form-container">
   <div class="auth-container auth-container-login">
-      <form class="auth-form validate-form">
-        <span class="auth-form-logo">
-          <i class="auth-logo"></i>
-        </span>
-
+      <div class="login-header">
         <span class="auth-form-title p-b-34 p-t-27">
           Log in
         </span>
+      </div>
+
+      <form class="auth-form validate-form">
 
         <div class="wrap-input-auth validate-input" data-validate="Enter email">
           <Input class="auth-input input-autofill-transpanent"
@@ -33,8 +32,8 @@
           <span class="focus-input-auth {{if passwordSelected 'has-val'}}" data-placeholder="&#xf191;"></span>
         </div>
 
-        <div class="container-login-auth-form-btn">
-          <button class="login-auth-form-btn auth-form-btn"
+        <div class="container-auth-form-btn">
+          <button class="login-auth-form-btn auth-form-btn login"
             {{action onSubmit}}
           >
             Login

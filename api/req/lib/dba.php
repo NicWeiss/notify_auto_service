@@ -4,7 +4,6 @@
  * MySQLi access library / cutted by Nic Weiss [2020]
  *
  * @author Lemeshev Sergey <daemon.user@gmail.com>
- * @copyright Copyright (c) 2012, Lemeshev Sergey
  *
  * @package lib
  */

@@ -20,7 +20,7 @@
   src: url(fonts/poppins/Poppins-SemiBold.ttf);
 }
 
-.auth-logo{
+.auth-logo {
   background: url(../assets/images/logo.png);
   min-width: 115px;
   min-height: 100px;
@@ -37,10 +37,10 @@
   height: 100%;
   top: 0;
   left: 0;
-  background-color: rgba(255,255,255,0.82);
+  background-color: rgba(255, 255, 255, 0.82);
 }
 
-.auth-form-container{
+.auth-form-container {
   width: 100%;
   min-height: 100vh;
   display: -webkit-box;
@@ -57,28 +57,21 @@
   background-size: cover;
   position: relative;
   z-index: 1;
-  background-image: url(images/auth-bg.jpg);
 }
 
-.auth-container{
+.auth-container {
   width: 500px;
   overflow: hidden;
-  padding: 55px 55px 37px 55px;
-  background: #444342;
+  background: #cccccc57;
 }
 
-.auth-container-login{
-  background: -webkit-linear-gradient(top, #e7660c, #030201);
-  background: -o-linear-gradient(top, #e7660c, #030201);
-  background: -moz-linear-gradient(top, #e7660c, #030201);
-  background: linear-gradient(top, #e7660c, #030201);
+.auth-form {
+  padding: 20px 50px 20px 50px;
 }
 
-.auth-container-signup{
-  background: -webkit-linear-gradient(top, #4b4a9e, #030201);
-  background: -o-linear-gradient(top, #4b4a9e, #030201);
-  background: -moz-linear-gradient(top, #4b4a9e, #030201);
-  background: linear-gradient(top, #4b4a9e, #030201);
+.login-header {
+  padding: 20px 0 0 0;
+  background-color: #e7660c;
 }
 
 .auth-form-logo {
@@ -101,7 +94,7 @@
 .auth-form-title {
   font-family: Poppins-Medium;
   font-size: 30px;
-  color: #fff;
+  color: #ffffff;
   line-height: 1.2;
   text-align: center;
   text-transform: uppercase;
@@ -118,7 +111,7 @@
 .auth-input {
   font-family: Poppins-Regular;
   font-size: 16px;
-  color: #fff;
+  color: red;
   line-height: 1.2;
   display: block;
   width: 100%;
@@ -176,7 +169,14 @@
   cursor: pointer;
 }
 
-.container-login-auth-form-btn {
+.container-auth-form-btn {
+  .login {
+    background: wheat;
+  }
+
+  .signup {
+    background: rgb(179, 206, 245);
+  }
   width: 100%;
   display: -webkit-box;
   display: -webkit-flex;
@@ -203,7 +203,6 @@
   min-width: 120px;
   height: 50px;
   border-radius: 25px;
-  background: white;
   position: relative;
   z-index: 1;
   -webkit-transition: all 0.4s;
@@ -214,13 +213,11 @@
   border: none;
 }
 
-.login-auth-form-btn:hover{
+.login-auth-form-btn:hover {
   background: #ec9141;
 }
 
-
-
-.sign-up-auth-form-btn:hover{
+.sign-up-auth-form-btn:hover {
   background: #5cb4e8;
 }
 
@@ -240,7 +237,7 @@
   -o-transition: all 0.4s;
   -moz-transition: all 0.4s;
   transition: all 0.4s;
-  background: #fff;
+  background: #e7660c;
 }
 
 .focus-input-auth {
@@ -256,7 +253,7 @@
 .focus-input-auth::after {
   font-family: Material-Design-Iconic-Font;
   font-size: 22px;
-  color: #fff;
+  color: #000;
   content: attr(data-placeholder);
   display: block;
   width: 100%;
@@ -273,13 +270,12 @@
 .wrap-input-auth {
   width: 100%;
   position: relative;
-  border-bottom: 2px solid rgba(255,255,255,0.24);
+  border-bottom: 2px solid black;
   margin-bottom: 30px;
 }
 
 .has-val::after {
-  top: -22px;
-  font-size: 18px;
+  color: #e7660c;
 }
 
 .has-val::before {
@@ -289,7 +285,6 @@
 .has-val {
   padding-left: 5px;
 }
-
 
 /*==================================================================
 [ Restyle Checkbox ]*/
@@ -307,7 +302,7 @@
 .label-checkbox-auth {
   font-family: Poppins-Regular;
   font-size: 13px;
-  color: #fff;
+  color: #000;
   line-height: 1.2;
 
   display: block;
@@ -333,7 +328,7 @@
   width: 16px;
   height: 16px;
   border-radius: 2px;
-  background: #fff;
+  background: #000;
   left: 0;
   top: 50%;
   -webkit-transform: translateY(-50%);
@@ -347,26 +342,33 @@
   color: #555555;
 }
 
-textarea:focus, input:focus {
+textarea:focus,
+input:focus {
   border-color: transparent !important;
 }
 
-.input-autofill-transpanent{
+.input-autofill-transpanent {
   border: 0;
-  -webkit-text-fill-color: #fff;
+  -webkit-text-fill-color: #000;
   -webkit-box-shadow: 0 0 0px 1000px transparent inset;
   transition: background-color 5000s ease-in-out 0s;
-  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(0, 174, 255, 0.04) 15560%, rgba(255, 255, 255, 0) 51%, rgba(0, 174, 255, 0.03) 100%);
+  background: -webkit-linear-gradient(
+    top,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(0, 174, 255, 0.04) 15560%,
+    rgba(255, 255, 255, 0) 51%,
+    rgba(0, 174, 255, 0.03) 100%
+  );
 }
 
-.sign-up{
+.sign-up {
   margin-top: 40px;
 }
 
-.auth-sign-up-link{
-  color: bisque !important;
+.auth-sign-up-link {
+  color: rgb(92, 98, 180) !important;
 }
 
-.auth-sign-up-link:hover{
-  color: white;
+.auth-sign-up-link:hover {
+  color: rgb(92, 98, 180) !important;
 }

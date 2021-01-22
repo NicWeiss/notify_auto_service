@@ -1,19 +1,12 @@
 <?php
-/**
- * MySQLi access library / cutted by Nic Weiss [2020]
- *
- * @author Lemeshev Sergey <daemon.user@gmail.com>
- * @copyright Copyright (c) 2012, Lemeshev Sergey
- *
- * @package lib
- */
 
 namespace lib;
 
 use cfg as cfg;
 use PHPMailer;
 
-final class email{
+final class email
+{
 
     public static function send($data)
     {
@@ -24,8 +17,8 @@ final class email{
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = cfg :: $emailconf['email'];
-        $mail->Password = cfg :: $emailconf['password'];
+        $mail->Username = cfg::$emailconf['email'];
+        $mail->Password = cfg::$emailconf['password'];
 
         $mail->SMTPSecure = 'ssl';
         $mail->Port = 465;
@@ -37,13 +30,12 @@ final class email{
 
         $mail->Subject = $data['title'];
         $mail->Body = $data['text'];
-//        $mail->AltBody = 'Оповещение';
+        //        $mail->AltBody = 'Оповещение';
 
-//Отправка сообщения
+        //Отправка сообщения
         if (!$mail->send()) {
             return false;
         }
         return true;
     }
-
 }
