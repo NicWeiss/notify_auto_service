@@ -1,4 +1,5 @@
 <?php
+
 /**
  * class acceptor
  * отвечает за управление списком получателей
@@ -22,7 +23,10 @@ class notify extends component
 
     public static function get()
     {
-        $notify = nf::get_all_notify(self::$user);
+        $page = request::get('page');
+        $per_page = request::get('per_page');
+        $notify = nf::get_all_notify(self::$user, $page, $per_page);
+        self::set_total_pages(round(nf::get_total(self::$user) / $per_page) + 1);
         self::set_data($notify);
     }
 

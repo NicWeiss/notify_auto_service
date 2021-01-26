@@ -15,7 +15,7 @@ export default class NotificationsComponent extends Component {
   WEEK = WEEK
 
   constructor(owner, args) {
-    super(owner, args)
+    super(owner, args);
   }
 
   @action
