@@ -2,7 +2,6 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object'
-import { getOwner } from '@ember/application';
 
 export default class NotifyRoute extends Route {
   @service store;
@@ -11,20 +10,19 @@ export default class NotifyRoute extends Route {
 
 
   model() {
+    let controller = this.controllerFor(this.get('routeName'));
     const model = this.infinity.model('notify');
-    this.waitReachInfinity(model);
+    this.waitReachInfinity(model, controller);
     return {
-      data: model,
-      isInfinityReached: false
+      data: model
     };
   }
 
-  waitReachInfinity(model) {
+  waitReachInfinity(model, controller) {
     setInterval(async function () {
       let infinityModel = await model;
-
       if (infinityModel.reachedInfinity) {
-        // model.isInfinityReached = true;
+        controller.set('isInfinityReached', true);
       }
     }, 1000);
   }
