@@ -12,11 +12,25 @@
       </LinkTo>
     </div>
 
-    <Acceptors::List @model={{model}}
-      @onEdit={{route-action 'onEdit'}}
-    />
+    {{#if @model.data}}
+      <Acceptors::List @model={{model.data}}
+        @onEdit={{route-action 'onEdit'}}
+      />
+    {{/if}}
 
   </div>
 </form>
+
+<div style="visibility:collapse;">
+  {{#if @model.data}}
+    <InfinityLoader @infinityModel={{@model.data}}/>
+  {{/if}}
+</div>
+
+{{#unless isInfinityReached}}
+  <div class="preloader">
+    <img class="spinner" src="/assets/images/spinner.gif">
+  </div>
+{{/unless}}
 
 {{outlet}}

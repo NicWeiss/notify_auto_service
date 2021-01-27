@@ -24,7 +24,7 @@ export default class NotifyRoute extends Route {
       if (infinityModel.reachedInfinity) {
         controller.set('isInfinityReached', true);
       }
-    }, 1000);
+    }, 500);
   }
 
   @action
