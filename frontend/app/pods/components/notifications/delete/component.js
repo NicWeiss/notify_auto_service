@@ -9,7 +9,7 @@ export default class NotifyDeleteComponent extends Component {
 
   PERIODIC = PERIODIC
 
-  constructor(owner, args)  {
+  constructor(owner, args) {
     super(owner, args)
   }
 
