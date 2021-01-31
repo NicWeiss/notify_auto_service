@@ -14,14 +14,13 @@
 @import "plugins/modal-dialog.scss";
 @import "components/utils/fancy-type.scss";
 
-
 body {
   scrollbar-width: none;
 }
 
 ::-webkit-scrollbar {
   width: 0px;
-  background: rgba(255, 255, 255, 0.0);
+  background: rgba(255, 255, 255, 0);
 }
 
 .error {
@@ -29,7 +28,13 @@ body {
 }
 
 .info {
-  background-color: rgb(108, 201, 80);
+  background-color: rgb(156, 211, 224);
+  color: black;
+}
+
+.success {
+  background-color: rgb(134, 233, 159);
+  color: black;
 }
 
 a {
@@ -46,7 +51,8 @@ a {
   background: white;
 }
 
-::-webkit-scrollbar-track {}
+::-webkit-scrollbar-track {
+}
 
 ::-webkit-scrollbar-thumb {
   background-color: gray;
@@ -63,7 +69,6 @@ a {
   background-color: #c6550a !important;
   border-color: #c6550a !important;
 }
-
 
 .btn-outline-primary {
   color: #de6c20 !important;

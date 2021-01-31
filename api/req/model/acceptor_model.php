@@ -24,21 +24,37 @@ final class acceptor_model
         return dba::fetch_assoc();
     }
 
-    public static function get_acceptors($user)
+    public static function get_acceptors($user, $page, $per_page)
     {
+        $limit = '';
         $status =  request::$query_params['status'];
 
         $acceptor = TABLE_OF_ACCEPTORS;
         $system = TABLE_OF_SYSTEMS;
+
+        if ($page && $per_page) {
+            $offset = ($page - 1) * $per_page;
+            $limit = "LIMIT $offset, $per_page";
+        }
 
         $status = $status ? " and a.status= '$status'" : null;
 
         $sql = "SELECT a.id, a.name, a.system_id, a.account, a.status, s.type
                     FROM $acceptor a
                     left join $system s on s.id = a.system_id
-                    WHERE a.user_id= '$user[id] ' $status;";
+                    WHERE a.user_id= '$user[id] ' $status " . $limit . ";";
         dba::query($sql);
         return dba::fetch_assoc_all();
+    }
+
+    public static function get_total($user)
+    {
+        $acceptor = TABLE_OF_ACCEPTORS;
+
+        $sql = "SELECT COUNT(id) FROM $acceptor  WHERE user_id= '$user[id]';";
+        dba::query($sql);
+        $notify_count = dba::fetch_assoc();
+        return $notify_count['COUNT(id)'];
     }
 
     public static function delete_acceptor($entity_id, $user)

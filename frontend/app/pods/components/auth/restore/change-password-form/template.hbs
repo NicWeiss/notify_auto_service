@@ -1,0 +1,56 @@
+<div class="auth-form-container">
+  <div class="auth-container auth-container-login">
+      <div class="login-header">
+        <span class="auth-form-title p-b-34 p-t-27">
+          Change password
+        </span>
+      </div>
+
+      <form class="auth-form validate-form" autocomplete="off" >
+
+        <div class="wrap-input-auth validate-input" data-validate="Enter password">
+          <Input class="auth-input input-autofill-transpanent"
+                 type="password"
+                 name="pass"
+                 placeholder="Password"
+                 onclick={{action onStartEdit "password1"}}
+                 onblur={{action deselect}}
+                 @value={{firstPassword}}
+          />
+          <span class="focus-input-auth {{if firstPasswordSelected 'has-val'}}" data-placeholder="&#xf191;"></span>
+        </div>
+
+        <div class="wrap-input-auth validate-input" data-validate="Enter password">
+          <Input class="auth-input input-autofill-transpanent"
+                 type="password"
+                 name="pass"
+                 placeholder="Repeat password"
+                 onclick={{action onStartEdit "password2"}}
+                 onblur={{action deselect}}
+                 @value={{secondPassword}}
+          />
+          <span class="focus-input-auth {{if secondPasswordSelected 'has-val'}}" data-placeholder="&#xf191;"></span>
+        </div>
+
+        {{#if isCanChangePassword}}
+          <div class="container-auth-form-btn">
+            <button class="login-auth-form-btn auth-form-btn login" {{action onSubmit}}>
+              Сменить
+            </button>
+          </div>
+        {{else}}
+          <div class="text-center pt-3 text-danger sign-up">
+            Ссылка для восстановления пароля <br> истекла или некорректна
+          </div>
+        {{/if}}
+
+
+        <div class="text-center sign-up">
+          <LinkTo @route="auth.restore" class="btn auth-sign-up-link">
+            Запросить новую ссылку
+          </LinkTo>
+        </div>
+
+      </form>
+  </div>
+</div>

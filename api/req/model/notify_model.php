@@ -56,11 +56,13 @@ final class notify_model
         return dba::fetch_assoc_all();
     }
 
-    public static function get_all_notify($user)
+    public static function get_all_notify($user, $page, $per_page)
     {
         $notify = TABLE_OF_NOTIFY;
 
-        $sql = "SELECT * FROM $notify  WHERE user_id= '$user[id]';";
+        $offset = ($page - 1) * $per_page;
+
+        $sql = "SELECT * FROM $notify  WHERE user_id= '$user[id]' LIMIT $offset, $per_page;";
         dba::query($sql);
         $notify_list = dba::fetch_assoc_all();
 
@@ -69,6 +71,16 @@ final class notify_model
         }
 
         return $notify_list;
+    }
+
+    public static function get_total($user)
+    {
+        $notify = TABLE_OF_NOTIFY;
+
+        $sql = "SELECT COUNT(id) FROM $notify  WHERE user_id= '$user[id]';";
+        dba::query($sql);
+        $notify_count = dba::fetch_assoc();
+        return $notify_count['COUNT(id)'];
     }
 
     public static function get_notify($notify_id, $user)

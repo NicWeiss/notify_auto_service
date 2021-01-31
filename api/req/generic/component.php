@@ -13,13 +13,24 @@ class component
     protected static $answer = [];
     protected static $http_code = 200;
     protected static $user = null;
+    protected static $total = 0;
 
     public static function get_answer($ember_model)
     {
         if ($ember_model) {
-            return [$ember_model => self::$answer];
+            return [
+                $ember_model => self::$answer,
+                'meta' => [
+                    'total_pages' => self::$total
+                ]
+            ];
         }
         return self::$answer;
+    }
+
+    public static function set_total_pages($total)
+    {
+        self::$total = $total;
     }
 
     public static function set_session($user_session_id)
@@ -68,23 +79,28 @@ class component
         return request::get_from_client_Json(self::$model_name);
     }
 
-    public static function post() {
+    public static function post()
+    {
         self::not_found();
     }
 
-    public static function get() {
+    public static function get()
+    {
         self::not_found();
     }
 
-    public static function get_by_id($entity_id) {
+    public static function get_by_id($entity_id)
+    {
         self::not_found();
     }
 
-    public static function update($entity_id) {
+    public static function update($entity_id)
+    {
         self::not_found();
     }
 
-    public static function delete($entity_id) {
+    public static function delete($entity_id)
+    {
         self::not_found();
     }
 }

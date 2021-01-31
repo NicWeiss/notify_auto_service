@@ -12,12 +12,12 @@ export default class NotifyShowRoute extends Route {
   }
 
   @action
-  onClose(){
+  onClose() {
     this.transitionTo('manage.notifications');
   }
 
   @action
-  onEdit(notify_id){
+  onEdit(notify_id) {
     this.transitionTo('manage.notifications.edit', notify_id);
   }
 }

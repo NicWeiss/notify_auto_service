@@ -5,10 +5,26 @@ import { action } from '@ember/object'
 
 export default class NotifyRoute extends Route {
   @service store;
+  @service infinity;
   @tracked object = null;
 
-  async model() {
-    return await this.store.findAll('notify', { reload: true });
+
+  model() {
+    let controller = this.controllerFor(this.get('routeName'));
+    const model = this.infinity.model('notify');
+    this.waitReachInfinity(model, controller);
+    return {
+      data: model
+    };
+  }
+
+  waitReachInfinity(model, controller) {
+    setInterval(async function () {
+      let infinityModel = await model;
+      if (infinityModel.reachedInfinity) {
+        controller.set('isInfinityReached', true);
+      }
+    }, 500);
   }
 
   @action

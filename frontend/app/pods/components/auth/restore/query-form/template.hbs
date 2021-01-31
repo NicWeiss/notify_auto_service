@@ -1,0 +1,48 @@
+<div class="auth-form-container">
+  <div class="auth-container auth-container-login">
+      <div class="login-header">
+        <span class="auth-form-title p-b-34 p-t-27">
+          Restore
+        </span>
+      </div>
+
+      <div class="text-center pt-3 text-danger">
+        Укажите email вашей учётной записи. <br>
+        На него будет выслана ссылка для сброса пароля
+      </div>
+
+      <form class="auth-form validate-form" autocomplete="off" >
+
+        <div class="wrap-input-auth validate-input" data-validate="Enter email">
+          <Input class="auth-input input-autofill-transpanent"
+                 type="email"
+                 name="email"
+                 placeholder="Email"
+                 onclick={{action onStartEdit "email"}}
+                 onblur={{action deselect}}
+                 @value={{email}}
+          />
+          <span class="focus-input-auth {{if emailSelected 'has-val'}}" data-placeholder="&#xf15a;"></span>
+        </div>
+
+        <div class="container-auth-form-btn">
+          <button class="login-auth-form-btn auth-form-btn login" {{action onSubmit}}>
+            Отправить
+          </button>
+        </div>
+
+					<div class="text-center sign-up">
+            <LinkTo @route="auth.login" class="btn auth-sign-up-link">
+							Уже есть аккаунт?
+						</LinkTo>
+					</div>
+
+					<div class="text-center">
+            <LinkTo @route="auth.signup" class="btn auth-sign-up-link">
+							Создать новый аккаунт
+						</LinkTo>
+					</div>
+
+      </form>
+  </div>
+</div>

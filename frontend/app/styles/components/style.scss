@@ -1,9 +1,7 @@
-
 .header-text {
   margin: 30px 0 50px 0;
   text-align: center;
 }
-
 
 .header-text::after {
   content: " ";
@@ -13,8 +11,6 @@
   height: 2px;
   background-color: #de6c20;
 }
-
-
 
 .form-container {
   width: 900px;
@@ -29,4 +25,13 @@
 
 .btn-icon {
   padding: 11px 16px !important;
+}
+
+.spinner {
+  width: 200px;
+}
+.preloader {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
