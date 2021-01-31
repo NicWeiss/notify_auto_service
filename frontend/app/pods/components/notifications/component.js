@@ -33,6 +33,5 @@ export default class NotificationsComponent extends Component {
   @action
   onClose() {
     this.isShowDeleteModal = false;
-    this.args.onRefresh();
   }
 }
