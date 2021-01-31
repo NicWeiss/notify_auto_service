@@ -14,6 +14,10 @@ Router.map(function () {
     this.route('login');
     this.route('logout');
     this.route('signup');
+    this.route('restore', function () {
+      this.route('query', { path: '/' });
+      this.route('password', { path: '/:restore_id/password' });
+    });
   });
 
   this.route('manage', function () {

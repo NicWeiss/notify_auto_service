@@ -71,11 +71,17 @@
           </div>
         {{/if}}
 
-					<div class="text-center sign-up">
-            <LinkTo @route="auth.login" class="btn auth-sign-up-link">
-							Уже есть аккаунт?
-						</LinkTo>
-					</div>
+        <div class="text-center sign-up">
+          <LinkTo @route="auth.login" class="btn auth-sign-up-link">
+            Уже есть аккаунт?
+          </LinkTo>
+        </div>
+
+        <div class="text-center ">
+          <LinkTo @route="auth.restore" class="btn auth-sign-up-link">
+            Забыли пароль?
+          </LinkTo>
+        </div>
 
       </form>
   </div>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * class auth
  * отвечает за авторизацию и регистрацию пользователей
@@ -84,7 +85,7 @@ class auth extends component
         $email = request::get_from_client_Json('email');
 
         $sended_code = auth_base::get_reg_code($email, date_timestamp_get($date));
-        if (!$sended_code){
+        if (!$sended_code) {
             self::has_no_permission();
         }
 
@@ -117,5 +118,76 @@ class auth extends component
             return;
         }
         self::has_no_permission();
+    }
+
+    public static function restore()
+    {
+        $date = date_create();
+
+        $email = request::get_from_client_Json('email');
+        if (!$email) {
+            self::unprocessable_entity();
+            return;
+        }
+
+        $restore_hash = md5(strval(random_int(1000, 9999) * random_int(1000, 9999)));
+
+
+        if (!auth_base::check_user_exists($email)) {
+            self::unprocessable_entity();
+            return;
+        }
+        if (auth_base::is_restore_code_exist($email, date_timestamp_get($date))) {
+            self::has_no_permission();
+            return;
+        }
+
+        auth_base::create_restore_code([
+            'email' => $email,
+            'code' => $restore_hash,
+            'expire_at' => (date_timestamp_get($date) + 300)
+        ]);
+
+        $is_send = email::send([
+            'to' => $email,
+            'title' => 'Восстановление пароля',
+            'text' => 'Вашa ссылка для восстановления: <br><br>' .
+                'https://' . $_SERVER['SERVER_NAME'] . '/auth/restore/' . $restore_hash . '/password'
+                . ' <br><br> Если вы не запрашивали восстановление - то проигнорируйте это письмо.'
+        ]);
+        if (!$is_send) {
+            self::critical_error();
+            return;
+        }
+        self::set_data('success');
+    }
+
+    public static function verify_restore_code()
+    {
+        $date = date_create();
+        $code = request::get_from_client_Json('code');
+
+        if (!auth_base::is_restore_code_exist_by_code($code, date_timestamp_get($date))) {
+            self::unprocessable_entity();
+            return;
+        }
+        self::set_data('exist');
+    }
+
+    public static function change_password()
+    {
+        $date = date_create();
+        $code = request::get_from_client_Json('code');
+        $password = md5(request::get_from_client_Json('password'));
+
+        $email = auth_base::get_email_by_restore_code($code, date_timestamp_get($date));
+
+        if (!$email) {
+            self::unprocessable_entity();
+            return;
+        }
+
+        auth_base::update_password($email, $password);
+        self::set_data('success');
     }
 }
