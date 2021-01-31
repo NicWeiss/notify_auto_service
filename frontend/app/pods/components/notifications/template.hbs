@@ -9,35 +9,37 @@
       <th></th>
     </tr>
     {{#each @model as | item|}}
-    <tr {{action this.args.onShow item}}>
-      <th data-th="# ">{{item.id}}</th>
-      <td data-th="Название: ">
-        {{item.name}}
-        {{#unless item.acceptorsList}}
-          <br>
-          <span class="text-danger">Нет получателей</span>
-        {{/unless}}
-      </td>
-      <td data-th="День выполнения: ">
-        {{#if item.dayOfWeek}}
-          {{get WEEK item.dayOfWeek}}
-        {{/if}}
-        <Utils::FromTimestamp @type='date' @timestamp={{item.date}} />
-      </td>
-      <td data-th="Время выполнения: "><Utils::FromTimestamp @type='time' @timestamp={{item.time}} /></td>
-      <td data-th="Периодичность: ">{{get PERIODIC item.periodic}}</td>
-      <td data-th="">
-        <div class="buttons-bar justify-content-around">
-          {{#if (eq item.status "1")}}
-            <div class="btn btn-outline-success btn-icon without-border" {{action 'onChangeStatus' item bubbles=false}}>{{fa-icon "bell"}}</div>
-          {{else}}
-            <div class="btn btn-outline-secondary btn-icon without-border" {{action 'onChangeStatus' item bubbles=false}}>{{fa-icon "bell-slash"}}</div>
-          {{/if}}
-          <div class="btn btn-outline-primary btn-icon without-border" {{action this.args.onEdit item bubbles=false}}>{{fa-icon "pencil"}}</div>
-          <div class="btn btn-outline-danger btn-icon without-border" {{action 'onDeleteNotify' item bubbles=false}}>{{fa-icon "trash"}}</div>
-        </div>
-      </td>
-    </tr>
+      {{#unless  item.isDeleted}}
+        <tr {{action this.args.onShow item}}>
+          <th data-th="# ">{{item.id}}</th>
+          <td data-th="Название: ">
+            {{item.name}}
+            {{#unless item.acceptorsList}}
+              <br>
+              <span class="text-danger">Нет получателей</span>
+            {{/unless}}
+          </td>
+          <td data-th="День выполнения: ">
+            {{#if item.dayOfWeek}}
+              {{get WEEK item.dayOfWeek}}
+            {{/if}}
+            <Utils::FromTimestamp @type='date' @timestamp={{item.date}} />
+          </td>
+          <td data-th="Время выполнения: "><Utils::FromTimestamp @type='time' @timestamp={{item.time}} /></td>
+          <td data-th="Периодичность: ">{{get PERIODIC item.periodic}}</td>
+          <td data-th="">
+            <div class="buttons-bar justify-content-around">
+              {{#if (eq item.status "1")}}
+                <div class="btn btn-outline-success btn-icon without-border" {{action 'onChangeStatus' item bubbles=false}}>{{fa-icon "bell"}}</div>
+              {{else}}
+                <div class="btn btn-outline-secondary btn-icon without-border" {{action 'onChangeStatus' item bubbles=false}}>{{fa-icon "bell-slash"}}</div>
+              {{/if}}
+              <div class="btn btn-outline-primary btn-icon without-border" {{action this.args.onEdit item bubbles=false}}>{{fa-icon "pencil"}}</div>
+              <div class="btn btn-outline-danger btn-icon without-border" {{action 'onDeleteNotify' item bubbles=false}}>{{fa-icon "trash"}}</div>
+            </div>
+          </td>
+        </tr>
+      {{/unless}}
     {{/each}}
   </table>
 </div>
