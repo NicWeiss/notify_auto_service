@@ -23,8 +23,9 @@ class acceptor extends component
 
     public static function get()
     {
-        $page = request::get('page') || 0;
-        $per_page = request::get('per_page') || 25;
+        $page = request::get('page') ? request::get('page') : 0;
+        $per_page = request::get('per_page') ? request::get('per_page') : 25;
+
         $acceptor = am::get_acceptors(self::$user, $page, $per_page);
         self::set_data($acceptor);
         self::set_total_pages(round(am::get_total(self::$user) / $per_page) + 1);
