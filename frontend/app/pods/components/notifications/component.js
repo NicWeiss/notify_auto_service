@@ -16,6 +16,7 @@ export default class NotificationsComponent extends Component {
 
   constructor(owner, args) {
     super(owner, args);
+    console.log(this.args.model);
   }
 
   @action

@@ -108,6 +108,7 @@ export default class NewComponent extends Component {
       return;
     }
     this.notifyNew.save()
+    this.notify.idDeleted = false;
     this.args.onComplete();
   }
 

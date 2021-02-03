@@ -7,12 +7,12 @@
 
 namespace control;
 
-use generic\component;
+use generic\BaseController;
 use lib\email;
 use lib\telegram;
 use model\notify_model as nf;
 
-class send extends component
+class send extends BaseController
 {
     private static $workday_list = ['1', '2', '3', '4', '5'];
     private static $weekend_list = ['6', '7'];

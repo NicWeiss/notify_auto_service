@@ -1,19 +1,23 @@
 <?php
+
 /**
  * class stub
  * return if try call wrong route
  */
+
 namespace control;
 
-use generic\component;
+use generic\BaseController;
 
-class stub extends component
+class stub extends BaseController
 {
-    public static function init(){
+    public static function init()
+    {
         $array = [
             "list" => [
                 "id" => 0,
-                "message" => "некорректный адресс"]
+                "message" => "некорректный адресс"
+            ]
         ];
         return $array;
     }

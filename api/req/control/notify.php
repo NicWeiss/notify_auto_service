@@ -7,17 +7,15 @@
 
 namespace control;
 
-use generic\component;
-use lib\email;
+use generic\BaseController;
 use lib\request;
-use model\notify_model as nf;
+use model\notify_model;
 
-class notify extends component
+class notify extends BaseController
 {
     public static function post()
     {
-        $data = self::getModelData();
-        $notify = nf::create_notify($data, self::$user);
+        $notify = notify_model::create_notify(self::$request_json, self::$user);
         self::set_data($notify);
     }
 
@@ -25,27 +23,26 @@ class notify extends component
     {
         $page = request::get('page');
         $per_page = request::get('per_page');
-        $notify = nf::get_all_notify(self::$user, $page, $per_page);
-        self::set_total_pages(round(nf::get_total(self::$user) / $per_page) + 1);
+        $notify = notify_model::get_all_notify(self::$user, $page, $per_page);
+        self::set_total_pages(round(notify_model::get_total(self::$user) / $per_page) + 1);
         self::set_data($notify);
     }
 
     public static function get_by_id($entity_id)
     {
-        $notify = nf::get_notify($entity_id, self::$user);
+        $notify = notify_model::get_notify($entity_id, self::$user);
         self::set_data($notify);
     }
 
     public static function update($entity_id)
     {
-        $data = self::getModelData();
-        $notify = nf::update_notify($entity_id, $data, self::$user);
+        $notify = notify_model::update_notify($entity_id, self::$request_json, self::$user);
         self::set_data($notify);
     }
 
     public static function delete($entity_id)
     {
-        $notify = nf::delete_notify($entity_id, self::$user);
+        $notify = notify_model::delete_notify($entity_id, self::$user);
         self::set_data($notify);
     }
 }
