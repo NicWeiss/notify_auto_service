@@ -23,9 +23,9 @@
             {{#if item.dayOfWeek}}
               {{get WEEK item.dayOfWeek}}
             {{/if}}
-            <Utils::FromTimestamp @type='date' @timestamp={{item.date}} />
+            <Utils::FromGmt @type='date' @item={{item}} />
           </td>
-          <td data-th="Время выполнения: "><Utils::FromTimestamp @type='time' @timestamp={{item.time}} /></td>
+          <td data-th="Время выполнения: "><Utils::FromGmt @type='time' @item={{item}} /></td>
           <td data-th="Периодичность: ">{{get PERIODIC item.periodic}}</td>
           <td data-th="">
             <div class="buttons-bar justify-content-around">
