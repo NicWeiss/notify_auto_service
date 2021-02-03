@@ -29,6 +29,7 @@ class send extends BaseController
         self::process_notify('once');
         self::process_notify('everyday');
         self::process_notify('day_of_week', $day_of_week);
+        // self::process_notify('every_month')
 
         if ($first_day == $current_day) {
             self::process_notify('first_month_day');

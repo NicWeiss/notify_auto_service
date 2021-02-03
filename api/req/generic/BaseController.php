@@ -84,6 +84,9 @@ class BaseController
     private static function getModelData()
     {
         self::$model_name = key(json_decode(file_get_contents('php://input'), true));
+        if (!self::$model_name) {
+            return;
+        }
         return request::get_from_client_Json(self::$model_name);
     }
 
