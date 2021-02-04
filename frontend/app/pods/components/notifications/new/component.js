@@ -57,50 +57,17 @@ export default class NewComponent extends Component {
   }
 
   prepareDateAndTime() {
-    let dayCorrection = 0;
-    const time = this.flatpickrTimeRef.latestSelectedDateObj;
+    const dateISO = this.flatpickrDateRef.latestSelectedDateObj;
+    const timeISO = this.flatpickrTimeRef.latestSelectedDateObj;
 
-    const gmt = -1 * time.getTimezoneOffset() / 60;
-    const minutes = time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes();
-    let hours = time.getHours() < 10 ? '0' + time.getHours() : time.getHours();
-    if (hours < gmt) {
-      hours = (parseInt(hours) + 24) - gmt;
-      dayCorrection = -1;
-    } else {
-      hours -= gmt;
-    }
+    const days = dateISO.getUTCDate() < 10 ? '0' + dateISO.getUTCDate() : dateISO.getUTCDate();
+    const month = (parseInt(dateISO.getUTCMonth()) + 1) < 10 ? '0' + (parseInt(dateISO.getUTCMonth()) + 1) : (parseInt(dateISO.getUTCMonth()) + 1);
+    const years = dateISO.getUTCFullYear();
+    const hours = timeISO.getUTCHours() < 10 ? '0' + timeISO.getUTCHours() : timeISO.getUTCHours();
+    const minutes = timeISO.getUTCMinutes() < 10 ? '0' + timeISO.getUTCMinutes() : timeISO.getUTCMinutes();
 
+    this.notifyNew.date = month + '.' + days + '.' + years;
     this.notifyNew.time = hours + ':' + minutes;
-
-    if (this.isDate) {
-      const date = this.flatpickrDateRef.latestSelectedDateObj;
-
-      const intDay = parseInt(date.getDate());
-      const intMonth = parseInt(date.getMonth()) + 1;
-
-      let day = intDay < 10 ? '0' + intDay : intDay;
-      let month = intMonth < 10 ? '0' + intMonth : intMonth;
-      let year = date.getFullYear();
-
-      if (dayCorrection === (-1)) {
-
-        if (intDay === 1) {
-          if ((intMonth - 1) === 0) {
-            month = 12;
-            year--;
-          } else {
-            month = (intMonth - 1) < 10 ? '0' + (intMonth - 1) : (intMonth - 1);
-          }
-
-          day = new Date(year, month - 1, 0).getDate();
-          day = day < 10 ? '0' + day : day;
-        } else {
-          day = intDay - 1 < 10 ? '0' + (intDay - 1) : intDay - 1;
-        }
-      }
-
-      this.notifyNew.date = month + '.' + day + '.' + year;
-    }
   }
 
   @action

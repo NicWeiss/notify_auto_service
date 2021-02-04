@@ -41,7 +41,7 @@
       {{#if isDate}}
       <div class="full-container d-flex flex-column">
         <label>День: </label>
-        <EmberFlatpickr class="datetime-custom" @date={{this.date}} @dateFormat="d.m.Y" @onChange={{this.onSelectDate}} @prevArrow="<"
+        <EmberFlatpickr class="datetime-custom" @date={{this.date}} @noCaletdar={{false}} @dateFormat="d.m.Y" @onChange={{this.onSelectDate}} @prevArrow="<"
           @nextArrow=">" @onReady={{this.onDateReady}} />
       </div>
       {{/if}}
