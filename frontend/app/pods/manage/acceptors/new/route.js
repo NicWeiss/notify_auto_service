@@ -12,6 +12,7 @@ export default class AcceptorsNewRoute extends Route {
 
   @action
   onComplete() {
+    this.send("onRefresh");
     this.transitionTo('manage.acceptors');
     this.notify.info('Получатель добавлен');
     this.onRefresh();

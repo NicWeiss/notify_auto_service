@@ -13,6 +13,7 @@ export default class NotifyRoute extends Route {
     let controller = this.controllerFor(this.get('routeName'));
     const model = this.infinity.model('notify');
     this.waitReachInfinity(model, controller);
+
     return {
       data: model
     };
