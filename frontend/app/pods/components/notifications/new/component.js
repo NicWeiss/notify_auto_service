@@ -57,7 +57,7 @@ export default class NewComponent extends Component {
   }
 
   prepareDateAndTime() {
-    const dateISO = this.flatpickrDateRef.latestSelectedDateObj;
+    const dateISO = this.flatpickrDateRef ? this.flatpickrDateRef.latestSelectedDateObj : new Date();
     const timeISO = this.flatpickrTimeRef.latestSelectedDateObj;
 
     const days = dateISO.getUTCDate() < 10 ? '0' + dateISO.getUTCDate() : dateISO.getUTCDate();

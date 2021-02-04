@@ -19,7 +19,7 @@ export default class NewRoute extends Route {
   }
 
   @action
-  onClose(){
+  onClose() {
     this.transitionTo('manage.notifications');
   }
 }
