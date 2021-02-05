@@ -57,14 +57,18 @@ export default class NewComponent extends Component {
   }
 
   prepareDateAndTime() {
-    const dateISO = this.flatpickrDateRef ? this.flatpickrDateRef.latestSelectedDateObj : new Date();
-    const timeISO = this.flatpickrTimeRef.latestSelectedDateObj;
+    this.notifyNew.timeZoneOffset = -1 * this.flatpickrTimeRef.latestSelectedDateObj.getTimezoneOffset() / 60;
+    const date = this.flatpickrDateRef ? this.flatpickrDateRef.latestSelectedDateObj : new Date();
+    const time = this.flatpickrTimeRef.latestSelectedDateObj;
+    let dateTime = new Date(
+      (parseInt(date.getMonth()) + 1) + '.' + date.getDate() + '.' + date.getFullYear() + ' ' +
+      time.getHours() + ':' + time.getMinutes());
 
-    const days = dateISO.getUTCDate() < 10 ? '0' + dateISO.getUTCDate() : dateISO.getUTCDate();
-    const month = (parseInt(dateISO.getUTCMonth()) + 1) < 10 ? '0' + (parseInt(dateISO.getUTCMonth()) + 1) : (parseInt(dateISO.getUTCMonth()) + 1);
-    const years = dateISO.getUTCFullYear();
-    const hours = timeISO.getUTCHours() < 10 ? '0' + timeISO.getUTCHours() : timeISO.getUTCHours();
-    const minutes = timeISO.getUTCMinutes() < 10 ? '0' + timeISO.getUTCMinutes() : timeISO.getUTCMinutes();
+    const days = dateTime.getUTCDate() < 10 ? '0' + dateTime.getUTCDate() : dateTime.getUTCDate();
+    const month = (parseInt(dateTime.getUTCMonth()) + 1) < 10 ? '0' + (parseInt(dateTime.getUTCMonth()) + 1) : (parseInt(dateTime.getUTCMonth()) + 1);
+    const years = dateTime.getUTCFullYear();
+    const hours = dateTime.getUTCHours() < 10 ? '0' + dateTime.getUTCHours() : dateTime.getUTCHours();
+    const minutes = dateTime.getUTCMinutes() < 10 ? '0' + dateTime.getUTCMinutes() : dateTime.getUTCMinutes();
 
     this.notifyNew.date = month + '.' + days + '.' + years;
     this.notifyNew.time = hours + ':' + minutes;
@@ -101,8 +105,6 @@ export default class NewComponent extends Component {
 
   validate() {
     let isValid = true;
-
-    this.notifyNew.timeZoneOffset = -1 * this.flatpickrTimeRef.latestSelectedDateObj.getTimezoneOffset() / 60;
 
     if (this.notifyNew.acceptorsList.length === 0) {
       isValid = false;
