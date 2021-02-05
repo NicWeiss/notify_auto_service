@@ -5,7 +5,8 @@ import { tracked } from '@glimmer/tracking';
 export default class FromTimestamp extends Component {
   @tracked output = null;
   @tracked type = null;
-  @tracked item = null;
+  @tracked date = null;
+  @tracked time = null;
   tagName = '';
 
   init() {
@@ -16,18 +17,12 @@ export default class FromTimestamp extends Component {
     let outTime;
     let outDate;
 
-    this.item;
     this.type;
 
-    if (!this.item) {
-      return;
-    }
-
-
-    const time = this.item.time;
-    const date = this.item.date || '01.01.1970'
+    const time = this.time || '00:00';
+    const date = this.date || '01.01.1970'
     const restoredDate = new Date(date + ' ' + time + ' GMT-0');
-    if (this.item.date) {
+    if (this.date) {
       let d = restoredDate.getDate() < 10 ? '0' + restoredDate.getDate() : restoredDate.getDate();
       let m = (parseInt(restoredDate.getMonth()) + 1) < 10 ? '0' + (parseInt(restoredDate.getMonth()) + 1) : (parseInt(restoredDate.getMonth()) + 1);
       let y = restoredDate.getFullYear()
