@@ -1,4 +1,5 @@
 <?php
+
 /**
  * class system
  * отвечает за управление системами получения
@@ -6,10 +7,10 @@
 
 namespace control;
 
-use generic\component;
+use generic\BaseController;
 use model\system_model as sm;
 
-class system extends component
+class system extends BaseController
 {
     public static function get()
     {

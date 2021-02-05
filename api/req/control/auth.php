@@ -7,12 +7,12 @@
 
 namespace control;
 
-use generic\component;
+use generic\BaseController;
 use lib\email;
 use lib\request;
 use model\auth_base as auth_base;
 
-class auth extends component
+class auth extends BaseController
 {
     public static function login()
     {

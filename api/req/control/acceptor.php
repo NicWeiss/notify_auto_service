@@ -7,17 +7,15 @@
 
 namespace control;
 
-use generic\component;
-use lib\email;
+use generic\BaseController;
 use lib\request;
-use model\acceptor_model as am;
+use model\acceptor_model;
 
-class acceptor extends component
+class acceptor extends BaseController
 {
     public static function post()
     {
-        $data = self::getModelData();
-        $acceptor = am::create_acceptor($data, self::$user);
+        $acceptor = acceptor_model::create_acceptor(self::$request_json, self::$user);
         self::set_data($acceptor);
     }
 
@@ -26,27 +24,26 @@ class acceptor extends component
         $page = request::get('page') ? request::get('page') : 0;
         $per_page = request::get('per_page') ? request::get('per_page') : 25;
 
-        $acceptor = am::get_acceptors(self::$user, $page, $per_page);
+        $acceptor = acceptor_model::get_acceptors(self::$user, $page, $per_page);
         self::set_data($acceptor);
-        self::set_total_pages(round(am::get_total(self::$user) / $per_page) + 1);
+        self::set_total_pages(round(acceptor_model::get_total(self::$user) / $per_page) + 1);
     }
 
     public static function get_by_id($entity_id)
     {
-        $notify = am::get_acceptor($entity_id, self::$user);
+        $notify = acceptor_model::get_acceptor($entity_id, self::$user);
         self::set_data($notify);
     }
 
     public static function update($entity_id)
     {
-        $data = self::getModelData();
-        $notify = am::update_acceptor($entity_id, $data, self::$user);
+        $notify = acceptor_model::update_acceptor($entity_id, self::$request_json, self::$user);
         self::set_data($notify);
     }
 
     public static function delete($entity_id)
     {
-        $notify = am::delete_acceptor($entity_id, self::$user);
+        $notify = acceptor_model::delete_acceptor($entity_id, self::$user);
         self::set_data($notify);
     }
 }

@@ -6,7 +6,7 @@ namespace generic;
 use model\auth_base as auth;
 use lib\request;
 
-class component
+class BaseController
 {
 
     protected static $model_name = null;
@@ -14,6 +14,14 @@ class component
     protected static $http_code = 200;
     protected static $user = null;
     protected static $total = 0;
+    protected static $request_json;
+
+
+    function __construct()
+    {
+        self::$request_json = self::getModelData();
+    }
+
 
     public static function get_answer($ember_model)
     {
@@ -73,9 +81,12 @@ class component
         self::$answer = 'Unprocessable entity';
     }
 
-    public static function getModelData()
+    private static function getModelData()
     {
         self::$model_name = key(json_decode(file_get_contents('php://input'), true));
+        if (!self::$model_name) {
+            return;
+        }
         return request::get_from_client_Json(self::$model_name);
     }
 

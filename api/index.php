@@ -27,7 +27,7 @@ final class myapp
 
         $object = dispatcher::dispatch();
 
-        $class = $object['control_class'];
+        $class = new $object['control_class'];
 
         $method = array_key_exists("control_function", $object) ?  $object["control_function"] : 'post';
         $entity_id = array_key_exists("entity_id", $object) ? $object["entity_id"] : False;

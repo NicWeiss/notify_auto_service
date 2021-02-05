@@ -12,11 +12,11 @@
       </tr>
       <tr>
         <td>День выполнения:</td>
-        <td><Utils::FromTimestamp @type='date' @timestamp={{@notify.date}} /></td>
+        <td><Utils::FromGmt @type='date' @item={{@notify}} /></td>
       </tr>
       <tr>
         <td>Время выполнения:</td>
-        <td><Utils::FromTimestamp @type='time' @timestamp={{@notify.time}} /></td>
+        <td><Utils::FromGmt @type='time' @item={{@notify}} /></td>
       </tr>
     </table>
   </div>

@@ -21,11 +21,11 @@
       {{#if @model.dayOfWeek}}
         {{get WEEK @model.dayOfWeek}}
       {{/if}}
-      <Utils::FromTimestamp @type='date' @timestamp={{@model.date}} />
+      <Utils::FromGmt @type='date' @item={{@model}} />
     </td>
   </tr>
   <tr>
     <td>Время выполнения:</td>
-    <td><Utils::FromTimestamp @type='time' @timestamp={{@model.time}} /></td>
+    <td><Utils::FromGmt @type='time' @item={{@model}} /></td>
   </tr>
 </table>

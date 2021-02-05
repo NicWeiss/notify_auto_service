@@ -22,7 +22,7 @@ final class notify_model
         $sql = "INSERT INTO  $table ( `user_id`, `name`, `text`, `periodic`, `day_of_week`,
                                       `date`, `time`, `time_zone_offset`)
                 VALUES ('$user[id]',  '$notify[name]', '$notify[text]', '$notify[periodic]',
-                        '$notify[dayOfWeek]', '$notify[date]', '$notify[time]',  '$notify[timeZoneOffset]' )";
+                        '$notify[day_of_week]', '$notify[date]', '$notify[time]',  '$notify[time_zone_offset]' )";
         dba::query($sql);
 
         $sql = "SELECT * FROM $table  ORDER BY `id` DESC Limit 1;";
@@ -142,22 +142,5 @@ final class notify_model
         dba::query($sql);
 
         return true;
-    }
-
-    public static function get_notify_for_cron($type, $day_of_week = null)
-    {
-        $notify = TABLE_OF_NOTIFY;
-
-        $day_of_week = $day_of_week ? " and `day_of_week` = '$day_of_week'" : '';
-
-        $sql = "SELECT * FROM $notify  WHERE status= '1' and `periodic` = '$type' $day_of_week;";
-        dba::query($sql);
-        $notify_list = dba::fetch_assoc_all();
-
-        foreach ($notify_list as $key => $value) {
-            $notify_list[$key]['acceptorsList'] = self::get_acceptors_by_notify_id($value['id'], '1');
-        }
-
-        return $notify_list;
     }
 }

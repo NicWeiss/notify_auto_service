@@ -14,12 +14,13 @@ export default class NewRoute extends Route {
 
   @action
   onComplete() {
+    this.send("onRefresh");
     this.transitionTo('manage.notifications');
     this.notify.info('Уведомление добавлено');
   }
 
   @action
-  onClose(){
+  onClose() {
     this.transitionTo('manage.notifications');
   }
 }
