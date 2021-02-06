@@ -21,13 +21,13 @@ class send extends BaseController
     public static function run()
     {
         $first_day = '01';
-        $last_day = date("t");
-        $current_day = date("d");
-        $day_of_week = date("w");
+        $last_day = gmdate("t");
+        $current_day = gmdate("d");
+        $day_of_week = gmdate("w");
         $day_of_week = $day_of_week == '0' ? '7' : $day_of_week;
 
-        $current_time = date('H:i');
-        $current_date = date('m.d.Y');
+        $current_time = gmdate('H:i');
+        $current_date = gmdate('m.d.Y');
 
         self::find_by_type('everyday', $current_time);
         self::find_once($current_date, $current_time);
