@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 use lib\request as request;
 use lib\rest as rest;
-
+use model\auth_base;
 
 require_once("req/std.php");
 require_once('tmp/config.ini.php');
@@ -35,7 +35,11 @@ final class myapp
         foreach (getallheaders() as $key => $value) {
             if ($key == 'Session') {
                 $user_session_id = $value;
-                //TO-DO добавить проверку валидности полученного токена сессии
+                $is_session_valid = auth_base::is_session_valid($value);
+                if (!$is_session_valid) {
+                    http_response_code(403);
+                    return;
+                }
             }
         }
 
@@ -47,7 +51,7 @@ final class myapp
         $entity_id = array_key_exists("entity_id", $object) ? $object["entity_id"] : False;
         $ember_model = array_key_exists("ember_model", $object) ? $object["ember_model"] : False;
 
-        if (!$user_session_id && $class != 'control\auth') {
+        if (!$user_session_id && $object['control_class'] != 'control\auth') {
             http_response_code(403);
             return;
         }

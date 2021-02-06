@@ -142,4 +142,15 @@ final class auth_base
         dba::query($sql);
         return dba::fetch_assoc();
     }
+
+    public static function is_session_valid($session)
+    {
+        $now = date_timestamp_get(date_create());
+        $DB = TABLE_OF_SESSIONS;
+
+        $sql = "SELECT * FROM  $DB WHERE `session`='$session' and `expire_at` > $now";
+        dba::query($sql);
+        $res = dba::fetch_assoc();
+        return $res ? true : false;
+    }
 }
