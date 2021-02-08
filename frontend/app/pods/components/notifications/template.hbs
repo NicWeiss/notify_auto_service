@@ -30,12 +30,12 @@
           <td data-th="">
             <div class="buttons-bar justify-content-around">
               {{#if (eq item.status "1")}}
-                <div class="btn btn-outline-success btn-icon without-border" {{action 'onChangeStatus' item bubbles=false}}>{{fa-icon "bell"}}</div>
+                <div class="btn btn-outline-success btn-icon without-border" {{action 'onChangeStatus' item bubbles=false}}><FaIcon @icon="bell"/></div>
               {{else}}
-                <div class="btn btn-outline-secondary btn-icon without-border" {{action 'onChangeStatus' item bubbles=false}}>{{fa-icon "bell-slash"}}</div>
+                <div class="btn btn-outline-secondary btn-icon without-border" {{action 'onChangeStatus' item bubbles=false}}><FaIcon @icon="bell-slash"/></div>
               {{/if}}
-              <div class="btn btn-outline-primary btn-icon without-border" {{action this.args.onEdit item bubbles=false}}>{{fa-icon "pencil"}}</div>
-              <div class="btn btn-outline-danger btn-icon without-border" {{action 'onDeleteNotify' item bubbles=false}}>{{fa-icon "trash"}}</div>
+              <div class="btn btn-outline-primary btn-icon without-border" {{action this.args.onEdit item bubbles=false}}><FaIcon @icon="pencil-alt"/></div>
+              <div class="btn btn-outline-danger btn-icon without-border" {{action 'onDeleteNotify' item bubbles=false}}><FaIcon @icon="trash"/></div>
             </div>
           </td>
         </tr>

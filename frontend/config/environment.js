@@ -1,11 +1,11 @@
 'use strict';
 
-module.exports = function(environment) {
+module.exports = function (environment) {
   let ENV = {
     modulePrefix: 'frontend',
     environment,
     rootURL: '/',
-    podModulePrefix: 'frontend/pods', 
+    podModulePrefix: 'frontend/pods',
     locationType: 'auto',
     EmberENV: {
       RAISE_ON_DEPRECATION: true,
