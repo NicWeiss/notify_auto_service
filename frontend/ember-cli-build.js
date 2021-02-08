@@ -7,6 +7,7 @@ module.exports = function (defaults) {
     'ember-bootstrap-sass': {
       importBootstrapCSS: true
     },
+    removeUnusedIcons: false
   });
   // app.import({ development:'bower_components/ember/ember-template-compiler.js' });
 
