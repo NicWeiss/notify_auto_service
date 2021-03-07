@@ -26,16 +26,16 @@ function std_debug($var, $die = true)
 
 function std_log($var)
 {
-    // $filename = './tmp/log/log.txt';
-    // if (!file_exists($filename)) {
-    //     mkdir("./tmp/", 0777, true);
-    //     mkdir("./tmp/log/", 0777, true);
-    //     $fp = fopen($filename, "w");
-    //     fwrite($fp, 'INIT LOG' . PHP_EOL);
-    //     fclose($fp);
-    // }
-    // $for_log = print_r(date('m/d/Y H:i:s', time()) . ':      ' . $var, true);
-    // file_put_contents($filename, $for_log . PHP_EOL, FILE_APPEND);
+    $filename = './tmp/log/log.txt';
+    if (!file_exists($filename)) {
+        mkdir("./tmp/", 0777, true);
+        mkdir("./tmp/log/", 0777, true);
+        $fp = fopen($filename, "w");
+        fwrite($fp, 'INIT LOG' . PHP_EOL);
+        fclose($fp);
+    }
+    $for_log = print_r(date('m/d/Y H:i:s', time()) . ':      ' . $var, true);
+    file_put_contents($filename, $for_log . PHP_EOL, FILE_APPEND);
 }
 
 function std_error_log($var)

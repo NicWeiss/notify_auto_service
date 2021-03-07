@@ -49,6 +49,8 @@ class send extends BaseController
         }
 
         self::send_notify();
+
+        std_log("\n ------------------------- Sending is done! -------------------------- \n");
     }
 
     private static function find_once($date, $time)
@@ -101,10 +103,11 @@ class send extends BaseController
             $text = $item['notify']['text'] ? $item['notify']['text'] : ' ';
             $type = $item['acceptor']['type'];
 
-            if ($title) {
-            }
+
+            std_log($item['notify']['id'] . ":" . $type . " -> " . $account . " \n");
+
             if (!$type) {
-                std_error_log("У получателя " . $item['acceptor']['name'] . " : " . $item['acceptor']['account'] . " нет типа");
+                std_log("У получателя " . $item['acceptor']['name'] . " : " . $item['acceptor']['account'] . " нет типа");
             }
 
             if ($type == 'email') {

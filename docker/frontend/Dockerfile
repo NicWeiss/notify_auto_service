@@ -7,10 +7,6 @@ RUN apt-get update && \
 
 RUN npm install -g ember-cli
 
-# COPY ./nginx.cfg /etc/nginx/sites-available/default
-
-# RUN mkdir frontend
-
 WORKDIR /frontend
 
 COPY ./package.json ./package.json

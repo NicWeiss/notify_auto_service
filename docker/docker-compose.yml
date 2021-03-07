@@ -10,27 +10,31 @@ services:
     ports:
       - "56101:3306"
     volumes:
-        - ./mysql:/mysql
+      - ./mysql:/mysql
     container_name: notifier_mysql
 
   php-fpm:
     build:
       context: ./php-fpm
     ports:
-        - "56105:9000"
+      - "56105:9000"
     links:
-        - mysql
+      - mysql
+    depends_on:
+      - mysql
     volumes:
-        - ../api:/var/www
+      - ../api:/var/www
     container_name: notifier_php_fpm
 
   php-cli:
     build:
       context: ./php-cli
     links:
-        - mysql
+      - mysql
+    depends_on:
+      - mysql
     volumes:
-        - ../api:/var/www
+      - ../api:/var/www
     container_name: notifier_php_cli
 
   backend:
@@ -60,3 +64,15 @@ services:
     working_dir: /frontend
     command: ember s
     container_name: notifier_frontend
+
+  cron:
+    build:
+      context: ./cron
+    links:
+      - mysql
+    depends_on:
+      - mysql
+    volumes:
+      - ./cron:/cron
+      - ../api:/var/www
+    container_name: notifier_cron

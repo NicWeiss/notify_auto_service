@@ -16,7 +16,7 @@ build:  ## Сборка проекта
 	@docker-compose build
 
 start: build  ## Запуск проекта
-	@docker-compose up backend frontend
+	@docker-compose up backend frontend cron
 
 stop: ## Остановка проекта
 	@docker-compose down
