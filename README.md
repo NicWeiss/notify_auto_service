@@ -1,30 +1,19 @@
 # Сервис персональных оповещений. #
 
   ## Установка: ##
+    - install Docker and docker-compose in your system
+    - add your user in docker group
+    - enable and start systemd docker socket
 
-    - Установка nginx, php-fpm, mysql, npm, ember
-    - Конфигурирование nginx:
-      - Использовать nginx.conf
-    - Конфигурирование php-fpm
-      - В php.ini раскоментировать mysql.so драйвер
-    - Конфигурирование mysql:
-      - Завести пользователя, задать пароль
-    -Демоны:
-      - Делаем `sudo systemctl enable ...` для nginx, php-fpm, mysql
-      - Делаем `sudo systemctl start ...` для nginx, php-fpm, mysql
-    - Добавляем хост в `/etc/hosts`
-    - Устанавливаем NPM а с помощью него ember js и зависимости проекта
-      - `sudo npm install -g ember-cli`
-      - `Snpm install`
+    Open this poject / docker in terminal
+
+    - make build
+    - make migration init
+    - make migration up
 
   ## Запуск: ##
 
-    - Создание конфига для проекта:
-      - Конфиг должен содержать все заполненные поля по аналогии с примером
-      - При первом запуске будет создана база с именем указанным в конфиге, если её ещё нет
-      - Для актуализации состояния БД мигрируем её из директории api
-        - `php migration.php init`
-        - `php migration.php stat`
-        - `php migration.php up`
+    - make start
 
-    - Для запуска frontend части в режиме livereload используем команду `ember s` из директории frontend
+
+more commands - make help
