@@ -1,12 +1,21 @@
 @font-face {
-  font-family: 'MK-90';
-  src: url(fonts/MK-90.ttf) format('truetype');
+  font-family: "MK-90";
+  src: url(fonts/MK-90.ttf) format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 .navbar {
   padding: 0 !important;
+  position: fixed !important;
+  width: 100%;
+  top: 0;
+}
+
+.nav-backplate {
+  position: relative !important;
+  width: 100%;
+  height: 55px;
 }
 
 .navbar-collapse.collapse.in {
@@ -14,7 +23,7 @@
 }
 
 .nav-name {
-  font: normal normal normal 35px 'MK-90';
+  font: normal normal normal 35px "MK-90";
   padding: 5px 0 5px 20px;
 }
 
@@ -30,7 +39,7 @@
   margin: 0px 17px 10px 10px;
 }
 
-.btn-navigation{
+.btn-navigation {
   display: inline-block;
   font-weight: 400;
   color: #292d2f;
