@@ -13,10 +13,16 @@ help:  ## Помощь
 
 ### Development
 build:  ## Сборка проекта
-	@docker-compose build
+	@docker-compose build backend frontend cron mysql php-cli php-fpm
 
-start: build  ## Запуск проекта
+build_production:  ## Сборка проекта
+	@docker-compose build backend frontend-production cron mysql php-cli php-fpm
+
+start_develop: build  ## Запуск проекта для разработки
 	@docker-compose up backend frontend cron
+
+start_production: build_production  ## Запуск проекта
+	@docker-compose up backend frontend-production cron
 
 stop: ## Остановка проекта
 	@docker-compose down
@@ -25,8 +31,18 @@ migration:  ## Создание новой миграции
 	docker-compose run --user www-data php-cli sh -c "cd /var/www && php migration.php $(filter-out $@,$(MAKECMDGOALS))"
 	@sudo chown $$USER:$$USER -R $(DIR)/../api/req/migration/
 
-stat:
-
+stat:			# params for migration: Показать доступные миграции без применения.
+	exit
+init:			# params for migration: Инициализация таблицы миграций
+	exit
+create: 	# params for migration: Создать миграцию
+	exit
+up:				# params for migration: [count] Применить миграции (применит все доступные миграции);
+	exit
+down: 		# params for migration: [count|migration_id] Откатить миграции (default count=1);
+	exit                         -
+resolve:	# params for migration: Попытаться найти и откатить миграцию которая была удалена с диска, но есть базе
+	exit
 
 dump_restore:  ## Восстановление базы из бэкапа
 	docker-compose run mysql bash -c "cd mysql && mysql -h mysql -u root -pmysql notifier < dump.sql"

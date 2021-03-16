@@ -51,19 +51,35 @@ services:
 
   frontend:
     build:
-      dockerfile: ../docker/frontend/Dockerfile
+      dockerfile: ../docker/frontend-dev/Dockerfile
       context: ../frontend
-      target: development
     ports:
       - "4200:4200"
     volumes:
-      - ../frontend:/frontend
-      - ./frontend/:/etc/nginx/conf.d
+      - ../frontend/app:/frontend/app
+      - ../frontend/config:/frontend/config
+      - ../frontend/public:/frontend/public
+      - ../frontend/vendor:/frontend/vendor
+      - ./frontend-dev/:/etc/nginx/conf.d
     depends_on:
       - backend
     working_dir: /frontend
     command: ember s
     container_name: notifier_frontend
+
+  frontend-production:
+    build:
+      dockerfile: ../docker/frontend-production/Dockerfile
+      context: ../frontend
+    ports:
+      - "56104:80"
+    volumes:
+      - ../frontend:/frontend
+      - ./frontend-production/:/etc/nginx/conf.d
+    depends_on:
+      - backend
+    working_dir: /frontend
+    container_name: notifier_frontend-production
 
   cron:
     build:
