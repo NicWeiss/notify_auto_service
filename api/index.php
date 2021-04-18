@@ -41,10 +41,6 @@ final class myapp
             if ($key == 'Session') {
                 $user_session_id = $value;
                 $is_session_valid = auth_base::is_session_valid($value);
-                if (!$is_session_valid) {
-                    http_response_code(403);
-                    return;
-                }
             }
         }
 
@@ -56,9 +52,11 @@ final class myapp
         $entity_id = array_key_exists("entity_id", $object) ? $object["entity_id"] : False;
         $ember_model = array_key_exists("ember_model", $object) ? $object["ember_model"] : False;
 
-        if (!$user_session_id && $object['control_class'] != 'control\auth') {
-            http_response_code(403);
-            return;
+        if ($object['control_class'] != 'control\auth') {
+            if (!$user_session_id || !$is_session_valid) {
+                http_response_code(403);
+                return;
+            }
         }
 
         $class::set_session($user_session_id);
@@ -75,5 +73,6 @@ final class myapp
         }
     }
 }
+
 
 myapp::run();
