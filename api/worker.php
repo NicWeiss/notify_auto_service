@@ -1,21 +1,18 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 
-use lib\request as request;
-
 
 require_once("req/std.php");
 require_once('tmp/config.ini.php');
 std_env_init();
 
 
-final class myapp
+final class worker
 {
     public static function run()
     {
-        \control\send::run();
+        \services\worker::run();
     }
-
 }
 
-myapp:: run();
+worker::run();

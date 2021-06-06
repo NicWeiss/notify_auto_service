@@ -1,33 +1,48 @@
 <?php
 
 /**
- * class acceptor
- * отвечает за управление списком получателей
+ * class worker
+ * отвечает за отправку уведомлений
  */
 
-namespace control;
+namespace services;
 
 use generic\BaseController;
 use lib\email;
 use lib\telegram;
-use model\cron_model as model;
+use model\worker_model as model;
+use model\watcher_model as watch_model;
 
-class send extends BaseController
+class worker extends BaseController
 {
     private static $workday_list = ['1', '2', '3', '4', '5'];
     private static $weekend_list = ['6', '7'];
     private static $notify_pool = [];
+    private static $worker_id = null;
 
     public static function run()
     {
-        $first_day = '01';
-        $last_day = gmdate("t");
-        $current_day = gmdate("d");
-        $day_of_week = gmdate("w");
-        $day_of_week = $day_of_week == '0' ? '7' : $day_of_week;
+        if (!self::$worker_id) {
+            self::$worker_id = md5(strval(random_int(1000, 9999) * random_int(1000, 9999)));
+        }
 
-        $current_time = gmdate('H:i');
-        $current_date = gmdate('m.d.Y');
+        self::$notify_pool = [];
+        $operation = watch_model::get_first_waited_operation(self::$worker_id);
+
+        if (!$operation) {
+            std_log("\n ------------------------- Sending is done! -------------------------- \n");
+            return;
+        }
+
+        $operation_date = json_decode($operation['target_date'], true);
+
+        $first_day = $operation_date['first_day'];
+        $last_day = $operation_date['last_day'];
+        $current_day = $operation_date['current_day'];
+        $day_of_week = $operation_date['day_of_week'];
+
+        $current_time = $operation_date['current_time'];
+        $current_date = $operation_date['current_date'];
 
         self::find_by_type('everyday', $current_time);
         self::find_once($current_date, $current_time);
@@ -49,8 +64,9 @@ class send extends BaseController
         }
 
         self::send_notify();
+        watch_model::done_operation($operation['id'], self::$worker_id);
 
-        std_log("\n ------------------------- Sending is done! -------------------------- \n");
+        self::run();
     }
 
     private static function find_once($date, $time)
@@ -104,7 +120,7 @@ class send extends BaseController
             $type = $item['acceptor']['type'];
 
 
-            std_log($item['notify']['id'] . ":" . $type . " -> " . $account . " \n");
+            std_log('Worker: ' . self::$worker_id . " | notify: " . $item['notify']['id'] . ":" . $type . " -> " . $account . " \n");
 
             if (!$type) {
                 std_log("У получателя " . $item['acceptor']['name'] . " : " . $item['acceptor']['account'] . " нет типа");
