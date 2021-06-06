@@ -43,6 +43,11 @@ final class watcher_model
     dba::query($sql);
     $operation = dba::fetch_assoc();
 
+    if (!$operation) {
+      std_remove_lock(self::$lock_name);
+      return false;
+    }
+
     self::set_in_process($operation['id'], $worker_id);
 
     std_remove_lock(self::$lock_name);
