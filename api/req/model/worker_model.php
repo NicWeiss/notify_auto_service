@@ -5,7 +5,7 @@ namespace model;
 use lib\dba as dba;
 use model\notify_model as notify;
 
-final class cron_model
+final class worker_model
 {
 
   public static function get_once_notifies($date, $time)
@@ -78,10 +78,10 @@ final class cron_model
   {
     $notify = TABLE_OF_NOTIFY;
 
-    $date = substr($date, 0, 4);
+    $date = substr($date, 0, 6);
 
     $sql = "SELECT * FROM $notify  WHERE status= '1' and `periodic` = 'every_year'
-      and `time` = '$time' and `date` like '%$date%';";
+      and `time` = '$time' and `date` like '$date%';";
     dba::query($sql);
     $notify_list = dba::fetch_assoc_all();
 

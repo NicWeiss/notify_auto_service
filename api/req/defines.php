@@ -13,3 +13,4 @@ define('TABLE_OF_SYSTEMS', 'notifier.system');
 define('MIGRATION', 'notifier.migration');
 define('TABLE_OF_NOTIFY', 'notifier.notify');
 define('TABLE_OF_NOTIFY_ACCEPTORS', 'notifier.notify_acceptors');
+define('TABLE_OF_OPERATIONS', 'notifier.date_operations');
