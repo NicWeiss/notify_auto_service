@@ -12,6 +12,7 @@ namespace lib;
 
 use cfg as cfg;
 use Exception;
+use helpers\logger as Logger;
 
 final class dba
 {
@@ -225,7 +226,7 @@ final class dba
                 cfg::$siteconf['dbpass']
             );
             if (!$link) {
-                std_debug('cant connect to mysql');
+                Logger::error('cant connect to mysql');
                 die;
             }
             $link->set_charset("utf8");

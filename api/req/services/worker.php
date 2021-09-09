@@ -10,6 +10,7 @@ namespace services;
 use generic\BaseController;
 use lib\email;
 use lib\telegram;
+use helpers\logger as Logger;
 use model\worker_model as model;
 use model\watcher_model as watch_model;
 
@@ -30,9 +31,11 @@ class worker extends BaseController
         $operation = watch_model::get_first_waited_operation(self::$worker_id);
 
         if (!$operation) {
-            std_log("\n ------------------------- Sending is done! -------------------------- \n");
+            Logger::info("Worker done");
             return;
         }
+
+        Logger::info("Run worker");
 
         $operation_date = json_decode($operation['target_date'], true);
 
@@ -103,7 +106,10 @@ class worker extends BaseController
     {
         foreach ($notify_list as $notify) {
             if (!$notify['acceptorsList']) {
-                std_error_log("У уведомления " . $notify['id'] . " : " . $notify['name'] . " нет получателей");
+                Logger::error(array(
+                    "message" => "Notify don't have acceptors",
+                    "error" => "У уведомления " . $notify['id'] . " : " . $notify['name'] . " нет получателей"
+                ));
             }
             foreach ($notify['acceptorsList'] as $acceptor) {
                 array_push(self::$notify_pool, ['notify' => $notify, 'acceptor' => $acceptor]);
@@ -120,10 +126,10 @@ class worker extends BaseController
             $type = $item['acceptor']['type'];
 
 
-            std_log('Worker: ' . self::$worker_id . " | notify: " . $item['notify']['id'] . ":" . $type . " -> " . $account . " \n");
+            Logger::info(array("message" => "Send notify"));
 
             if (!$type) {
-                std_log("У получателя " . $item['acceptor']['name'] . " : " . $item['acceptor']['account'] . " нет типа");
+                Logger::error(array("message" => "Send failed", "error" => "acceptor does not have type"));
             }
 
             if ($type == 'email') {
