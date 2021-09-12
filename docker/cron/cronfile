@@ -1,1 +1,2 @@
-* * * * * cd /var/www && /usr/local/bin/php watcher.php &&  /usr/local/bin/php worker.php
+* * * * * cd /var/www && /usr/local/bin/php watcher.php
+* * * * * cd /var/www && /usr/local/bin/php worker.php

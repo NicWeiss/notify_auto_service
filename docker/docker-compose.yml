@@ -92,3 +92,9 @@ services:
       - ./cron:/cron
       - ../api:/var/www
     container_name: notifier_cron
+
+  grafana_agent:
+    image: grafana/agent:latest
+    volumes:
+      - ../api/tmp/log:/var/log/
+      - ./grafana/grafana.yml:/etc/agent/agent.yaml
