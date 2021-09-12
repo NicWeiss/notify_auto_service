@@ -1,0 +1,51 @@
+server:
+  log_level: debug
+  http_listen_port: 12345
+
+loki:
+  configs:
+    - name: default
+      positions:
+        filename: /tmp/positions.yaml
+      clients:
+        - url: http://192.168.1.7:3100/loki/api/v1/push
+      scrape_configs:
+        - job_name: notifier
+          static_configs:
+            - targets:
+                - localhost
+              labels:
+                job: varlogs
+                __path__: /var/log/log.txt
+          pipeline_stages:
+            - json:
+                expressions:
+                  message: message
+                  loglevel: levelname
+                  timestamp: timestamp
+                  runtime: runtime
+                  job_name: job_name
+            - labels:
+                loglevel:
+                message:
+                job_name:
+
+tempo:
+  configs:
+    - name: default
+      receivers:
+        jaeger:
+          protocols:
+            thrift_http:
+      remote_write:
+        - endpoint: tempo:55680
+          insecure: true
+      batch:
+        timeout: 5s
+        send_batch_size: 100
+      automatic_logging:
+        backend: loki
+        loki_name: default
+        spans: true
+        processes: true
+        roots: true

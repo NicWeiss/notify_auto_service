@@ -13,7 +13,6 @@ RUN docker-php-ext-enable zip
 
 RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mysql
 
-
 RUN mkdir -p /usr/lib/php/modules/
 
 RUN cp /usr/local/lib/php/extensions/no-debug-non-zts-20190902/* /usr/lib/php/modules/
