@@ -9,7 +9,7 @@ class Logger
 {
     private static $log_level = '';
     private static $log_filename = './tmp/log/log.txt';
-    private static $max_file_size = 50000;
+    private static $max_file_size = 5000000;
 
     public static function info($message)
     {

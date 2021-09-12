@@ -23,19 +23,34 @@ class worker extends BaseController
 
     public static function run()
     {
+        Logger::info("Run worker");
+        $start = microtime(true);
+
         if (!self::$worker_id) {
             self::$worker_id = md5(strval(random_int(1000, 9999) * random_int(1000, 9999)));
         }
 
         self::$notify_pool = [];
-        $operation = watch_model::get_first_waited_operation(self::$worker_id);
+        $operations_list = watch_model::get_first_waited_operation(self::$worker_id);
 
-        if (!$operation) {
+        if (!$operations_list) {
             Logger::info("Worker done");
             return;
         }
 
-        Logger::info("Run worker");
+        foreach ($operations_list as $operation) {
+            self::process_operation($operation);
+        }
+
+        $end = microtime(true);
+        Logger::info(array('message' => 'run_job', 'job_name' => 'worker', 'run_time' => $end - $start));
+        self::run();
+    }
+
+    private static function process_operation($operation)
+    {
+        Logger::info("Run operation processor");
+        $start = microtime(true);
 
         $operation_date = json_decode($operation['target_date'], true);
 
@@ -69,7 +84,8 @@ class worker extends BaseController
         self::send_notify();
         watch_model::done_operation($operation['id'], self::$worker_id);
 
-        self::run();
+        $end = microtime(true);
+        Logger::info(array('message' => 'run_job', 'job_name' => 'operation_processor', 'run_time' => $end - $start));
     }
 
     private static function find_once($date, $time)
@@ -119,6 +135,7 @@ class worker extends BaseController
 
     private static function send_notify()
     {
+        $start = microtime(true);
         foreach (self::$notify_pool as $item) {
             $account = $item['acceptor']['account'];
             $title = $item['notify']['name'];
@@ -147,5 +164,9 @@ class worker extends BaseController
                 ]);
             }
         }
+
+        self::$notify_pool = [];
+        $end = microtime(true);
+        Logger::info(array('message' => 'run_job', 'job_name' => 'notify send', 'run_time' => $end - $start));
     }
 }

@@ -23,9 +23,12 @@ loki:
                   message: message
                   loglevel: levelname
                   timestamp: timestamp
+                  runtime: runtime
+                  job_name: job_name
             - labels:
                 loglevel:
                 message:
+                job_name:
 
 tempo:
   configs:

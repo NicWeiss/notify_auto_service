@@ -29,6 +29,7 @@ class watcher
             return;
         }
 
+        $start = microtime(true);
         Logger::info("Run watcher");
 
         $current_date = self::get_date_object();
@@ -45,6 +46,8 @@ class watcher
         self::check_time_diff(json_decode($last_operation['target_date'], true), $current_date);
         std_remove_lock($lock_name);
         Logger::info("Watcher done");
+        $end = microtime(true);
+        Logger::info(array('message' => 'run_job', 'job_name' => 'watcher', 'run_time' => $end - $start));
     }
 
     private static function check_time_diff($old_date, $new_date)
@@ -56,11 +59,26 @@ class watcher
             return;
         }
 
+        $oprerations = [];
         while ($old_timestamp < $new_timestamp - 1) {
+            $start = microtime(true);
+
             $old_timestamp += 60;
             $target_date = self::get_date_object($old_timestamp);
-            Logger::info(array("message" => "Watcher add operation", "operation_date" => $target_date));
-            model::add_operation($target_date);
+            array_push($oprerations, $target_date);
+
+            $end = microtime(true);
+            Logger::info(array('message' => 'run_job', 'job_name' => 'add_operation', 'run_time' => $end - $start));
+
+            if (count($oprerations) >= 100) {
+                model::add_operations($oprerations);
+                $oprerations = [];
+            }
+        }
+
+        if ($oprerations) {
+            model::add_operations($oprerations);
+            $oprerations = [];
         }
     }
 
