@@ -135,15 +135,12 @@ class worker extends BaseController
 
     private static function send_notify()
     {
-        $start = microtime(true);
         foreach (self::$notify_pool as $item) {
+            $start = microtime(true);
             $account = $item['acceptor']['account'];
             $title = $item['notify']['name'];
             $text = $item['notify']['text'] ? $item['notify']['text'] : ' ';
             $type = $item['acceptor']['type'];
-
-
-            Logger::info(array("message" => "Send notify"));
 
             if (!$type) {
                 Logger::error(array("message" => "Send failed", "error" => "acceptor does not have type"));
@@ -163,10 +160,11 @@ class worker extends BaseController
                     'text' => $text
                 ]);
             }
+
+            $end = microtime(true);
+            Logger::info(array('message' => 'run_job', 'job_name' => 'notify send', 'run_time' => $end - $start));
         }
 
         self::$notify_pool = [];
-        $end = microtime(true);
-        Logger::info(array('message' => 'run_job', 'job_name' => 'notify send', 'run_time' => $end - $start));
     }
 }
