@@ -15,12 +15,12 @@ class system extends BaseController
     public static function get()
     {
         $systems = sm::get_all();
-        self::set_data($systems);
+        return $systems;
     }
 
     public static function get_by_id($entity_id)
     {
         $system = sm::get_system($entity_id);
-        self::set_data($system);
+        return $system;
     }
 }

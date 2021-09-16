@@ -2,7 +2,7 @@
 
 namespace generic;
 
-
+use Exception;
 use model\auth_base as auth;
 use lib\request;
 
@@ -11,7 +11,6 @@ class BaseController
 
     protected static $model_name = null;
     protected static $answer = [];
-    protected static $http_code = 200;
     protected static $user = null;
     protected static $total = 0;
     protected static $request_json;
@@ -22,23 +21,14 @@ class BaseController
         self::$request_json = self::getModelData();
     }
 
-
-    public static function get_answer($ember_model)
-    {
-        if ($ember_model) {
-            return [
-                $ember_model => self::$answer,
-                'meta' => [
-                    'total_pages' => self::$total
-                ]
-            ];
-        }
-        return self::$answer;
-    }
-
     public static function set_total_pages($total)
     {
         self::$total = $total;
+    }
+
+    public static function get_total_pages()
+    {
+        return self::$total;
     }
 
     public static function set_session($user_session_id)
@@ -46,39 +36,24 @@ class BaseController
         self::$user = auth::get_user_by_session($user_session_id);
     }
 
-    public static function get_http_responce_code()
-    {
-        return self::$http_code;
-    }
-
-    protected static function set_data($data)
-    {
-        self::$http_code = 200;
-        self::$answer = $data;
-    }
-
     protected static function has_no_permission()
     {
-        self::$http_code = 403;
-        self::$answer = 'You do not have access';
+        return new Exception(self::error('You do not have access'), 403);
     }
 
     protected static function not_found()
     {
-        self::$http_code = 404;
-        self::$answer = 'Not found';
+        return new Exception(self::error('Not found'), 404);
     }
 
     protected static function critical_error()
     {
-        self::$http_code = 500;
-        self::$answer = 'Critical error';
+        return new Exception(self::error('Critical error'), 404);
     }
 
     protected static function unprocessable_entity()
     {
-        self::$http_code = 422;
-        self::$answer = 'Unprocessable entity';
+        return new Exception(self::error('Unprocessable entity'), 422);
     }
 
     private static function getModelData()
@@ -96,26 +71,31 @@ class BaseController
 
     public static function post()
     {
-        self::not_found();
+        throw self::not_found();
     }
 
     public static function get()
     {
-        self::not_found();
+        throw self::not_found();
     }
 
     public static function get_by_id($entity_id)
     {
-        self::not_found();
+        throw self::not_found();
     }
 
     public static function update($entity_id)
     {
-        self::not_found();
+        throw self::not_found();
     }
 
     public static function delete($entity_id)
     {
-        self::not_found();
+        throw self::not_found();
+    }
+
+    private static function error($message)
+    {
+        return json_encode(['errors' => ['error' => $message]]);
     }
 }

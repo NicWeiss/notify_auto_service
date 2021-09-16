@@ -19,7 +19,7 @@ build_production:  ## Сборка проекта
 	@docker-compose build backend frontend-production cron mysql php-cli php-fpm
 
 start_develop: build  ## Запуск проекта для разработки
-	@docker-compose up backend frontend cron grafana_agent
+	@docker-compose up backend frontend cron
 
 start_production: build_production  ## Запуск проекта
 	@docker-compose up backend frontend-production cron grafana_agent
