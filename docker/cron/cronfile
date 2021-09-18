@@ -1,2 +1,4 @@
-* * * * * cd /var/www && /usr/local/bin/php watcher.php
-* * * * * cd /var/www && /usr/local/bin/php worker.php
+* * * * * cd /var/www && /usr/local/bin/php cron_job.php Watcher
+* * * * * cd /var/www && /usr/local/bin/php cron_job.php Worker
+*/5 * * * * cd /var/www && /usr/local/bin/php cron_job.php SessionCleaner
+*/15 * * * * cd /var/www && /usr/local/bin/php cron_job.php OperationCleaner

@@ -21,12 +21,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 }
 
 use lib\request as request;
-use lib\rest as rest;
+use lib\RestAdapter;
 use model\auth_base;
 
 require_once("req/std.php");
 require_once('tmp/config.ini.php');
-http_response_code(200);
+http_response_code(500);
 std_env_init();
 
 
@@ -61,15 +61,20 @@ final class myapp
 
         $class::set_session($user_session_id);
 
-        rest::process($class, $method, $entity_id);
+        $result = null;
 
-        $answer = $class::get_answer($ember_model);
+        try {
+            $result = RestAdapter::excute($class, $method, $ember_model, $entity_id);
+        } catch (Exception $exc) {
+            http_response_code($exc->getCode());
+            echo $exc->getMessage();
+            return;
+        }
 
-        if (!$answer) {
+        if (!$result) {
             http_response_code(404);
         } else {
-            http_response_code($class::get_http_responce_code());
-            echo json_encode($answer);
+            echo json_encode($result);
         }
     }
 }

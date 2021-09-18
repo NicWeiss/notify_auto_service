@@ -42,9 +42,7 @@ final class request
     {
         $data =  json_decode(file_get_contents('php://input'), true);
         if (is_null($data[$name])) {
-            http_response_code(422);
-            echo 'Unprocessable Entity';
-            die;
+            return null;
         }
         return $data[$name];
     }

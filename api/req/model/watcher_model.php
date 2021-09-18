@@ -98,4 +98,19 @@ final class watcher_model
         $res = dba::query($sql);
         return $res;
     }
+
+
+    public static function delete_all_done_operations_without_last()
+    {
+        $operations_table = self::$operations;
+        $last_operation = self::get_last_operation();
+        $last_id = 0;
+
+        if ($last_operation) {
+            $last_id = $last_operation['id'];
+        }
+
+        $sql = "DELETE FROM $operations_table WHERE `type` = 'done' AND `id` != $last_id";
+        dba::query($sql);
+    }
 }

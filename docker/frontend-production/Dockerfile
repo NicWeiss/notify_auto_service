@@ -2,8 +2,8 @@
 FROM node:14.16.0 as base
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    nginx
+  apt-get install -y --no-install-recommends \
+  nginx
 
 COPY ./app/ /frontend/app/
 COPY ./config/ /frontend/config/
@@ -21,7 +21,7 @@ RUN npm install
 
 RUN npm install -g ember-cli@3.24.0
 
-RUN ember build
+RUN ember build --environment=production
 
 
 FROM base as preproduction
