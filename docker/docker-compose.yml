@@ -71,7 +71,6 @@ services:
     build:
       dockerfile: ../docker/frontend-production/Dockerfile
       context: ../frontend
-      target: production
     ports:
       - "56104:80"
     volumes:
