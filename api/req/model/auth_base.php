@@ -6,6 +6,10 @@ use lib\dba as dba;
 
 final class auth_base
 {
+
+    private static $SIX_DAYS = 518400;
+    private static $ONE_WEEK = 604800;
+
     public static function create_user($data)
     {
         $DB = TABLE_OF_USERS;
@@ -150,7 +154,39 @@ final class auth_base
 
         $sql = "SELECT * FROM  $DB WHERE `session`='$session' and `expire_at` > $now";
         dba::query($sql);
-        $res = dba::fetch_assoc();
-        return $res ? true : false;
+        $session = dba::fetch_assoc();
+
+        if ($session) {
+            self::try_regenerate_session($session);
+        }
+
+        return $session ? true : false;
+    }
+
+    private static function try_regenerate_session($session)
+    {
+        $date = date_create();
+        $current_timstamp = date_timestamp_get($date);
+        $session_expire_at = $session['expire_at'];
+
+        if (($session_expire_at - $current_timstamp) < self::$SIX_DAYS) {
+            $session_table = TABLE_OF_SESSIONS;
+            $id = $session['id'];
+            $new_expire_date = $current_timstamp + self::$ONE_WEEK;
+
+            $sql = "UPDATE $session_table SET `expire_at` = '$new_expire_date'
+                WHERE `id` = '$id'";
+            dba::query($sql);
+        }
+    }
+
+    public static function delete_outdated_sessions()
+    {
+        $session_table = TABLE_OF_SESSIONS;
+        $date = date_create();
+        $current_timstamp = date_timestamp_get($date);
+
+        $sql = "DELETE FROM $session_table WHERE `expire_at` < $current_timstamp";
+        dba::query($sql);
     }
 }

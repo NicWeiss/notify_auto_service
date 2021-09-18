@@ -22,7 +22,7 @@ start_develop: build  ## Запуск проекта для разработки
 	@docker-compose up backend frontend cron
 
 start_production: build_production  ## Запуск проекта
-	@docker-compose up backend frontend-production cron grafana_agent
+	@docker-compose up backend frontend-production:production cron grafana_agent
 
 stop: ## Остановка проекта
 	@docker-compose down
