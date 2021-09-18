@@ -1,7 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 
-use helpers\logger as Logger;
+use helpers\Logger as Logger;
 use lib\request as request;
 
 

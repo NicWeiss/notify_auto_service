@@ -10,7 +10,7 @@ namespace services;
 use generic\BaseController;
 use lib\email;
 use lib\telegram;
-use helpers\logger as Logger;
+use helpers\Logger as Logger;
 use model\worker_model as model;
 use model\watcher_model as watch_model;
 

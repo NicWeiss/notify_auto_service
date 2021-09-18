@@ -8,7 +8,7 @@
 namespace services;
 
 use DateTime;
-use helpers\logger as Logger;
+use helpers\Logger as Logger;
 use model\watcher_model as model;
 
 class watcher
