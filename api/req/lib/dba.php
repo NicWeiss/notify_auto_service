@@ -12,7 +12,7 @@ namespace lib;
 
 use cfg as cfg;
 use Exception;
-use helpers\logger as Logger;
+use helpers\Logger as Logger;
 
 final class dba
 {

@@ -14,6 +14,9 @@ use model\auth_base as auth_base;
 
 class auth extends BaseController
 {
+    private static $ONE_WEEK = 604800;
+    private static $ONE_HUNDRED_YEARS = 338688000;
+
     public static function login()
     {
         /*
@@ -22,24 +25,28 @@ class auth extends BaseController
          *      2.  Если пользователь найден, то будет обновлена сессия и отправлена на фронт
          */
         $email = request::get_from_client_Json('email');
+        $is_from_mobile = request::get_from_client_Json('is_from_mobile');
         $password = md5(request::get_from_client_Json('password'));
 
         $user = auth_base::get_user($email, $password);
+
         if (!$user) {
-            self::has_no_permission();
-            return;
+            throw self::has_no_permission();
         }
 
-        $session = md5(uniqid(rand(), true));
-        $date = date_create();
-        $data = [
-            'user_id' => $user['id'],
-            'session' => $session,
-            'expire_at' => (date_timestamp_get($date) + 3600)
-        ];
-        auth_base::set_session($data);
+        $session_id = md5(uniqid(rand(), true));
+        $session_life_time = $is_from_mobile ? self::$ONE_HUNDRED_YEARS : self::$ONE_WEEK;
+        $current_date = date_create();
 
-        self::set_data(['user' => $user['user'], 'session' => $session]);
+        $session = [
+            'user_id' => $user['id'],
+            'session' => $session_id,
+            'expire_at' => (date_timestamp_get($current_date) + $session_life_time)
+        ];
+
+        auth_base::set_session($session);
+
+        return ['user' => $user['user'], 'session' => $session_id];
     }
 
     public static function get_code()
@@ -54,12 +61,10 @@ class auth extends BaseController
         $date = date_create();
 
         if (auth_base::check_user_exists($email)) {
-            self::unprocessable_entity();
-            return;
+            throw self::unprocessable_entity();
         }
         if (auth_base::is_reg_code_exist($email, date_timestamp_get($date))) {
-            self::has_no_permission();
-            return;
+            throw self::has_no_permission();
         }
 
         auth_base::create_code(['email' => $email, 'code' => $code, 'expire_at' => (date_timestamp_get($date) + 300)]);
@@ -71,10 +76,10 @@ class auth extends BaseController
                 . '. Наберите его в поле ввода длязавершения регистрации'
         ]);
         if (!$is_send) {
-            self::critical_error();
-            return;
+            throw self::critical_error();
         }
-        self::set_data('correct');
+
+        return 'correct';
     }
 
     public static function sign_up()
@@ -86,7 +91,7 @@ class auth extends BaseController
 
         $sended_code = auth_base::get_reg_code($email, date_timestamp_get($date));
         if (!$sended_code) {
-            self::has_no_permission();
+            throw self::has_no_permission();
         }
 
         if ($accepted_code == $sended_code) {
@@ -94,8 +99,7 @@ class auth extends BaseController
             $password = md5(request::get_from_client_Json('password'));
 
             if (auth_base::check_user_exists($email)) {
-                self::unprocessable_entity();
-                return;
+                throw self::unprocessable_entity();
             }
 
             $user = [
@@ -104,20 +108,23 @@ class auth extends BaseController
                 'email' => $email
             ];
             $user_id = auth_base::create_user($user);
+
             if (!$user_id) {
-                self::critical_error();
-                return;
+                throw self::critical_error();
             }
+
             $data = [
                 'user_id' => $user_id,
                 'session' => $session,
                 'expire_at' => (date_timestamp_get($date) + 3600)
             ];
+
             auth_base::set_session($data);
-            self::set_data($session);
-            return;
+
+            return $session;
         }
-        self::has_no_permission();
+
+        throw self::has_no_permission();
     }
 
     public static function restore()
@@ -126,20 +133,17 @@ class auth extends BaseController
 
         $email = request::get_from_client_Json('email');
         if (!$email) {
-            self::unprocessable_entity();
-            return;
+            throw self::unprocessable_entity();
         }
 
         $restore_hash = md5(strval(random_int(1000, 9999) * random_int(1000, 9999)));
 
 
         if (!auth_base::check_user_exists($email)) {
-            self::unprocessable_entity();
-            return;
+            throw self::unprocessable_entity();
         }
         if (auth_base::is_restore_code_exist($email, date_timestamp_get($date))) {
-            self::has_no_permission();
-            return;
+            throw self::has_no_permission();
         }
 
         auth_base::create_restore_code([
@@ -155,11 +159,12 @@ class auth extends BaseController
                 'https://' . $_SERVER['SERVER_NAME'] . '/auth/restore/' . $restore_hash . '/password'
                 . ' <br><br> Если вы не запрашивали восстановление - то проигнорируйте это письмо.'
         ]);
+
         if (!$is_send) {
-            self::critical_error();
-            return;
+            throw self::critical_error();
         }
-        self::set_data('success');
+
+        return 'success';
     }
 
     public static function verify_restore_code()
@@ -168,10 +173,10 @@ class auth extends BaseController
         $code = request::get_from_client_Json('code');
 
         if (!auth_base::is_restore_code_exist_by_code($code, date_timestamp_get($date))) {
-            self::unprocessable_entity();
-            return;
+            throw self::unprocessable_entity();
         }
-        self::set_data('exist');
+
+        return 'exist';
     }
 
     public static function change_password()
@@ -183,11 +188,10 @@ class auth extends BaseController
         $email = auth_base::get_email_by_restore_code($code, date_timestamp_get($date));
 
         if (!$email) {
-            self::unprocessable_entity();
-            return;
+            throw self::unprocessable_entity();
         }
 
         auth_base::update_password($email, $password);
-        self::set_data('success');
+        return 'success';
     }
 }
