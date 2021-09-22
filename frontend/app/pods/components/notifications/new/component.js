@@ -43,8 +43,9 @@ export default class NewComponent extends Component {
 
   restoreDateAndTime() {
     const time = this.notifyNew.time;
-    const date = this.notifyNew.date || '01.01.1970'
-    const restoredDate = new Date(date + ' ' + time + ' GMT-0');
+    const date = this.notifyNew.date || `${new Date().getUTCFullYear()}-01-01`
+
+    const restoredDate = new Date(`${date}T${time}Z`);
 
     if (this.notifyNew.date) {
       this.date = restoredDate.getDate() +
@@ -57,7 +58,6 @@ export default class NewComponent extends Component {
   }
 
   prepareDateAndTime() {
-    this.notifyNew.timeZoneOffset = -1 * this.flatpickrTimeRef.latestSelectedDateObj.getTimezoneOffset() / 60;
     const date = this.flatpickrDateRef ? this.flatpickrDateRef.latestSelectedDateObj : new Date();
     const time = this.flatpickrTimeRef.latestSelectedDateObj;
     let dateTime = new Date(
@@ -70,8 +70,8 @@ export default class NewComponent extends Component {
     const hours = dateTime.getUTCHours() < 10 ? '0' + dateTime.getUTCHours() : dateTime.getUTCHours();
     const minutes = dateTime.getUTCMinutes() < 10 ? '0' + dateTime.getUTCMinutes() : dateTime.getUTCMinutes();
 
-    this.notifyNew.date = month + '.' + days + '.' + years;
-    this.notifyNew.time = hours + ':' + minutes;
+    this.notifyNew.date = `${years}-${month}-${days}`;
+    this.notifyNew.time = `${hours}:${minutes}`;
   }
 
   @action

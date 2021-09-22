@@ -98,7 +98,7 @@ class watcher
         $date_object['current_day'] = gmdate("d", $timestamp);
         $date_object['day_of_week'] = gmdate("w", $timestamp) == '0' ? '7' : gmdate("w", $timestamp);
         $date_object['current_time'] = gmdate('H:i', $timestamp);
-        $date_object['current_date'] = gmdate('m.d.Y', $timestamp);
+        $date_object['current_date'] = gmdate('Y-m-d', $timestamp);
 
         return $date_object;
     }

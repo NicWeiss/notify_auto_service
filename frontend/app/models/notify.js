@@ -8,7 +8,6 @@ export default class NotifyModel extends Model {
   @attr('string') date
   @attr('string') time
   @attr('string') status
-  @attr('string') timeZoneOffset
 
   @hasMany('acceptor') acceptorsList
 }
