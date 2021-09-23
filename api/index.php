@@ -51,12 +51,12 @@ final class myapp
         $entity_id = array_key_exists("entity_id", $object) ? $object["entity_id"] : False;
         $ember_model = array_key_exists("ember_model", $object) ? $object["ember_model"] : False;
 
-        // if ($object['control_class'] != 'control\auth') {
-        //     if (!$user_session_id || !$is_session_valid) {
-        //         http_response_code(403);
-        //         return;
-        //     }
-        // }
+        if ($object['control_class'] != 'control\auth') {
+            if (!$user_session_id || !$is_session_valid) {
+                http_response_code(403);
+                return;
+            }
+        }
 
         $class::set_session($user_session_id);
 
