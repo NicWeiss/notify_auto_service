@@ -20,9 +20,9 @@ final class notify_model
         $notify['time'] = array_key_exists("time", $notify) ?  $notify["time"] : '';
 
         $sql = "INSERT INTO  $table ( `user_id`, `name`, `text`, `periodic`, `day_of_week`,
-                                      `date`, `time`, `time_zone_offset`)
+                                      `date`, `time`)
                 VALUES ('$user[id]',  '$notify[name]', '$notify[text]', '$notify[periodic]',
-                        '$notify[day_of_week]', '$notify[date]', '$notify[time]',  '$notify[time_zone_offset]' )";
+                        '$notify[day_of_week]', '$notify[date]', '$notify[time]' )";
         dba::query($sql);
 
         $sql = "SELECT * FROM $table  ORDER BY `id` DESC Limit 1;";
@@ -62,7 +62,7 @@ final class notify_model
 
         $offset = ($page - 1) * $per_page;
 
-        $sql = "SELECT * FROM $notify  WHERE user_id= '$user[id]' LIMIT $offset, $per_page;";
+        $sql = "SELECT * FROM $notify  WHERE user_id= '$user[id]' ORDER BY id DESC  LIMIT $offset, $per_page;";
         dba::query($sql);
         $notify_list = dba::fetch_assoc_all();
 
@@ -108,7 +108,7 @@ final class notify_model
 
         $sql = "UPDATE $table SET `name`='$notify[name]', `text`='$notify[text]', `periodic`='$notify[periodic]',
                  `day_of_week`='$notify[day_of_week]', `date`='$notify[date]', `time`='$notify[time]',
-                 `status`=$notify[status], `time_zone_offset`='$notify[time_zone_offset]'
+                 `status`=$notify[status]
                 WHERE `id`= '$entity_id' and `user_id` = '$user[id]'
                 ";
         dba::query($sql);
