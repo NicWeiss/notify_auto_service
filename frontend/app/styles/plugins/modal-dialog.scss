@@ -12,12 +12,6 @@
     padding: 10px;
   }
 
-  .buttons-bar {
-    display: flex;
-    justify-content: center;
-    padding: 10px;
-  }
-
   .body {
     padding: 0 25%;
 
@@ -78,8 +72,8 @@
   height: auto;
   min-height: 100vh;
   display: flex;
-  align-items: flex-start;
   justify-content: center;
+  align-items: center;
 }
 
 /* basic modal style (an example, this is not necessary for the centering) */
@@ -89,4 +83,14 @@
 
 .ember-modal-wrapper {
   overflow-x: hidden;
+  overflow-y: auto;
+  // height: 60vh;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.ember-modal-wrapper::-webkit-scrollbar {
+  display: none;
 }

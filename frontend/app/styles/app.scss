@@ -1,99 +1,30 @@
-// @import "bootstrap";
-@import "auth";
-@import "flex";
+@import "constants.scss";
+@import "components/default.scss";
+@import "components/auth.scss";
+@import "components/view.scss";
 
 @import "ember-modal-dialog/ember-modal-structure";
 @import "ember-modal-dialog/ember-modal-appearance";
 
-@import "components/style.scss";
-@import "components/new/style.scss";
-@import "components/list/style.scss";
-@import "components/navbar/style.scss";
-@import "components/form/multi-select.scss";
-@import "components/utils/status-colored.scss";
 @import "plugins/modal-dialog.scss";
+@import "components/utils/date-and-time-picker.scss";
+@import "components/utils/empty-list.scss";
 @import "components/utils/fancy-type.scss";
+@import "components/utils/flex.scss";
+@import "components/utils/preloader.scss";
+@import "components/utils/scrollbar.scss";
+@import "components/utils/status-colored.scss";
 
-body {
-  scrollbar-width: none;
-}
+@import "components/common/alert.scss";
+@import "components/common/containers.scss";
+@import "components/common/header.scss";
+@import "components/common/not-found.scss";
 
-::-webkit-scrollbar {
-  width: 0px;
-  background: rgba(255, 255, 255, 0);
-}
+@import "components/entity/category/list.scss";
+@import "components/entity/notify/new.scss";
 
-.error {
-  background-color: rgb(247, 110, 110);
-}
 
-.info {
-  background-color: rgb(156, 211, 224);
-  color: black;
-}
-
-.success {
-  background-color: rgb(134, 233, 159);
-  color: black;
-}
-
-a {
-  color: black;
-}
-
-.btn-outline-orange {
-  color: #8a4411 !important;
-  border-color: #904b16 !important;
-}
-
-::-webkit-scrollbar {
-  width: 12px;
-  background: white;
-}
-
-::-webkit-scrollbar-track {
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: gray;
-}
-
-.btn-primary {
-  color: #fff !important;
-  background-color: #de6c20 !important;
-  border-color: #de6c20 !important;
-}
-
-.btn-primary:hover {
-  color: #fff !important;
-  background-color: #c6550a !important;
-  border-color: #c6550a !important;
-}
-
-.btn-outline-primary {
-  color: #de6c20 !important;
-  border-color: #de6c20 !important;
-}
-
-.btn-outline-primary:hover {
-  color: #fff !important;
-  background-color: #c6550a !important;
-  border-color: #c6550a !important;
-}
-
-.form-control:focus {
-  box-shadow: 0 0 0 0.2rem rgb(198 112 46 / 25%) !important;
-  border-color: #f6a05e !important;
-}
-
-option:hover {
-  background: #f6a05e !important;
-}
-
-.not-found {
-  text-align: center;
-  font-size: 30px;
-  font-weight: 600;
-  font-family: monospace;
-  padding: 25% 0 0 0;
-}
+@import "components/form/style.scss";
+@import "components/form/buttons.scss";
+@import "components/form/table.scss";
+@import "components/form/multi-select.scss";

@@ -20,12 +20,13 @@ final class CategoryModel
 
     public static function create($user_id, $name)
     {
-        $id = md5(uniqid(rand(), true));
+        $id = self::get_last_category_id($user_id);
+        $id = $id + 1;
 
         $sql = "INSERT INTO  " . self::$table . "
                     ( `id`, `user_id`, `name`)
                 VALUES
-                    ('$id',  $user_id, '$name')";
+                    ($id,  $user_id, '$name')";
         dba::query($sql);
 
         return self::get($id);
@@ -34,7 +35,7 @@ final class CategoryModel
 
     public static function update($user_id, $id, $name)
     {
-        $sql = "UPDATE " . self::$table . " SET `name` = '$name' WHERE `user_id` = $user_id and `id` = '$id';";
+        $sql = "UPDATE " . self::$table . " SET `name` = '$name' WHERE `user_id` = $user_id and `id` = $id;";
         dba::query($sql);
 
         return self::get($id);
@@ -46,5 +47,14 @@ final class CategoryModel
         $sql = "DELETE FROM " . self::$table . " WHERE `user_id` = $user_id and `id` != $id";
 
         return dba::query($sql);
+    }
+
+    private static function get_last_category_id($user_id)
+    {
+        $sql = "SELECT `id` FROM " . self::$table . " WHERE `user_id` = $user_id ORDER BY `id` DESC;";
+        dba::query($sql);
+        $last_operation = dba::fetch_assoc()['id'];
+
+        return $last_operation ? $last_operation : 0;
     }
 }

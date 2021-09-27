@@ -17,7 +17,7 @@ final class migration_20210923_203121_400182 extends migration
     protected function up()
     {
         $query = "CREATE TABLE notifier.category (
-                    id varchar(100) NOT NULL,
+                    id int NOT NULL,
                     user_id INTEGER NOT NULL,
                     name varchar(100) NOT NULL
                 )

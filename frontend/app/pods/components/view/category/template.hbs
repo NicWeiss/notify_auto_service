@@ -1,0 +1,51 @@
+<div class="view-wrapper">
+  <div class="view-component">
+    <div class="left-side-section">
+      <div class="menu-logo">
+        <span class="nav-name">
+          Notifier
+        </span>
+        <div class="burger" {{action 'onPressBurger'}}>
+          <span></span>
+        </div>
+      </div>
+      <div class="menu-wrapper" style={{{style}}}>
+          <Entity::Category::MenuList
+            @model={{@model}}
+            @maxlistHeight={{maxlistHeight}}
+            @onSelect={{action 'onSelect'}}
+          />
+          <div class="menu-special">
+            <div class="button">settings</div>
+          </div>
+      </div>
+    </div>
+
+    <div class="right-side-section">
+      <div class="main-line-stub"/>
+      <div class="sub-component" style={{{subComponentHeight}}}>
+        <Entity::Notify::List
+          @model={{notifyModel}}
+          @categoryId={{categoryId}}
+          @reloadModel={{action 'reloadNotifyList'}}
+        />
+
+        <div style="visibility:collapse;">
+          {{#if notifyModel}}
+            <InfinityLoader @infinityModel={{notifyModel}}/>
+          {{/if}}
+        </div>
+
+        {{#unless isInfinityReached}}
+          <div class="preloader {{if (eq notifyModel.length 0) 'preloader_full' ''}}">
+            <img class="spinner" src="/assets/images/spinner.gif">
+          </div>
+        {{/unless}}
+
+        {{#if (and isInfinityReached (eq notifyModel.length 0))}}
+          <Utils::EmptyList/>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>

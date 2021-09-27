@@ -1,0 +1,12 @@
+  {{#modal-dialog translucentOverlay=true
+    targetAttachment='none'
+    containerClass='centered-scrolling-container'
+    overlayClass='centered-scrolling-overlay'
+    wrapperClass='centered-scrolling-wrapper'}}
+  <h1 class="header-text">Добавить нового получателя</h1>
+  <Acceptors::New @model={{model}}
+    @onComplete={{route-action 'onComplete'}}
+    @onRefresh={{route-action 'onRefresh'}}
+    @onClose={{route-action 'close'}}
+  />
+{{/modal-dialog}}

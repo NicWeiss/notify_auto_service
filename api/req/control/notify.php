@@ -21,9 +21,11 @@ class notify extends BaseController
 
     public static function get()
     {
-        $page = request::get('page');
-        $per_page = request::get('per_page');
-        $notify = notify_model::get_all_notify(self::$user, $page, $per_page);
+        $page = request::get('page') ? request::get('page') : 0;
+        $per_page = request::get('per_page') ? request::get('per_page') : 25;
+        $category_id = request::get('category_id') ? request::get('category_id') : 0;
+
+        $notify = notify_model::get_all_notify(self::$user, $category_id, $page, $per_page);
         self::set_total_pages(round(notify_model::get_total(self::$user) / $per_page) + 1);
         return $notify;
     }

@@ -1,0 +1,73 @@
+{{#if @model}}
+  <div class="form-group d-flex justify-content-center table-responsive">
+    <table class="rwd-table">
+      <tr>
+        <th>#</th>
+        <th>Название</th>
+        <th>День выполнения</th>
+        <th>Время выполнения</th>
+        <th>Периодичность</th>
+        <th></th>
+      </tr>
+      {{#each @model as | item|}}
+        {{#unless  item.isDeleted}}
+          <tr {{action onShow item}}>
+            <th data-th="# ">{{item.id}}</th>
+            <td data-th="Название: ">
+              {{item.name}}
+              {{#unless item.acceptorsList}}
+                <br>
+                <span class="text-danger">Нет получателей</span>
+              {{/unless}}
+            </td>
+            <td data-th="День выполнения: ">
+              {{#if item.dayOfWeek}}
+                {{get WEEK item.dayOfWeek}}
+              {{/if}}
+              <Utils::FromGmt @type="date" @date={{item.date}} @time={{item.time}}/>
+            </td>
+            <td data-th="Время выполнения: "><Utils::FromGmt @type="time" @date={{item.date}} @time={{item.time}} /></td>
+            <td data-th="Периодичность: ">{{get PERIODIC item.periodic}}</td>
+            <td class="table-controls" data-th="">
+              <div class="buttons-bar justify-content-around">
+                {{#if (eq item.status "1")}}
+                  <div class="btn btn-outline-success btn-icon without-border" {{action 'onChangeStatus' item bubbles=false}}><FaIcon @icon="bell"/></div>
+                {{else}}
+                  <div class="btn btn-outline-secondary btn-icon without-border" {{action 'onChangeStatus' item bubbles=false}}><FaIcon @icon="bell-slash"/></div>
+                {{/if}}
+                <div class="btn btn-outline-primary btn-icon without-border" {{action 'onEdit' item bubbles=false}}><FaIcon @icon="pencil-alt"/></div>
+                <div class="btn btn-outline-danger btn-icon without-border" {{action 'onDeleteNotify' item bubbles=false}}><FaIcon @icon="trash"/></div>
+              </div>
+            </td>
+          </tr>
+        {{/unless}}
+      {{/each}}
+    </table>
+  </div>
+{{/if}}
+
+<div class="btn btn-primary btn-add" {{action 'onAdd' bubbles=false}}>+</div>
+
+{{#if isShowDeleteModal}}
+  <Entity::Notify::Delete
+    @notify={{itemForModal}}
+    @onClose={{action onClose}}
+  />
+{{/if}}
+
+{{#if isShowEditModal}}
+  <Entity::Notify::New
+    @model={{itemForModal}}
+    @categoryId={{@categoryId}}
+    @onCancel={{action onClose}}
+    @onComplete={{action onComplete}}
+  />
+{{/if}}
+
+{{#if isShowShowModal}}
+  <Entity::Notify::Show
+    @model={{itemForModal}}
+    @onEdit={{action onEdit}}
+    @onClose={{action onClose}}
+  />
+{{/if}}

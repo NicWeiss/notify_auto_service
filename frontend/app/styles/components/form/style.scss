@@ -1,0 +1,35 @@
+.notify-text {
+  height: 100px !important;
+  resize: none;
+}
+
+.datetime-custom {
+  height: 40px;
+  font-size: 15px;
+  width: 100%;
+}
+
+.custom-form {
+  display: flex;
+  justify-content: center;
+}
+
+.flatpickr-input {
+  text-align: center;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control {
+  &__date-and-time {
+    background-color: #fff !important;
+    text-align: center;
+  }
+}
+
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgb(198 112 46 / 25%) !important;
+  border-color: #f6a05e !important;
+}

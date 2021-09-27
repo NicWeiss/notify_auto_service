@@ -1,0 +1,13 @@
+<div class="category-list-wrapper">
+  <div class="category-list">
+    <div class="without-category categoryId_0 selected" {{action 'onSelect'}}>Без категории</div>
+    <div class="user-category" style={{style}}>
+      {{#each @model as | item|}}
+        <div class="category categoryId_{{item.id}}" {{action 'onSelect' item}}>{{item.name}}</div>
+      {{/each}}
+    </div>
+  </div>
+  <div class="category-add">
+    <div class="button">+ добавить</div>
+  </div>
+</div>

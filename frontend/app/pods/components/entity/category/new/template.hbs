@@ -1,0 +1,34 @@
+<form class="custom-form">
+  <div class="form-container">
+
+    <div class="form-group">
+      <label for="notify-name">Название</label>
+      <Input type="text" class="form-control" id="notify-name" @value={{@model.name}}/>
+    </div>
+
+    <div class="form-group">
+      <Form::SelectList
+        @modelName="system"
+        @label="Система получателя"
+        @selected={{this.selectedSystem}}
+        @onSelect={{action 'onSelectSystem'}} />
+    </div>
+
+    <div class="form-group">
+      <label for="notify-text">Аккаунт получателя</label>
+      <Input type="text" class="form-control" id="notify-text" @value={{@model.account}}/>
+      <label class="text-muted">{{{systemHelp}}}</label>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <button type="button" class="btn btn-secondary btn-complete" onclick={{action onCancel}}>
+        Отменить
+      </button>
+      <button type="button" class="btn btn-primary btn-complete" onclick={{action onSaveAcceptor}}>
+        Сохранить
+      </button>
+    </div>
+
+
+  </div>
+</form>

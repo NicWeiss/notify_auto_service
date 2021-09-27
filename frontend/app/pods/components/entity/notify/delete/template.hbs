@@ -1,0 +1,31 @@
+{{#modal-dialog translucentOverlay=true
+    targetAttachment='none'
+    containerClass='centered-scrolling-container'
+    overlayClass='centered-scrolling-overlay'
+    wrapperClass='centered-scrolling-wrapper'}}
+  <div class="header">Удалить уведомление #{{@notify.id}}?</div>
+  <div class="body">
+    <table>
+      <tr>
+        <td>Название:</td>
+        <td>{{@notify.name}}</td>
+      </tr>
+      <tr>
+        <td>Периодичность:</td>
+        <td>{{get PERIODIC @notify.periodic}}</td>
+      </tr>
+      <tr>
+        <td>День выполнения:</td>
+        <td><Utils::FromGmt @type="date" @date={{@notify.date}} @time={{@notify.time}} /></td>
+      </tr>
+      <tr>
+        <td>Время выполнения:</td>
+        <td><Utils::FromGmt @type="time" @date={{@notify.date}} @time={{@notify.time}} /></td>
+      </tr>
+    </table>
+    <div class="buttons-bar">
+      <div class="btn btn-outline-secondary btn-full" {{action this.args.onClose}}>Отмена</div>
+      <div class="btn btn-outline-danger btn-full" {{action 'onDelete'}}>Подтвердить</div>
+    </div>
+  </div>
+{{/modal-dialog}}

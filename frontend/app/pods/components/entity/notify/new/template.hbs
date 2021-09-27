@@ -1,0 +1,94 @@
+{{#modal-dialog translucentOverlay=true
+    targetAttachment='none'
+    containerClass='centered-scrolling-container'
+    overlayClass='centered-scrolling-overlay'
+    wrapperClass='centered-scrolling-wrapper'}}
+  <h1 class="header-text">{{if notifyNew.id 'Изменить уведомление #' 'Создать новое уведомление' }} {{if notifyNew.id notifyNew.id ''}}</h1>
+  <form class="custom-form">
+  <div class="form-container">
+
+    <div class="form-group">
+      <label for="notify-name">Название</label>
+      <Input type="text" class="form-control" id="notify-name" @value={{this.notifyNew.name}} />
+    </div>
+
+    <div class="form-group">
+      <label for="notify-text">Содержание</label>
+      <Textarea type="text" class="form-control notify-text" id="notify-text" @value={{this.notifyNew.text}} />
+    </div>
+
+    <div class="periodic-time-wrapper">
+      <div class="form-group periodic">
+        <label for="periodic-select">Периодичность</label>
+        <select class="form-control" id="periodic-select" onchange={{action 'onChangePeriodic' value="target.value"}}>
+          <option>Выберите периодичность</option>
+            {{#each PERIODIC_SELECT as |periodic|}}
+              <option value={{periodic.value}} selected={{if (eq this.notifyNew.periodic periodic.value) 'selected'}}>
+                {{periodic.title}}
+              </option>
+            {{/each}}
+        </select>
+      </div>
+
+      <div class="week-time-wrapper">
+        {{#if (eq this.notifyNew.periodic "day_of_week")}}
+          <div class="form-group day-of-week">
+            <label for="weekday-select">День недели</label>
+            <select class="form-control" id="weekday-select" onchange={{action 'onChangeWeekDay' value="target.value"}}>
+              <option>Выберите день недели</option>
+              {{#each WEEK_SELECT as |dayOfWeek|}}
+                <option value={{dayOfWeek.value}} selected={{if (eq this.notifyNew.dayOfWeek dayOfWeek.value) 'selected'}}>
+                  {{dayOfWeek.title}}
+                </option>
+              {{/each}}
+            </select>
+          </div>
+        {{/if}}
+
+        <div class="form-group date-time">
+          {{#if isDateTime}}
+            <div class="d-flex flex-column">
+              <label>Дата: </label>
+              <Utils::DateAndTimePicker
+                @date={{this.date}}
+                @pickerType="dateAndTime"
+                @onChange={{action "onSelectDate"}}
+                @classes="form-control form-control__date-and-time"
+              />
+            </div>
+          {{else}}
+          <div class="d-flex flex-column">
+              <label>Время: </label>
+              <Utils::DateAndTimePicker
+                @date={{this.date}}
+                @pickerType="time"
+                @onChange={{action "onSelectDate"}}
+                @classes="form-control form-control__date-and-time"
+              />
+            </div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <Form::MultiSelectList
+        @value={{this.notifyNew.acceptorsList}}
+        @modelName="acceptor"
+        @queryParams={{this.queryParams}}
+        @label="Получатели"
+        @position="top"/>
+    </div>
+
+    <div class="buttons-bar ">
+      <button type="button" class="btn btn-secondary btn-complete" onclick={{action cancel}}>
+        Отменить
+      </button>
+      <button type="button" class="btn btn-primary btn-complete" onclick={{action complete}}>
+        Сохранить
+      </button>
+    </div>
+
+  </div>
+</form>
+{{/modal-dialog}}

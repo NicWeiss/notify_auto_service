@@ -16,6 +16,7 @@ export default class MultiSelectListComponent extends Component {
   @tracked localValue = null;
   @tracked queryParams = {};
   @tracked position = null;
+  @tracked selectId = (Math.random() + 1).toString(36).substring(7);
 
   init() {
     super.init(...arguments);
@@ -39,7 +40,9 @@ export default class MultiSelectListComponent extends Component {
 
 
   @action
-  onSelect(record) {
+  onSelect(recordId) {
+    document.getElementById(this.selectId).value = 'first';
+    let record = this.store.peekRecord(this.modelName, recordId);
     this.value.pushObject(record);
     this.onShow();
     this.updateLocalValue();
