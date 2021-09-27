@@ -4,52 +4,30 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 
-export default class AcceptorsNewComponent extends Component {
+export default class CategoryNewComponent extends Component {
   @service store;
-  @service notify;
 
-  @tracked selectedSystem = null;
-  @tracked systemHelp = null;
+  @tracked name = '';
 
   constructor(owner, args) {
     super(owner, args);
-    if (this.args.model.id) {
-      this.setSelectedSystem();
-    }
   }
 
-  async setSelectedSystem() {
-    this.selectedSystem = await this.store.findRecord('system', this.args.model.systemId);
-    this.onSelectSystem(this.selectedSystem);
-  }
-
-  @action
-  onSelectSystem(system) {
-    this.args.model.systemId = system.id;
-    this.args.model.type = system.type;
-    this.systemHelp = system.help;
-  }
 
   @action
   onCancel() {
-    if (!this.args.model.id) {
-      this.args.model.destroyRecord();
-    }
-    this.args.onClose();
+    this.args.onCancel();
   }
 
   @action
-  onSaveAcceptor() {
-    if (!this.args.model.name || !this.args.model.account || !this.args.model.systemId) {
-      this.notify.error('Остались пустые поля!');
-      return;
-    }
+  onSave() {
+    let model = this.store.createRecord('category', { name: this.name });
 
     try {
-      this.args.model.save()
+      model.save()
     } catch (error) {
       console.log(error);
-      this.notify.error('Ошибка при сохранении получателя');
+      this.notify.error('Ошибка при добавлении категории');
     }
 
     this.args.onComplete();

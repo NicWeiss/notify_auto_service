@@ -7,7 +7,14 @@
       {{/each}}
     </div>
   </div>
-  <div class="category-add">
+  <div class="category-add" {{action onAdd}}>
     <div class="button">+ добавить</div>
   </div>
 </div>
+
+{{#if isShowAddModal}}
+  <Entity::Category::New
+    @onCancel={{action onCancel}}
+    @onComplete={{action onComplete}}
+  />
+{{/if}}

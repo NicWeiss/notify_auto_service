@@ -29,7 +29,7 @@ final class CategoryModel
                     ($id,  $user_id, '$name')";
         dba::query($sql);
 
-        return self::get($id);
+        return self::get($user_id, $id);
     }
 
 
@@ -38,7 +38,7 @@ final class CategoryModel
         $sql = "UPDATE " . self::$table . " SET `name` = '$name' WHERE `user_id` = $user_id and `id` = $id;";
         dba::query($sql);
 
-        return self::get($id);
+        return self::get($user_id, $id);
     }
 
 

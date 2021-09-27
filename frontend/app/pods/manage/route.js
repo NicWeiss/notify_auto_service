@@ -11,10 +11,14 @@ export default class ManageRoute extends Route {
     let self = this;
 
     Ember.onerror = function (error) {
-      if (error.errors[0].status == 403) {
-        console.log('error');
-        self.session.invalidate();
-        self.transitionTo('auth.login');
+      console.error(error);
+
+      if (error?.errors) {
+        if (error.errors[0].status == 403) {
+          console.log('error');
+          self.session.invalidate();
+          self.transitionTo('auth.login');
+        }
       }
     };
 

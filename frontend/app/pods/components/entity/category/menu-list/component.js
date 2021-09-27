@@ -7,6 +7,7 @@ export default class CategoriesListComponent extends Component {
 
   @tracked maxlistHeight = 0;
   @tracked selectedCategory = 0;
+  @tracked isShowAddModal = false;
 
   constructor(owner, args) {
     super(owner, args);
@@ -23,5 +24,21 @@ export default class CategoriesListComponent extends Component {
     document.querySelector(`.categoryId_${this.selectedCategory}`)?.classList.add('selected');
 
     this.args.onSelect(this.selectedCategory);
+  }
+
+  @action
+  onAdd() {
+    this.isShowAddModal = true;
+  }
+
+  @action
+  onCancel() {
+    this.isShowAddModal = false;
+  }
+
+  @action
+  onComplete() {
+    this.isShowAddModal = false;
+    console.log('complete');
   }
 }
