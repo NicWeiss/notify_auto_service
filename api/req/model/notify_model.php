@@ -106,9 +106,10 @@ final class notify_model
         $notify['day_of_week'] = array_key_exists("day_of_week", $notify) ?  $notify["day_of_week"] : '';
         $notify['text'] = array_key_exists("text", $notify) ?  $notify["text"] : '';
         $notify['time'] = array_key_exists("time", $notify) ?  $notify["time"] : '';
+        $notify['category_id'] = array_key_exists("category_id", $notify) ?  $notify["category_id"] : 0;
 
         $sql = "UPDATE $table SET `name`='$notify[name]', `text`='$notify[text]', `periodic`='$notify[periodic]',
-                 `day_of_week`='$notify[day_of_week]', `date`='$notify[date]', `time`='$notify[time]',
+                 `day_of_week`='$notify[day_of_week]', `date`='$notify[date]', `time`='$notify[time]', `category_id`=$notify[category_id],
                  `status`=$notify[status]
                 WHERE `id`= '$entity_id' and `user_id` = '$user[id]'
                 ";

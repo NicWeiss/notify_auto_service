@@ -197,7 +197,7 @@ export default class Picker {
 
   updateDate(date) {
     if (date) {
-      date = new Date(date);
+      date = new Date(`${date}Z`);
 
       if (date == 'Invalid Date') {
         date = new Date();

@@ -6,7 +6,7 @@ import { action } from '@ember/object';
 export default class CategoriesListComponent extends Component {
 
   @tracked maxlistHeight = 0;
-  @tracked selectedCategory = 0;
+  @tracked selectedCategory = "0";
   @tracked isShowAddModal = false;
 
   constructor(owner, args) {
@@ -20,7 +20,7 @@ export default class CategoriesListComponent extends Component {
   @action
   onSelect(record = null) {
     document.querySelector(`.categoryId_${this.selectedCategory}`)?.classList.remove('selected');
-    this.selectedCategory = record?.id || 0;
+    this.selectedCategory = record?.id || "0";
     document.querySelector(`.categoryId_${this.selectedCategory}`)?.classList.add('selected');
 
     this.args.onSelect(this.selectedCategory);

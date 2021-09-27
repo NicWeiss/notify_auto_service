@@ -17,6 +17,18 @@
       <Textarea type="text" class="form-control notify-text" id="notify-text" @value={{this.notifyNew.text}} />
     </div>
 
+    <div class="form-group category">
+      <label for="periodic-select">Категория</label>
+      <select class="form-control" onchange={{action 'onChangeCategory' value="target.value"}}>
+        <option value="0" >Без категории</option>
+          {{#each categories as |category|}}
+            <option value={{category.id}} selected={{if (eq @categoryId category.id) 'selected'}}>
+              {{category.name}}
+            </option>
+          {{/each}}
+      </select>
+    </div>
+
     <div class="periodic-time-wrapper">
       <div class="form-group periodic">
         <label for="periodic-select">Периодичность</label>

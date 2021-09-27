@@ -14,8 +14,10 @@ export default class NotifyDeleteComponent extends Component {
   }
 
   @action
-  onDelete() {
-    this.args.notify.destroyRecord();
+  async onDelete() {
+    await this.args.notify.deleteRecord();
+    await this.args.notify.save();
     this.args.onClose();
+    this.args.onComplete()
   }
 }

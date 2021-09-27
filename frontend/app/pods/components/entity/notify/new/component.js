@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { updateModelByModel } from 'frontend/helpers/updateModelByModel';
 
 import { PERIODIC_SELECT, PERIDOIC_TYPES_NEED_DAY, WEEK_SELECT } from 'frontend/constants';
 
@@ -14,8 +15,7 @@ export default class NewComponent extends Component {
   PERIDOIC_TYPES_NEED_DAY = PERIDOIC_TYPES_NEED_DAY
   WEEK_SELECT = WEEK_SELECT
 
-  @tracked flatpickrDateRef = null
-  @tracked flatpickrTimeRef = null
+  @tracked categories = {}
   @tracked notifyNew = null
   @tracked isDateTime = false
   @tracked queryParams = { 'status': 1 }
@@ -39,6 +39,8 @@ export default class NewComponent extends Component {
         this.isDateTime = true;
       }
     }
+
+    this.categories = this.store.peekAll('category');
   }
 
   restoreDateAndTime() {
@@ -74,6 +76,11 @@ export default class NewComponent extends Component {
     this.notifyNew.dayOfWeek = null;
     this.notifyNew.periodic = value;
     this.isDateTime = PERIDOIC_TYPES_NEED_DAY.includes(value);
+  }
+
+  @action
+  onChangeCategory(categoryId) {
+    this.notifyNew.categoryId = categoryId;
   }
 
   @action
@@ -117,7 +124,12 @@ export default class NewComponent extends Component {
     }
 
     const isNew = !!this.notifyNew.id;
-    await this.notifyNew.save()
+    if (this.args.model?.id) {
+      updateModelByModel(this.args.model, this.notifyNew);
+      await this.args.model.save();
+    } else {
+      await this.notifyNew.save();
+    }
     this.notify.idDeleted = false;
 
     this.args.onComplete(isNew);

@@ -9,7 +9,7 @@ export default class CategoryViewComponent extends Component {
   @service notify;
   @service infinity;
 
-  @tracked categoryId = 0;
+  @tracked categoryId = "0";
   @tracked selectedSystem = null;
   @tracked systemHelp = null;
   @tracked docunentHight = 0;
@@ -40,7 +40,7 @@ export default class CategoryViewComponent extends Component {
   }
 
   @action
-  onSelect(categoryId = 0) {
+  onSelect(categoryId = "0") {
     this.categoryId = categoryId;
     this.notifyModel = this.infinity.model('notify', { 'category_id': this.categoryId });
     this.checkBurger();

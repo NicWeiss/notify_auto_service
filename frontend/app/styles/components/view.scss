@@ -12,6 +12,7 @@
     .left-side-section {
       width: $left-secton;
       flex-shrink: 0;
+      z-index: 10;
 
       .menu-logo {
         width: 100%;

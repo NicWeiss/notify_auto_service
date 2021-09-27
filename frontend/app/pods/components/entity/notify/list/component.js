@@ -12,12 +12,14 @@ export default class NotificationsComponent extends Component {
   @tracked isShowDeleteModal = false;
   @tracked isShowEditModal = false;
   @tracked isShowShowModal = false;
+  @tracked categoryId = false;
 
   PERIODIC = PERIODIC
   WEEK = WEEK
 
   constructor(owner, args) {
     super(owner, args);
+    this.categoryId = this.args.categoryId || false;
   }
 
   @action
@@ -44,8 +46,9 @@ export default class NotificationsComponent extends Component {
   @action
   onComplete(isNotifyAlreadyExist) {
     this.onClose();
+    let isListEmpty = this.checkListNotEmpty();
 
-    if (isNotifyAlreadyExist) {
+    if (isNotifyAlreadyExist && !isListEmpty) {
       return;
     }
 
@@ -65,9 +68,27 @@ export default class NotificationsComponent extends Component {
   }
 
   @action
+  onCompleteDeleting() {
+    if (this.checkListNotEmpty()) {
+      this.args.reloadModel();
+    }
+  }
+
+  @action
   onClose() {
     this.isShowDeleteModal = false;
     this.isShowEditModal = false;
     this.isShowShowModal = false;
+  }
+
+  checkListNotEmpty() {
+    let isListEmpty = true;
+    this.args.model.forEach((item) => {
+      if (item.categoryId == this.args.categoryId && !item.isDeleted) {
+        isListEmpty = false;
+      }
+    })
+
+    return isListEmpty;
   }
 }
