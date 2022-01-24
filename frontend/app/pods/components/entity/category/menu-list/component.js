@@ -19,9 +19,9 @@ export default class CategoriesListComponent extends Component {
 
   @action
   onSelect(record = null) {
-    document.querySelector(`.categoryId_${this.selectedCategory}`)?.classList.remove('selected');
+    document.querySelector(`.positionId_${this.selectedCategory}`)?.classList.remove('selected');
     this.selectedCategory = record?.id || "0";
-    document.querySelector(`.categoryId_${this.selectedCategory}`)?.classList.add('selected');
+    document.querySelector(`.positionId_${this.selectedCategory}`)?.classList.add('selected');
 
     this.args.onSelect(this.selectedCategory);
   }

@@ -4,19 +4,18 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 
-export default class CategoryViewComponent extends Component {
-  @service store;
+export default class SettingsViewComponent extends Component {
   @service notify;
+  @service api;
+  @service store;
   @service infinity;
 
-  @tracked categoryId = "0";
-  @tracked selectedSystem = null;
-  @tracked systemHelp = null;
   @tracked docunentHight = 0;
   @tracked style = `height: 100%;`
   @tracked maxlistHeight = 0;
   @tracked subComponentHeight = '';
-  @tracked notifyModel = {};
+  @tracked model = {};
+  @tracked modelName = '';
   @tracked isInfinityReached = false;
 
   constructor(owner, args) {
@@ -40,17 +39,30 @@ export default class CategoryViewComponent extends Component {
   }
 
   @action
-  onSelect(categoryId = "0") {
-    this.categoryId = categoryId;
-    this.notifyModel = this.infinity.model('notify', { 'category_id': this.categoryId });
+  async onSelect(modelName = "user") {
+    this.modelName = modelName;
+
+    if (modelName === 'user') {
+      try {
+        await this.api.get({ 'url': 'user' })
+      } catch (error) {
+        console.log(error);
+        this.notify.error('Ошибка на сервере');
+        return;
+      }
+    } else {
+      // this.model = this.infinity.model(modelName);
+    }
+
     this.checkBurger();
+
     this.isInfinityReached = false;
     this.infinityWaiter = setInterval(this.waitReachInfinity.bind(this), 500);
   }
 
   @action
-  reloadNotifyList() {
-    this.onSelect(this.categoryId);
+  reloadModel() {
+    this.onSelect(this.modelName);
   }
 
   @action
@@ -60,8 +72,8 @@ export default class CategoryViewComponent extends Component {
   }
 
   @action
-  onPressSettings() {
-    this.args.transitionToSettings()
+  onPressBack() {
+    this.args.transitionToCategories()
   }
 
   checkBurger() {
@@ -71,11 +83,11 @@ export default class CategoryViewComponent extends Component {
   }
 
   async waitReachInfinity() {
-    let infinityModel = await this.notifyModel;
-    if (infinityModel.reachedInfinity || infinityModel.length === 0) {
-      this.isInfinityReached = true;
-      clearInterval(this.infinityWaiter);
-    }
+    // let infinityModel = await this.model;
+    // if (infinityModel.reachedInfinity || infinityModel.length === 0) {
+    //   this.isInfinityReached = true;
+    //   clearInterval(this.infinityWaiter);
+    // }
   }
 
 }

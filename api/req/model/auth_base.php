@@ -14,8 +14,8 @@ final class auth_base
     {
         $DB = TABLE_OF_USERS;
         $sql = "INSERT INTO  $DB
-           ( `user`, `email`, `password`)
-            VALUES ('" . $data['user'] . "',
+           ( `name`, `email`, `password`)
+            VALUES ('" . $data['name'] . "',
                     '" . $data['email'] . "',
                     '" . $data['password'] . "')";
         dba::query($sql);
@@ -139,7 +139,7 @@ final class auth_base
         $sesions = TABLE_OF_SESSIONS;
         $users = TABLE_OF_USERS;
 
-        $sql = "SELECT u.user, u.email, u.id, s.session FROM $users u
+        $sql = "SELECT u.name, u.email, u.id, s.session FROM $users u
             left join $sesions s on s.user_id = u.id
             WHERE s.session = '$user_session_id'";
 

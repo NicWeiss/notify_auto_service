@@ -8,7 +8,7 @@ import { inject as service } from '@ember/service';
 export default class LoginComponent extends Component {
   @service notify;
   @service session;
-  @service request;
+  @service api;
 
   @tracked isCanSignUp = false
 
@@ -26,7 +26,7 @@ export default class LoginComponent extends Component {
   @action
   onStartEdit(field) {
     this.deselect()
-    if (field == 'user') { this.userSelected = true; }
+    if (field == 'name') { this.userSelected = true; }
     if (field == 'password') { this.passwordSelected = true; }
     if (field == 'email') { this.emailSelected = true; }
     if (field == 'code') { this.codedSelected = true; }
@@ -52,7 +52,7 @@ export default class LoginComponent extends Component {
       return;
     }
     try {
-      await this.request.toApi('auth/get_code',{'email': this.email})
+      await this.api.post({ 'url': 'auth/get_code', 'data': { 'email': this.email } })
     } catch (errorCode) {
       if (errorCode === 403) this.notify.error('Код уже был выслан');
       if (errorCode === 422) this.notify.error('Email уже занят или не корректен или');
@@ -69,14 +69,19 @@ export default class LoginComponent extends Component {
       this.notify.error('Не все данные заполнены ');
       return;
     }
-    
+
     let session = null;
 
     try {
-      session = await this.request.toApi('auth/sign_up', {'user': this.user,
-                                                   'email': this.email,
-                                                   'password': this.password,
-                                                   'code': this.code})
+      session = await this.api.post({
+        'url:': 'auth/sign_up',
+        'data': {
+          'name': this.user,
+          'email': this.email,
+          'password': this.password,
+          'code': this.code
+        }
+      })
     } catch (errorCode) {
       if (errorCode === 403) {
         this.notify.error('Неверный код');

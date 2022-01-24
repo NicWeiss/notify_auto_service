@@ -35,6 +35,10 @@ Router.map(function () {
     this.route('categories', function () {
       this.route('new');
     });
+
+
+    this.route('settings', function () {
+    });
   });
 
   this.route('404', { path: '/*path' });

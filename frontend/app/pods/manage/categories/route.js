@@ -17,4 +17,10 @@ export default class CategoryListRoute extends Route {
     console.log('try add new category');
     // this.transitionTo('manage.cateories.new', acceptor.id);
   }
+
+
+  @action
+  transitionToSettings() {
+    this.transitionTo('manage.settings');
+  }
 }

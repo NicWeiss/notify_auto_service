@@ -11,25 +11,29 @@ export default class AcceptorsListComponent extends Component {
 
 
   @action
-  onChangeStatus(record){
+  onChangeStatus(record) {
     record.status = record.status == 0 ? 1 : 0;
     record.save();
   }
 
   @action
-  onDelete(){
+  onEdit() {
+  }
+
+  @action
+  onDelete() {
     this.itemForDelete.destroyRecord();
     this.onClose();
   }
 
   @action
-  onDeleteWindow(record){
+  onDeleteWindow(record) {
     this.isShowingModal = true;
     this.itemForDelete = record;
   }
 
   @action
-  onClose(){
+  onClose() {
     this.isShowingModal = false;
   }
 }

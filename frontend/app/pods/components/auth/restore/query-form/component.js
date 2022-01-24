@@ -7,7 +7,7 @@ import { inject as service } from '@ember/service';
 export default class RestoreComponent extends Component {
   @service notify;
   @service session;
-  @service request;
+  @service api;
 
   @tracked emailSelected = false;
 
@@ -32,7 +32,7 @@ export default class RestoreComponent extends Component {
     }
 
     try {
-      await this.request.toApi('auth/restore', { 'email': this.email })
+      await this.api.post({ 'url': 'auth/restore', 'data': { 'email': this.email } })
     } catch (errorCode) {
       if (errorCode === 403) {
         this.notify.error('Код уже выслан. Повторно запросить код можно будет через 5 минут');

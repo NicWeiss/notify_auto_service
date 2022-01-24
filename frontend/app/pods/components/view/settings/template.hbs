@@ -10,13 +10,12 @@
         </div>
       </div>
       <div class="menu-wrapper" style={{{style}}}>
-          <Entity::Category::MenuList
-            @model={{@model}}
+          <Entity::Settings::MenuList
             @maxlistHeight={{maxlistHeight}}
             @onSelect={{action 'onSelect'}}
           />
           <div class="menu-special">
-            <div class="button" {{action 'onPressSettings'}}>настройки</div>
+            <div class="button" {{action 'onPressBack'}}>назад</div>
           </div>
       </div>
     </div>
@@ -24,25 +23,33 @@
     <div class="right-side-section">
       <div class="main-line-stub"/>
       <div class="sub-component" style={{{subComponentHeight}}}>
-        <Entity::Notify::List
-          @model={{notifyModel}}
-          @categoryId={{categoryId}}
-          @reloadModel={{action 'reloadNotifyList'}}
-        />
+        {{#if (eq modelName 'acceptor')}}
+          <Entity::Acceptors::List
+            @model={{model}}
+            @reloadModel={{action 'reloadModel'}}
+          />
+        {{/if}}
+
+        {{#if (eq modelName 'category')}}
+          <Entity::Category::List
+            @model={{model}}
+            @reloadModel={{action 'reloadModel'}}
+          />
+        {{/if}}
 
         <div style="visibility:collapse;">
-          {{#if notifyModel}}
-            <InfinityLoader @infinityModel={{notifyModel}}/>
+          {{#if model}}
+            <InfinityLoader @infinityModel={{model}}/>
           {{/if}}
         </div>
 
         {{#unless isInfinityReached}}
-          <div class="preloader {{if (eq notifyModel.length 0) 'preloader_full' ''}}">
+          <div class="preloader {{if (eq model.length 0) 'preloader_full' ''}}">
             <img class="spinner" src="/assets/images/spinner.gif">
           </div>
         {{/unless}}
 
-        {{#if (and isInfinityReached (eq notifyModel.length 0))}}
+        {{#if (and isInfinityReached (eq model.length 0))}}
           <Utils::EmptyList/>
         {{/if}}
       </div>

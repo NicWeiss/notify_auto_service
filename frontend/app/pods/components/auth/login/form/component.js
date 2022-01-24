@@ -7,12 +7,12 @@ import { inject as service } from '@ember/service';
 
 export default class LoginComponent extends Component {
   @service notify;
-  @service request;
+  @service api;
   @service session;
 
   @tracked emailSelected = false;
   @tracked passwordSelected = false;
-  
+
   @tracked email = null;
   @tracked password = null;
 
@@ -39,8 +39,9 @@ export default class LoginComponent extends Component {
     let responce = null
 
     try {
-      responce = await this.request.toApi('auth/login', {'email': this.email, 'password': this.password})
+      responce = await this.api.post({ 'url': 'auth/login', 'data': { 'email': this.email, 'password': this.password } })
     } catch (errorCode) {
+      console.log(errorCode);
       if (errorCode === 403) this.notify.error('Неправильный email или пароль');
       if (errorCode === 500) this.notify.error('Ошибка на сервере');
       return;
@@ -48,7 +49,7 @@ export default class LoginComponent extends Component {
 
     try {
       request = await this.session.authenticate('authenticator:custom', responce.session, this.password);
-    } catch(error) {
+    } catch (error) {
       this.errorMessage = error.error || error;
     }
 

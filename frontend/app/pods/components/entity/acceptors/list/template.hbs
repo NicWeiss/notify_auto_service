@@ -21,7 +21,7 @@
                 {{else}}
                   <div class="btn btn-outline-secondary btn-icon without-border" {{action 'onChangeStatus' item}}><FaIcon @icon="bell-slash"/></div>
                 {{/if}}
-              <div class="btn btn-outline-primary btn-icon without-border" {{action this.args.onEdit item bubbles=false}}><FaIcon @icon="pencil-alt"/></div>
+              <div class="btn btn-outline-primary btn-icon without-border" {{action this.onEdit item bubbles=false}}><FaIcon @icon="pencil-alt"/></div>
               <div class="btn btn-outline-danger btn-icon without-border" {{action 'onDeleteWindow' item}}><FaIcon @icon="trash"/></div>
             </div>
             </td>

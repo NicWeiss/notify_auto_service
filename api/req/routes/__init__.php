@@ -4,8 +4,9 @@
  * ROUTE LIST
  */
 
-include 'auth.php';
 include 'acceptor.php';
-include 'system.php';
-include 'notify.php';
+include 'auth.php';
 include 'category.php';
+include 'notify.php';
+include 'system.php';
+include 'user.php';

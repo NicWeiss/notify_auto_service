@@ -46,7 +46,7 @@ class auth extends BaseController
 
         auth_base::set_session($session);
 
-        return ['user' => $user['user'], 'session' => $session_id];
+        return ['name' => $user['name'], 'session' => $session_id];
     }
 
     public static function get_code()
@@ -103,7 +103,7 @@ class auth extends BaseController
             }
 
             $user = [
-                'user' => request::get_from_client_Json('user'),
+                'name' => request::get_from_client_Json('name'),
                 'password' => $password,
                 'email' => $email
             ];
