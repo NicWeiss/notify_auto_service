@@ -23,6 +23,10 @@
     <div class="right-side-section">
       <div class="main-line-stub"/>
       <div class="sub-component" style={{{subComponentHeight}}}>
+        {{#if (eq modelName 'user')}}
+          <Entity::User/>
+        {{/if}}
+
         {{#if (eq modelName 'acceptor')}}
           <Entity::Acceptors::List
             @model={{model}}

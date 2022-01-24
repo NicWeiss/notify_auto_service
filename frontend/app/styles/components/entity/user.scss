@@ -1,0 +1,26 @@
+.user-settings {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+
+  .avatar-section {
+    .avatar-image {
+      width: 400px;
+      height: 400px;
+    }
+  }
+}
+
+
+@media (max-width: $breakpoint-middle) {
+  .user-settings {
+    padding: 20px;
+
+    .avatar-section {
+      .avatar-image {
+        width: 200px;
+        height: 200px;
+      }
+    }
+  }
+}

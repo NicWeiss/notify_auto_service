@@ -6,7 +6,7 @@ import { action } from '@ember/object';
 export default class SettingsListComponent extends Component {
 
   @tracked maxlistHeight = 0;
-  @tracked selectedPosition = "0";
+  @tracked selectedPosition = "user";
   @tracked isShowAddModal = false;
 
   constructor(owner, args) {

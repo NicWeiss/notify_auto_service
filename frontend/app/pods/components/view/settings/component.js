@@ -14,7 +14,7 @@ export default class SettingsViewComponent extends Component {
   @tracked style = `height: 100%;`
   @tracked maxlistHeight = 0;
   @tracked subComponentHeight = '';
-  @tracked model = {};
+  @tracked model = null;
   @tracked modelName = '';
   @tracked isInfinityReached = false;
 
@@ -40,24 +40,18 @@ export default class SettingsViewComponent extends Component {
 
   @action
   async onSelect(modelName = "user") {
+    this.model = null
     this.modelName = modelName;
+    this.isInfinityReached = true;
 
-    if (modelName === 'user') {
-      try {
-        await this.api.get({ 'url': 'user' })
-      } catch (error) {
-        console.log(error);
-        this.notify.error('Ошибка на сервере');
-        return;
-      }
-    } else {
-      // this.model = this.infinity.model(modelName);
+    if (modelName !== 'user') {
+      this.model = this.infinity.model(modelName);
+
+      this.isInfinityReached = false;
+      this.infinityWaiter = setInterval(this.waitReachInfinity.bind(this), 500);
     }
 
     this.checkBurger();
-
-    this.isInfinityReached = false;
-    this.infinityWaiter = setInterval(this.waitReachInfinity.bind(this), 500);
   }
 
   @action
@@ -83,11 +77,11 @@ export default class SettingsViewComponent extends Component {
   }
 
   async waitReachInfinity() {
-    // let infinityModel = await this.model;
-    // if (infinityModel.reachedInfinity || infinityModel.length === 0) {
-    //   this.isInfinityReached = true;
-    //   clearInterval(this.infinityWaiter);
-    // }
+    let infinityModel = await this.model;
+    if (infinityModel.reachedInfinity || infinityModel.length === 0) {
+      this.isInfinityReached = true;
+      clearInterval(this.infinityWaiter);
+    }
   }
 
 }
