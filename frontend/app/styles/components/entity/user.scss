@@ -1,7 +1,9 @@
 .user-settings {
   display: flex;
-  justify-content: center;
   padding: 40px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   .avatar-section {
     .avatar-image {
