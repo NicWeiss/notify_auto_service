@@ -1,28 +1,36 @@
 SHELL=/bin/sh
 
 DIR=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+VERSION=$(shell grep -o '^[0-9]\+\.[0-9]\+\.[0-9]\+' CHANGES.log | head -n1)
 
 # Colors
 Color_Off=\033[0m
 Cyan=\033[1;36m
 Red=\033[1;31m
 
+version:  ## Версия проекта
+	@echo $(VERSION)
 
 help:  ## Помощь
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 ### Development
 build:  ## Сборка проекта
-	@docker-compose build backend frontend cron mysql php-cli php-fpm
+	@docker-compose -f docker/docker-compose.yml build
 
-build_production:  ## Сборка проекта
-	@docker-compose build backend frontend-production cron mysql php-cli php-fpm
+publish:  ## Сборка проекта
+	@docker build -f ./docker/backend/Dockerfile -t nicharbor.com/notifier/backend:$(VERSION) .
+	@docker build -f ./docker/frontend/Dockerfile --target prod   -t nicharbor.com/notifier/frontend:$(VERSION) .
+	@docker push nicharbor.com/notifier/frontend:$(VERSION)
+	@docker push nicharbor.com/notifier/backend:$(VERSION)
 
-start_develop: build  ## Запуск проекта для разработки
-	@docker-compose up backend frontend cron
+start: build  ## Запуск проекта для разработки
+	@docker-compose -f docker/docker-compose.yml up
 
-start_production: build_production  ## Запуск проекта
-	@docker-compose up backend frontend-production:production cron grafana_agent
+production:  ## Запуск проекта
+	@echo VERSION: $(VERSION)
+	@export VERSION=$(VERSION) && \
+	docker-compose -f docker/docker-compose-production.yml --project-name="prod_" up
 
 stop: ## Остановка проекта
 	@docker-compose down
