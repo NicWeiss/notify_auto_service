@@ -23,7 +23,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: mysql
     ports:
-      - "56101:3306"
+      - "8081:3306"
     volumes:
       - ../data/mysql:/var/lib/mysql
     container_name: dev_notifier_mysql
@@ -33,7 +33,7 @@ services:
       dockerfile: docker/backend/Dockerfile
       context: ../
     ports:
-      - "56105:9000"
+      - "8082:9000"
     links:
       - mysql
     depends_on:
@@ -48,7 +48,7 @@ services:
       context: ../
       target: dev
     ports:
-      - "4200:4200"
+      - "8083:4200"
     volumes:
       - ../frontend/app:/frontend/app
       - ../frontend/config:/frontend/config
