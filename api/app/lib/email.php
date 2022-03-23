@@ -10,7 +10,7 @@ final class email
 
     public static function send($data)
     {
-        require_once('req/lib/PHPMailer/PHPMailerAutoload.php');
+        require_once('app/lib/PHPMailer/PHPMailerAutoload.php');
         $mail = new PHPMailer();
 
 

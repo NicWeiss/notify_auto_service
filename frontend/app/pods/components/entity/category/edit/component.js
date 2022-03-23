@@ -4,7 +4,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 
-export default class CategoryNewComponent extends Component {
+export default class CategoryEditComponent extends Component {
   @service store;
 
   @tracked name = '';
@@ -13,7 +13,6 @@ export default class CategoryNewComponent extends Component {
     super(owner, args);
   }
 
-
   @action
   onCancel() {
     this.args.onCancel();
@@ -21,13 +20,11 @@ export default class CategoryNewComponent extends Component {
 
   @action
   async onSave() {
-    let model = this.store.createRecord('category', { name: this.name });
-
     try {
-      await model.save()
+      await this.args.model.save()
     } catch (error) {
       console.log(error);
-      this.notify.error('Ошибка при добавлении категории');
+      this.notify.error('Ошибка при обновлении категории');
     }
 
     this.args.onComplete();

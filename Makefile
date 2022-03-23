@@ -24,20 +24,21 @@ publish:  ## Сборка проекта
 	@docker push nicharbor.com/notifier/frontend:$(VERSION)
 	@docker push nicharbor.com/notifier/backend:$(VERSION)
 
-start: build  ## Запуск проекта для разработки
+start: ## Запуск проекта для разработки
 	@docker-compose -f docker/docker-compose.yml up
+
+stop: ## Остановка проекта
+	@docker-compose -f docker/docker-compose.yml down
 
 production:  ## Запуск проекта
 	@echo VERSION: $(VERSION)
 	@export VERSION=$(VERSION) && \
 	docker-compose -f docker/docker-compose-production.yml --project-name="prod_" up
 
-stop: ## Остановка проекта
-	@docker-compose down
 
 migration:  ## Создание новой миграции
-	docker-compose run --user www-data php-cli sh -c "cd /var/www && php migration.php $(filter-out $@,$(MAKECMDGOALS))"
-	@sudo chown $$USER:$$USER -R $(DIR)/../api/req/migration/
+	@export VERSION=$(VERSION) && docker-compose -f docker/docker-compose-production.yml run --user www-data backend sh -c "cd /var/www && php migration.php $(filter-out $@,$(MAKECMDGOALS))"
+	@sudo chown $$USER:$$USER -R $(DIR)/api/app/migration/
 
 stat:			# params for migration: Показать доступные миграции без применения.
 	exit

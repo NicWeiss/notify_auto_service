@@ -62,8 +62,9 @@ final class notify_model
         $notify = TABLE_OF_NOTIFY;
 
         $offset = ($page - 1) * $per_page;
+        $limit = $per_page ? "LIMIT $offset, $per_page" : "";
 
-        $sql = "SELECT * FROM $notify  WHERE user_id= '$user[id]' AND category_id= '$category_id' ORDER BY id DESC  LIMIT $offset, $per_page;";
+        $sql = "SELECT * FROM $notify  WHERE user_id= '$user[id]' AND category_id= '$category_id' ORDER BY id DESC $limit ;";
         dba::query($sql);
         $notify_list = dba::fetch_assoc_all();
 
@@ -142,6 +143,17 @@ final class notify_model
         dba::query($sql);
         $sql = "DELETE FROM $notify_acceptors WHERE `id`= '$entity_id' and `user_id` = '$user[id]'";
         dba::query($sql);
+
+        return true;
+    }
+
+    public static function delete_by_category_id($category_id, $user)
+    {
+        $notify_list = self::get_all_notify($user, $category_id, 0, 0);
+
+        foreach ($notify_list as $notify) {
+            self::delete_notify($notify['id'], $user);
+        }
 
         return true;
     }

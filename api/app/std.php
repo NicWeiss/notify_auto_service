@@ -6,7 +6,7 @@
 
 use lib\dba as dba;
 
-require_once('req/defines.php');
+require_once('app/defines.php');
 
 function std_autoload($classname)
 {

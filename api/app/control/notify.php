@@ -21,7 +21,7 @@ class notify extends BaseController
 
     public static function get()
     {
-        $page = request::get('page') ? request::get('page') : 0;
+        $page = request::get('page') ? request::get('page') : 1;
         $per_page = request::get('per_page') ? request::get('per_page') : 25;
         $category_id = request::get('category_id') ? request::get('category_id') : 0;
 
@@ -45,6 +45,13 @@ class notify extends BaseController
     public static function delete($entity_id)
     {
         $notify = notify_model::delete_notify($entity_id, self::$user);
+        return $notify;
+    }
+
+    public static function delete_by_category_id()
+    {
+        $category_id = request::get_from_client_Json('category_id');
+        $notify = notify_model::delete_by_category_id($category_id, self::$user);
         return $notify;
     }
 }

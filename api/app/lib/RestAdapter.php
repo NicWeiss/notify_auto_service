@@ -29,11 +29,19 @@ final class RestAdapter
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-            $result = $class::update($entity_id);
+            if ($entity_id) {
+                $result = $class::update($entity_id);
+            } else {
+                $result = $class::$method();
+            }
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
-            $result = $class::delete($entity_id);
+            if ($entity_id) {
+                $result = $class::delete($entity_id);
+            } else {
+                $result = $class::$method();
+            }
         }
 
         http_response_code(200);

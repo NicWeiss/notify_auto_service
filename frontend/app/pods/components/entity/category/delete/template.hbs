@@ -1,0 +1,39 @@
+{{#modal-dialog translucentOverlay=true
+    targetAttachment='none'
+    containerClass='centered-scrolling-container modal-compact'
+    overlayClass='centered-scrolling-overlay'
+    wrapperClass='centered-scrolling-wrapper'}}
+  <div class="header">Удаление категории</div>
+  <form class="custom-form">
+    <div class="form-container">
+
+      <div class="form-group">
+        <label for="notify-name">
+          Удаление <i style="color: brown;">{{this.args.model.name}}</i> является необратимым.
+          {{#unless deleteWithNotify}}Все уведомления из удаляемой категории будут помещены в раздел "Без Категории"{{/unless}}
+          <br><br>
+          <Input @type="checkbox" @checked={{deleteWithNotify}} onclick={{action onCheck}}/> удалить вместе с уведомлениями
+          {{#if deleteWithNotify}}
+            <br><br>
+            Уведомления которые будут удалены:
+            <br>
+            {{#each notifyList as | notify|}}
+              {{#unless  item.isDeleted}}
+                <i style="color: brown;">{{notify.name}}</i><br>
+              {{/unless}}
+            {{/each}}
+          {{/if}}
+        </label>
+      </div>
+
+      <div class="buttons-bar ">
+        <button type="button" class="btn btn-danger btn-complete" onclick={{action onDelete}}>
+          Удалить
+        </button>
+        <button type="button" class="btn btn-primary btn-complete" onclick={{action onCancel}}>
+          Отменить
+        </button>
+      </div>
+    </div>
+  </form>
+{{/modal-dialog}}

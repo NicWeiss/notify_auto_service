@@ -1,0 +1,52 @@
+{{#if @model}}
+  <div class="form-group d-flex justify-content-center table-responsive">
+    <table class="rwd-table">
+      <tr>
+        <th>#</th>
+        <th>Название</th>
+        <th></th>
+      </tr>
+      {{#each @model as | item|}}
+        {{#unless  item.isDeleted}}
+          <tr>
+            <th data-th="# ">{{item.id}}</th>
+            <td data-th="Название: " style="width: 100%;">{{item.name}}</td>
+            <td data-th="">
+              <div class="buttons-bar justify-content-around">
+                <div class="btn btn-outline-primary btn-icon without-border" {{action 'onEdit' item bubbles=false}}><FaIcon @icon="pencil-alt"/></div>
+                <div class="btn btn-outline-danger btn-icon without-border" {{action 'onDelete' item}}><FaIcon @icon="trash"/></div>
+              </div>
+            </td>
+          </tr>
+        {{/unless}}
+      {{/each}}
+    </table>
+  </div>
+{{/if}}
+
+<div class="btn btn-primary btn-add" {{action 'onAdd' bubbles=false}}>+</div>
+
+{{#if isShowAddModal}}
+  <Entity::Category::New
+    @onCancel={{action onCancel}}
+    @onComplete={{action onComplete}}
+  />
+{{/if}}
+
+{{#if isShowEditModal}}
+  <Entity::Category::Edit
+    @model={{selectedModel}}
+    @onCancel={{action onCancel}}
+    @onComplete={{action onComplete}}
+  />
+{{/if}}
+
+{{#if isShowDeleteModal}}
+  <Entity::Category::Delete
+    @model={{selectedModel}}
+    @onCancel={{action onCancel}}
+    @onComplete={{action onComplete}}
+  />
+{{/if}}
+
+

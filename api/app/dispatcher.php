@@ -48,4 +48,4 @@ final class dispatcher
     }
 }
 
-require_once('req/routes/__init__.php');
+require_once('app/routes/__init__.php');

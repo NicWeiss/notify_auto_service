@@ -24,7 +24,7 @@ use lib\request as request;
 use lib\RestAdapter;
 use model\auth_base;
 
-require_once("req/std.php");
+require_once("app/std.php");
 require_once('tmp/config.ini.php');
 http_response_code(500);
 std_env_init();

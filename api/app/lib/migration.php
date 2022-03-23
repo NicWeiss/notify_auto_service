@@ -13,7 +13,7 @@ class migration
      */
     public static function get_available_migrations()
     {
-        $migrations = scandir('req/migration/');
+        $migrations = scandir('app/migration/');
         $db_migrations = mmigration::get_list();
 
         if (gettype($db_migrations) != 'array') {
@@ -85,7 +85,7 @@ class migration
     {
         $not_exist = [];
         foreach (mmigration::get_list() as $m) {
-            $filename = 'req/migration/' . $m . '.php';
+            $filename = 'app/migration/' . $m . '.php';
             if (!file_exists($filename))
                 $not_exist[] = $as_file_names ? $filename : $m;
         }

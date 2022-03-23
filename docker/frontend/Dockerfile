@@ -20,7 +20,7 @@ RUN npm install
 RUN npm install -g ember-cli@3.24.0
 
 
-# ---- Prod build ----
+# ---- Dev build ----
 FROM base as dev
 RUN ls -la
 

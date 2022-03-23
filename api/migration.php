@@ -19,12 +19,12 @@ define('PERM_DIR', 0775);
 define('PERM_FILE', 0644);
 
 define('TMP_PATH', 'tmp/');
-define('MIGRATION_PATH', 'req/migration/');
-define('REQ_PATH', 'req/');
+define('MIGRATION_PATH', 'app/migration/');
+define('APP_PATH', 'app/');
 
 require_once(TMP_PATH . 'config.ini.php');
 
-require_once(REQ_PATH . 'std.php');
+require_once(APP_PATH . 'std.php');
 std_env_init();
 
 use lib\migration;

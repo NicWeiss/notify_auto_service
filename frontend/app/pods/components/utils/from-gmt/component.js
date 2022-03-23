@@ -17,8 +17,6 @@ export default class FromTimestamp extends Component {
     let outTime;
     let outDate;
 
-    this.type;
-
     const time = this.time || '00:00';
     const date = this.date || `${new Date().getUTCFullYear()}-01-01`
     const restoredDate = new Date(`${date}T${time}Z`);

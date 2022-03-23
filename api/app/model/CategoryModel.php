@@ -44,7 +44,7 @@ final class CategoryModel
 
     public static function delete($user_id, $id)
     {
-        $sql = "DELETE FROM " . self::$table . " WHERE `user_id` = $user_id and `id` != $id";
+        $sql = "DELETE FROM " . self::$table . " WHERE `user_id` = $user_id and `id` = $id";
 
         return dba::query($sql);
     }
