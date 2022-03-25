@@ -3,7 +3,8 @@
     containerClass='centered-scrolling-container modal-compact'
     overlayClass='centered-scrolling-overlay'
     wrapperClass='centered-scrolling-wrapper'}}
-  <div class="header">Редактирование категории</div>
+  <div class="header">
+    {{unless @model.id 'Создание' 'Редактирование'}} категории</div>
   <form class="custom-form">
     <div class="form-container">
       <div class="form-group">

@@ -4,8 +4,8 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 
+
 export default class AcceptorsListComponent extends Component {
-  @service notify;
   @service store;
 
   @tracked selectedModel = null;
@@ -21,9 +21,15 @@ export default class AcceptorsListComponent extends Component {
     this.isShowEditModal = false;
   }
 
+
+  @action
+  onCancel() {
+    this.closeModalWondows();
+  }
+
   @action
   onAdd() {
-    this.selectedModel = this.store.createRecord('category');
+    this.selectedModel = this.store.createRecord('acceptor');
     this.isShowEditModal = true;
   }
 
@@ -39,10 +45,6 @@ export default class AcceptorsListComponent extends Component {
     this.isShowDeleteModal = true;
   }
 
-  @action
-  onCancel() {
-    this.closeModalWondows();
-  }
 
   @action
   onComplete() {
@@ -50,4 +52,5 @@ export default class AcceptorsListComponent extends Component {
     this.closeModalWondows();
     this.args.reloadModel();
   }
+
 }

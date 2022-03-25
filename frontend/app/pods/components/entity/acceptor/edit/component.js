@@ -4,18 +4,20 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 
-export default class AcceptorsNewComponent extends Component {
+export default class AcceptorsEditComponent extends Component {
   @service store;
   @service notify;
 
   @tracked selectedSystem = null;
   @tracked systemHelp = null;
+  @tracked isNew = true;
 
   constructor(owner, args) {
     super(owner, args);
-    if (this.args.model.id) {
-      this.setSelectedSystem();
-    }
+    this.isNew = Boolean(this.args.model.id)
+    // if (this.args.model.id) {
+    //   this.setSelectedSystem();
+    // }
   }
 
   async setSelectedSystem() {
@@ -35,18 +37,18 @@ export default class AcceptorsNewComponent extends Component {
     if (!this.args.model.id) {
       this.args.model.destroyRecord();
     }
-    this.args.onClose();
+    this.args.onCancel();
   }
 
   @action
-  onSaveAcceptor() {
+  async onSaveAcceptor() {
     if (!this.args.model.name || !this.args.model.account || !this.args.model.systemId) {
       this.notify.error('Остались пустые поля!');
       return;
     }
 
     try {
-      this.args.model.save()
+      await this.args.model.save()
     } catch (error) {
       console.log(error);
       this.notify.error('Ошибка при сохранении получателя');

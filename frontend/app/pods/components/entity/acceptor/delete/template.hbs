@@ -1,0 +1,29 @@
+{{#modal-dialog translucentOverlay=true
+    targetAttachment='none'
+    containerClass='centered-scrolling-container modal-compact'
+    overlayClass='centered-scrolling-overlay'
+    wrapperClass='centered-scrolling-wrapper'}}
+  <div class="header">Удаление получателя</div>
+  <form class="custom-form">
+    <div class="form-container">
+
+      <div class="form-group">
+        <label for="notify-name">
+          Удаление <i style="color: brown;">{{this.args.model.name}}</i> является необратимым.
+          <br>
+          Данный получатель будет удалён у всех уведомлений.
+          Уведомления у которых это единственный получатель - перестанут отправляться
+        </label>
+      </div>
+
+      <div class="buttons-bar ">
+        <button type="button" class="btn btn-danger btn-complete" onclick={{action onDelete}}>
+          Удалить
+        </button>
+        <button type="button" class="btn btn-primary btn-complete" onclick={{action onCancel}}>
+          Отменить
+        </button>
+      </div>
+    </div>
+  </form>
+{{/modal-dialog}}

@@ -54,4 +54,11 @@ class notify extends BaseController
         $notify = notify_model::delete_by_category_id($category_id, self::$user);
         return $notify;
     }
+
+    public static function reset_from_category_id()
+    {
+        $category_id = request::get_from_client_Json('category_id');
+        $notify = notify_model::move_notifies($category_id, 0, self::$user);
+        return $notify;
+    }
 }

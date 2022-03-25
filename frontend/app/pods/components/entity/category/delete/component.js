@@ -38,7 +38,12 @@ export default class CategoryDeleteComponent extends Component {
   @action
   async onDelete() {
     try {
-      await this.api.delete({ 'url': 'notifies/delete_by_category_id', 'data': { 'category_id': this.args.model.id } })
+      if (this.deleteWithNotify) {
+        await this.api.delete({ 'url': 'notifies/delete_by_category_id', 'data': { 'category_id': this.args.model.id } });
+      } else {
+        await this.api.put({ 'url': 'notifies/reset_from_category_id', 'data': { 'category_id': this.args.model.id } })
+      }
+
       await this.args.model.destroyRecord()
     } catch (error) {
       console.log(error);

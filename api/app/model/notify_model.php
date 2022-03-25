@@ -147,12 +147,33 @@ final class notify_model
         return true;
     }
 
+    public static function move_notify($entity_id, $target_category_id, $user)
+    {
+        $table = TABLE_OF_NOTIFY;
+
+        $sql = "UPDATE $table SET `category_id`= '$target_category_id' WHERE `id`='$entity_id' and `user_id` = '$user[id]'";
+        dba::query($sql);
+
+        return true;
+    }
+
     public static function delete_by_category_id($category_id, $user)
     {
         $notify_list = self::get_all_notify($user, $category_id, 0, 0);
 
         foreach ($notify_list as $notify) {
             self::delete_notify($notify['id'], $user);
+        }
+
+        return true;
+    }
+
+    public static function move_notifies($from_category_id, $target_category_id, $user)
+    {
+        $notify_list = self::get_all_notify($user, $from_category_id, 0, 0);
+
+        foreach ($notify_list as $notify) {
+            self::move_notify($notify['id'], $target_category_id, $user);
         }
 
         return true;

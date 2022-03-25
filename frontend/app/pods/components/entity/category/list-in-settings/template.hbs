@@ -26,13 +26,6 @@
 
 <div class="btn btn-primary btn-add" {{action 'onAdd' bubbles=false}}>+</div>
 
-{{#if isShowAddModal}}
-  <Entity::Category::New
-    @onCancel={{action onCancel}}
-    @onComplete={{action onComplete}}
-  />
-{{/if}}
-
 {{#if isShowEditModal}}
   <Entity::Category::Edit
     @model={{selectedModel}}
