@@ -114,19 +114,28 @@ final class notify_model
                  `status`=$notify[status]
                 WHERE `id`= '$entity_id' and `user_id` = '$user[id]'
                 ";
-        dba::query($sql);
+
+        if (!dba::query($sql)) {
+            return false;
+        }
 
         $sql = "SELECT * FROM $table WHERE `id`= '$entity_id' and `user_id` = '$user[id]'";
-        dba::query($sql);
+        if (!dba::query($sql)) {
+            return false;
+        }
         $notify = dba::fetch_assoc();
 
         $sql = "DELETE FROM $notify_acceptors WHERE `notify_id`= '$entity_id'";
-        dba::query($sql);
+        if (!dba::query($sql)) {
+            return false;
+        }
 
         foreach ($acceptors as $acceptor) {
             $sql = "INSERT INTO  $notify_acceptors ( `notify_id`, `acceptor_id`)
                     VALUES ('$notify[id]',  '" . $acceptor['id'] . "')";
-            dba::query($sql);
+            if (!dba::query($sql)) {
+                return false;
+            }
         }
 
         $notify['acceptorsList'] = self::get_acceptors_by_notify_id($notify['id']);

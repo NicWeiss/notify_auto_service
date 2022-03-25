@@ -39,7 +39,11 @@ class notify extends BaseController
     public static function update($entity_id)
     {
         $notify = notify_model::update_notify($entity_id, self::$request_json, self::$user);
-        return $notify;
+        if ($notify) {
+            return $notify;
+        } else {
+            throw self::critical_error();
+        }
     }
 
     public static function delete($entity_id)

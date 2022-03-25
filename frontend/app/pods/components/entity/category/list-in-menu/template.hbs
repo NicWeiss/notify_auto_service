@@ -13,8 +13,9 @@
 </div>
 
 {{#if isShowAddModal}}
-  <Entity::Category::New
+  <Entity::Category::Edit
     @onCancel={{action onCancel}}
+    @model={{this.newCategoryModel}}
     @onComplete={{action onComplete}}
   />
 {{/if}}

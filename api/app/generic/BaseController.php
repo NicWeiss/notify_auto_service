@@ -48,7 +48,7 @@ class BaseController
 
     protected static function critical_error()
     {
-        return new Exception(self::error('Critical error'), 404);
+        return new Exception(self::error('Critical error'), 500);
     }
 
     protected static function unprocessable_entity()

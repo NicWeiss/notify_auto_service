@@ -37,7 +37,7 @@ production:  ## Запуск проекта
 
 
 migration:  ## Создание новой миграции
-	@export VERSION=$(VERSION) && docker-compose -f docker/docker-compose-production.yml run --user www-data backend sh -c "cd /var/www && php migration.php $(filter-out $@,$(MAKECMDGOALS))"
+	@docker-compose -f docker/docker-compose.yml run --user www-data backend sh -c "cd /var/www && php migration.php $(filter-out $@,$(MAKECMDGOALS))"
 	@sudo chown $$USER:$$USER -R $(DIR)/api/app/migration/
 
 stat:			# params for migration: Показать доступные миграции без применения.
@@ -52,6 +52,9 @@ down: 		# params for migration: [count|migration_id] Откатить мигра
 	exit                         -
 resolve:	# params for migration: Попытаться найти и откатить миграцию которая была удалена с диска, но есть базе
 	exit
+
+migrate_prod:
+	@export VERSION=$(VERSION) && docker-compose -f docker/docker-compose-production.yml run --user www-data backend sh -c "cd /var/www && php migration.php up"
 
 dump_restore:  ## Восстановление базы из бэкапа
 	docker-compose run mysql bash -c "cd mysql && mysql -h mysql -u root -pmysql notifier < dump.sql"
