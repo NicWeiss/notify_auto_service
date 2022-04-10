@@ -1,7 +1,7 @@
 SHELL=/bin/sh
 
 DIR=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-VERSION=$(shell grep -o '^[0-9]\+\.[0-9]\+\.[0-9]\+' CHANGES.log | head -n1)
+VERSION=$(shell grep -o '^[a-z_0-9]\+\.[0-9]\+\.[0-9_a-z]\+' CHANGES.log | head -n1)
 
 # Colors
 Color_Off=\033[0m
@@ -19,10 +19,12 @@ build:  ## Сборка проекта
 	@docker-compose -f docker/docker-compose.yml build
 
 publish:  ## Сборка проекта
-	@docker build -f ./docker/backend/Dockerfile -t nicharbor.com/notifier/backend:$(VERSION) .
-	@docker build -f ./docker/frontend/Dockerfile --target prod   -t nicharbor.com/notifier/frontend:$(VERSION) .
-	@docker push nicharbor.com/notifier/frontend:$(VERSION)
-	@docker push nicharbor.com/notifier/backend:$(VERSION)
+	@docker build -f ./docker/backend/Dockerfile -t harbor.nic-weiss.tech/notifier/backend:$(VERSION) .
+	@docker build -f ./docker/frontend/Dockerfile --target prod   -t harbor.nic-weiss.tech/notifier/frontend:$(VERSION) .
+	@docker build -f ./docker/ingress/Dockerfile -t harbor.nic-weiss.tech/notifier/ingress:latest .
+	@docker push harbor.nic-weiss.tech/notifier/frontend:$(VERSION)
+	@docker push harbor.nic-weiss.tech/notifier/backend:$(VERSION)
+	@docker push harbor.nic-weiss.tech/notifier/ingress:latest
 
 start: ## Запуск проекта для разработки
 	@docker-compose -f docker/docker-compose.yml up

@@ -2,7 +2,7 @@ version: "3"
 services:
 
   ingress:
-    image: nicharbor.com/notifier/ingress:latest
+    image: harbor.nic-weiss.tech/notifier/ingress:latest
     ports:
       - "8080:80"
     depends_on:
@@ -27,11 +27,11 @@ services:
     container_name: notifier_mysql-production
 
   frontend:
-    image: nicharbor.com/notifier/frontend:${VERSION}
+    image: harbor.nic-weiss.tech/notifier/frontend:${VERSION}
     container_name: notifier_frontend-production
 
   backend:
-    image: nicharbor.com/notifier/backend:${VERSION}
+    image: harbor.nic-weiss.tech/notifier/backend:${VERSION}
     links:
       - mysql
     container_name: notifier_backend-production
