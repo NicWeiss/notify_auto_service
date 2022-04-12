@@ -1,0 +1,37 @@
+image:
+  name: docker/compose:1.29.2
+  entrypoint:
+    - ""
+
+services:
+  - docker:dind
+
+before_script:
+  - apk add --no-cache bash make git
+
+stages:
+  - test
+  - publish
+  - deploy
+
+test:
+  stage: test
+  script:
+    - make test
+
+publish:
+  stage: publish
+  # only:
+  #   - master
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - make publish
+
+deploy:
+  stage: deploy
+  # only:
+  #   - master
+  script:
+    - echo "pass"
+    - exit 1
+  when: manual

@@ -32,6 +32,9 @@ start: ## Запуск проекта для разработки
 stop: ## Остановка проекта
 	@docker-compose -f docker/docker-compose.yml down
 
+test:
+	@echo VERSION: $(VERSION)
+
 production:  ## Запуск проекта
 	@echo VERSION: $(VERSION)
 	@export VERSION=$(VERSION) && \
