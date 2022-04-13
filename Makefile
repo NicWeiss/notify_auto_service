@@ -32,11 +32,13 @@ start: ## Запуск проекта для разработки
 stop: ## Остановка проекта
 	@docker-compose -f docker/docker-compose.yml down
 
+test: ## Запуск тестирования
+	@echo VERSION: $(VERSION)
+
 production:  ## Запуск проекта
 	@echo VERSION: $(VERSION)
 	@export VERSION=$(VERSION) && \
 	docker-compose -f docker/docker-compose-production.yml --project-name="prod_" up
-
 
 migration:  ## Создание новой миграции
 	@docker-compose -f docker/docker-compose.yml run --user www-data backend sh -c "cd /var/www && php migration.php $(filter-out $@,$(MAKECMDGOALS))"
