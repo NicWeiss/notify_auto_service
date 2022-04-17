@@ -71,4 +71,8 @@ dump_restore:  ## Восстановление базы из бэкапа
 dump_create:  ## Создание бекапа базы
 	docker-compose run mysql bash -c "cd mysql && mysqldump -h mysql -u root -pmysql notifier > dump.sql"
 
+ps:
+	@docker-compose -f docker/docker-compose.yml ps
 
+prod_ps:
+	@docker-compose -f docker/docker-compose-production.yml --project-name="prod_" ps
