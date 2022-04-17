@@ -1,7 +1,7 @@
 #!/bin/bash
 
-RELEASE_LINE=$(grep -nE "^[0-9]{1,4}\.[0-9]{1,2}.[0-9]{1,2}" CHANGES.log | head -1 | cut -f1 -d:)
-PREVIOUS_RELEASE_LINE=$(grep -nE "^[0-9]{1,4}\.[0-9]{1,2}.[0-9]{1,2}" CHANGES.log | head -2 | tail -1 | cut -f1 -d:)
+RELEASE_LINE=$(grep -nE "^[a-z_0-9]+\.[0-9]+\.[0-9_a-z]+" CHANGES.log | head -1 | cut -f1 -d:)
+PREVIOUS_RELEASE_LINE=$(grep -nE "^[a-z_0-9]+\.[0-9]+\.[0-9_a-z]+" CHANGES.log | head -2 | tail -1 | cut -f1 -d:)
 RELEASE_CONTEXT=$(head -$(($PREVIOUS_RELEASE_LINE - 1)) CHANGES.log | tail -$(($PREVIOUS_RELEASE_LINE - $RELEASE_LINE)))
 
 ESCAPED_RELEASE_CONTEXT=$(echo "$RELEASE_CONTEXT" | sed 's/\\/\\\\/g; s/\"/\\\"/g')
