@@ -34,11 +34,12 @@ deploy:
     - ssh -i ~/keys/notifier_rsa nic@notifier.nic-weiss.tech -p 2222 " bash -c \"
       cd $PROJECT_PATH &&
       git stash &&
-      [[ -f 'docker/docker-compose-production.yml' ]] && docker-compose -f docker/docker-compose-production.yml down || echo skip &&
+      [[ -f 'docker/docker-compose-production.yml' ]] && make down_production || echo skip &&
       git pull &&
       git checkout feature/version_3 &&
       docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
-      make production &&
       make migrate_prod &&
+      make down_production &&
+      make production &&
       ./notify_about_release.sh $CHAT_ID $TOKEN \""
   when: manual
