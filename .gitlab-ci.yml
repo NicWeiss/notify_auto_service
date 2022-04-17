@@ -27,8 +27,8 @@ publish:
 
 deploy:
   stage: deploy
-  # only:
-  #   - master
+  only:
+    - master
   script:
     - echo
     - ssh -i ~/keys/notifier_rsa nic@notifier.nic-weiss.tech -p 2222 " bash -c \"
