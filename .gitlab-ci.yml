@@ -43,8 +43,8 @@ deploy:
       make migrate_prod &&
       make down_production &&
       echo '------REMOVE LOCKS------' &&
-      cd api/tmp/lock/
-      rm -rf ./*
+      cd api/tmp/lock/ &&
+      rm -rf ./* &&
       echo '------UP NEW------' &&
       make production &&
       echo '------DONE------' &&
