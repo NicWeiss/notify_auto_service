@@ -54,7 +54,7 @@ deploy:
       cd ../../../ &&
 
       echo '------UP NEW------' &&
-      make prod_ps
+      make prod_ps &&
       make production &&
 
       echo '------DONE------' &&
