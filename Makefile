@@ -16,12 +16,12 @@ help:  ## Помощь
 
 ### Development
 build:  ## Сборка проекта
-	@docker-compose -f docker/docker-compose.yml build
+	@docker-compose -f docker/docker-compose.yml
 
 publish:  ## Сборка проекта
-	@docker build -f ./docker/backend/Dockerfile -t harbor.nic-weiss.tech/notifier/backend:$(VERSION) .
-	@docker build -f ./docker/frontend/Dockerfile --target prod   -t harbor.nic-weiss.tech/notifier/frontend:$(VERSION) .
-	@docker build -f ./docker/ingress/Dockerfile -t harbor.nic-weiss.tech/notifier/ingress:latest .
+	@docker build --no-cache -f ./docker/backend/Dockerfile -t harbor.nic-weiss.tech/notifier/backend:$(VERSION) .
+	@docker build --no-cache -f ./docker/frontend/Dockerfile --target prod   -t harbor.nic-weiss.tech/notifier/frontend:$(VERSION) .
+	@docker build --no-cache -f ./docker/ingress/Dockerfile -t harbor.nic-weiss.tech/notifier/ingress:latest .
 	@docker push harbor.nic-weiss.tech/notifier/frontend:$(VERSION)
 	@docker push harbor.nic-weiss.tech/notifier/backend:$(VERSION)
 	@docker push harbor.nic-weiss.tech/notifier/ingress:latest
@@ -32,14 +32,13 @@ start: ## Запуск проекта для разработки
 stop: ## Остановка проекта
 	@docker-compose -f docker/docker-compose.yml down
 
-test:
+test: ## Запуск тестирования
 	@echo VERSION: $(VERSION)
 
 production:  ## Запуск проекта
 	@echo VERSION: $(VERSION)
 	@export VERSION=$(VERSION) && \
 	docker-compose -f docker/docker-compose-production.yml --project-name="prod_" up -d
-
 
 migration:  ## Создание новой миграции
 	@docker-compose -f docker/docker-compose.yml run --user www-data backend sh -c "cd /var/www && php migration.php $(filter-out $@,$(MAKECMDGOALS))"
