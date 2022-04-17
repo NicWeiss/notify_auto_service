@@ -34,7 +34,7 @@ deploy:
     - ssh -i ~/keys/notifier_rsa nic@notifier.nic-weiss.tech -p 2222 "
       cd $PROJECT_PATH &&
       git stash &&
-      docker-compose -f docker/docker-compose-production.yml down &&
+      [[ -f "docker/docker-compose-production.yml" ]] && docker-compose -f docker/docker-compose-production.yml down || echo skip &&
       git pull &&
       git checkout feature/version_3 &&
       docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
