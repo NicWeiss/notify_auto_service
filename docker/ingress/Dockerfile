@@ -5,6 +5,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 # ---- Dev build ----
 FROM base as dev
 RUN echo "Ingress DEV"
+RUN rm /etc/nginx/conf.d/prod.conf
 COPY ./docker/ingress/nginx-dev.conf /etc/nginx/conf.d/dev.conf
 
 # ---- Prod packing ----
