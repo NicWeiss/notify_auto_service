@@ -11,7 +11,7 @@ TOKEN=$2
 
 read -r -d '' MESSAGE <<-EOM
   {
-    "chat_id": CHAT_ID,
+    "chat_id": $CHAT_ID,
     "text": "Обновление сервиса\n $ESCAPED_RELEASE_CONTEXT"
   }
 EOM
