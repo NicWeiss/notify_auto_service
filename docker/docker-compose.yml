@@ -5,6 +5,7 @@ services:
     build:
       dockerfile: docker/ingress/Dockerfile
       context: ../
+      target: dev
     ports:
       - "8088:80"
     depends_on:
