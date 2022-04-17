@@ -38,7 +38,7 @@ test:
 production:  ## Запуск проекта
 	@echo VERSION: $(VERSION)
 	@export VERSION=$(VERSION) && \
-	docker-compose -f docker/docker-compose-production.yml --project-name="prod_" up
+	docker-compose -f docker/docker-compose-production.yml --project-name="prod_" up -d
 
 
 migration:  ## Создание новой миграции
