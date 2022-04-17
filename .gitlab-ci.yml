@@ -45,6 +45,7 @@ deploy:
       echo '------REMOVE LOCKS------' &&
       cd api/tmp/lock/ &&
       rm -rf ./* &&
+      cd ../../ &&
       echo '------UP NEW------' &&
       make production &&
       echo '------DONE------' &&
