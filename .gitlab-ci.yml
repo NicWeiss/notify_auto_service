@@ -37,9 +37,16 @@ deploy:
       [[ -f 'docker/docker-compose-production.yml' ]] && make down_production || echo skip &&
       git pull &&
       git checkout feature/version_3 &&
+      echo '------LOGIN------' &&
       docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
+      echo '------MIGRATE------' &&
       make migrate_prod &&
       make down_production &&
+      echo '------REMOVE LOCKS------' &&
+      cd api/tmp/lock/
+      rm -rf ./*
+      echo '------UP NEW------' &&
       make production &&
+      echo '------DONE------' &&
       ./notify_about_release.sh $CHAT_ID $TOKEN \""
   when: manual
