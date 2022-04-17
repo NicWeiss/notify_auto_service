@@ -38,6 +38,7 @@ test: ## Запуск тестирования
 production:  ## Запуск проекта
 	@echo VERSION: $(VERSION)
 	@export VERSION=$(VERSION) && \
+	docker-compose -f docker/docker-compose-production.yml --project-name="prod_" pull
 	docker-compose -f docker/docker-compose-production.yml --project-name="prod_" up -d
 
 down_production: ## Останов продакшена
