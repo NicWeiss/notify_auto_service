@@ -30,7 +30,7 @@ deploy:
   # only:
   #   - master
   script:
-    - ssh nic@nic-weiss.tech -p 2222 "
+    - ssh notifier.nic@nic-weiss.tech -p 2222 -i ~/keys/notifier_key.pub"
       cd $CI_PRIJECT_PATH &&
       git stash &&
       docker-compose -f docker/docker-compose-production.yml down &&
