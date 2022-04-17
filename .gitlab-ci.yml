@@ -30,18 +30,9 @@ deploy:
   # only:
   #   - master
   script:
-    - echo "
-      cd $CI_PROJECT_PATH &&
-      git stash &&
-      docker-compose -f docker/docker-compose-production.yml down &&
-      git pull &&
-      git checkout feature/version_3 &&
-      docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
-      make production &&
-      make migrate_prod &&
-      ./notify_about_release.sh $CI_CHAT_ID $CI_TOKEN"
+    - echo
     - ssh -i ~/keys/notifier_rsa nic@notifier.nic-weiss.tech -p 2222 "
-      cd $CI_PROJECT_PATH &&
+      cd $PROJECT_PATH &&
       git stash &&
       docker-compose -f docker/docker-compose-production.yml down &&
       git pull &&
@@ -49,5 +40,5 @@ deploy:
       docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
       make production &&
       make migrate_prod &&
-      ./notify_about_release.sh $CI_CHAT_ID $CI_TOKEN"
+      ./notify_about_release.sh $CHAT_ID $TOKEN"
   when: manual
