@@ -47,6 +47,7 @@ deploy:
       echo '------MIGRATE------' &&
       make migrate_prod &&
       make down_production &&
+      docker rm notifier_mysql-production
 
       echo '------REMOVE LOCKS------' &&
       cd api/tmp/lock/ &&
