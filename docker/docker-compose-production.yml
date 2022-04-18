@@ -34,11 +34,13 @@ services:
     image: harbor.nic-weiss.tech/notifier/backend:${VERSION}
     links:
       - mysql
+    volumes:
+      - ../data/log:/var/www/tmp/log
     container_name: notifier_backend-production
 
   grafana_agent:
     image: grafana/agent:latest
     volumes:
-      - ../api/tmp/log:/var/log/
+      - ../data/log:/var/log/
       - ./grafana/grafana.yml:/etc/agent/agent.yaml
     container_name: notifier_grafana_agent-production
