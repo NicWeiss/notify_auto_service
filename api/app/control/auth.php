@@ -7,7 +7,9 @@
 
 namespace control;
 
+use cfg;
 use generic\BaseController;
+use helpers\Logger;
 use lib\email;
 use lib\request;
 use model\auth_base as auth_base;
@@ -22,9 +24,33 @@ class auth extends BaseController
         /*
          * Метод авторизации пользователя
          *      1.  Будет проверен проверен логин и пароль. если тользователь не найден - 403
-         *      2.  Если пользователь найден, то будет обновлена сессия и отправлена на фронт
+         *      2.  Если пользователь найден, то будет создана сессия и отправлена на фронт
          */
+        $host = request::$host;
+        $api_key = cfg::$siteconf['ip_location_provider_token'];
+        $default_location = "{\"ip\": \"$host\"}";
+        $location_api_response = null;
+
+        if (cfg::$siteconf['ip_location_provider_token']) {
+            try {
+                $url = "https://api.ipdata.co/$host?api-key=$api_key&fields=ip,city,region,country_name,continent_name";
+                $curl_query = curl_init($url);
+                curl_setopt($curl_query, CURLOPT_RETURNTRANSFER, true);
+                $location_api_response = curl_exec($curl_query);
+                curl_close($curl_query);
+            } catch (\Throwable $th) {
+                Logger::error('Location Api not availible');
+                $location_api_response = null;
+            }
+
+            if (!preg_match("/ip/", $location_api_response)) {
+                $location_api_response = null;
+            }
+        }
+
         $email = request::get_from_client_Json('email');
+        $client = json_encode(request::get_from_client_Json('client'));
+        $location = $location_api_response ? $location_api_response : $default_location;
         $is_from_mobile = request::get_from_client_Json('is_from_mobile');
         $password = md5(request::get_from_client_Json('password'));
 
@@ -41,6 +67,8 @@ class auth extends BaseController
         $session = [
             'user_id' => $user['id'],
             'session' => $session_id,
+            'client' => $client,
+            'location' => $location,
             'expire_at' => (date_timestamp_get($current_date) + $session_life_time)
         ];
 
@@ -179,7 +207,7 @@ class auth extends BaseController
         return 'exist';
     }
 
-    public static function change_password()
+    public static function restore_password()
     {
         $date = date_create();
         $code = request::get_from_client_Json('code');
@@ -192,6 +220,24 @@ class auth extends BaseController
         }
 
         auth_base::update_password($email, $password);
+        return 'success';
+    }
+
+    public static function change_password()
+    {
+        $current_password = md5(request::get_from_client_Json('currentPass'));
+        $new_password = md5(request::get_from_client_Json('newPass'));
+        $new_password_repeate = md5(request::get_from_client_Json('newPassRepeate'));
+
+        if (
+            !$new_password ||
+            ($new_password != $new_password_repeate) ||
+            (self::$user['password'] != $current_password)
+        ) {
+            throw self::unprocessable_entity();
+        }
+
+        auth_base::update_password(self::$user['email'], $new_password);
         return 'success';
     }
 }

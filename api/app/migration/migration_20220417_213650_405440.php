@@ -26,10 +26,13 @@ final class migration_20220417_213650_405440 extends migration
             if (preg_match('/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/', $value['date'])) {
                 $notify_id = $value['id'];
                 $date = explode('.', $value['date']);
-                $new_date = $date[2] . '-' . $date[1] . '-' . $date[0];
 
-                $sql = "UPDATE $notify SET `date`= '$new_date' WHERE `id`='$notify_id'";
-                dba::query($sql);
+                if ($date) {
+                    $new_date = $date[2] . '-' . $date[0] . '-' . $date[1];
+                    $sql = "UPDATE $notify SET `date`= '$new_date' WHERE `id`='$notify_id'";
+
+                    dba::query($sql);
+                }
             }
         }
 

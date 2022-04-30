@@ -18,12 +18,16 @@ final class UserModel
     }
 
 
-    public static function update($user_id, $id, $name)
+    public static function update($user_id, $data)
     {
-        // $sql = "UPDATE " . self::$table . " SET `name` = '$name' WHERE `user_id` = $user_id and `id` = $id;";
-        // dba::query($sql);
+        $sql = "UPDATE " . self::$table . " SET
+           `name` = '" . $data['name'] . "',
+           `email` = '" . $data['email'] . "',
+           `timezone` = '" . $data['timezone'] . "'
+            where `id` = $user_id";
+        dba::query($sql);
 
-        // return self::get($user_id, $id);
+        return self::get($user_id);
     }
 
 

@@ -43,6 +43,5 @@ export default class CategoriesListComponent extends Component {
   @action
   onComplete() {
     this.isShowAddModal = false;
-    console.log('complete');
   }
 }

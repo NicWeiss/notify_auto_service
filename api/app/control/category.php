@@ -29,7 +29,9 @@ class category extends BaseController
     public static function update($entity_id)
     {
         $name = self::$request_json['name'];
-        $category = model::update(self::$user['id'], $entity_id, $name);
+        $is_hidden =  self::$request_json['is_hidden'];
+
+        $category = model::update(self::$user['id'], $entity_id, $name, $is_hidden);
         return $category;
     }
 

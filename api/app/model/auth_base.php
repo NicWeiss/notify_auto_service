@@ -47,10 +47,12 @@ final class auth_base
     {
         $DB = TABLE_OF_SESSIONS;
         $sql = "INSERT INTO  $DB
-           ( `user_id`, `session`, `expire_at`)
+           ( `user_id`, `session`, `expire_at`, `client`, `location`)
             VALUES ('" . $data['user_id'] . "',
                     '" . $data['session'] . "',
-                    '" . $data['expire_at'] . "')";
+                    '" . $data['expire_at'] . "',
+                    '" . $data['client'] . "',
+                    '" . $data['location'] . "')";
         dba::query($sql);
     }
 
@@ -82,7 +84,9 @@ final class auth_base
         $sql = "SELECT * FROM  $DB  WHERE email='" . $email . "' and expire_at > '" . $current . "'";
         dba::query($sql);
         $res = dba::fetch_assoc();
+
         if (!is_array($res)) return false;
+
         return count($res) > 0 ? true : false;
     }
 
@@ -92,7 +96,9 @@ final class auth_base
         $sql = "SELECT * FROM  $DB  WHERE email='" . $email . "' and expire_at > '" . $current . "'";
         dba::query($sql);
         $res = dba::fetch_assoc();
+
         if (!is_array($res)) return false;
+
         return count($res) > 0 ? true : false;
     }
 
@@ -102,7 +108,9 @@ final class auth_base
         $sql = "SELECT * FROM  $DB  WHERE code='" . $code . "' and expire_at > '" . $current . "'";
         dba::query($sql);
         $res = dba::fetch_assoc();
+
         if (!is_array($res)) return false;
+
         return count($res) > 0 ? true : false;
     }
 
@@ -112,7 +120,9 @@ final class auth_base
         $sql = "SELECT * FROM  $DB  WHERE code='" . $code . "' and expire_at > '" . $current . "'";
         dba::query($sql);
         $res = dba::fetch_assoc();
+
         if (!is_array($res)) return false;
+
         return count($res) > 0 ? $res['email'] : false;
     }
 
@@ -122,6 +132,7 @@ final class auth_base
         $sql = "SELECT * FROM  $DB  WHERE email='" . $email . "' and expire_at > '" . $current . "'";
         dba::query($sql);
         $res = dba::fetch_assoc();
+
         return $res['code'];
     }
 
@@ -131,6 +142,7 @@ final class auth_base
         $sql = "SELECT * FROM  $DB  WHERE email='" . $email . "' and password = '" . $password . "'";
         dba::query($sql);
         $res = dba::fetch_assoc();
+
         return $res;
     }
 
@@ -139,11 +151,12 @@ final class auth_base
         $sesions = TABLE_OF_SESSIONS;
         $users = TABLE_OF_USERS;
 
-        $sql = "SELECT u.name, u.email, u.id, s.session FROM $users u
+        $sql = "SELECT u.name, u.email, u.id, s.session, u.password FROM $users u
             left join $sesions s on s.user_id = u.id
             WHERE s.session = '$user_session_id'";
 
         dba::query($sql);
+
         return dba::fetch_assoc();
     }
 

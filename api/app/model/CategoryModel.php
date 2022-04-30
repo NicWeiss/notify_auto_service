@@ -2,6 +2,7 @@
 
 namespace model;
 
+use helpers\Logger;
 use lib\dba as dba;
 
 final class CategoryModel
@@ -33,9 +34,11 @@ final class CategoryModel
     }
 
 
-    public static function update($user_id, $id, $name)
+    public static function update($user_id, $id, $name, $is_hidden)
     {
-        $sql = "UPDATE " . self::$table . " SET `name` = '$name' WHERE `user_id` = $user_id and `id` = $id;";
+        $is_hidden = intval($is_hidden);
+        $sql = "UPDATE " . self::$table . " SET `name` = '$name', `is_hidden` = '$is_hidden' WHERE `user_id` = $user_id and `id` = $id;";
+
         dba::query($sql);
 
         return self::get($user_id, $id);

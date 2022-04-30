@@ -10,11 +10,14 @@ export default class UserComponent extends Component {
   @service store;
 
   @tracked user = null;
+  @tracked sessions = [];
+  @tracked password = {};
 
   constructor(owner, args) {
     super(owner, args);
 
     this.getUser();
+    this.getSessions();
   }
 
   async getUser() {
@@ -38,8 +41,55 @@ export default class UserComponent extends Component {
     })[0];
   }
 
+  async getSessions() {
+    try {
+      this.sessions = await this.store.findAll('session');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
   @action
-  onSave() {
+  async changePassword() {
+    console.log(this.password);
+    if (this.password.newPass !== this.password.newPassRepeate) {
+      this.notify.error('Пароли не совпадают!');
+      return;
+    }
+    if (!this.password.newPass) {
+      this.notify.error('Новый пароль не может быть пустым!');
+      return;
+    }
+
+    try {
+      await this.api.post({
+        'url': 'auth/restore/change-password',
+        'data': this.password
+      })
+    } catch (errorCode) {
+      this.notify.error('Не верный пароль. Проверьте введённые данные!');
+      return
+    }
+
+    this.password = {};
+    this.notify.success('Пароль успешно изменён');
+  }
+
+  @action
+  async onSavePersonalData() {
+    if (!this.user.email || !this.user.name) {
+      this.notify.error('Имя или эмейл не погут быть пустыми!');
+      return;
+    }
+
+    try {
+      await this.user.save();
+    } catch (error) {
+      this.notify.error('Ошибка при сохранении');
+      return
+    }
+
+    this.notify.success('Личные данные успешно изменены');
   }
 }

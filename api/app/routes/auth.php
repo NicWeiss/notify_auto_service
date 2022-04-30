@@ -26,6 +26,12 @@ dispatcher::add('api/auth/restore/verify-restore-code', array(
 ));
 
 
+dispatcher::add('api/auth/restore/restore-password', array(
+    'control_class' => 'control\auth',
+    'control_function' => 'restore_password'
+));
+
+
 dispatcher::add('api/auth/restore/change-password', array(
     'control_class' => 'control\auth',
     'control_function' => 'change_password'

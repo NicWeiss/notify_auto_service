@@ -14,6 +14,14 @@ export default class CategoryEditComponent extends Component {
   }
 
   @action
+  onKeyPress(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      this.onSave()
+    }
+  }
+
+  @action
   onCancel() {
     this.args.onCancel();
   }

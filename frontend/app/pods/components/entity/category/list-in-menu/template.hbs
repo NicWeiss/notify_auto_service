@@ -3,7 +3,9 @@
     <div class="without-position positionId_0 selected" {{action 'onSelect'}}>Без категории</div>
     <div class="user-position" style={{style}}>
       {{#each @model as | item|}}
-        <div class="position positionId_{{item.id}}" {{action 'onSelect' item}}>{{item.name}}</div>
+        {{#unless item.isHidden}}
+          <div class="position positionId_{{item.id}}" {{action 'onSelect' item}}>{{item.name}}</div>
+        {{/unless}}
       {{/each}}
     </div>
   </div>

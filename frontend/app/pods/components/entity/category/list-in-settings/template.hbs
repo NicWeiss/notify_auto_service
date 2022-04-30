@@ -13,6 +13,11 @@
             <td data-th="Название: " style="width: 100%;">{{item.name}}</td>
             <td data-th="">
               <div class="buttons-bar justify-content-around">
+                {{#if item.isHidden}}
+                  <div class="btn btn-outline-secondary btn-icon without-border" {{action 'onChangeVisibility' item}}><FaIcon @icon="eye-slash"/></div>
+                {{else}}
+                  <div class="btn btn-outline-success btn-icon without-border" {{action 'onChangeVisibility' item}}><FaIcon @icon="eye"/></div>
+                {{/if}}
                 <div class="btn btn-outline-primary btn-icon without-border" {{action 'onEdit' item bubbles=false}}><FaIcon @icon="pencil-alt"/></div>
                 <div class="btn btn-outline-danger btn-icon without-border" {{action 'onDelete' item}}><FaIcon @icon="trash"/></div>
               </div>

@@ -22,9 +22,7 @@ class user extends BaseController
 
     public static function update($entity_id)
     {
-        // $name = self::$request_json['name'];
-        // $category = model::update(self::$user['id'], $entity_id, $name);
-        // return $category;
+        return model::update($entity_id, self::$request_json);
     }
 
     public static function delete($entity_id)

@@ -22,24 +22,6 @@ export default class AcceptorsListComponent extends Component {
   }
 
   @action
-  onChangeVisibility(item) {
-    item.isHidden = !item.isHidden
-    item.save()
-  }
-
-  @action
-  onAdd() {
-    this.selectedModel = this.store.createRecord('category');
-    this.isShowEditModal = true;
-  }
-
-  @action
-  onEdit(model) {
-    this.selectedModel = model;
-    this.isShowEditModal = true;
-  }
-
-  @action
   onDelete(model) {
     this.selectedModel = model;
     this.isShowDeleteModal = true;
@@ -54,6 +36,5 @@ export default class AcceptorsListComponent extends Component {
   onComplete() {
     this.isShowAddModal = false;
     this.closeModalWondows();
-    this.args.reloadModel();
   }
 }

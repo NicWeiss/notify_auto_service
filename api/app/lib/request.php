@@ -14,7 +14,7 @@ final class request
     public static $query_params = array();
     public static $path = '';
     public static $req = array();
-    private static $ip = null;
+    public static $host = null;
 
 
     public static function split_given_url($url = null)
@@ -56,6 +56,7 @@ final class request
 
         $url = self::split_given_url($url);
         self::$url = $url;
+        self::$host = $_SERVER['REMOTE_ADDR'];
         self::$referrer = isset($_SERVER['HTTP_REFERER']) ? self::split_given_url($_SERVER['HTTP_REFERER']) : [];
         self::$path = implode('/', $url);
         self::$req = array_merge($_GET, $_POST);

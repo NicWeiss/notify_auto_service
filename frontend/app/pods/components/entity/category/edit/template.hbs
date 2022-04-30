@@ -9,7 +9,12 @@
     <div class="form-container">
       <div class="form-group">
         <label for="notify-name">Название</label>
-        <Input @type="text" class="form-control" id="notify-name" @value={{this.args.model.name}}/>
+        <Input @type="text"
+          class="form-control"
+          id="notify-name"
+          @value={{this.args.model.name}}
+          {{on 'keypress' this.onKeyPress}}
+        />
       </div>
 
       <div class="buttons-bar ">

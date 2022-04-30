@@ -58,7 +58,7 @@ export default class RestoreComponent extends Component {
 
     try {
       await this.api.post({
-        'url': 'auth/restore/change-password',
+        'url': 'auth/restore/restore-password',
         'data': {
           'password': this.firstPassword,
           'code': this.args.restoreId

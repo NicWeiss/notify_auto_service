@@ -67,6 +67,11 @@
 
 .auth-form {
   padding: 20px 50px 20px 50px;
+
+  textarea:focus,
+  input:focus {
+    border-color: transparent !important;
+  }
 }
 
 .login-header {
@@ -342,11 +347,6 @@
 
 .input-checkbox-auth:checked+.label-checkbox-auth::before {
   color: #555555;
-}
-
-textarea:focus,
-input:focus {
-  border-color: transparent !important;
 }
 
 .input-autofill-transpanent {

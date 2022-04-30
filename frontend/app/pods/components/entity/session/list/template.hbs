@@ -1,0 +1,42 @@
+{{#if @model}}
+  <div class="form-group d-flex justify-content-center table-responsive">
+    <table class="rwd-table">
+      <tr>
+        <th>Метоположение</th>
+        <th>Клиент</th>
+        <th>IP адресс</th>
+        <th>Истекает</th>
+        <th></th>
+      </tr>
+      {{#each @model as | item|}}
+        {{#unless  item.isDeleted}}
+          <tr>
+            <td data-th="Метоположение: ">
+              {{item.location.country_name}}{{if item.location.region ',' ''}}
+              {{item.location.region}}{{if item.location.region ',' ''}}
+              {{item.location.city}}
+            </td>
+            <td data-th="Клиент: ">{{item.client.client}} {{item.client.version}} on {{item.client.os}}</td>
+            <td data-th="IP адресс: ">{{item.location.ip}}</td>
+            <td data-th="Истекает: "><Utils::FromTimestamp @timestamp={{item.expireAt}}/></td>
+            <td data-th="">
+              <div class="buttons-bar justify-content-around">
+                <div class="btn btn-outline-danger btn-icon without-border" {{action 'onDelete' item}}><FaIcon @icon="trash"/></div>
+              </div>
+            </td>
+          </tr>
+        {{/unless}}
+      {{/each}}
+    </table>
+  </div>
+{{/if}}
+
+{{#if isShowDeleteModal}}
+  <Entity::Session::Delete
+    @model={{selectedModel}}
+    @onCancel={{action onCancel}}
+    @onComplete={{action onComplete}}
+  />
+{{/if}}
+
+
