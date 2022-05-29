@@ -5,7 +5,7 @@ namespace model;
 use control\acceptor;
 use lib\dba as dba;
 
-final class notify_model
+final class NotifyModel
 {
 
     public static function create_notify($notify, $user)
@@ -184,6 +184,16 @@ final class notify_model
         foreach ($notify_list as $notify) {
             self::move_notify($notify['id'], $target_category_id, $user);
         }
+
+        return true;
+    }
+
+    public static function delete_all($user_id)
+    {
+        $table = TABLE_OF_NOTIFY;
+
+        $sql = "DELETE FROM $table WHERE `user_id` = '$user_id'";
+        dba::query($sql);
 
         return true;
     }

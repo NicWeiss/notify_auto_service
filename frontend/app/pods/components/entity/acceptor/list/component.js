@@ -21,6 +21,11 @@ export default class AcceptorsListComponent extends Component {
     this.isShowEditModal = false;
   }
 
+  @action
+  onChangeStatus(item) {
+    item.status = item.status == 0 ? 1 : 0;
+    item.save()
+  }
 
   @action
   onCancel() {

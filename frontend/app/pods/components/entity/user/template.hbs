@@ -69,7 +69,17 @@
     <Entity::Session::List @model={{this.sessions}}/>
   </div>
 
+
+  <button type="button" class="btn btn-small btn-danger" onclick={{action deleteAccount}}>
     Удалить аккаунт
+  </button>
 </div>
 
 
+{{#if isShowDeleteModal}}
+  <Entity::User::Delete
+    @model={{user}}
+    @onCancel={{action onCancel}}
+    @onDelete={{action onCompleteDeleAccount}}
+  />
+{{/if}}

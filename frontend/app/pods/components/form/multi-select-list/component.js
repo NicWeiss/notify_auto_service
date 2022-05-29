@@ -6,6 +6,7 @@ import { inject as service } from '@ember/service';
 
 export default class MultiSelectListComponent extends Component {
   @service store;
+  @service errors;
 
   @tracked model = null;
   @tracked modelName = null;
@@ -29,7 +30,7 @@ export default class MultiSelectListComponent extends Component {
     try {
       this.model = await this.store.query(this.modelName, this.queryParams);
     } catch (error) {
-      console.log(error);
+      this.errors.handle(error);
     }
     this.updateLocalValue();
   }

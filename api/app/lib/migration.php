@@ -2,7 +2,7 @@
 
 namespace lib;
 
-use \model\migration as mmigration;
+use \model\MigrationModel as mmigration;
 
 
 class migration

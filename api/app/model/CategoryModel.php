@@ -60,4 +60,12 @@ final class CategoryModel
 
         return $last_operation ? $last_operation : 0;
     }
+
+    public static function delete_all($user_id)
+    {
+        $sql = "DELETE FROM " . self::$table . " WHERE `user_id` = '$user_id'";
+        dba::query($sql);
+
+        return true;
+    }
 }

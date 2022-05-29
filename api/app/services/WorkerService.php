@@ -11,10 +11,10 @@ use generic\BaseController;
 use lib\email;
 use lib\telegram;
 use helpers\Logger as Logger;
-use model\worker_model as model;
-use model\watcher_model as watch_model;
+use model\WorkerModel as model;
+use model\WatcherModel;
 
-class worker extends BaseController
+class WorkerService extends BaseController
 {
     private static $workday_list = ['1', '2', '3', '4', '5'];
     private static $weekend_list = ['6', '7'];
@@ -31,7 +31,7 @@ class worker extends BaseController
         }
 
         self::$notify_pool = [];
-        $operations_list = watch_model::get_first_waited_operation(self::$worker_id);
+        $operations_list = WatcherModel::get_first_waited_operation(self::$worker_id);
 
         if (!$operations_list) {
             Logger::info("Worker done");
@@ -82,7 +82,7 @@ class worker extends BaseController
         }
 
         self::send_notify();
-        watch_model::done_operation($operation['id'], self::$worker_id);
+        WatcherModel::done_operation($operation['id'], self::$worker_id);
 
         $end = microtime(true);
         Logger::info(array('message' => 'run_job', 'job_name' => 'operation_processor', 'run_time' => $end - $start));

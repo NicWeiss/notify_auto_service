@@ -3,7 +3,7 @@
 namespace generic;
 
 use Exception;
-use model\auth_base as auth;
+use model\AuthModel as auth;
 use lib\request;
 
 class BaseController
@@ -13,12 +13,14 @@ class BaseController
     protected static $answer = [];
     protected static $user = null;
     protected static $total = 0;
+    protected static $request_model;
     protected static $request_json;
 
 
     function __construct()
     {
-        self::$request_json = self::getModelData();
+        self::$request_json = self::getDataFromRequestJson();
+        self::$request_model = self::getModelDataFromRequest();
     }
 
     public static function set_total_pages($total)
@@ -56,16 +58,25 @@ class BaseController
         return new Exception(self::error('Unprocessable entity'), 422);
     }
 
-    private static function getModelData()
+    private static function getDataFromRequestJson()
     {
         if (!json_decode(file_get_contents('php://input'))) {
-            return;
+            return [];
+        }
+        return json_decode(file_get_contents('php://input'), true);
+    }
+
+    private static function getModelDataFromRequest()
+    {
+        if (count(array_keys(self::$request_json)) != 1) {
+            return [];
         }
 
-        self::$model_name = key(json_decode(file_get_contents('php://input'), true));
+        self::$model_name = key(self::$request_json);
         if (!self::$model_name) {
             return;
         }
+
         return request::get_from_client_Json(self::$model_name);
     }
 

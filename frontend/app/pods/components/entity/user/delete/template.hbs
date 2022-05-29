@@ -1,0 +1,36 @@
+{{#modal-dialog translucentOverlay=true
+    targetAttachment='none'
+    containerClass='centered-scrolling-container'
+    overlayClass='centered-scrolling-overlay'
+    wrapperClass='centered-scrolling-wrapper'}}
+  <div class="header">Удалить аккаунт?</div>
+  <div class="body">
+    <div class="form-group">
+      <label for="notify-name">
+        Удаление аккаунта <i style="color: brown;">{{this.args.model.name}}</i> является необратимым.
+        <br>
+        <br>
+        Все уведомления, категории и получатели будут безвозватно удалены, а вход на всех устройствах будет завершён .
+        <br>
+        <br>
+        Для удаления введите пароль от аккаунта
+        <div class="input-container">
+          <div class="label">Пароль</div>
+          <Input class="settings-input"
+              type="password"
+              @value={{password}}
+          />
+        </div>
+      </label>
+    </div>
+
+    <div class="buttons-bar ">
+      <button type="button" class="btn btn-danger btn-complete" onclick={{action onDelete}}>
+        Удалить
+      </button>
+      <button type="button" class="btn btn-primary btn-complete" onclick={{action onCancel}}>
+        Отменить
+      </button>
+    </div>
+  </div>
+{{/modal-dialog}}

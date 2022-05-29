@@ -2,7 +2,7 @@
 
 namespace jobs;
 
-use \services\worker as WorkerService;
+use \services\WorkerService;
 
 final class Worker
 {

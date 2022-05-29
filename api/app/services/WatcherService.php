@@ -9,9 +9,9 @@ namespace services;
 
 use DateTime;
 use helpers\Logger as Logger;
-use model\watcher_model as model;
+use model\WatcherModel as model;
 
-class watcher
+class WatcherService
 {
     public static function run()
     {

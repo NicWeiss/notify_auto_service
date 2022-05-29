@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-
+import { detectClientData } from 'frontend/helpers/detectClientData';
 
 
 export default class LoginComponent extends Component {
@@ -71,15 +71,17 @@ export default class LoginComponent extends Component {
     }
 
     let session = null;
+    const client = detectClientData();
 
     try {
       session = await this.api.post({
-        'url:': 'auth/sign_up',
+        'url': 'auth/sign_up',
         'data': {
           'name': this.user,
           'email': this.email,
           'password': this.password,
-          'code': this.code
+          'code': this.code,
+          'client': client
         }
       })
     } catch (errorCode) {

@@ -12,24 +12,19 @@ use generic\BaseController;
 use helpers\Logger;
 use lib\email;
 use lib\request;
-use model\auth_base as auth_base;
+use model\AuthModel;
 
 class auth extends BaseController
 {
     private static $ONE_WEEK = 604800;
     private static $ONE_HUNDRED_YEARS = 338688000;
 
-    public static function login()
+    private static function getLocation()
     {
-        /*
-         * Метод авторизации пользователя
-         *      1.  Будет проверен проверен логин и пароль. если тользователь не найден - 403
-         *      2.  Если пользователь найден, то будет создана сессия и отправлена на фронт
-         */
         $host = request::$host;
         $api_key = cfg::$siteconf['ip_location_provider_token'];
-        $default_location = "{\"ip\": \"$host\"}";
         $location_api_response = null;
+        $default_location = "{\"ip\": \"$host\"}";
 
         if (cfg::$siteconf['ip_location_provider_token']) {
             try {
@@ -48,13 +43,25 @@ class auth extends BaseController
             }
         }
 
-        $email = request::get_from_client_Json('email');
-        $client = json_encode(request::get_from_client_Json('client'));
-        $location = $location_api_response ? $location_api_response : $default_location;
-        $is_from_mobile = request::get_from_client_Json('is_from_mobile');
-        $password = md5(request::get_from_client_Json('password'));
+        return $location_api_response ? $location_api_response : $default_location;
+    }
 
-        $user = auth_base::get_user($email, $password);
+    public static function login()
+    {
+        /*
+         * Метод авторизации пользователя
+         *      1.  Будет проверен проверен логин и пароль. если тользователь не найден - 403
+         *      2.  Если пользователь найден, то будет создана сессия и отправлена на фронт
+         */
+        $location_api_response = null;
+
+        $email = self::$request_json['email'];
+        $client = json_encode(self::$request_json['client']);
+        $location = self::getLocation();
+        $is_from_mobile = self::$request_json['is_from_mobile'];
+        $password = md5(self::$request_json['password']);
+
+        $user = AuthModel::get_user($email, $password);
 
         if (!$user) {
             throw self::has_no_permission();
@@ -72,7 +79,7 @@ class auth extends BaseController
             'expire_at' => (date_timestamp_get($current_date) + $session_life_time)
         ];
 
-        auth_base::set_session($session);
+        AuthModel::set_session($session);
 
         return ['name' => $user['name'], 'session' => $session_id];
     }
@@ -84,18 +91,18 @@ class auth extends BaseController
          *      1.  Будет проверен код и если он выслан и активен, то выход
          *      2.  Если подходящего кода нет, то будет создан новый, сохранён в базу и выслан
          */
-        $email = request::get_from_client_Json('email');
+        $email = self::$request_json['email'];
         $code = random_int(1000, 9999);
         $date = date_create();
 
-        if (auth_base::check_user_exists($email)) {
+        if (AuthModel::check_user_exists($email)) {
             throw self::unprocessable_entity();
         }
-        if (auth_base::is_reg_code_exist($email, date_timestamp_get($date))) {
+        if (AuthModel::is_reg_code_exist($email, date_timestamp_get($date))) {
             throw self::has_no_permission();
         }
 
-        auth_base::create_code(['email' => $email, 'code' => $code, 'expire_at' => (date_timestamp_get($date) + 300)]);
+        AuthModel::create_code(['email' => $email, 'code' => $code, 'expire_at' => (date_timestamp_get($date) + 300)]);
 
         $is_send = email::send([
             'to' => $email,
@@ -107,47 +114,52 @@ class auth extends BaseController
             throw self::critical_error();
         }
 
-        return 'correct';
+        return 'code sended';
     }
 
     public static function sign_up()
     {
         $date = date_create();
 
-        $accepted_code = request::get_from_client_Json('code');
-        $email = request::get_from_client_Json('email');
+        $accepted_code = self::$request_json['code'];
+        $email = self::$request_json['email'];
+        $client = json_encode(self::$request_json['client']);
+        $location = self::getLocation();
 
-        $sended_code = auth_base::get_reg_code($email, date_timestamp_get($date));
+        $sended_code = AuthModel::get_reg_code($email, date_timestamp_get($date));
         if (!$sended_code) {
             throw self::has_no_permission();
         }
 
         if ($accepted_code == $sended_code) {
             $session = md5(uniqid(rand(), true));
-            $password = md5(request::get_from_client_Json('password'));
+            $password = md5(self::$request_json['password']);
 
-            if (auth_base::check_user_exists($email)) {
+            if (AuthModel::check_user_exists($email)) {
                 throw self::unprocessable_entity();
             }
 
             $user = [
-                'name' => request::get_from_client_Json('name'),
+                'name' => self::$request_json['name'],
                 'password' => $password,
                 'email' => $email
             ];
-            $user_id = auth_base::create_user($user);
+            $user_id = AuthModel::create_user($user);
 
             if (!$user_id) {
                 throw self::critical_error();
             }
 
+
             $data = [
                 'user_id' => $user_id,
                 'session' => $session,
+                'client' => $client,
+                'location' => $location,
                 'expire_at' => (date_timestamp_get($date) + 3600)
             ];
 
-            auth_base::set_session($data);
+            AuthModel::set_session($data);
 
             return $session;
         }
@@ -159,7 +171,7 @@ class auth extends BaseController
     {
         $date = date_create();
 
-        $email = request::get_from_client_Json('email');
+        $email = self::$request_json['email'];
         if (!$email) {
             throw self::unprocessable_entity();
         }
@@ -167,14 +179,14 @@ class auth extends BaseController
         $restore_hash = md5(strval(random_int(1000, 9999) * random_int(1000, 9999)));
 
 
-        if (!auth_base::check_user_exists($email)) {
+        if (!AuthModel::check_user_exists($email)) {
             throw self::unprocessable_entity();
         }
-        if (auth_base::is_restore_code_exist($email, date_timestamp_get($date))) {
+        if (AuthModel::is_restore_code_exist($email, date_timestamp_get($date))) {
             throw self::has_no_permission();
         }
 
-        auth_base::create_restore_code([
+        AuthModel::create_restore_code([
             'email' => $email,
             'code' => $restore_hash,
             'expire_at' => (date_timestamp_get($date) + 300)
@@ -198,9 +210,9 @@ class auth extends BaseController
     public static function verify_restore_code()
     {
         $date = date_create();
-        $code = request::get_from_client_Json('code');
+        $code = self::$request_json['code'];
 
-        if (!auth_base::is_restore_code_exist_by_code($code, date_timestamp_get($date))) {
+        if (!AuthModel::is_restore_code_exist_by_code($code, date_timestamp_get($date))) {
             throw self::unprocessable_entity();
         }
 
@@ -210,24 +222,24 @@ class auth extends BaseController
     public static function restore_password()
     {
         $date = date_create();
-        $code = request::get_from_client_Json('code');
-        $password = md5(request::get_from_client_Json('password'));
+        $code = self::$request_json['code'];
+        $password = md5(self::$request_json['password']);
 
-        $email = auth_base::get_email_by_restore_code($code, date_timestamp_get($date));
+        $email = AuthModel::get_email_by_restore_code($code, date_timestamp_get($date));
 
         if (!$email) {
             throw self::unprocessable_entity();
         }
 
-        auth_base::update_password($email, $password);
+        AuthModel::update_password($email, $password);
         return 'success';
     }
 
     public static function change_password()
     {
-        $current_password = md5(request::get_from_client_Json('currentPass'));
-        $new_password = md5(request::get_from_client_Json('newPass'));
-        $new_password_repeate = md5(request::get_from_client_Json('newPassRepeate'));
+        $current_password = md5(self::$request_json['currentPass']);
+        $new_password = md5(self::$request_json['newPass']);
+        $new_password_repeate = md5(self::$request_json['newPassRepeate']);
 
         if (
             !$new_password ||
@@ -237,7 +249,7 @@ class auth extends BaseController
             throw self::unprocessable_entity();
         }
 
-        auth_base::update_password(self::$user['email'], $new_password);
+        AuthModel::update_password(self::$user['email'], $new_password);
         return 'success';
     }
 }

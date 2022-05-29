@@ -6,6 +6,7 @@ import { inject as service } from '@ember/service';
 
 export default class CategoryEditComponent extends Component {
   @service store;
+  @service errors;
 
   @tracked name = '';
 
@@ -31,7 +32,7 @@ export default class CategoryEditComponent extends Component {
     try {
       await this.args.model.save()
     } catch (error) {
-      console.log(error);
+      this.errors.handle(error);
       this.notify.error('Ошибка при обновлении категории');
     }
 

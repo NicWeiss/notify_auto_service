@@ -7,6 +7,7 @@ import { inject as service } from '@ember/service';
 export default class AcceptorsEditComponent extends Component {
   @service store;
   @service notify;
+  @service errors;
 
   @tracked selectedSystem = null;
   @tracked systemHelp = null;
@@ -50,7 +51,7 @@ export default class AcceptorsEditComponent extends Component {
     try {
       await this.args.model.save()
     } catch (error) {
-      console.log(error);
+      this.errors.handle(error);
       this.notify.error('Ошибка при сохранении получателя');
     }
 

@@ -6,6 +6,7 @@ import { inject as service } from '@ember/service';
 
 export default class CategoryNewComponent extends Component {
   @service store;
+  @service errors;
 
   @tracked name = '';
 
@@ -26,7 +27,7 @@ export default class CategoryNewComponent extends Component {
     try {
       model.save()
     } catch (error) {
-      console.log(error);
+      this.errors.handle(error);
       this.notify.error('Ошибка при добавлении категории');
     }
 

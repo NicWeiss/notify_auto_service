@@ -9,7 +9,7 @@ class category extends BaseController
 {
     public static function post()
     {
-        $name = self::$request_json['name'];
+        $name = self::$request_model['name'];
         $category = model::create(self::$user['id'], $name);
         return $category;
     }
@@ -28,8 +28,8 @@ class category extends BaseController
 
     public static function update($entity_id)
     {
-        $name = self::$request_json['name'];
-        $is_hidden =  self::$request_json['is_hidden'];
+        $name = self::$request_model['name'];
+        $is_hidden =  self::$request_model['is_hidden'];
 
         $category = model::update(self::$user['id'], $entity_id, $name, $is_hidden);
         return $category;

@@ -47,4 +47,15 @@ final class SessionModel
 
         return dba::fetch_assoc();
     }
+
+
+    public static function delete_all($user_id)
+    {
+        $table = TABLE_OF_SESSIONS;
+
+        $sql = "DELETE FROM $table WHERE `user_id` = '$user_id'";
+        dba::query($sql);
+
+        return true;
+    }
 }

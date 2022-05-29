@@ -10,7 +10,7 @@
 namespace generic;
 
 use lib\dba;
-use model\migration as mmigration;
+use model\MigrationModel;
 
 
 class migration
@@ -48,7 +48,7 @@ class migration
     {
         if (!$this->up())
             return false;
-        mmigration::register_migration($this->migration_id, $this->comment);
+        MigrationModel::register_migration($this->migration_id, $this->comment);
         return true;
     }
 
@@ -61,7 +61,7 @@ class migration
         if (!$this->down())
             return false;
 
-        mmigration::unregister_migration($this->migration_id);
+        MigrationModel::unregister_migration($this->migration_id);
         return true;
     }
 

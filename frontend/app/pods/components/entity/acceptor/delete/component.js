@@ -7,6 +7,7 @@ import { inject as service } from '@ember/service';
 export default class AcceptorDeleteComponent extends Component {
   @service api;
   @service store;
+  @service errors;
 
   constructor(owner, args) {
     super(owner, args);
@@ -22,7 +23,7 @@ export default class AcceptorDeleteComponent extends Component {
     try {
       await this.args.model.destroyRecord()
     } catch (error) {
-      console.log(error);
+      this.errors.handle(error);
       this.notify.error('Ошибка при удалении получателя');
     }
 

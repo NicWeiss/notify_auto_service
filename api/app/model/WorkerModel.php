@@ -3,9 +3,9 @@
 namespace model;
 
 use lib\dba as dba;
-use model\notify_model as notify;
+use model\NotifyModel;
 
-final class worker_model
+final class WorkerModel
 {
 
     public static function get_once_notifies($date, $time)
@@ -18,7 +18,7 @@ final class worker_model
         $notify_list = dba::fetch_assoc_all();
 
         foreach ($notify_list as $key => $value) {
-            $notify_list[$key]['acceptorsList'] = notify::get_acceptors_by_notify_id($value['id'], '1');
+            $notify_list[$key]['acceptorsList'] = NotifyModel::get_acceptors_by_notify_id($value['id'], '1');
         }
 
         return $notify_list;
@@ -34,7 +34,7 @@ final class worker_model
         $notify_list = dba::fetch_assoc_all();
 
         foreach ($notify_list as $key => $value) {
-            $notify_list[$key]['acceptorsList'] = notify::get_acceptors_by_notify_id($value['id'], '1');
+            $notify_list[$key]['acceptorsList'] = NotifyModel::get_acceptors_by_notify_id($value['id'], '1');
         }
 
         return $notify_list;
@@ -50,7 +50,7 @@ final class worker_model
         $notify_list = dba::fetch_assoc_all();
 
         foreach ($notify_list as $key => $value) {
-            $notify_list[$key]['acceptorsList'] = notify::get_acceptors_by_notify_id($value['id'], '1');
+            $notify_list[$key]['acceptorsList'] = NotifyModel::get_acceptors_by_notify_id($value['id'], '1');
         }
 
         return $notify_list;
@@ -68,7 +68,7 @@ final class worker_model
         $notify_list = dba::fetch_assoc_all();
 
         foreach ($notify_list as $key => $value) {
-            $notify_list[$key]['acceptorsList'] = notify::get_acceptors_by_notify_id($value['id'], '1');
+            $notify_list[$key]['acceptorsList'] = NotifyModel::get_acceptors_by_notify_id($value['id'], '1');
         }
 
         return $notify_list;
@@ -86,7 +86,7 @@ final class worker_model
         $notify_list = dba::fetch_assoc_all();
 
         foreach ($notify_list as $key => $value) {
-            $notify_list[$key]['acceptorsList'] = notify::get_acceptors_by_notify_id($value['id'], '1');
+            $notify_list[$key]['acceptorsList'] = NotifyModel::get_acceptors_by_notify_id($value['id'], '1');
         }
 
         return $notify_list;

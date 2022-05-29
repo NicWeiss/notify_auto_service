@@ -31,10 +31,9 @@ final class UserModel
     }
 
 
-    public static function delete($user_id, $id)
+    public static function delete($user_id)
     {
-        // $sql = "DELETE FROM " . self::$table . " WHERE `user_id` = $user_id and `id` != $id";
-
-        // return dba::query($sql);
+        $sql = "DELETE FROM " . self::$table . " WHERE `id` = $user_id";
+        return dba::query($sql);
     }
 }

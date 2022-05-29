@@ -5,7 +5,7 @@ namespace model;
 use lib\dba as dba;
 use lib\request;
 
-final class acceptor_model
+final class AcceptorModel
 {
     public static function get_all()
     {
@@ -101,5 +101,15 @@ final class acceptor_model
 
 
         return $acceptor;
+    }
+
+    public static function delete_all($user_id)
+    {
+        $table = TABLE_OF_ACCEPTORS;
+
+        $sql = "DELETE FROM $table WHERE `user_id` = '$user_id'";
+        dba::query($sql);
+
+        return true;
     }
 }

@@ -4,7 +4,7 @@ namespace model;
 
 use lib\dba as dba;
 
-final class auth_base
+final class AuthModel
 {
 
     private static $SIX_DAYS = 518400;

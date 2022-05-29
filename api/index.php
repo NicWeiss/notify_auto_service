@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 use lib\request as request;
 use lib\RestAdapter;
-use model\auth_base;
+use model\AuthModel;
 
 require_once("app/std.php");
 require_once('tmp/config.ini.php');
@@ -40,7 +40,7 @@ final class myapp
         foreach (getallheaders() as $key => $value) {
             if ($key == 'Session') {
                 $user_session_id = $value;
-                $is_session_valid = auth_base::is_session_valid($value);
+                $is_session_valid = AuthModel::is_session_valid($value);
             }
         }
 

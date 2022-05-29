@@ -6,12 +6,14 @@ import { inject as service } from '@ember/service';
 
 export default class UserComponent extends Component {
   @service api;
+  @service errors;
   @service notify;
   @service store;
 
   @tracked user = null;
   @tracked sessions = [];
   @tracked password = {};
+  @tracked isShowDeleteModal = false;
 
   constructor(owner, args) {
     super(owner, args);
@@ -26,7 +28,7 @@ export default class UserComponent extends Component {
     try {
       response = await this.api.get({ 'url': 'user' })
     } catch (error) {
-      console.log(error);
+      this.errors.handle(error);
       this.notify.error('Ошибка на сервере');
       return;
     }
@@ -45,7 +47,7 @@ export default class UserComponent extends Component {
     try {
       this.sessions = await this.store.findAll('session');
     } catch (error) {
-      console.log(error);
+      this.errors.handle(error);
     }
   }
 
@@ -67,8 +69,9 @@ export default class UserComponent extends Component {
         'url': 'auth/restore/change-password',
         'data': this.password
       })
-    } catch (errorCode) {
-      this.notify.error('Не верный пароль. Проверьте введённые данные!');
+    } catch (error) {
+      this.errors.handle(error);
+      this.notify.error('Неверный пароль. Проверьте введённые данные!');
       return
     }
 
@@ -86,10 +89,40 @@ export default class UserComponent extends Component {
     try {
       await this.user.save();
     } catch (error) {
+      this.errors.handle(error);
       this.notify.error('Ошибка при сохранении');
       return
     }
 
     this.notify.success('Личные данные успешно изменены');
+  }
+
+  @action
+  deleteAccount() {
+    this.isShowDeleteModal = true;
+  }
+
+  @action
+  onCancel() {
+    this.isShowDeleteModal = false;
+  }
+
+  @action
+  async onCompleteDeleAccount(password) {
+    this.onCancel();
+
+    try {
+      await this.api.delete({
+        'url': 'user/delete',
+        'data': { 'password': password }
+      })
+    } catch (error) {
+      this.errors.handle(error);
+      this.notify.error('Неверный пароль. Проверьте введённые данные!');
+      return
+    }
+
+    this.notify.success('Аккаунт удаляется!');
+    document.location.reload();
   }
 }

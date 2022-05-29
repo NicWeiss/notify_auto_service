@@ -9,7 +9,7 @@ namespace model;
 
 use lib\dba as dba;
 
-class migration
+class MigrationModel
 {
 
     public static function init()
@@ -71,7 +71,7 @@ class migration
     {
         $tb = MIGRATION;
 
-        $query = "DELETE FROM {$tb} WHERE id = ?";
-        return dba::query_wild($query, $migration_id);
+        $sql = "DELETE FROM {$tb} WHERE id = '" . $migration_id . '"';
+        return dba::query($sql);
     }
 }

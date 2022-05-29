@@ -8,19 +8,19 @@
 namespace control;
 
 use generic\BaseController;
-use model\system_model as sm;
+use model\SystemModel;
 
 class system extends BaseController
 {
     public static function get()
     {
-        $systems = sm::get_all();
+        $systems = SystemModel::get_all();
         return $systems;
     }
 
     public static function get_by_id($entity_id)
     {
-        $system = sm::get_system($entity_id);
+        $system = SystemModel::get_system($entity_id);
         return $system;
     }
 }

@@ -4,7 +4,7 @@ namespace model;
 
 use lib\dba as dba;
 
-final class watcher_model
+final class WatcherModel
 {
     public static $operations = TABLE_OF_OPERATIONS;
     public static $lock_name = 'query';

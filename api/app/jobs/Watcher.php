@@ -2,7 +2,7 @@
 
 namespace jobs;
 
-use \services\watcher as WatcherService;
+use \services\WatcherService;
 
 class Watcher
 {

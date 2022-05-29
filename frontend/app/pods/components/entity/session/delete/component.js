@@ -7,6 +7,7 @@ import { inject as service } from '@ember/service';
 export default class CategoryDeleteComponent extends Component {
   @service api;
   @service store;
+  @service errors;
 
   @tracked name = '';
   @tracked deleteWithNotify = false;
@@ -24,7 +25,7 @@ export default class CategoryDeleteComponent extends Component {
           category_id: this.args.model.id
         });
       } catch (error) {
-        console.log(error);
+        this.errors.handle(error);
         this.notify.error('Ошибка при получении уведомлений');
       }
     }
@@ -46,7 +47,7 @@ export default class CategoryDeleteComponent extends Component {
 
       await this.args.model.destroyRecord()
     } catch (error) {
-      console.log(error);
+      this.errors.handle(error);
       this.notify.error('Ошибка при удалении категории');
     }
 
