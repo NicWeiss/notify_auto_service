@@ -6,6 +6,7 @@ import { inject as service } from '@ember/service';
 
 export default class SelectListComponent extends Component {
   @service store;
+  @service errors;
 
   @tracked model = null;
   @tracked modelName = null;
@@ -32,7 +33,7 @@ export default class SelectListComponent extends Component {
     try {
       this.model = await this.store.findAll(this.modelName);
     } catch (error) {
-      console.log(error);
+      this.errors.handle(error);
     }
   }
 

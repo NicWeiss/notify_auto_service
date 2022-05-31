@@ -1,0 +1,44 @@
+{{#modal-dialog translucentOverlay=true
+    targetAttachment='none'
+    containerClass='centered-scrolling-container'
+    overlayClass='centered-scrolling-overlay'
+    wrapperClass='centered-scrolling-wrapper'}}
+  <div class="header">Уведомление #{{@model.id}}</div>
+  <div class="body">
+    <table>
+      <tr>
+        <td>Название:</td>
+        <td>{{@model.name}}</td>
+      </tr>
+      <tr>
+        <td>Содержимое:</td>
+        <td>{{@model.text}}</td>
+      </tr>
+      <tr>
+        <td>Получатели:</td>
+        <td>{{this.acceptorList}}</td>
+      </tr>
+      <tr>
+        <td>Периодичность:</td>
+        <td>{{get PERIODIC @model.periodic}}</td>
+      </tr>
+      <tr>
+        <td>День выполнения:</td>
+        <td>
+          {{#if @model.dayOfWeek}}
+            {{get WEEK @model.dayOfWeek}}
+          {{/if}}
+          <Utils::FromGmt @type="date" @date={{@model.date}} @time={{@model.time}} />
+        </td>
+      </tr>
+      <tr>
+        <td>Время выполнения:</td>
+        <td><Utils::FromGmt @type="time" @date={{@model.date}} @time={{@model.time}} /></td>
+      </tr>
+    </table>
+    <div class="buttons-bar">
+      <div class="btn btn-full btn-outline-primary" {{action onEdit}}>Редактировать</div>
+      <div class="btn btn-full btn-outline-secondary" {{action onClose}}>Закрыть</div>
+    </div>
+  </div>
+{{/modal-dialog}}

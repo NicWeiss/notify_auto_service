@@ -1,5 +1,5 @@
-import Model, { attr, hasMany } from '@ember-data/model'; 
+import Model, { attr, hasMany } from '@ember-data/model';
 
-export default class AcceptorAddModel extends Model {
+export default class AcceptorListModel extends Model {
   @hasMany acceptor
 }

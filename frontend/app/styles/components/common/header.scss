@@ -1,0 +1,28 @@
+@font-face {
+  font-family: "MK-90";
+  src: url(fonts/MK-90.ttf) format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+.main-line {
+  width: 100%;
+  height: 60px;
+  background-color: #E5AA83;
+  position: fixed;
+  z-index: -9999;
+}
+
+.nav-name {
+  font: normal normal normal 35px "MK-90";
+  padding: 5px 0 5px 20px;
+}
+
+.logo {
+  background: url(../assets/images/logo.png);
+  min-width: 52px;
+  min-height: 40px;
+  background-size: cover;
+  margin: 0px 17px 10px 10px;
+}

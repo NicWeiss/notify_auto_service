@@ -10,7 +10,8 @@ final class cfg{
         'dbhost' => 'localhost',
         'dbname' => 'product',
         'dbuser' => 'root',
-        'dbpass' => '1234'
+        'dbpass' => '1234',
+        'ip_location_provider_token' => 'qrqqewreghgerahgery'
     );
 
     public static $emailconf = array(

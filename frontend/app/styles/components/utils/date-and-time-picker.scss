@@ -1,0 +1,148 @@
+.datetime-input {
+  cursor: pointer !important;
+}
+
+.picker-container {
+  position: absolute;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  z-index: 999;
+
+  svg {
+    width: 19px;
+    height: 30px;
+  }
+
+  .datetime-picker__month-info,
+  .datetime-picker__years-info,
+  .datetime-picker__decade-info {
+    cursor: pointer;
+    padding-top: 5px;
+  }
+
+
+  .datetime-wrapper {
+    background-color: white;
+    padding: 10px;
+    box-shadow: #ccc 0 1px 3px 1px;
+    display: flex;
+    max-height: 220px;
+
+    .datetime-picker__calendar {
+      min-width: 218px;
+
+      .datetime-picker__header {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 10px;
+
+        .datetime-picker__month-control,
+        .datetime-picker__years-control,
+        .datetime-picker__decade-control {
+          display: flex;
+          min-width: 50px;
+          justify-content: space-around;
+          font-size: 15px;
+        }
+
+        .datetime-picker__control-button {
+          padding: 0 5px;
+          cursor: pointer;
+          height: 30px;
+        }
+
+        .datetime-picker__control-button:hover {
+          background: #efcdb7;
+          color: black;
+        }
+      }
+
+      table {
+        width: 100%;
+        color: #ccc;
+
+        .datetime-picker__month-item,
+        .datetime-picker__decade-item {
+          color: black;
+          height: 56px;
+          font-size: 12px;
+          width: 54px;
+        }
+
+        .datetime-picker__current-month {
+          color: black;
+        }
+
+        .datetime-picker__selected-day {
+          background: #de6c20;
+          color: white;
+        }
+
+        td {
+          text-align: center;
+          font-size: 13px;
+          cursor: pointer;
+          line-height: 25px;
+        }
+
+        td:hover {
+          background: #efcdb7;
+          color: black;
+        }
+      }
+    }
+
+    .datetime-picker__time {
+      min-width: 78px;
+      display: flex;
+
+      &-slave {
+        border-left: #ccc 1px solid;
+        padding-left: 10px;
+        margin-left: 10px;
+      }
+
+      .datetime-picker__hours,
+      .datetime-picker__minutes {
+        overflow-y: scroll;
+        scrollbar-width: none;
+        width: 100%;
+        text-align: center;
+
+        .datetime-picker__hour-item,
+        .datetime-picker__minute-item {
+          color: black;
+          height: 31px;
+          // width: 31px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .datetime-picker__selected-hour,
+        .datetime-picker__selected-minute {
+          background: #de6c20;
+          color: white;
+        }
+
+        .datetime-picker__hour-item:hover,
+        .datetime-picker__minute-item:hover {
+          background: #efcdb7;
+          color: black;
+        }
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 0;
+    }
+  }
+}
+
+.picker-container:focus {
+  outline: none;
+}

@@ -1,0 +1,63 @@
+image:
+  name: docker/compose:1.29.2
+  entrypoint:
+    - ""
+
+services:
+  - docker:dind
+
+stages:
+  - test
+  - publish
+  - deploy
+
+test:
+  stage: test
+  script:
+    - make test
+  when: manual
+
+publish:
+  stage: publish
+  only:
+    - master
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - make publish
+
+deploy:
+  stage: deploy
+  # only:
+  #   - master
+  script:
+    - echo
+    - ssh -i ~/keys/notifier_rsa nic@notifier.nic-weiss.tech -p 2222 " bash -c \"
+      echo '------OPEN PROJECT AND STOP------' &&
+      cd $PROJECT_PATH &&
+      git stash &&
+      [[ -f 'docker/docker-compose-production.yml' ]] && make down_production || echo skip &&
+
+      echo '------PULL NEW RESION------' &&
+      git pull &&
+      git checkout feature/version_3 &&
+
+      echo '------LOGIN DOCKERHUB------' &&
+      docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
+
+      echo '------MIGRATE------' &&
+      make migrate_prod &&
+      make down_production &&
+      docker rm -f notifier_mysql-production
+
+      echo '------REMOVE LOCKS------' &&
+      cd api/tmp/lock/ &&
+      rm -rf ./* &&
+      cd ../../../ &&
+
+      echo '------UP NEW------' &&
+      make prod_ps &&
+      make production &&
+
+      echo '------DONE------' &&
+      ./notify_about_release.sh $CHAT_ID $TOKEN \""
+  when: manual

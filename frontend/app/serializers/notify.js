@@ -4,7 +4,7 @@ import { EmbeddedRecordsMixin } from '@ember-data/serializer/rest';
 export default class NotifySerializer extends RESTSerializer.extend(EmbeddedRecordsMixin) {
   attrs = {
     acceptorsList: { embedded: 'always' },
-    timeZoneOffset: 'time_zone_offset',
-    dayOfWeek: 'day_of_week'
+    dayOfWeek: 'day_of_week',
+    categoryId: 'category_id'
   };
 };

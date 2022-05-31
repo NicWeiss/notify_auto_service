@@ -1,0 +1,51 @@
+<div class="form-group d-flex justify-content-center table-responsive">
+  <table class="rwd-table">
+    <tr>
+      <th>#</th>
+      <th>Тип</th>
+      <th>Название</th>
+      <th>Аккаунт</th>
+      <th></th>
+    </tr>
+      {{#each @model as | item|}}
+        {{#unless  item.isDeleted}}
+          <tr>
+            <th data-th="# ">{{item.id}}</th>
+            <td data-th="Тип: " style="width: 10%;"><Utils::FancyType @type={{item.type}}/></td>
+            <td data-th="Название: " style="width: 50%;">{{item.name}}</td>
+            <td data-th="Аккаунт: " style="width: 50%;">{{item.account}}</td>
+            <td data-th="">
+              <div class="buttons-bar justify-content-around">
+                {{#if (eq item.status "1")}}
+                  <div class="btn btn-outline-success btn-icon without-border" {{action 'onChangeStatus' item}}><FaIcon @icon="bell"/></div>
+                {{else}}
+                  <div class="btn btn-outline-secondary btn-icon without-border" {{action 'onChangeStatus' item}}><FaIcon @icon="bell-slash"/></div>
+                {{/if}}
+              <div class="btn btn-outline-primary btn-icon without-border" {{action this.onEdit item bubbles=false}}><FaIcon @icon="pencil-alt"/></div>
+              <div class="btn btn-outline-danger btn-icon without-border" {{action 'onDelete' item}}><FaIcon @icon="trash"/></div>
+            </div>
+            </td>
+          </tr>
+        {{/unless}}
+      {{/each}}
+  </table>
+</div>
+
+
+<div class="btn btn-primary btn-add" {{action 'onAdd' bubbles=false}}>+</div>
+
+{{#if isShowEditModal}}
+  <Entity::Acceptor::Edit
+    @onCancel={{action onCancel}}
+    @model={{selectedModel}}
+    @onComplete={{action onComplete}}
+  />
+{{/if}}
+
+{{#if isShowDeleteModal}}
+  <Entity::Acceptor::Delete
+    @onCancel={{action onCancel}}
+    @model={{selectedModel}}
+    @onComplete={{action onComplete}}
+  />
+{{/if}}

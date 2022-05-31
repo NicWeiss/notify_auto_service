@@ -1,0 +1,20 @@
+.spinner {
+  width: 200px;
+  height: 100px;
+}
+
+.preloader {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.preloader_mid {
+  height: 85%;
+}
+
+.preloader_full {
+  height: 100%;
+}

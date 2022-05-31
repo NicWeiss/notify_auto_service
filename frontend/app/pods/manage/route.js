@@ -3,24 +3,20 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export default class ManageRoute extends Route {
-  @service store;
+  @service errors;
   @service session;
+
   @tracked object = null;
 
   beforeModel() {
     let self = this;
 
     Ember.onerror = function (error) {
-      if (error.errors[0].status == 403) {
-        console.log('error');
-        self.session.invalidate();
-        self.transitionTo('auth.login');
-      }
+      self.errors.handle(error)
     };
 
-    if (!this.session.isAuthenticated) {
-      this.transitionTo('auth.login');
+    if (!self.session.isAuthenticated) {
+      self.transitionTo('auth.login');
     }
   }
-
 }

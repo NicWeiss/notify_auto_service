@@ -19,16 +19,16 @@ define('PERM_DIR', 0775);
 define('PERM_FILE', 0644);
 
 define('TMP_PATH', 'tmp/');
-define('MIGRATION_PATH', 'req/migration/');
-define('REQ_PATH', 'req/');
+define('MIGRATION_PATH', 'app/migration/');
+define('APP_PATH', 'app/');
 
 require_once(TMP_PATH . 'config.ini.php');
 
-require_once(REQ_PATH . 'std.php');
+require_once(APP_PATH . 'std.php');
 std_env_init();
 
 use lib\migration;
-use model\migration as mmigration;
+use model\MigrationModel;
 
 function print_help()
 {
@@ -164,7 +164,7 @@ CLASS;
 
             if ($count < 0)
                 $count = 1;
-            $migrations = mmigration::get_last_applied($count);
+            $migrations = MigrationModel::get_last_applied($count);
             foreach ($migrations as $m) {
                 echo "Rolling back migration '$m' ... ";
                 if (!migration::rollback_migration($m)) {
@@ -219,7 +219,7 @@ CLASS;
             break;
             break;
         case 'init':
-            if (mmigration::init()) {
+            if (MigrationModel::init()) {
                 echo "Инициализация прошла успешно \n";
                 break;
             } else {
@@ -248,7 +248,7 @@ function std_mig_error_handler($type, $message, $file, $line)
         return;
 
     $context = array(
-        'type' => std_get_err_name($type),
+        'type' => 'untyped',
         'file' => $file,
         'line' => $line
     );
@@ -289,7 +289,7 @@ function std_mig_fatal_handler()
     $fatal = array(E_ERROR, E_PARSE, E_COMPILE_ERROR, E_CORE_ERROR);
     if (array_search($context['type'], $fatal) === false)
         return;
-    $context['type'] = std_get_err_name($context['type']);
+    $context['type'] = 'untyped';
     $message = $context['message'];
     unset($context['message']);
 

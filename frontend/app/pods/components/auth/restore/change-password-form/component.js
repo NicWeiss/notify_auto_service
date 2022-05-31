@@ -7,7 +7,7 @@ import { inject as service } from '@ember/service';
 export default class RestoreComponent extends Component {
   @service notify;
   @service session;
-  @service request;
+  @service api;
 
   @tracked firstPassword = null;
   @tracked secondPassword = null;
@@ -24,7 +24,7 @@ export default class RestoreComponent extends Component {
 
   async checkRestoreId() {
     try {
-      await this.request.toApi('auth/restore/verify-restore-code', { 'code': this.args.restoreId })
+      await this.api.post({ 'url': 'auth/restore/verify-restore-code', 'data': { 'code': this.args.restoreId } })
     } catch (errorCode) {
       this.isCanChangePassword = false;
     }
@@ -57,9 +57,12 @@ export default class RestoreComponent extends Component {
     }
 
     try {
-      await this.request.toApi('auth/restore/change-password', {
-        'password': this.firstPassword,
-        'code': this.args.restoreId
+      await this.api.post({
+        'url': 'auth/restore/restore-password',
+        'data': {
+          'password': this.firstPassword,
+          'code': this.args.restoreId
+        }
       })
     } catch (errorCode) {
       if (errorCode === 422) {

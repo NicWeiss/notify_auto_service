@@ -1,11 +1,20 @@
 <label>{{this.label}}</label>
 <div class="multiselect-container">
- <input type="text"
+  <select class="form-control" id={{selectId}} onchange={{action onSelect value="target.value"}}>
+    <option disabled selected value="first">Добавте получателей</option>
+    {{#each this.model as | item|}}
+      <option value={{item.id}} selected={{if (eq selected item) 'selected'}}>
+        {{item.name}}
+      </option>
+    {{/each}}
+  </select>
+
+ {{!-- <input type="text"
         class="form-control input_readonly"
         readonly {{action onShow}}
-        placeholder="Добавить получателя">
+        placeholder="Добавить получателя"> --}}
 
-  {{#if show}}
+  {{!-- {{#if show}}
     <div class="multi-select-drop-down-container">
       <div class="multi-select-drop-down {{this.position}}">
         {{#each this.model as | item|}}
@@ -13,13 +22,12 @@
         {{/each}}
       </div>
     </div>
-  {{/if}}
+  {{/if}} --}}
 
   <div class="multi-select-selected-list ">
     {{#each localValue as | item|}}
-      <div class="item">
+      <div class="item" {{action onDeselect item}}>
         <div class="name">{{item.name}}</div>
-        <div class="deselect" {{action onDeselect item}}><b>X</b></div>
       </div>
     {{/each}}
   </div>

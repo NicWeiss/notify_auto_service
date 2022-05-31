@@ -87,7 +87,7 @@ export const WEEK_SELECT = [
     'value': '6'
   },
   {
-    'title': 'СубВоскресеньебота',
+    'title': 'Воскресенье',
     'value': '7'
   }
 ]

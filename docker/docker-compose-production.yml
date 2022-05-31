@@ -1,0 +1,46 @@
+version: "3.6"
+services:
+
+  ingress:
+    image: harbor.nic-weiss.tech/notifier/ingress:latest
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+      - frontend
+      - backend
+    links:
+      - backend
+      - frontend
+    container_name: notifier_ingress-production
+
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+    ports:
+      - "3307:3306"
+    volumes:
+      - ../data/mysql:/var/lib/mysql
+    container_name: notifier_mysql-production
+
+  frontend:
+    image: harbor.nic-weiss.tech/notifier/frontend:${VERSION}
+    container_name: notifier_frontend-production
+
+  backend:
+    image: harbor.nic-weiss.tech/notifier/backend:${VERSION}
+    links:
+      - mysql
+    volumes:
+      - ../data/log:/var/www/tmp/log
+    container_name: notifier_backend-production
+
+  grafana_agent:
+    image: grafana/agent:latest
+    volumes:
+      - ../data/log:/var/log/
+      - ./grafana/grafana.yml:/etc/agent/agent.yaml
+    container_name: notifier_grafana_agent-production

@@ -1,0 +1,64 @@
+.periodic-time-wrapper {
+  display: flex;
+  flex-direction: row;
+
+  .periodic {
+    width: 100%;
+  }
+
+  .week-time-wrapper {
+    width: 100%;
+    display: flex;
+
+    .day-of-week {
+      padding-left: 20px;
+      width: 140%;
+    }
+
+    .date-time {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+      padding-left: 20px;
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .periodic-time-wrapper {
+    flex-direction: column;
+
+    .week-time-wrapper {
+      flex-direction: column;
+
+      .day-of-week {
+        padding: 0 !important;
+        width: 100%;
+      }
+
+      .date-time {
+        padding: 0;
+        width: 100%;
+      }
+    }
+  }
+}
+
+
+@media(max-width: 800px) {
+  .periodic-time-wrapper {
+    flex-direction: column;
+
+    .week-time-wrapper {
+      .day-of-week {
+        padding: 0 20px 0 0;
+      }
+
+      .date-time {
+        padding: 0;
+        width: 100%;
+      }
+    }
+  }
+}

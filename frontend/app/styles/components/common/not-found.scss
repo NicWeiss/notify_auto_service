@@ -1,0 +1,17 @@
+.not-found-wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+  background: white;
+
+  .not-found {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+    font-family: monospace;
+  }
+}

@@ -1,6 +1,6 @@
 import Model, { attr } from '@ember-data/model';
 
-export default class AcceptorAddModel extends Model {
+export default class AcceptorModel extends Model {
   @attr('string') name
   @attr('string') systemId
   @attr('string') account

@@ -1,5 +1,21 @@
-version: "3"
+version: "3.6"
 services:
+
+  ingress:
+    build:
+      dockerfile: docker/ingress/Dockerfile
+      context: ../
+      target: dev
+    ports:
+      - "8088:80"
+    depends_on:
+      - mysql
+      - frontend
+      - backend
+    links:
+      - backend
+      - frontend
+    container_name: dev_notifier_ingress
 
   mysql:
     image: mysql
@@ -8,94 +24,50 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: mysql
     ports:
-      - "56101:3306"
+      - "8091:3306"
     volumes:
       - ../data/mysql:/var/lib/mysql
-    container_name: notifier_mysql
-
-  php-fpm:
-    build:
-      context: ./php-fpm
-    ports:
-      - "56105:9000"
-    links:
-      - mysql
-    depends_on:
-      - mysql
-    volumes:
-      - ../api:/var/www
-    container_name: notifier_php_fpm
-
-  php-cli:
-    build:
-      context: ./php-cli
-    links:
-      - mysql
-    depends_on:
-      - mysql
-    volumes:
-      - ../api:/var/www
-    container_name: notifier_php_cli
+    container_name: dev_notifier_mysql
 
   backend:
-    image: nginx:latest
+    build:
+      dockerfile: docker/backend/Dockerfile
+      context: ../
     ports:
-      - "56102:80"
-      - "56103:443"
-    volumes:
-      - ./backend/:/etc/nginx/conf.d
-      - ../api:/var/www
+      - "8092:9000"
     links:
-        - php-fpm
-    container_name: notifier_backend
+      - mysql
+    depends_on:
+      - mysql
+    volumes:
+      - ../api:/var/www
+    container_name: dev_notifier_backend
 
   frontend:
     build:
-      dockerfile: ../docker/frontend-dev/Dockerfile
-      context: ../frontend
+      dockerfile: ./docker/frontend/Dockerfile
+      context: ../
+      target: dev
     ports:
-      - "4200:4200"
+      - "8093:4200"
     volumes:
       - ../frontend/app:/frontend/app
       - ../frontend/config:/frontend/config
       - ../frontend/public:/frontend/public
       - ../frontend/vendor:/frontend/vendor
-      - ./frontend-dev/:/etc/nginx/conf.d
+      - ../frontend/.ember-cli:/frontend/.ember-cli
+      - ../frontend/app.json:/frontend/app.json
+      - ../frontend/ember-cli-build.js:/frontend/ember-cli-build.js
+      - ../frontend/package.json:/frontend/package.json
     depends_on:
       - backend
     working_dir: /frontend
     command: ember s
-    container_name: notifier_frontend
-
-  frontend-production:
-    build:
-      dockerfile: ../docker/frontend-production/Dockerfile
-      context: ../frontend
-    ports:
-      - "56104:80"
-    volumes:
-      - ../frontend:/frontend
-      - ./frontend-production/:/etc/nginx/conf.d
-    depends_on:
-      - backend
-    working_dir: /frontend
-    container_name: notifier_frontend-production
-
-  cron:
-    build:
-      context: ./cron
-    links:
-      - mysql
-    depends_on:
-      - mysql
-    volumes:
-      - ./cron:/cron
-      - ../api:/var/www
-    container_name: notifier_cron
+    container_name: dev_notifier_frontend
 
   grafana_agent:
     image: grafana/agent:latest
     volumes:
       - ../api/tmp/log:/var/log/
       - ./grafana/grafana.yml:/etc/agent/agent.yaml
-    container_name: notifier_grafana_agent
+    container_name: dev_notifier_grafana_agent

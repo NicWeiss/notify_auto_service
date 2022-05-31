@@ -1,0 +1,85 @@
+<div class="user-settings">
+  <div class="section-name">Личные данные</div>
+  <div class="section">
+    <div class="input-container">
+      <div class="label">Name</div>
+      <Input class="settings-input"
+          type="text"
+          placeholder="Name"
+          @value={{user.name}}
+      />
+    </div>
+
+    <div class="input-container">
+      <div class="label">Email</div>
+      <Input class="settings-input"
+          type="text"
+          placeholder="Email"
+          @value={{user.email}}
+      />
+    </div>
+
+    <button type="button" class="btn btn-small btn-primary btn-complete" onclick={{action onSavePersonalData}}>
+      Сохранить
+    </button>
+  </div>
+
+  <div class="section-name">Настройки отправки</div>
+  <div class="section">
+    Временная зона:
+  </div>
+
+  <div class="section-name">Смена пароля</div>
+  <div class="section">
+
+    <div class="input-container">
+      <div class="label">Текущий пароль</div>
+      <Input class="settings-input"
+          type="password"
+          @value={{password.currentPass}}
+      />
+    </div>
+
+    <div class="input-container">
+      <div class="label">Новый пароль</div>
+      <Input class="settings-input"
+          type="password"
+          @value={{password.newPass}}
+      />
+    </div>
+
+    <div class="input-container">
+      <div class="label">Повторите новый пароль</div>
+      <Input class="settings-input"
+          type="password"
+          @value={{password.newPassRepeate}}
+      />
+      {{#unless (eq password.newPass password.newPassRepeate)}}
+        <div style="padding-bottom: 20px; color:red;">Пароли не совпадают</div>
+      {{/unless}}
+    </div>
+
+    <button type="button" class="btn btn-small btn-primary btn-complete" onclick={{action changePassword}}>
+      Изменить
+    </button>
+  </div>
+
+  <div class="section-name">Активные сессии</div>
+  <div class="section">
+    <Entity::Session::List @model={{this.sessions}}/>
+  </div>
+
+
+  <button type="button" class="btn btn-small btn-danger" onclick={{action deleteAccount}}>
+    Удалить аккаунт
+  </button>
+</div>
+
+
+{{#if isShowDeleteModal}}
+  <Entity::User::Delete
+    @model={{user}}
+    @onCancel={{action onCancel}}
+    @onDelete={{action onCompleteDeleAccount}}
+  />
+{{/if}}
