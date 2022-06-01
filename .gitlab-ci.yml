@@ -37,9 +37,6 @@ deploy:
       git stash &&
       [[ -f 'docker/docker-compose-production.yml' ]] && make down_production || echo skip &&
 
-      echo '------PULL NEW RESION------' &&
-      git pull &&
-
       echo '------LOGIN DOCKERHUB------' &&
       docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
 
