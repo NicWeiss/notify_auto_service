@@ -39,7 +39,6 @@ deploy:
 
       echo '------PULL NEW RESION------' &&
       git pull &&
-      git checkout feature/version_3 &&
 
       echo '------LOGIN DOCKERHUB------' &&
       docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
