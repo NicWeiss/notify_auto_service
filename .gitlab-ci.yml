@@ -23,7 +23,7 @@ publish:
     - master
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - make publish
+    # - make publish
 
 deploy:
   stage: deploy
