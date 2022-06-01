@@ -31,11 +31,17 @@ deploy:
   #   - master
   script:
     - echo
+    - NEW_VERSION=$(grep -o '^[a-z_0-9]\+\.[0-9]\+\.[0-9_a-z]\+' CHANGES.log | head -n1)
     - ssh -i ~/keys/notifier_rsa nic@notifier.nic-weiss.tech -p 2222 " bash -c \"
       echo '------OPEN PROJECT AND STOP------' &&
       cd $PROJECT_PATH &&
       git stash &&
       [[ -f 'docker/docker-compose-production.yml' ]] && make down_production || echo skip &&
+
+      echo '------GET MASTER VERSION $NEW_VERSION------' &&
+      git pull &&
+      git checkout git checkout tags/$NEW_VERSION &&
+      git pull &&
 
       echo '------LOGIN DOCKERHUB------' &&
       docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY &&
