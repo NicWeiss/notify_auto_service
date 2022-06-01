@@ -40,7 +40,7 @@ deploy:
 
       echo '------GET MASTER VERSION $NEW_VERSION------' &&
       git pull &&
-      git checkout git checkout tags/$NEW_VERSION &&
+      git checkout tags/$NEW_VERSION &&
       git pull &&
 
       echo '------LOGIN DOCKERHUB------' &&
