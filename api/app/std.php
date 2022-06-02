@@ -5,6 +5,7 @@
  */
 
 use lib\dba as dba;
+use lib\config;
 
 require_once('app/defines.php');
 
@@ -69,5 +70,9 @@ function std_get_lock_content($lock_name)
 function std_env_init($with_error_handlers = true)
 {
     spl_autoload_register('std_autoload');
+
+    $config = new config();
+    $GLOBALS['config'] = $config;
+
     dba::init();
 }

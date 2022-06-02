@@ -1,0 +1,60 @@
+version: "3.6"
+services:
+
+  test_mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: test_user
+      MYSQL_PASSWORD: test_pass
+      MYSQL_DATABASE: test_db
+      MYSQL_ROOT_HOST: '%' # needs to be enclosed with quotes
+    ports:
+      - "8101:3306"
+    volumes:
+      - ../data/mysql_test:/var/lib/mysql
+    container_name: test_notifier_mysql
+    logging:
+      driver: none
+
+  backend:
+    &base-app
+    build:
+      dockerfile: docker/backend/Dockerfile
+      context: ../
+      target: test
+    env_file:
+      - ../api/config/test_config.env
+    ports:
+      - "8102:9000"
+    links:
+      - test_mysql
+    depends_on:
+      - test_mysql
+    volumes:
+      - ../api:/var/www
+    container_name: test_notifier_backend
+    logging:
+      driver: none
+
+  test:
+    <<: *base-app
+    ports:
+      - "8103:9000"
+    volumes:
+      - ../api:/var/www
+    depends_on:
+      - backend
+      - test_mysql
+    env_file:
+      - ../api/config/test_config.env
+    command: bash -c "cd /var/www/ && php test.php"
+    links:
+      - test_mysql
+    container_name: test_notifier_runner
+    stdin_open: true
+    tty: true
+    logging:
+      driver: local

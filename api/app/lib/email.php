@@ -2,7 +2,6 @@
 
 namespace lib;
 
-use cfg as cfg;
 use PHPMailer;
 
 final class email
@@ -12,19 +11,19 @@ final class email
     {
         require_once('app/lib/PHPMailer/PHPMailerAutoload.php');
         $mail = new PHPMailer();
-
+        $config = $GLOBALS['config'];
 
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = cfg::$emailconf['email'];
-        $mail->Password = cfg::$emailconf['password'];
+        $mail->Username = $config::$email_sender;
+        $mail->Password = $config::$email_password;
 
         $mail->SMTPSecure = 'ssl';
         $mail->Port = 465;
         $mail->setLanguage('en');
 
-        $mail->setFrom(cfg::$emailconf['email'], 'Notifier System');
+        $mail->setFrom($config::$email_sender, 'Notifier System');
         $mail->addAddress($data['to']);
         $mail->isHTML(true);
 

@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:7.4-fpm  as base
 
 RUN apt-get update; apt-get install -y libcurl4-openssl-dev libonig-dev libzip-dev zip nginx cron
 
@@ -35,3 +35,15 @@ RUN echo 'php-fpm' >> /start.sh
 RUN chmod +x /start.sh
 
 CMD ["sh", "/start.sh"]
+
+# ---- Test build ----
+FROM base as test
+RUN touch /start_test.sh
+RUN echo '#!/bin/bash' >> /start_test.sh
+RUN echo 'cron' >> /start_test.sh
+RUN echo 'tail -f /var/www/tmp/log/log.txt &' >> /start_test.sh
+RUN echo 'nginx' >> /start_test.sh
+RUN echo 'php-fpm' >> /start_test.sh
+RUN chmod +x /start_test.sh
+
+CMD ["sh", "/start_test.sh"]

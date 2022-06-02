@@ -18,6 +18,10 @@ help:  ## Помощь
 build:  ## Сборка проекта
 	@docker-compose -f docker/docker-compose.yml
 
+test: ## Запуск тестирования
+	# @docker-compose -f docker/docker-compose-test.yml --project-name="test_" build
+	@docker-compose -f docker/docker-compose-test.yml --project-name="test_" up --abort-on-container-exit
+
 publish:  ## Сборка проекта
 	@docker build --no-cache -f ./docker/backend/Dockerfile -t harbor.nic-weiss.tech/notifier/backend:$(VERSION) .
 	@docker build --no-cache -f ./docker/frontend/Dockerfile --target prod -t harbor.nic-weiss.tech/notifier/frontend:$(VERSION) .
@@ -31,9 +35,6 @@ start: ## Запуск проекта для разработки
 
 stop: ## Остановка проекта
 	@docker-compose -f docker/docker-compose.yml down
-
-test: ## Запуск тестирования
-	@echo VERSION: $(VERSION)
 
 production:  ## Запуск проекта
 	@echo VERSION: $(VERSION)

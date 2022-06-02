@@ -2,7 +2,6 @@
 
 namespace lib;
 
-use cfg as cfg;
 use Exception;
 use helpers\Logger as Logger;
 
@@ -57,13 +56,14 @@ final class dba
 
     public static function init()
     {
+        $config = $GLOBALS['config'];
 
         try {
             self::$link = mysqli_connect(
-                cfg::$siteconf['dbhost'],
-                cfg::$siteconf['dbuser'],
-                cfg::$siteconf['dbpass'],
-                cfg::$siteconf['dbname']
+                $config::$db_host,
+                $config::$db_user,
+                $config::$db_pass,
+                $config::$db_name
             );
         } catch (Exception $e) {
             echo 'Поймано исключение: ',  $e->getMessage(), "\n";
@@ -71,19 +71,19 @@ final class dba
 
         if (!self::$link) {
             $link = mysqli_connect(
-                cfg::$siteconf['dbhost'],
-                cfg::$siteconf['dbuser'],
-                cfg::$siteconf['dbpass']
+                $config::$db_host,
+                $config::$db_user,
+                $config::$db_pass,
             );
             if (!$link) {
-                Logger::error('cant connect to mysql');
+                Logger::error('cant connect to mysql on ' . $config::$db_host);
                 die;
             }
             $link->set_charset("utf8");
-            $result = mysqli_query($link, "CREATE DATABASE IF NOT EXISTS " . cfg::$siteconf['dbname']);
+            $result = mysqli_query($link, "CREATE DATABASE IF NOT EXISTS " . $config::$db_name);
 
             if (!$result) {
-                echo "Не получилось создать базу " . cfg::$siteconf['dbname'];
+                echo "Не получилось создать базу " . $config::$db_name;
                 die;
             }
 

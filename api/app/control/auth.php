@@ -7,7 +7,6 @@
 
 namespace control;
 
-use cfg;
 use generic\BaseController;
 use helpers\Logger;
 use lib\email;
@@ -21,12 +20,13 @@ class auth extends BaseController
 
     private static function getLocation()
     {
+        $config = $GLOBALS['config'];
         $host = request::$host;
-        $api_key = cfg::$siteconf['ip_location_provider_token'];
+        $api_key = $config::$ip_location_provider_token;
         $location_api_response = null;
         $default_location = "{\"ip\": \"$host\"}";
 
-        if (cfg::$siteconf['ip_location_provider_token']) {
+        if ($api_key) {
             try {
                 $url = "https://api.ipdata.co/$host?api-key=$api_key&fields=ip,city,region,country_name,continent_name";
                 $curl_query = curl_init($url);

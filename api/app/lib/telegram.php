@@ -9,7 +9,8 @@ final class telegram
 
     public static function send($data)
     {
-        $token = cfg::$telegram_bot_token;
+        $config = $GLOBALS['config'];
+        $token = $config::$telegram_bot_token;
         $url = "https://api.telegram.org/bot" . $token . "/sendMessage";
         $chat_id = $data['to'];
         $title = $data['title'];

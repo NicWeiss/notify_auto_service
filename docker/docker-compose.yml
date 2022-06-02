@@ -33,6 +33,8 @@ services:
     build:
       dockerfile: docker/backend/Dockerfile
       context: ../
+    env_file:
+      - ../api/config/config.env
     ports:
       - "8092:9000"
     links:

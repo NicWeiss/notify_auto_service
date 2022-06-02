@@ -1,4 +1,5 @@
 <?php
+
 if (isset($_SERVER['HTTP_ORIGIN'])) {
     // Decide if the origin in $_SERVER['HTTP_ORIGIN'] is one
     // you want to allow, and if so:
@@ -20,12 +21,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
 }
 
+use lib\Config;
 use lib\request as request;
 use lib\RestAdapter;
 use model\AuthModel;
 
 require_once("app/std.php");
-require_once('tmp/config.ini.php');
 http_response_code(500);
 std_env_init();
 
@@ -34,6 +35,7 @@ final class myapp
 {
     public static function run()
     {
+        $GLOBALS['config'] = new Config();
         request::init();
         $user_session_id = null;
 

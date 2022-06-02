@@ -32,6 +32,8 @@ services:
 
   backend:
     image: harbor.nic-weiss.tech/notifier/backend:${VERSION}
+    env_file:
+      - ../api/config/config.env
     links:
       - mysql
     volumes:

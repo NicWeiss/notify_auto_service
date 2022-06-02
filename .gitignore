@@ -26,9 +26,10 @@
 /frontend/bower.json.ember-try
 /frontend/package.json.ember-try
 
-/api/tmp/config.ini.php
+/api/config/config.env
 .idea/
 /.idea/workspace.xml
 .Trash-100/
 node_modules
 /data/mysql/*
+/data/mysql_test/*
