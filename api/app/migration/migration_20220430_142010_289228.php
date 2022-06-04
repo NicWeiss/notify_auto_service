@@ -16,7 +16,7 @@ final class migration_20220430_142010_289228 extends migration
 
     protected function up()
     {
-        $query = "ALTER TABLE notifier.`user` ADD timezone varchar(100) NULL;";
+        $query = "ALTER TABLE `user` ADD timezone varchar(100) NULL;";
         if (!dba::query($query))
             return false;
 

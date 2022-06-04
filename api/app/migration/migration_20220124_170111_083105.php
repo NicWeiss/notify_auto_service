@@ -15,7 +15,7 @@ final class migration_20220124_170111_083105 extends migration
 
     protected function up()
     {
-        $query = "ALTER TABLE notifier.`user` CHANGE `user` name varchar(45);";
+        $query = "ALTER TABLE `user` CHANGE `user` name varchar(45);";
         if (!dba::query($query))
             return false;
 
@@ -24,7 +24,7 @@ final class migration_20220124_170111_083105 extends migration
 
     protected function down()
     {
-        $query = "ALTER TABLE notifier.`user` CHANGE `name` user varchar(45);";
+        $query = "ALTER TABLE `user` CHANGE `name` user varchar(45);";
         if (!dba::query($query))
             return false;
 

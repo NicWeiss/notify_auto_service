@@ -16,7 +16,7 @@ final class migration_20210925_111328_926258 extends migration
 
     protected function up()
     {
-        $query = "ALTER TABLE notifier.notify ADD category_id int DEFAULT 0 NOT NULL;";
+        $query = "ALTER TABLE notify ADD category_id int DEFAULT 0 NOT NULL;";
         if (!dba::query($query))
             return false;
 

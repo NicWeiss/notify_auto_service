@@ -14,7 +14,7 @@ class MigrationModel
 
     public static function init()
     {
-        $query = "CREATE TABLE `notifier`.`migration` (`id` VARCHAR(45) NULL,
+        $query = "CREATE TABLE `migration` (`id` VARCHAR(45) NULL,
             `comment` VARCHAR(45) NULL, `apply_date` DATETIME);";
         return dba::query($query);
     }

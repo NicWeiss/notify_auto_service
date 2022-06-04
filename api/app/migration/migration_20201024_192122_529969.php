@@ -16,7 +16,7 @@ final class migration_20201024_192122_529969 extends migration
 
     protected function up()
     {
-        $query = "UPDATE `notifier`.`system` SET `help` = ' Нужен id: <br>Для этого откройте бота
+        $query = "UPDATE `system` SET `help` = ' Нужен id: <br>Для этого откройте бота
                     <a target=\"_blank\" href=\"http://t.me/my_id_bot\">What\'s my ID</a>, зaпустите его.
                     Cкопируйте код. <br><span style=\"color: #e05959;\"><br>
                     Внимание, для получения оповещений необходимо подписаться на бота

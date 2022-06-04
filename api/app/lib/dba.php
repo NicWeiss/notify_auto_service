@@ -13,6 +13,14 @@ final class dba
 
     private static function _execute($query)
     {
+        $config = $GLOBALS['config'];
+        if (!self::$link) {
+            echo 'Connection Failure!';
+            return false;
+        }
+
+        self::$link->select_db($config::$db_name);
+
         self::$last_query = $query;
         self::$qhnd = mysqli_query(self::$link, $query);
         if (self::$qhnd === false) {
@@ -20,6 +28,7 @@ final class dba
                 'query' => self::$last_query,
                 'errors' => mysqli_error_list(self::$link)
             );
+            var_dump($context['errors'][0]);
         }
         return (self::$qhnd !== false);
     }
@@ -53,43 +62,64 @@ final class dba
         return $res;
     }
 
-
-    public static function init()
+    private static function establish_connescion($without_table = false)
     {
         $config = $GLOBALS['config'];
+        $table = $without_table ? null : $config::$db_name;
+
+        if (self::$link) {
+            mysqli_close(self::$link);
+        }
 
         try {
             self::$link = mysqli_connect(
                 $config::$db_host,
                 $config::$db_user,
                 $config::$db_pass,
-                $config::$db_name
+                $table
             );
         } catch (Exception $e) {
-            echo 'Поймано исключение: ',  $e->getMessage(), "\n";
+            echo 'Error while connection: ',  $e->getMessage(), "\n";
+            return false;
+        }
+        return true;
+    }
+
+    private static function create_table()
+    {
+        $config = $GLOBALS['config'];
+        $result = mysqli_query(self::$link, "CREATE DATABASE IF NOT EXISTS " . $config::$db_name);
+
+        if (!$result) {
+            echo 'Can\'t create DB ' . $config::$db_name;
+            return false;
         }
 
-        if (!self::$link) {
-            $link = mysqli_connect(
-                $config::$db_host,
-                $config::$db_user,
-                $config::$db_pass,
-            );
-            if (!$link) {
-                Logger::error('cant connect to mysql on ' . $config::$db_host);
+        return true;
+    }
+
+
+    public static function init()
+    {
+        $config = $GLOBALS['config'];
+
+        if (!self::establish_connescion()) {
+            if (self::establish_connescion(true)) {
+                if (self::create_table()) {
+                    if (!self::establish_connescion()) {
+                        Logger::error('Can\'t to db ' . $config::$db_name);
+                        die;
+                    }
+                } else {
+                    Logger::error('Can\'t create db ' . $config::$db_name);
+                    die;
+                }
+            } else {
+                Logger::error('Can\'t connect to mysql on ' . $config::$db_host);
                 die;
             }
-            $link->set_charset("utf8");
-            $result = mysqli_query($link, "CREATE DATABASE IF NOT EXISTS " . $config::$db_name);
-
-            if (!$result) {
-                echo "Не получилось создать базу " . $config::$db_name;
-                die;
-            }
-
-            mysqli_close($link);
-            self::init();
         }
+
         self::$link->set_charset("utf8");
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace lib;
+namespace lib\migration;
 
-use \model\MigrationModel as mmigration;
+use \model\MigrationModel;
 
 
-class migration
+class Processor
 {
     /**
      * returns not applied migrations list
@@ -14,10 +14,10 @@ class migration
     public static function get_available_migrations()
     {
         $migrations = scandir('app/migration/');
-        $db_migrations = mmigration::get_list();
+        $db_migrations = MigrationModel::get_list();
 
         if (gettype($db_migrations) != 'array') {
-            print('Таблица миграций не инициализирована!');
+            print("Таблица миграций не инициализирована! \n");
             die;
         }
 
@@ -73,7 +73,7 @@ class migration
      */
     public static function get_full_applied_list()
     {
-        return mmigration::get_list();
+        return MigrationModel::get_list();
     }
 
     /**
@@ -84,7 +84,7 @@ class migration
     public static function get_not_exist_migrations($as_file_names = false)
     {
         $not_exist = [];
-        foreach (mmigration::get_list() as $m) {
+        foreach (MigrationModel::get_list() as $m) {
             $filename = 'app/migration/' . $m . '.php';
             if (!file_exists($filename))
                 $not_exist[] = $as_file_names ? $filename : $m;

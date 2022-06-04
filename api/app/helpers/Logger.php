@@ -34,6 +34,7 @@ class Logger
 
     private static function create_log($message)
     {
+        echo $message . "\n";
         $json = self::jsonise_message($message);
         self::check_file();
         self::write_log($json);

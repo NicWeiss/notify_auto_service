@@ -16,7 +16,10 @@ final class migration_20220430_162741_953268 extends migration
 
     protected function up()
     {
-        $query = "ALTER TABLE notifier.`session` ADD client varchar(1000) NULL; ALTER TABLE notifier.`session` ADD `location` varchar(1000) NULL;";
+        $query = "ALTER TABLE `session` ADD client varchar(1000) NULL;";
+        if (!dba::query($query))
+            return false;
+        $query = "ALTER TABLE `session` ADD `location` varchar(1000) NULL;";
         if (!dba::query($query))
             return false;
 

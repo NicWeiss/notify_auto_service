@@ -16,7 +16,7 @@ final class migration_20220430_125055_584627 extends migration
 
     protected function up()
     {
-        $query = "ALTER TABLE notifier.category ADD is_hidden BOOL DEFAULT false NOT NULL;";
+        $query = "ALTER TABLE category ADD is_hidden BOOL DEFAULT false NOT NULL;";
         if (!dba::query($query))
             return false;
 

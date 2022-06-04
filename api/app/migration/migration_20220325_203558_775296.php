@@ -16,7 +16,7 @@ final class migration_20220325_203558_775296 extends migration
 
     protected function up()
     {
-        $query = "ALTER TABLE notifier.notify MODIFY COLUMN name varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL;";
+        $query = "ALTER TABLE notify MODIFY COLUMN name varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL;";
         if (!dba::query($query))
             return false;
 

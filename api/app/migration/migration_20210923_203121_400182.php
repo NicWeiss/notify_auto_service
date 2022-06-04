@@ -16,7 +16,7 @@ final class migration_20210923_203121_400182 extends migration
 
     protected function up()
     {
-        $query = "CREATE TABLE notifier.category (
+        $query = "CREATE TABLE category (
                     id int NOT NULL,
                     user_id INTEGER NOT NULL,
                     name varchar(100) NOT NULL
@@ -33,7 +33,7 @@ final class migration_20210923_203121_400182 extends migration
 
     protected function down()
     {
-        $query = "DROP TABLE `notifier`.`category`;";
+        $query = "DROP TABLE `category`;";
         if (!dba::query($query))
             return false;
 

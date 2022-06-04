@@ -16,7 +16,7 @@ final class migration_20210604_202840_467671 extends migration
 
     protected function up()
     {
-        $query = "CREATE TABLE `notifier`.`date_operations` (
+        $query = "CREATE TABLE `date_operations` (
             `id` BIGINT NOT NULL AUTO_INCREMENT,
             `target_date` varchar(1000) NULL,
             `complete_date` varchar(1000) NULL,
@@ -32,7 +32,7 @@ final class migration_20210604_202840_467671 extends migration
 
     protected function down()
     {
-        $query = "DROP TABLE 'notifier'.'date_operations';";
+        $query = "DROP TABLE 'date_operations';";
         if (!dba::query($query))
             return false;
 

@@ -16,13 +16,13 @@ final class migration_20201016_233734_432650 extends migration
 
     protected function up()
     {
-        $query = "ALTER TABLE `notifier`.`system` ADD COLUMN `type` VARCHAR(45) NULL AFTER `help`;";
+        $query = "ALTER TABLE `system` ADD COLUMN `type` VARCHAR(45) NULL AFTER `help`;";
         if (!dba::query($query))
             return false;
-        $query = "UPDATE `notifier`.`system` SET `type` = 'tg' WHERE (`name` = 'Telegram');";
+        $query = "UPDATE `system` SET `type` = 'tg' WHERE (`name` = 'Telegram');";
         if (!dba::query($query))
             return false;
-        $query = "UPDATE `notifier`.`system` SET `type` = 'email' WHERE (`name` = 'Email');";
+        $query = "UPDATE `system` SET `type` = 'email' WHERE (`name` = 'Email');";
         if (!dba::query($query))
             return false;
 
@@ -31,7 +31,7 @@ final class migration_20201016_233734_432650 extends migration
 
     protected function down()
     {
-        $query = "ALTER TABLE `notifier`.`system` DROP COLUMN `type`;";
+        $query = "ALTER TABLE `system` DROP COLUMN `type`;";
         if (!dba::query($query))
             return false;
 

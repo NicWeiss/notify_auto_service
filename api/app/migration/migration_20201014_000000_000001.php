@@ -16,7 +16,7 @@ final class migration_20201014_000000_000001 extends migration
 
     protected function up()
     {
-        $query = "CREATE TABLE `notifier`.`user` (
+        $query = "CREATE TABLE `user` (
             `id` INT NOT NULL AUTO_INCREMENT,
             `user` VARCHAR(45) NULL,
             `email` VARCHAR(45) NULL,

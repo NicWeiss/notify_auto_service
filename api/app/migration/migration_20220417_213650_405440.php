@@ -16,7 +16,7 @@ final class migration_20220417_213650_405440 extends migration
 
     protected function up()
     {
-        $notify = 'notifier.notify';
+        $notify = 'notify';
 
         $sql = "SELECT * FROM $notify  WHERE date != '' ;";
         dba::query($sql);

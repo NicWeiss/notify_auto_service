@@ -20,6 +20,7 @@
 /frontend/npm-debug.log*
 /frontend/testem.log
 /frontend/yarn-error.log
+.phpunit.result.cache
 
 # ember-try
 /frontend/.node_modules.ember-try/
