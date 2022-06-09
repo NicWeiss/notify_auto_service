@@ -53,8 +53,8 @@ final class NotifyModel
                     left join $acceptor a on a.id = na.acceptor_id
                     left join $system s on s.id = a.system_id
                     where na.notify_id = '$id' $status ORDER BY `id` ;";
-        dba::query($sql);
-        return dba::fetch_assoc_all();
+
+        return dba::fetch_assoc_all($sql);
     }
 
     public static function get_all_notify($user, $category_id, $page, $per_page)
@@ -65,8 +65,7 @@ final class NotifyModel
         $limit = $per_page ? "LIMIT $offset, $per_page" : "";
 
         $sql = "SELECT * FROM $notify  WHERE user_id= '$user[id]' AND category_id= '$category_id' ORDER BY id DESC $limit ;";
-        dba::query($sql);
-        $notify_list = dba::fetch_assoc_all();
+        $notify_list = dba::fetch_assoc_all($sql);
 
         foreach ($notify_list as $key => $value) {
             $notify_list[$key]['acceptorsList'] = self::get_acceptors_by_notify_id($notify_list[$key]['id']);

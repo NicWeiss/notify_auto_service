@@ -61,8 +61,7 @@ final class WatcherModel
         }
 
         $sql = "SELECT * FROM " . self::$operations . " WHERE `type` = 'wait' and `worker_id` IS NULL ORDER BY `id` ASC LIMIT 100;";
-        dba::query($sql);
-        $new_operations = dba::fetch_assoc_all();
+        $new_operations = dba::fetch_assoc_all($sql);
 
         if (!$new_operations) {
             std_remove_lock(self::$lock_name);

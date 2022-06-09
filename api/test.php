@@ -1,10 +1,7 @@
 <?php
 
-// Waiting database start ...
-sleep(2);
-
 require_once("app/std.php");
-require_once("testing/phpunit");
+require_once("testing/lib/autoload.php");
 
 use lib\dba;
 use lib\request as request;
@@ -30,11 +27,16 @@ function run_testing()
 {
     request::init();
 
-    $command = new Command();
-    $command->run(['phpunit', 'testing/packages']);
+    try {
+        $command = new Command();
+        $command->run(['phpunit', 'testing/packages']);
+    } catch (Exception $e) {
+        var_dump($e);
+    }
 }
 
 
 std_env_init();
+autoload_phpunit();
 prepare_database();
 run_testing();

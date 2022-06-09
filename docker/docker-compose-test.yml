@@ -19,7 +19,7 @@ services:
     logging:
       driver: none
 
-  backend:
+  test_backend:
     &base-app
     build:
       dockerfile: docker/backend/Dockerfile
@@ -39,14 +39,14 @@ services:
     logging:
       driver: none
 
-  test:
+  test_runner:
     <<: *base-app
     ports:
       - "8103:9000"
     volumes:
       - ../api:/var/www
     depends_on:
-      - backend
+      - test_backend
       - test_mysql
     env_file:
       - ../api/config/test_config.env

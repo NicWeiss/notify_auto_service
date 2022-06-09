@@ -14,9 +14,8 @@ final class CategoryModel
     {
         $where_by_id = $id ? " and `id`=$id" : "";
         $sql = "SELECT * FROM  " . self::$table  . " where `user_id` = $user_id" .  $where_by_id;
-        dba::query($sql);
 
-        return $id ? dba::fetch_assoc() : dba::fetch_assoc_all();
+        return $id ? dba::fetch_assoc($sql) : dba::fetch_assoc_all($sql);
     }
 
     public static function create($user_id, $name)
@@ -55,8 +54,7 @@ final class CategoryModel
     private static function get_last_category_id($user_id)
     {
         $sql = "SELECT `id` FROM " . self::$table . " WHERE `user_id` = $user_id ORDER BY `id` DESC;";
-        dba::query($sql);
-        $last_operation = dba::fetch_assoc()['id'];
+        $last_operation = dba::fetch_assoc($sql)['id'];
 
         return $last_operation ? $last_operation : 0;
     }

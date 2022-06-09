@@ -28,6 +28,7 @@
 /frontend/package.json.ember-try
 
 /api/config/config.env
+/api/.htaccess
 .idea/
 /.idea/workspace.xml
 .Trash-100/

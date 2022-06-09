@@ -28,7 +28,7 @@ final class dba
                 'query' => self::$last_query,
                 'errors' => mysqli_error_list(self::$link)
             );
-            var_dump($context['errors'][0]);
+            Logger::error("MYSQL ERROR: \n" .  var_dump($context['errors'][0]));
         }
         return (self::$qhnd !== false);
     }
@@ -40,25 +40,37 @@ final class dba
     }
 
 
-    public static function fetch_assoc()
+    public static function fetch_assoc($query = null)
     {
+        if ($query) {
+            if (!self::_execute($query)) {
+                return false;
+            }
+        }
+
         $res = false;
         $qhnd = self::$qhnd;
-        if (($qhnd !== false) && ($qhnd !== true))
+        if (($qhnd !== false) && ($qhnd !== true)) {
             $res = mysqli_fetch_assoc($qhnd);
+        }
+
         return $res;
     }
 
 
-    public static function fetch_assoc_all($key_from = null)
+    public static function fetch_assoc_all($query = null)
     {
+        if ($query) {
+            if (!self::_execute($query)) {
+                return false;
+            }
+        }
+
         $res = array();
-        if ($key_from)
-            while ($row = self::fetch_assoc())
-                $res[$row[$key_from]] = $row;
-        else
-            while ($row = self::fetch_assoc())
-                $res[] = $row;
+        while ($row = self::fetch_assoc()) {
+            $res[] = $row;
+        }
+
         return $res;
     }
 
@@ -79,7 +91,7 @@ final class dba
                 $table
             );
         } catch (Exception $e) {
-            echo 'Error while connection: ',  $e->getMessage(), "\n";
+            Logger::error('Error while connection: ' .  $e->getMessage());
             return false;
         }
         return true;
@@ -91,7 +103,7 @@ final class dba
         $result = mysqli_query(self::$link, "CREATE DATABASE IF NOT EXISTS " . $config::$db_name);
 
         if (!$result) {
-            echo 'Can\'t create DB ' . $config::$db_name;
+            Logger::error('Can\'t create db ' . $config::$db_name);
             return false;
         }
 

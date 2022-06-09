@@ -11,8 +11,7 @@ final class SessionModel
         $sesions = TABLE_OF_SESSIONS;
 
         $sql = "SELECT * FROM $sesions WHERE `user_id` = '$user_id'";
-        dba::query($sql);
-        $sessions = dba::fetch_assoc_all();
+        $sessions = dba::fetch_assoc_all($sql);
 
         foreach ($sessions as $key => $session) {
             $sessions[$key]['client'] = json_decode($session['client'], true);

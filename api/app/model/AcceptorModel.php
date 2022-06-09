@@ -7,10 +7,6 @@ use lib\request;
 
 final class AcceptorModel
 {
-    public static function get_all()
-    {
-        $table = TABLE_OF_ACCEPTORS;
-    }
 
     public static function create_acceptor($acceptor, $user)
     {
@@ -20,8 +16,8 @@ final class AcceptorModel
         dba::query($sql);
 
         $sql = "SELECT * FROM $table  ORDER BY `id` DESC Limit 1;";
-        dba::query($sql);
-        return dba::fetch_assoc();
+
+        return dba::fetch_assoc($sql);
     }
 
     public static function get_acceptors($user, $page, $per_page)
@@ -42,9 +38,9 @@ final class AcceptorModel
         $sql = "SELECT a.id, a.name, a.system_id, a.account, a.status, s.type
                     FROM $acceptor a
                     left join $system s on s.id = a.system_id
-                    WHERE a.user_id= '$user[id] ' $status ORDER BY id DESC " . $limit . ";";
-        dba::query($sql);
-        return dba::fetch_assoc_all();
+                    WHERE a.user_id= '$user[id]' $status ORDER BY id DESC " . $limit . ";";
+
+        return dba::fetch_assoc_all($sql);
     }
 
     public static function get_total($user)

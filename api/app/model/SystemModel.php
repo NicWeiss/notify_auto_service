@@ -10,8 +10,8 @@ final class SystemModel
     {
         $table = TABLE_OF_SYSTEMS;
         $sql = "SELECT * FROM  $table";
-        dba::query($sql);
-        return dba::fetch_assoc_all();
+
+        return dba::fetch_assoc_all($sql);
     }
 
     public static function get_system($system_id)
