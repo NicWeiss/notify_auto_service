@@ -7,7 +7,6 @@ use lib\dba as dba;
 final class WatcherModel
 {
     public static $operations = TABLE_OF_OPERATIONS;
-    public static $lock_name = 'query';
 
     public static function add_operation($target_date)
     {
@@ -49,28 +48,15 @@ final class WatcherModel
 
     public static function get_first_waited_operation($worker_id)
     {
-        $is_lock_success = std_set_lock(self::$lock_name, $worker_id);
-
-        while (!$is_lock_success) {
-            time_nanosleep(0, 1000000);
-            $is_lock_success = std_set_lock(self::$lock_name, $worker_id);
-        }
-
-        if (!std_get_lock_content(self::$lock_name) || std_get_lock_content(self::$lock_name) != $worker_id) {
-            return  self::get_first_waited_operation($worker_id);
-        }
-
-        $sql = "SELECT * FROM " . self::$operations . " WHERE `type` = 'wait' and `worker_id` IS NULL ORDER BY `id` ASC LIMIT 100;";
+        $sql = "SELECT * FROM " . self::$operations . " WHERE `type` = 'wait' and `worker_id` IS NULL ORDER BY `id` ASC LIMIT 100 FOR UPDATE;";
         $new_operations = dba::fetch_assoc_all($sql);
 
         if (!$new_operations) {
-            std_remove_lock(self::$lock_name);
             return false;
         }
 
         self::set_in_process($new_operations, $worker_id);
 
-        std_remove_lock(self::$lock_name);
         return $new_operations;
     }
 

@@ -1,6 +1,12 @@
 FROM php:7.4-fpm  as base
 
-RUN apt-get update; apt-get install -y libcurl4-openssl-dev libonig-dev libzip-dev zip nginx cron
+RUN apt-get update; apt-get install -y libcurl4-openssl-dev libonig-dev libzip-dev zip nginx cron unzip
+
+RUN curl -O -L "https://github.com/grafana/agent/releases/download/v0.26.1/agent-linux-amd64.zip"
+RUN unzip "agent-linux-amd64.zip"
+RUN chmod a+x "agent-linux-amd64"
+RUN mv agent-linux-amd64 /usr/bin/grafana-agent
+RUN rm agent-linux-amd64.zip
 
 RUN rm -rf /etc/nginx/sites-enabled
 COPY ./docker/backend/nginx.conf /etc/nginx/conf.d/default.conf
@@ -25,9 +31,12 @@ COPY ./docker/backend/cronfile /etc/cron.d/cronfile
 RUN chmod 0644 /etc/cron.d/cronfile
 RUN crontab /etc/cron.d/cronfile
 RUN touch /var/log/cron.log
+RUN touch /container.env
 
 RUN touch /start.sh
 RUN echo '#!/bin/bash' >> /start.sh
+RUN echo 'declare -p | grep -Ev "BASHOPTS|BASH_VERSINFO|EUID|PPID|SHELLOPTS|UID" > /container.env' >> /start.sh
+RUN echo 'grafana-agent -config.file /etc/agent/agent.yaml -server.http.address="0.0.0.0:12345" >> /dev/null &' >> /start.sh
 RUN echo 'cron' >> /start.sh
 RUN echo 'tail -f /var/www/tmp/log/log.txt &' >> /start.sh
 RUN echo 'nginx' >> /start.sh

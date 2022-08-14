@@ -16,7 +16,7 @@ help:  ## Помощь
 
 ### Development
 build:  ## Сборка проекта
-	@docker-compose -f docker/docker-compose.yml
+	@docker-compose -f docker/docker-compose.yml build
 
 test: ## Запуск тестирования
 	# @docker-compose -f docker/docker-compose-test.yml --project-name="test_" build

@@ -35,3 +35,4 @@
 node_modules
 /data/mysql/*
 /data/mysql_test/*
+/data/redis/*

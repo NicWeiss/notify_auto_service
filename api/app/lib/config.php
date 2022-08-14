@@ -2,6 +2,7 @@
 
 namespace lib;
 
+use lib\Redis;
 
 final class config
 {
@@ -9,6 +10,9 @@ final class config
     public static $db_name = null;
     public static $db_user = null;
     public static $db_pass = null;
+
+    public static $redis_url = null;
+    public static $redis_pass = null;
 
     public static $ip_location_provider_token = null;
 
@@ -27,5 +31,7 @@ final class config
         self::$email_sender = getenv('EMAIL_SENDER');
         self::$email_password = getenv('EMAIL_PASSWORD');
         self::$telegram_bot_token = getenv('TELEGRAM_BOT_TOKEN');
+        self::$redis_url = getenv('REDIS_URL');
+        self::$redis_pass = getenv('REDIS_PASS');
     }
 }

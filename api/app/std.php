@@ -6,8 +6,11 @@
 
 use lib\dba as dba;
 use lib\config;
+use lib\Redis;
 
 require_once('app/defines.php');
+
+static $redis_client;
 
 function std_autoload($classname)
 {
@@ -31,18 +34,17 @@ function std_set_lock($lock_name, $text = 'LOCK')
         return false;
     }
 
-    $filename = './tmp/lock/' . $lock_name . '.txt';
-    $fp = fopen($filename, "w");
-    fwrite($fp, $text);
-    fclose($fp);
-    time_nanosleep(0, 10000000);
+    $redis_client = $GLOBALS['redis'];
+    $redis_client->set($lock_name, $text);
+
     return true;
 }
 
 function std_check_lock($lock_name)
 {
-    $filename = './tmp/lock/' . $lock_name . '.txt';
-    return !!file_exists($filename);
+    $redis_client = $GLOBALS['redis'];
+
+    return !!$redis_client->get($lock_name);
 }
 
 function std_remove_lock($lock_name)
@@ -51,8 +53,9 @@ function std_remove_lock($lock_name)
         return false;
     }
 
-    unlink('./tmp/lock/' . $lock_name . '.txt');
-    time_nanosleep(0, 10000000);
+    $redis_client = $GLOBALS['redis'];
+    $redis_client->set($lock_name, '');
+
     return true;
 }
 
@@ -62,8 +65,9 @@ function std_get_lock_content($lock_name)
         return false;
     }
 
-    $filename = './tmp/lock/' . $lock_name . '.txt';
-    return file_get_contents($filename, true);
+    $redis_client = $GLOBALS['redis'];
+
+    return $redis_client->get($lock_name);
 }
 
 
@@ -75,4 +79,5 @@ function std_env_init($with_error_handlers = true)
     $GLOBALS['config'] = $config;
 
     dba::init();
+    $GLOBALS['redis'] =  new Redis();
 }

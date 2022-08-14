@@ -29,6 +29,16 @@ services:
       - ../data/mysql:/var/lib/mysql
     container_name: dev_notifier_mysql
 
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '8095:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass redispass#123
+    volumes:
+      - ../data/redis:/data
+    container_name: dev_notifier_redis
+
   backend:
     build:
       dockerfile: docker/backend/Dockerfile
@@ -43,6 +53,8 @@ services:
       - mysql
     volumes:
       - ../api:/var/www
+      - ./backend/grafana.yml:/etc/agent/agent.yaml
+    command: bash /start.sh
     container_name: dev_notifier_backend
 
   frontend:
@@ -66,10 +78,3 @@ services:
     working_dir: /frontend
     command: ember s
     container_name: dev_notifier_frontend
-
-  grafana_agent:
-    image: grafana/agent:latest
-    volumes:
-      - ../api/tmp/log:/var/log/
-      - ./grafana/grafana.yml:/etc/agent/agent.yaml
-    container_name: dev_notifier_grafana_agent

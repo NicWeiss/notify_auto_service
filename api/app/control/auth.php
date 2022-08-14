@@ -18,6 +18,10 @@ class auth extends BaseController
     private static $ONE_WEEK = 604800;
     private static $ONE_HUNDRED_YEARS = 338688000;
 
+    /**
+     * Method of getting location
+     * @return Array Returns an object with user location data
+     */
     private static function getLocation()
     {
         $config = $GLOBALS['config'];
@@ -46,13 +50,15 @@ class auth extends BaseController
         return $location_api_response ? $location_api_response : $default_location;
     }
 
+
+    /**
+     * Method of user authorise
+     *    1.  Will be checked login and password. If user is not exists, will be returned 403
+     *    2.  If user will be found, created session
+     * @return Array Returns an object with username and session_id
+     */
     public static function login()
     {
-        /*
-         * Метод авторизации пользователя
-         *      1.  Будет проверен проверен логин и пароль. если тользователь не найден - 403
-         *      2.  Если пользователь найден, то будет создана сессия и отправлена на фронт
-         */
         $location_api_response = null;
 
         $email = self::$request_json['email'];
@@ -84,13 +90,12 @@ class auth extends BaseController
         return ['name' => $user['name'], 'session' => $session_id];
     }
 
+    /**
+     * Method for sending confirmation cod
+     * @return Boolean
+     */
     public static function get_code()
     {
-        /*
-         * Метод отправки кода подтверждения
-         *      1.  Будет проверен код и если он выслан и активен, то выход
-         *      2.  Если подходящего кода нет, то будет создан новый, сохранён в базу и выслан
-         */
         $email = self::$request_json['email'];
         $code = random_int(1000, 9999);
         $date = date_create();
@@ -114,9 +119,13 @@ class auth extends BaseController
             throw self::critical_error();
         }
 
-        return 'code sended';
+        return true;
     }
 
+    /**
+     * Method of user registration
+     * @return String session_id
+     */
     public static function sign_up()
     {
         $date = date_create();
@@ -167,6 +176,10 @@ class auth extends BaseController
         throw self::has_no_permission();
     }
 
+    /**
+     * Method of create user restoration code and sending to email
+     * @return Boolean
+     */
     public static function restore()
     {
         $date = date_create();
@@ -204,9 +217,13 @@ class auth extends BaseController
             throw self::critical_error();
         }
 
-        return 'success';
+        return true;
     }
 
+    /**
+     * Method of verify user restoration code from email
+     * @return Boolean
+     */
     public static function verify_restore_code()
     {
         $date = date_create();
@@ -216,9 +233,13 @@ class auth extends BaseController
             throw self::unprocessable_entity();
         }
 
-        return 'exist';
+        return true;
     }
 
+    /**
+     * Method of restoration user password
+     * @return Boolean
+     */
     public static function restore_password()
     {
         $date = date_create();
@@ -232,9 +253,14 @@ class auth extends BaseController
         }
 
         AuthModel::update_password($email, $password);
-        return 'success';
+
+        return true;
     }
 
+    /**
+     * Method of change user password
+     * @return Boolean
+     */
     public static function change_password()
     {
         $current_password = md5(self::$request_json['currentPass']);
@@ -250,6 +276,7 @@ class auth extends BaseController
         }
 
         AuthModel::update_password(self::$user['email'], $new_password);
-        return 'success';
+
+        return true;
     }
 }

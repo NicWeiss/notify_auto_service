@@ -6,7 +6,6 @@ use lib\request as request;
 
 
 require_once("app/std.php");
-require_once('tmp/config.ini.php');
 std_env_init();
 
 
