@@ -4,10 +4,10 @@
  * ROUTE LIST
  */
 
-include 'acceptor.php';
-include 'auth.php';
-include 'category.php';
-include 'notify.php';
-include 'session.php';
-include 'system.php';
-include 'user.php';
+include 'Acceptor.php';
+include 'Auth.php';
+include 'Category.php';
+include 'Notify.php';
+include 'Session.php';
+include 'System.php';
+include 'User.php';

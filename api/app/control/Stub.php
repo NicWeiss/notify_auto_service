@@ -9,7 +9,7 @@ namespace control;
 
 use generic\BaseController;
 
-class stub extends BaseController
+class Stub extends BaseController
 {
     public static function init()
     {

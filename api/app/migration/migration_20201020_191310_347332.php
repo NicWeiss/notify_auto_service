@@ -5,8 +5,8 @@
 
 namespace migration;
 
-use generic\migration;
-use lib\dba;
+use generic\Migration;
+use lib\DB;
 
 
 final class migration_20201020_191310_347332 extends migration
@@ -19,7 +19,7 @@ final class migration_20201020_191310_347332 extends migration
         $query = "ALTER TABLE `notify`
                 CHANGE COLUMN `notify_acceptors_id` `status` TINYINT NULL DEFAULT 1 ;
                 ";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;
@@ -28,7 +28,7 @@ final class migration_20201020_191310_347332 extends migration
     protected function down()
     {
         $query = "";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;

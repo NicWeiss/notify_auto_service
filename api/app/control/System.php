@@ -10,7 +10,7 @@ namespace control;
 use generic\BaseController;
 use model\SystemModel;
 
-class system extends BaseController
+class System extends BaseController
 {
     public static function get()
     {

@@ -12,7 +12,7 @@ loki:
                 - localhost
               labels:
                 job: varlogs
-                __path__: /var/www/tmp/log/log.txt
+                __path__: /tmp/log.txt
           pipeline_stages:
             - json:
                 expressions:

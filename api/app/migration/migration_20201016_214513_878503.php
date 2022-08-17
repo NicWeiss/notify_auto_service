@@ -5,8 +5,8 @@
 
 namespace migration;
 
-use generic\migration;
-use lib\dba;
+use generic\Migration;
+use lib\DB;
 
 
 final class migration_20201016_214513_878503 extends migration
@@ -22,7 +22,7 @@ final class migration_20201016_214513_878503 extends migration
                   `is_enable` BOOLEAN,
                   `help` VARCHAR(45) NULL,
                   PRIMARY KEY (`id`));";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;
@@ -31,7 +31,7 @@ final class migration_20201016_214513_878503 extends migration
     protected function down()
     {
         $query = "DROP TABLE `system`;";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;

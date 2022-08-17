@@ -5,7 +5,7 @@ namespace lib;
 use Exception;
 use helpers\Logger as Logger;
 
-final class dba
+final class DB
 {
     private static $link = null;
     private static $qhnd = false;

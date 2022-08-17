@@ -5,8 +5,8 @@
 
 namespace migration;
 
-use generic\migration;
-use lib\dba;
+use generic\Migration;
+use lib\DB;
 
 
 final class migration_20201014_000000_000001 extends migration
@@ -22,7 +22,7 @@ final class migration_20201014_000000_000001 extends migration
             `email` VARCHAR(45) NULL,
             `password` VARCHAR(45) NULL,
             PRIMARY KEY (`id`));";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;
@@ -31,7 +31,7 @@ final class migration_20201014_000000_000001 extends migration
     protected function down()
     {
         $query = "DROP TABLE `user` ;";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;

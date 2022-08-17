@@ -5,8 +5,8 @@
 
 namespace migration;
 
-use generic\migration;
-use lib\dba;
+use generic\Migration;
+use lib\DB;
 
 
 final class migration_20201020_164724_399668 extends migration
@@ -29,7 +29,7 @@ final class migration_20201020_164724_399668 extends migration
               `acceptors` LONGTEXT NULL,
               PRIMARY KEY (`id`));
             ";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;
@@ -38,7 +38,7 @@ final class migration_20201020_164724_399668 extends migration
     protected function down()
     {
         $query = "DROP TABLE `notify`;";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;

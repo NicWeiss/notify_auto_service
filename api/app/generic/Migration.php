@@ -9,11 +9,11 @@
 
 namespace generic;
 
-use lib\dba;
+use lib\DB;
 use model\MigrationModel;
 
 
-class migration
+class Migration
 {
     /**
      * @var string unical migration name
@@ -77,7 +77,7 @@ class migration
             $qu = trim($qu);
             if (!$qu)
                 continue;
-            if (!dba::query($qu))
+            if (!DB::query($qu))
                 return false;
         }
         return true;

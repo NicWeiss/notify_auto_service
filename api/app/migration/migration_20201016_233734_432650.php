@@ -5,8 +5,8 @@
 
 namespace migration;
 
-use generic\migration;
-use lib\dba;
+use generic\Migration;
+use lib\DB;
 
 
 final class migration_20201016_233734_432650 extends migration
@@ -17,13 +17,13 @@ final class migration_20201016_233734_432650 extends migration
     protected function up()
     {
         $query = "ALTER TABLE `system` ADD COLUMN `type` VARCHAR(45) NULL AFTER `help`;";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
         $query = "UPDATE `system` SET `type` = 'tg' WHERE (`name` = 'Telegram');";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
         $query = "UPDATE `system` SET `type` = 'email' WHERE (`name` = 'Email');";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;
@@ -32,7 +32,7 @@ final class migration_20201016_233734_432650 extends migration
     protected function down()
     {
         $query = "ALTER TABLE `system` DROP COLUMN `type`;";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;

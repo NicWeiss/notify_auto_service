@@ -2,7 +2,7 @@
 
 namespace model;
 
-use lib\dba as dba;
+use lib\DB;
 
 final class UserModel
 {
@@ -12,9 +12,9 @@ final class UserModel
     public static function get($user_id)
     {
         $sql = "SELECT `id`, `name`, `email` FROM  " . self::$table  . " where `id` = $user_id";
-        dba::query($sql);
+        DB::query($sql);
 
-        return dba::fetch_assoc();
+        return DB::fetch_assoc();
     }
 
 
@@ -25,7 +25,7 @@ final class UserModel
            `email` = '" . $data['email'] . "',
            `timezone` = '" . $data['timezone'] . "'
             where `id` = $user_id";
-        dba::query($sql);
+        DB::query($sql);
 
         return self::get($user_id);
     }
@@ -34,6 +34,6 @@ final class UserModel
     public static function delete($user_id)
     {
         $sql = "DELETE FROM " . self::$table . " WHERE `id` = $user_id";
-        return dba::query($sql);
+        return DB::query($sql);
     }
 }

@@ -9,11 +9,11 @@ namespace control;
 
 use generic\BaseController;
 use helpers\Logger;
-use lib\email;
-use lib\request;
+use lib\Email;
+use lib\Request;
 use model\AuthModel;
 
-class auth extends BaseController
+class Auth extends BaseController
 {
     private static $ONE_WEEK = 604800;
     private static $ONE_HUNDRED_YEARS = 338688000;
@@ -25,7 +25,7 @@ class auth extends BaseController
     private static function getLocation()
     {
         $config = $GLOBALS['config'];
-        $host = request::$host;
+        $host = Request::$host;
         $api_key = $config::$ip_location_provider_token;
         $location_api_response = null;
         $default_location = "{\"ip\": \"$host\"}";
@@ -109,7 +109,7 @@ class auth extends BaseController
 
         AuthModel::create_code(['email' => $email, 'code' => $code, 'expire_at' => (date_timestamp_get($date) + 300)]);
 
-        $is_send = email::send([
+        $is_send = Email::send([
             'to' => $email,
             'title' => 'Код подтверждения',
             'text' => 'Ваш код подтверждения: ' . $code
@@ -205,7 +205,7 @@ class auth extends BaseController
             'expire_at' => (date_timestamp_get($date) + 300)
         ]);
 
-        $is_send = email::send([
+        $is_send = Email::send([
             'to' => $email,
             'title' => 'Восстановление пароля',
             'text' => 'Вашa ссылка для восстановления: <br><br>' .

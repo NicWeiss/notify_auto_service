@@ -5,8 +5,8 @@
 
 namespace migration;
 
-use generic\migration;
-use lib\dba;
+use generic\Migration;
+use lib\DB;
 
 
 final class migration_20220430_125055_584627 extends migration
@@ -17,7 +17,7 @@ final class migration_20220430_125055_584627 extends migration
     protected function up()
     {
         $query = "ALTER TABLE category ADD is_hidden BOOL DEFAULT false NOT NULL;";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;
@@ -26,7 +26,7 @@ final class migration_20220430_125055_584627 extends migration
     protected function down()
     {
         $query = "";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;

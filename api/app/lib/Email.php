@@ -4,7 +4,7 @@ namespace lib;
 
 use PHPMailer;
 
-final class email
+final class Email
 {
 
     public static function send($data)

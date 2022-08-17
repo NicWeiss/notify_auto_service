@@ -2,8 +2,7 @@
 
 namespace model;
 
-use control\acceptor;
-use lib\dba as dba;
+use lib\DB;
 
 final class NotifyModel
 {
@@ -24,16 +23,16 @@ final class NotifyModel
                                       `date`, `time`, `category_id`)
                 VALUES ('$user[id]',  '$notify[name]', '$notify[text]', '$notify[periodic]',
                         '$notify[day_of_week]', '$notify[date]', '$notify[time]' , $notify[category_id])";
-        dba::query($sql);
+        DB::query($sql);
 
         $sql = "SELECT * FROM $table  ORDER BY `id` DESC Limit 1;";
-        dba::query($sql);
-        $notify = dba::fetch_assoc();
+        DB::query($sql);
+        $notify = DB::fetch_assoc();
 
         foreach ($acceptors as $acceptor) {
             $sql = "INSERT INTO  $notify_acceptors ( `notify_id`, `acceptor_id`)
                     VALUES ('$notify[id]',  '" . $acceptor['id'] . "')";
-            dba::query($sql);
+            DB::query($sql);
         }
 
         $notify['acceptorsList'] = self::get_acceptors_by_notify_id($notify['id']);
@@ -54,7 +53,7 @@ final class NotifyModel
                     left join $system s on s.id = a.system_id
                     where na.notify_id = '$id' $status ORDER BY `id` ;";
 
-        return dba::fetch_assoc_all($sql);
+        return DB::fetch_assoc_all($sql);
     }
 
     public static function get_all_notify($user, $category_id, $page, $per_page)
@@ -65,7 +64,7 @@ final class NotifyModel
         $limit = $per_page ? "LIMIT $offset, $per_page" : "";
 
         $sql = "SELECT * FROM $notify  WHERE user_id= '$user[id]' AND category_id= '$category_id' ORDER BY id DESC $limit ;";
-        $notify_list = dba::fetch_assoc_all($sql);
+        $notify_list = DB::fetch_assoc_all($sql);
 
         foreach ($notify_list as $key => $value) {
             $notify_list[$key]['acceptorsList'] = self::get_acceptors_by_notify_id($notify_list[$key]['id']);
@@ -79,8 +78,8 @@ final class NotifyModel
         $notify = TABLE_OF_NOTIFY;
 
         $sql = "SELECT COUNT(id) FROM $notify  WHERE user_id= '$user[id]';";
-        dba::query($sql);
-        $notify_count = dba::fetch_assoc();
+        DB::query($sql);
+        $notify_count = DB::fetch_assoc();
         return $notify_count['COUNT(id)'];
     }
 
@@ -89,8 +88,8 @@ final class NotifyModel
         $notify = TABLE_OF_NOTIFY;
 
         $sql = "SELECT * FROM $notify  WHERE `id` = $notify_id and `user_id`= '$user[id]';";
-        dba::query($sql);
-        $notify_list = dba::fetch_assoc();
+        DB::query($sql);
+        $notify_list = DB::fetch_assoc();
 
         $notify_list['acceptorsList'] = self::get_acceptors_by_notify_id($notify_list['id']);
 
@@ -114,25 +113,25 @@ final class NotifyModel
                 WHERE `id`= '$entity_id' and `user_id` = '$user[id]'
                 ";
 
-        if (!dba::query($sql)) {
+        if (!DB::query($sql)) {
             return false;
         }
 
         $sql = "SELECT * FROM $table WHERE `id`= '$entity_id' and `user_id` = '$user[id]'";
-        if (!dba::query($sql)) {
+        if (!DB::query($sql)) {
             return false;
         }
-        $notify = dba::fetch_assoc();
+        $notify = DB::fetch_assoc();
 
         $sql = "DELETE FROM $notify_acceptors WHERE `notify_id`= '$entity_id'";
-        if (!dba::query($sql)) {
+        if (!DB::query($sql)) {
             return false;
         }
 
         foreach ($acceptors as $acceptor) {
             $sql = "INSERT INTO  $notify_acceptors ( `notify_id`, `acceptor_id`)
                     VALUES ('$notify[id]',  '" . $acceptor['id'] . "')";
-            if (!dba::query($sql)) {
+            if (!DB::query($sql)) {
                 return false;
             }
         }
@@ -148,9 +147,9 @@ final class NotifyModel
         $notify_acceptors = TABLE_OF_NOTIFY_ACCEPTORS;
 
         $sql = "DELETE FROM $table WHERE `id`= '$entity_id' and `user_id` = '$user[id]'";
-        dba::query($sql);
+        DB::query($sql);
         $sql = "DELETE FROM $notify_acceptors WHERE `id`= '$entity_id' and `user_id` = '$user[id]'";
-        dba::query($sql);
+        DB::query($sql);
 
         return true;
     }
@@ -160,7 +159,7 @@ final class NotifyModel
         $table = TABLE_OF_NOTIFY;
 
         $sql = "UPDATE $table SET `category_id`= '$target_category_id' WHERE `id`='$entity_id' and `user_id` = '$user[id]'";
-        dba::query($sql);
+        DB::query($sql);
 
         return true;
     }
@@ -192,7 +191,7 @@ final class NotifyModel
         $table = TABLE_OF_NOTIFY;
 
         $sql = "DELETE FROM $table WHERE `user_id` = '$user_id'";
-        dba::query($sql);
+        DB::query($sql);
 
         return true;
     }

@@ -2,7 +2,7 @@
 
 namespace model;
 
-use lib\dba as dba;
+use lib\DB;
 
 final class WatcherModel
 {
@@ -13,7 +13,7 @@ final class WatcherModel
         $sql = "INSERT INTO " . self::$operations . " (`target_date`, `complete_date`, `type`)
       VALUES('" . json_encode($target_date) . "', '', 'wait')";
 
-        return dba::query($sql);
+        return DB::query($sql);
     }
 
     public static function add_operations($operations)
@@ -34,14 +34,14 @@ final class WatcherModel
 
         $sql = "INSERT INTO " . self::$operations . " (`target_date`, `complete_date`, `type`) VALUES $values";
 
-        return dba::query($sql);
+        return DB::query($sql);
     }
 
     public static function get_last_operation()
     {
         $sql = "SELECT * FROM " . self::$operations . "  ORDER BY `id` DESC;";
-        dba::query($sql);
-        $last_operation = dba::fetch_assoc();
+        DB::query($sql);
+        $last_operation = DB::fetch_assoc();
 
         return $last_operation;
     }
@@ -49,7 +49,7 @@ final class WatcherModel
     public static function get_first_waited_operation($worker_id)
     {
         $sql = "SELECT * FROM " . self::$operations . " WHERE `type` = 'wait' and `worker_id` IS NULL ORDER BY `id` ASC LIMIT 100 FOR UPDATE;";
-        $new_operations = dba::fetch_assoc_all($sql);
+        $new_operations = DB::fetch_assoc_all($sql);
 
         if (!$new_operations) {
             return false;
@@ -73,14 +73,14 @@ final class WatcherModel
         }
 
         $sql = "UPDATE " . self::$operations . " SET `type` = 'in_process', `worker_id` = '$worker_id' WHERE `id` in ($ids) and `type` = 'wait'  and `worker_id` IS NULL;";
-        $res = dba::query($sql);
+        $res = DB::query($sql);
         return $res;
     }
 
     public static function done_operation($id, $worker_id)
     {
         $sql = "UPDATE " . self::$operations . " SET `type` = 'done', `complete_date` = NOW() WHERE `id` = '$id' and `type` = 'in_process'  and `worker_id` = '$worker_id';";
-        $res = dba::query($sql);
+        $res = DB::query($sql);
         return $res;
     }
 
@@ -96,6 +96,6 @@ final class WatcherModel
         }
 
         $sql = "DELETE FROM $operations_table WHERE `type` = 'done' AND `id` != $last_id";
-        dba::query($sql);
+        DB::query($sql);
     }
 }

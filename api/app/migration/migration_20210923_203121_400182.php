@@ -5,8 +5,8 @@
 
 namespace migration;
 
-use generic\migration;
-use lib\dba;
+use generic\Migration;
+use lib\DB;
 
 
 final class migration_20210923_203121_400182 extends migration
@@ -25,7 +25,7 @@ final class migration_20210923_203121_400182 extends migration
                 DEFAULT CHARSET=utf8mb4
                 COLLATE=utf8mb4_0900_ai_ci;
                 ";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;
@@ -34,7 +34,7 @@ final class migration_20210923_203121_400182 extends migration
     protected function down()
     {
         $query = "DROP TABLE `category`;";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;

@@ -4,11 +4,11 @@
  * lib provided additional functional
  */
 
-use lib\dba as dba;
-use lib\config;
+use lib\DB;
+use lib\Config;
 use lib\Redis;
 
-require_once('app/defines.php');
+require_once('app/Defines.php');
 
 static $redis_client;
 
@@ -75,9 +75,9 @@ function std_env_init($with_error_handlers = true)
 {
     spl_autoload_register('std_autoload');
 
-    $config = new config();
+    $config = new Config();
     $GLOBALS['config'] = $config;
 
-    dba::init();
+    DB::init();
     $GLOBALS['redis'] =  new Redis();
 }

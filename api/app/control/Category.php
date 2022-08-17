@@ -5,7 +5,7 @@ namespace control;
 use generic\BaseController;
 use model\CategoryModel as model;
 
-class category extends BaseController
+class Category extends BaseController
 {
     public static function post()
     {

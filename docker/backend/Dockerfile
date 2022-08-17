@@ -32,15 +32,17 @@ RUN chmod 0644 /etc/cron.d/cronfile
 RUN crontab /etc/cron.d/cronfile
 RUN touch /var/log/cron.log
 RUN touch /container.env
+RUN touch /tmp/log.txt
 
 RUN touch /start.sh
 RUN echo '#!/bin/bash' >> /start.sh
 RUN echo 'declare -p | grep -Ev "BASHOPTS|BASH_VERSINFO|EUID|PPID|SHELLOPTS|UID" > /container.env' >> /start.sh
-RUN echo 'grafana-agent -config.file /etc/agent/agent.yaml -server.http.address="0.0.0.0:12345" >> /dev/null &' >> /start.sh
-RUN echo 'cron' >> /start.sh
-RUN echo 'tail -f /var/www/tmp/log/log.txt &' >> /start.sh
-RUN echo 'nginx' >> /start.sh
-RUN echo 'php-fpm' >> /start.sh
+RUN echo 'grafana-agent -config.file /etc/agent/agent.yaml -server.http.address="0.0.0.0:12345" > /dev/null 2>&1 &' >> /start.sh
+RUN echo 'cron &' >> /start.sh
+RUN echo 'nginx &' >> /start.sh
+RUN echo 'php-fpm &' >> /start.sh
+RUN echo 'echo --------------- BACKEND STARTED ---------------'  >> /start.sh
+RUN echo 'tail -f /tmp/log.txt' >> /start.sh
 RUN chmod +x /start.sh
 
 CMD ["sh", "/start.sh"]
@@ -49,10 +51,10 @@ CMD ["sh", "/start.sh"]
 FROM base as test
 RUN touch /start_test.sh
 RUN echo '#!/bin/bash' >> /start_test.sh
-RUN echo 'cron' >> /start_test.sh
-RUN echo 'tail -f /var/www/tmp/log/log.txt &' >> /start_test.sh
-RUN echo 'nginx' >> /start_test.sh
-RUN echo 'php-fpm' >> /start_test.sh
+RUN echo 'cron &' >> /start_test.sh
+RUN echo 'nginx &' >> /start_test.sh
+RUN echo 'php-fpm &' >> /start_test.sh
+RUN echo 'tail -f /tmp/log.txt' >> /start_test.sh
 RUN chmod +x /start_test.sh
 
 CMD ["sh", "/start_test.sh"]

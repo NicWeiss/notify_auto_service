@@ -6,7 +6,7 @@
 
 namespace lib;
 
-final class request
+final class Request
 {
 
     public static $url = array();

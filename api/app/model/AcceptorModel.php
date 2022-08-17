@@ -2,8 +2,8 @@
 
 namespace model;
 
-use lib\dba as dba;
-use lib\request;
+use lib\DB as DB;
+use lib\Request;
 
 final class AcceptorModel
 {
@@ -13,17 +13,17 @@ final class AcceptorModel
         $table = TABLE_OF_ACCEPTORS;
         $sql = "INSERT INTO  $table ( `user_id`, `name`, `system_id`, `account`, `status`)
                 VALUES ('$user[id]',  '$acceptor[name]', '$acceptor[system_id]', '$acceptor[account]', true )";
-        dba::query($sql);
+        DB::query($sql);
 
         $sql = "SELECT * FROM $table  ORDER BY `id` DESC Limit 1;";
 
-        return dba::fetch_assoc($sql);
+        return DB::fetch_assoc($sql);
     }
 
     public static function get_acceptors($user, $page, $per_page)
     {
         $limit = '';
-        $status =  request::$query_params['status'];
+        $status =  Request::$query_params['status'];
 
         $acceptor = TABLE_OF_ACCEPTORS;
         $system = TABLE_OF_SYSTEMS;
@@ -40,7 +40,7 @@ final class AcceptorModel
                     left join $system s on s.id = a.system_id
                     WHERE a.user_id= '$user[id]' $status ORDER BY id DESC " . $limit . ";";
 
-        return dba::fetch_assoc_all($sql);
+        return DB::fetch_assoc_all($sql);
     }
 
     public static function get_total($user)
@@ -48,8 +48,8 @@ final class AcceptorModel
         $acceptor = TABLE_OF_ACCEPTORS;
 
         $sql = "SELECT COUNT(id) FROM $acceptor  WHERE user_id= '$user[id]';";
-        dba::query($sql);
-        $notify_count = dba::fetch_assoc();
+        DB::query($sql);
+        $notify_count = DB::fetch_assoc();
         return $notify_count['COUNT(id)'];
     }
 
@@ -59,9 +59,9 @@ final class AcceptorModel
         $notify_acceptors = TABLE_OF_NOTIFY_ACCEPTORS;
 
         $sql = "DELETE FROM $table WHERE `id`= '$entity_id' and `user_id` = '$user[id]'";
-        dba::query($sql);
+        DB::query($sql);
         $sql = "DELETE FROM $notify_acceptors WHERE `acceptor_id`= '$entity_id'";
-        dba::query($sql);
+        DB::query($sql);
 
         return true;
     }
@@ -75,8 +75,8 @@ final class AcceptorModel
                     FROM $acceptor a
                     left join $system s on s.id = a.system_id
                     WHERE a.id = $acceptor_id and a.user_id= '$user[id]';";
-        dba::query($sql);
-        $acceptor = dba::fetch_assoc();
+        DB::query($sql);
+        $acceptor = DB::fetch_assoc();
 
         return $acceptor;
     }
@@ -89,11 +89,11 @@ final class AcceptorModel
                  `account`='$acceptor[account]', `status`='$acceptor[status]'
                 WHERE `id`= '$entity_id' and `user_id` = '$user[id]'
                 ";
-        dba::query($sql);
+        DB::query($sql);
 
         $sql = "SELECT * FROM $table WHERE `id`= '$entity_id' and `user_id` = '$user[id]'";
-        dba::query($sql);
-        $acceptor = dba::fetch_assoc();
+        DB::query($sql);
+        $acceptor = DB::fetch_assoc();
 
 
         return $acceptor;
@@ -104,7 +104,7 @@ final class AcceptorModel
         $table = TABLE_OF_ACCEPTORS;
 
         $sql = "DELETE FROM $table WHERE `user_id` = '$user_id'";
-        dba::query($sql);
+        DB::query($sql);
 
         return true;
     }

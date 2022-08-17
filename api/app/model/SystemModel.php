@@ -2,7 +2,7 @@
 
 namespace model;
 
-use lib\dba as dba;
+use lib\DB as DB;
 
 final class SystemModel
 {
@@ -11,7 +11,7 @@ final class SystemModel
         $table = TABLE_OF_SYSTEMS;
         $sql = "SELECT * FROM  $table";
 
-        return dba::fetch_assoc_all($sql);
+        return DB::fetch_assoc_all($sql);
     }
 
     public static function get_system($system_id)
@@ -19,8 +19,8 @@ final class SystemModel
         $system = TABLE_OF_SYSTEMS;
 
         $sql = "SELECT * FROM $system  WHERE `id` = $system_id;";
-        dba::query($sql);
-        return dba::fetch_assoc();
+        DB::query($sql);
+        return DB::fetch_assoc();
     }
 
     public static function delete_all($user_id)
@@ -28,7 +28,7 @@ final class SystemModel
         $table = TABLE_OF_SYSTEMS;
 
         $sql = "DELETE FROM $table WHERE `user_id` = '$user_id'";
-        dba::query($sql);
+        DB::query($sql);
 
         return true;
     }

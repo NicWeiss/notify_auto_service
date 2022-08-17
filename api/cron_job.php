@@ -2,7 +2,6 @@
 header("Access-Control-Allow-Origin: *");
 
 use helpers\Logger as Logger;
-use lib\request as request;
 
 
 require_once("app/std.php");

@@ -5,8 +5,8 @@
 
 namespace migration;
 
-use generic\migration;
-use lib\dba;
+use generic\Migration;
+use lib\DB;
 
 
 final class migration_20220417_213650_405440 extends migration
@@ -19,7 +19,7 @@ final class migration_20220417_213650_405440 extends migration
         $notify = 'notify';
 
         $sql = "SELECT * FROM $notify  WHERE date != '' ;";
-        $notify_list = dba::fetch_assoc_all($sql);
+        $notify_list = DB::fetch_assoc_all($sql);
 
         foreach ($notify_list as $key => $value) {
             if (preg_match('/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/', $value['date'])) {
@@ -30,7 +30,7 @@ final class migration_20220417_213650_405440 extends migration
                     $new_date = $date[2] . '-' . $date[0] . '-' . $date[1];
                     $sql = "UPDATE $notify SET `date`= '$new_date' WHERE `id`='$notify_id'";
 
-                    dba::query($sql);
+                    DB::query($sql);
                 }
             }
         }
@@ -41,7 +41,7 @@ final class migration_20220417_213650_405440 extends migration
     protected function down()
     {
         $query = "";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;

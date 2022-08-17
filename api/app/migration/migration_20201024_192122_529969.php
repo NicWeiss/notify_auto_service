@@ -5,8 +5,8 @@
 
 namespace migration;
 
-use generic\migration;
-use lib\dba;
+use generic\Migration;
+use lib\DB;
 
 
 final class migration_20201024_192122_529969 extends migration
@@ -22,7 +22,7 @@ final class migration_20201024_192122_529969 extends migration
                     Внимание, для получения оповещений необходимо подписаться на бота
                     </span> <a target=\"_blank\" href=\"http://t.me/WeissNotifierSystem_bot\"> Notifier</a>
                     ' WHERE `type` = 'tg';";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;
@@ -31,7 +31,7 @@ final class migration_20201024_192122_529969 extends migration
     protected function down()
     {
         $query = "";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;

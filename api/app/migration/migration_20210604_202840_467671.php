@@ -5,8 +5,8 @@
 
 namespace migration;
 
-use generic\migration;
-use lib\dba;
+use generic\Migration;
+use lib\DB;
 
 
 final class migration_20210604_202840_467671 extends migration
@@ -24,7 +24,7 @@ final class migration_20210604_202840_467671 extends migration
             `worker_id` VARCHAR(100) NULL,
         PRIMARY KEY (`id`));";
 
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;
@@ -33,7 +33,7 @@ final class migration_20210604_202840_467671 extends migration
     protected function down()
     {
         $query = "DROP TABLE 'date_operations';";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;

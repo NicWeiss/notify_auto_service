@@ -5,8 +5,8 @@
 
 namespace migration;
 
-use generic\migration;
-use lib\dba;
+use generic\Migration;
+use lib\DB;
 
 
 final class migration_20210925_111328_926258 extends migration
@@ -17,7 +17,7 @@ final class migration_20210925_111328_926258 extends migration
     protected function up()
     {
         $query = "ALTER TABLE notify ADD category_id int DEFAULT 0 NOT NULL;";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;
@@ -26,7 +26,7 @@ final class migration_20210925_111328_926258 extends migration
     protected function down()
     {
         $query = "";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;

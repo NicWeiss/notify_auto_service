@@ -8,10 +8,10 @@
 namespace control;
 
 use generic\BaseController;
-use lib\request;
+use lib\Request;
 use model\NotifyModel;
 
-class notify extends BaseController
+class Notify extends BaseController
 {
     public static function post()
     {
@@ -21,9 +21,9 @@ class notify extends BaseController
 
     public static function get()
     {
-        $page = request::get('page') ? request::get('page') : 1;
-        $per_page = request::get('per_page') ? request::get('per_page') : 25;
-        $category_id = request::get('category_id') ? request::get('category_id') : 0;
+        $page = Request::get('page') ? Request::get('page') : 1;
+        $per_page = Request::get('per_page') ? Request::get('per_page') : 25;
+        $category_id = Request::get('category_id') ? Request::get('category_id') : 0;
 
         $notify = NotifyModel::get_all_notify(self::$user, $category_id, $page, $per_page);
         self::set_total_pages(round(NotifyModel::get_total(self::$user) / $per_page) + 1);
@@ -54,14 +54,14 @@ class notify extends BaseController
 
     public static function delete_by_category_id()
     {
-        $category_id = request::get_from_client_Json('category_id');
+        $category_id = Request::get_from_client_Json('category_id');
         $notify = NotifyModel::delete_by_category_id($category_id, self::$user);
         return $notify;
     }
 
     public static function reset_from_category_id()
     {
-        $category_id = request::get_from_client_Json('category_id');
+        $category_id = Request::get_from_client_Json('category_id');
         $notify = NotifyModel::move_notifies($category_id, 0, self::$user);
         return $notify;
     }

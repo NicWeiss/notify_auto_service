@@ -8,9 +8,9 @@
 namespace services;
 
 use generic\BaseController;
-use lib\email;
-use lib\telegram;
-use helpers\Logger as Logger;
+use lib\Email;
+use lib\Telegram;
+use helpers\Logger;
 use model\WorkerModel as model;
 use model\WatcherModel;
 
@@ -147,14 +147,14 @@ class WorkerService extends BaseController
             }
 
             if ($type == 'email') {
-                email::send([
+                Email::send([
                     'to' => $account,
                     'title' => $title,
                     'text' => $text
                 ]);
             }
             if ($type == "tg") {
-                telegram::send([
+                Telegram::send([
                     'to' => $account,
                     'title' => $title,
                     'text' => $text

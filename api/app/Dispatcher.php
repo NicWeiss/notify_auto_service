@@ -5,9 +5,9 @@
  * retun data for call
  */
 
-use lib\request as request;
+use lib\Request;
 
-final class dispatcher
+final class Dispatcher
 {
     private static $route_map = array();
 
@@ -20,7 +20,7 @@ final class dispatcher
 
     public static function dispatch()
     {
-        $path = request::$path;
+        $path = Request::$path;
         $resource = [];
         $matches = null;
 
@@ -40,7 +40,7 @@ final class dispatcher
         $resource['entity_id'] =  count($matches) > 0 ? $matches[0] : "";
 
         if (!$resource) $resource = array(
-            'control_class' => 'control\stub',
+            'control_class' => 'control\Stub',
             'control_function' => 'init'
         );
 

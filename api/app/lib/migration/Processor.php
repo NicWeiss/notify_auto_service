@@ -46,7 +46,7 @@ class Processor
     {
         $classname = 'migration\\' . $migration_id;
         /**
-         * @var $m \generic\migration
+         * @var $m \generic\Migration
          */
         $m = new $classname($migration_id);
         return $m->do_up();
@@ -60,7 +60,7 @@ class Processor
     {
         $classname = 'migration\\' . $migration_id;
         /**
-         * @var $m \generic\migration
+         * @var $m \generic\Migration
          */
         $m = new $classname($migration_id);
         return $m->do_down();

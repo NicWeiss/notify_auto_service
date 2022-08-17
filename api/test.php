@@ -3,8 +3,8 @@
 require_once("app/std.php");
 require_once("testing/lib/autoload.php");
 
-use lib\dba;
-use lib\request as request;
+use lib\DB;
+use lib\Request;
 use PHPUnit\TextUI\Command;
 use lib\migration\Controller as MigrationController;
 
@@ -15,9 +15,9 @@ function prepare_database()
     $db_name = $GLOBALS['config']::$db_name;
 
     $query = "DROP DATABASE $db_name;";
-    dba::query($query);
+    DB::query($query);
     $query = "CREATE DATABASE $db_name;";
-    dba::query($query);
+    DB::query($query);
     MigrationController::init();
     MigrationController::up(true);
 }
@@ -25,7 +25,7 @@ function prepare_database()
 
 function run_testing()
 {
-    request::init();
+    Request::init();
 
     try {
         $command = new Command();

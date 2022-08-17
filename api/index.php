@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 }
 
 use lib\Config;
-use lib\request as request;
+use lib\Request;
 use lib\RestAdapter;
 use model\AuthModel;
 
@@ -36,7 +36,6 @@ final class myapp
     public static function run()
     {
         $GLOBALS['config'] = new Config();
-        request::init();
         $user_session_id = null;
 
         foreach (getallheaders() as $key => $value) {
@@ -46,14 +45,14 @@ final class myapp
             }
         }
 
-        $object = dispatcher::dispatch();
+        $object = Dispatcher::dispatch();
         $class = new $object['control_class'];
 
         $method = array_key_exists("control_function", $object) ?  $object["control_function"] : 'post';
         $entity_id = array_key_exists("entity_id", $object) ? $object["entity_id"] : False;
         $ember_model = array_key_exists("ember_model", $object) ? $object["ember_model"] : False;
 
-        if ($object['control_class'] != 'control\auth') {
+        if ($object['control_class'] != 'control\Auth') {
             if (!$user_session_id || !$is_session_valid) {
                 http_response_code(403);
                 return;
@@ -81,4 +80,5 @@ final class myapp
 }
 
 
+Request::init();
 myapp::run();

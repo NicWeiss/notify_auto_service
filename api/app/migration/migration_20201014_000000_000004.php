@@ -5,8 +5,8 @@
 
 namespace migration;
 
-use generic\migration;
-use lib\dba;
+use generic\Migration;
+use lib\DB;
 
 
 final class migration_20201014_000000_000004 extends migration
@@ -17,7 +17,7 @@ final class migration_20201014_000000_000004 extends migration
     protected function up()
     {
         $query = "SET SQL_SAFE_UPDATES = 0;";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;
@@ -26,7 +26,7 @@ final class migration_20201014_000000_000004 extends migration
     protected function down()
     {
         $query = "SET SQL_SAFE_UPDATES = 1;";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;

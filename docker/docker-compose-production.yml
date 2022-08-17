@@ -26,6 +26,14 @@ services:
       - ../data/mysql:/var/lib/mysql
     container_name: notifier_mysql-production
 
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    command: redis-server --save 20 1 --loglevel warning --requirepass redispass#123
+    volumes:
+      - ../data/redis:/data
+    container_name: notifier_redis-production
+
   frontend:
     image: harbor.nic-weiss.tech/notifier/frontend:${VERSION}
     container_name: notifier_frontend-production

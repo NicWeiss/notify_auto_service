@@ -5,8 +5,8 @@
 
 namespace migration;
 
-use generic\migration;
-use lib\dba;
+use generic\Migration;
+use lib\DB;
 
 
 final class migration_20201024_192023_132167 extends migration
@@ -19,7 +19,7 @@ final class migration_20201024_192023_132167 extends migration
         $query = "ALTER TABLE `system`
                         CHANGE COLUMN `help` `help` LONGTEXT NULL DEFAULT NULL ;
                         ";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;
@@ -28,7 +28,7 @@ final class migration_20201024_192023_132167 extends migration
     protected function down()
     {
         $query = "";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;

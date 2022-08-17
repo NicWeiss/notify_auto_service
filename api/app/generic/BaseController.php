@@ -4,7 +4,7 @@ namespace generic;
 
 use Exception;
 use model\AuthModel as auth;
-use lib\request;
+use lib\Request;
 
 class BaseController
 {
@@ -77,7 +77,7 @@ class BaseController
             return;
         }
 
-        return request::get_from_client_Json(self::$model_name);
+        return Request::get_from_client_Json(self::$model_name);
     }
 
     public static function post()

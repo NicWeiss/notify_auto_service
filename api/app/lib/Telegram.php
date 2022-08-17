@@ -2,9 +2,8 @@
 
 namespace lib;
 
-use cfg;
 
-final class telegram
+final class Telegram
 {
 
     public static function send($data)
@@ -16,18 +15,21 @@ final class telegram
         $title = $data['title'];
         $text = $data['text'];
 
-        $ch = curl_init($url);
-        # Setup request to send json via POST.
+        $curl = curl_init($url);
+
+        # Setup Request to send json via POST.
         $payload = json_encode(array("chat_id" => $chat_id, "text" => $title . " \n " . $text));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
         # Return response instead of printing.
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
-        # Send request.
-        $result = curl_exec($ch);
-        curl_close($ch);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, false);
+
+        # Send Request.
+        $result = curl_exec($curl);
+        curl_close($curl);
+
         return $result ? true : false;
     }
 }

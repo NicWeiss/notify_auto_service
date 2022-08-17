@@ -79,3 +79,6 @@ ps:
 
 prod_ps:
 	@docker-compose -f docker/docker-compose-production.yml --project-name="prod_" ps
+
+prod_logs:
+	@docker-compose -f docker/docker-compose-production.yml --project-name="prod_" logs  --tail=100 -f

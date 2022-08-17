@@ -2,7 +2,7 @@
 
 namespace model;
 
-use lib\dba as dba;
+use lib\DB as DB;
 
 final class AuthModel
 {
@@ -18,10 +18,10 @@ final class AuthModel
             VALUES ('" . $data['name'] . "',
                     '" . $data['email'] . "',
                     '" . $data['password'] . "')";
-        dba::query($sql);
+        DB::query($sql);
         $sql = "SELECT `id` FROM  $DB  WHERE `email`='" . $data['email'] . "'";
-        dba::query($sql);
-        $res = dba::fetch_assoc();
+        DB::query($sql);
+        $res = DB::fetch_assoc();
         return $res['id'];
     }
 
@@ -30,15 +30,15 @@ final class AuthModel
         $DB = TABLE_OF_USERS;
         $sql = "UPDATE $DB SET `password` = '$password'
             WHERE `email` = '$email'";
-        return dba::query($sql);
+        return DB::query($sql);
     }
 
     public static function check_user_exists($email)
     {
         $DB = TABLE_OF_USERS;
         $sql = "SELECT * FROM  $DB  WHERE email='" . $email . "'";
-        dba::query($sql);
-        $res = dba::fetch_assoc();
+        DB::query($sql);
+        $res = DB::fetch_assoc();
         if (!is_array($res)) return false;
         return count($res) > 0 ? true : false;
     }
@@ -53,7 +53,7 @@ final class AuthModel
                     '" . $data['expire_at'] . "',
                     '" . $data['client'] . "',
                     '" . $data['location'] . "')";
-        dba::query($sql);
+        DB::query($sql);
     }
 
     public static function create_code($data)
@@ -64,7 +64,7 @@ final class AuthModel
             VALUES ('" . $data['email'] . "',
                     '" . $data['code'] . "',
                     '" . $data['expire_at'] . "')";
-        dba::query($sql);
+        DB::query($sql);
     }
 
     public static function create_restore_code($data)
@@ -75,15 +75,15 @@ final class AuthModel
             VALUES ('" . $data['email'] . "',
                     '" . $data['code'] . "',
                     '" . $data['expire_at'] . "')";
-        dba::query($sql);
+        DB::query($sql);
     }
 
     public static function is_reg_code_exist($email, $current)
     {
         $DB = TABLE_OF_REG_CODES;
         $sql = "SELECT * FROM  $DB  WHERE email='" . $email . "' and expire_at > '" . $current . "'";
-        dba::query($sql);
-        $res = dba::fetch_assoc();
+        DB::query($sql);
+        $res = DB::fetch_assoc();
 
         if (!is_array($res)) return false;
 
@@ -94,8 +94,8 @@ final class AuthModel
     {
         $DB = TABLE_OF_RESTORE_CODES;
         $sql = "SELECT * FROM  $DB  WHERE email='" . $email . "' and expire_at > '" . $current . "'";
-        dba::query($sql);
-        $res = dba::fetch_assoc();
+        DB::query($sql);
+        $res = DB::fetch_assoc();
 
         if (!is_array($res)) return false;
 
@@ -106,8 +106,8 @@ final class AuthModel
     {
         $DB = TABLE_OF_RESTORE_CODES;
         $sql = "SELECT * FROM  $DB  WHERE code='" . $code . "' and expire_at > '" . $current . "'";
-        dba::query($sql);
-        $res = dba::fetch_assoc();
+        DB::query($sql);
+        $res = DB::fetch_assoc();
 
         if (!is_array($res)) return false;
 
@@ -118,8 +118,8 @@ final class AuthModel
     {
         $DB = TABLE_OF_RESTORE_CODES;
         $sql = "SELECT * FROM  $DB  WHERE code='" . $code . "' and expire_at > '" . $current . "'";
-        dba::query($sql);
-        $res = dba::fetch_assoc();
+        DB::query($sql);
+        $res = DB::fetch_assoc();
 
         if (!is_array($res)) return false;
 
@@ -130,8 +130,8 @@ final class AuthModel
     {
         $DB = TABLE_OF_REG_CODES;
         $sql = "SELECT * FROM  $DB  WHERE email='" . $email . "' and expire_at > '" . $current . "'";
-        dba::query($sql);
-        $res = dba::fetch_assoc();
+        DB::query($sql);
+        $res = DB::fetch_assoc();
 
         return $res['code'];
     }
@@ -140,8 +140,8 @@ final class AuthModel
     {
         $DB = TABLE_OF_USERS;
         $sql = "SELECT * FROM  $DB  WHERE email='" . $email . "' and password = '" . $password . "'";
-        dba::query($sql);
-        $res = dba::fetch_assoc();
+        DB::query($sql);
+        $res = DB::fetch_assoc();
 
         return $res;
     }
@@ -155,9 +155,9 @@ final class AuthModel
             left join $sesions s on s.user_id = u.id
             WHERE s.session = '$user_session_id'";
 
-        dba::query($sql);
+        DB::query($sql);
 
-        return dba::fetch_assoc();
+        return DB::fetch_assoc();
     }
 
     public static function is_session_valid($session)
@@ -166,8 +166,8 @@ final class AuthModel
         $DB = TABLE_OF_SESSIONS;
 
         $sql = "SELECT * FROM  $DB WHERE `session`='$session' and `expire_at` > $now";
-        dba::query($sql);
-        $session = dba::fetch_assoc();
+        DB::query($sql);
+        $session = DB::fetch_assoc();
 
         if ($session) {
             self::try_regenerate_session($session);
@@ -189,7 +189,7 @@ final class AuthModel
 
             $sql = "UPDATE $session_table SET `expire_at` = '$new_expire_date'
                 WHERE `id` = '$id'";
-            dba::query($sql);
+            DB::query($sql);
         }
     }
 
@@ -200,6 +200,6 @@ final class AuthModel
         $current_timstamp = date_timestamp_get($date);
 
         $sql = "DELETE FROM $session_table WHERE `expire_at` < $current_timstamp";
-        dba::query($sql);
+        DB::query($sql);
     }
 }

@@ -2,8 +2,7 @@
 
 namespace model;
 
-use helpers\Logger;
-use lib\dba as dba;
+use lib\DB as DB;
 
 final class CategoryModel
 {
@@ -15,7 +14,7 @@ final class CategoryModel
         $where_by_id = $id ? " and `id`=$id" : "";
         $sql = "SELECT * FROM  " . self::$table  . " where `user_id` = $user_id" .  $where_by_id;
 
-        return $id ? dba::fetch_assoc($sql) : dba::fetch_assoc_all($sql);
+        return $id ? DB::fetch_assoc($sql) : DB::fetch_assoc_all($sql);
     }
 
     public static function create($user_id, $name)
@@ -27,7 +26,7 @@ final class CategoryModel
                     ( `id`, `user_id`, `name`)
                 VALUES
                     ($id,  $user_id, '$name')";
-        dba::query($sql);
+        DB::query($sql);
 
         return self::get($user_id, $id);
     }
@@ -38,7 +37,7 @@ final class CategoryModel
         $is_hidden = intval($is_hidden);
         $sql = "UPDATE " . self::$table . " SET `name` = '$name', `is_hidden` = '$is_hidden' WHERE `user_id` = $user_id and `id` = $id;";
 
-        dba::query($sql);
+        DB::query($sql);
 
         return self::get($user_id, $id);
     }
@@ -48,13 +47,13 @@ final class CategoryModel
     {
         $sql = "DELETE FROM " . self::$table . " WHERE `user_id` = $user_id and `id` = $id";
 
-        return dba::query($sql);
+        return DB::query($sql);
     }
 
     private static function get_last_category_id($user_id)
     {
         $sql = "SELECT `id` FROM " . self::$table . " WHERE `user_id` = $user_id ORDER BY `id` DESC;";
-        $last_operation = dba::fetch_assoc($sql)['id'];
+        $last_operation = DB::fetch_assoc($sql)['id'];
 
         return $last_operation ? $last_operation : 0;
     }
@@ -62,7 +61,7 @@ final class CategoryModel
     public static function delete_all($user_id)
     {
         $sql = "DELETE FROM " . self::$table . " WHERE `user_id` = '$user_id'";
-        dba::query($sql);
+        DB::query($sql);
 
         return true;
     }

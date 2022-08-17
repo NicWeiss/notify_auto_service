@@ -8,10 +8,10 @@
 namespace control;
 
 use generic\BaseController;
-use lib\request;
+use lib\Request;
 use model\AcceptorModel;
 
-class acceptor extends BaseController
+class Acceptor extends BaseController
 {
     public static function post()
     {
@@ -21,8 +21,8 @@ class acceptor extends BaseController
 
     public static function get()
     {
-        $page = request::get('page') ? request::get('page') : 0;
-        $per_page = request::get('per_page') ? request::get('per_page') : 25;
+        $page = Request::get('page') ? Request::get('page') : 0;
+        $per_page = Request::get('per_page') ? Request::get('per_page') : 25;
 
         $acceptor = AcceptorModel::get_acceptors(self::$user, $page, $per_page);
         self::set_total_pages(round(AcceptorModel::get_total(self::$user) / $per_page) + 1);

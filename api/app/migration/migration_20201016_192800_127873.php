@@ -5,8 +5,8 @@
 
 namespace migration;
 
-use generic\migration;
-use lib\dba;
+use generic\Migration;
+use lib\DB;
 
 
 final class migration_20201016_192800_127873 extends migration
@@ -24,7 +24,7 @@ final class migration_20201016_192800_127873 extends migration
                   `status` BOOLEAN,
                   PRIMARY KEY (`id`));
                 ";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;
@@ -33,7 +33,7 @@ final class migration_20201016_192800_127873 extends migration
     protected function down()
     {
         $query = "DROP TABLE `acceptor`;";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;

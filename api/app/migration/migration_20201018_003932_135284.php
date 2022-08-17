@@ -5,8 +5,8 @@
 
 namespace migration;
 
-use generic\migration;
-use lib\dba;
+use generic\Migration;
+use lib\DB;
 
 
 final class migration_20201018_003932_135284 extends migration
@@ -17,7 +17,7 @@ final class migration_20201018_003932_135284 extends migration
     protected function up()
     {
         $query = "ALTER TABLE `acceptor` ADD COLUMN `user_id` INT NULL AFTER `status`;";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;
@@ -26,7 +26,7 @@ final class migration_20201018_003932_135284 extends migration
     protected function down()
     {
         $query = "ALTER TABLE `acceptor` DROP COLUMN `user_id`;";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;

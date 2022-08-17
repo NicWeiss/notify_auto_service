@@ -2,9 +2,8 @@
 
 namespace lib;
 
-use lib\Redis;
 
-final class config
+final class Config
 {
     public static $db_host = null;
     public static $db_name = null;

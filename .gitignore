@@ -3,8 +3,6 @@
 # compiled output
 /frontend/dist/
 /frontend/tmp/
-/api/tmp/log/
-/api/tmp/lock/
 
 # dependencies
 /frontend/bower_components/

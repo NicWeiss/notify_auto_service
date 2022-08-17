@@ -5,8 +5,8 @@
 
 namespace migration;
 
-use generic\migration;
-use lib\dba;
+use generic\Migration;
+use lib\DB;
 
 
 final class migration_20210131_155610_380825 extends migration
@@ -22,7 +22,7 @@ final class migration_20210131_155610_380825 extends migration
             `code` VARCHAR(45) NULL,
             `expire_at` DOUBLE NULL,
             PRIMARY KEY (`id`));";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;
@@ -31,7 +31,7 @@ final class migration_20210131_155610_380825 extends migration
     protected function down()
     {
         $query = "DROP TABLE `restore_codes` ;";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         return true;

@@ -10,7 +10,7 @@ namespace control;
 use generic\BaseController;
 use model\SessionModel;
 
-class session extends BaseController
+class Session extends BaseController
 {
     public static function get()
     {

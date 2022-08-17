@@ -7,7 +7,7 @@
 
 namespace model;
 
-use lib\dba as dba;
+use lib\DB;
 
 class MigrationModel
 {
@@ -16,7 +16,7 @@ class MigrationModel
     {
         $query = "CREATE TABLE `migration` (`id` VARCHAR(45) NULL,
             `comment` VARCHAR(45) NULL, `apply_date` DATETIME);";
-        return dba::query($query);
+        return DB::query($query);
     }
 
     /**
@@ -27,11 +27,11 @@ class MigrationModel
         $tb = MIGRATION;
 
         $query = "SELECT id FROM {$tb}";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         $result = [];
-        foreach (dba::fetch_assoc_all() as $row) {
+        foreach (DB::fetch_assoc_all() as $row) {
             $result[] = $row['id'];
         }
         return $result;
@@ -42,11 +42,11 @@ class MigrationModel
         $tb = MIGRATION;
         $count = (int)$count;
         $query = "SELECT id FROM $tb ORDER BY apply_date DESC LIMIT {$count}";
-        if (!dba::query($query))
+        if (!DB::query($query))
             return false;
 
         $result = [];
-        foreach (dba::fetch_assoc_all() as $row) {
+        foreach (DB::fetch_assoc_all() as $row) {
             $result[] = $row['id'];
         }
 
@@ -61,7 +61,7 @@ class MigrationModel
         $DB = MIGRATION;
         $sql = "INSERT INTO  $DB ( `id`, `comment`, `apply_date`)
                 VALUES ('$migration_id',  '$comment', NOW() )";
-        dba::query($sql);
+        DB::query($sql);
     }
 
     /*
@@ -72,6 +72,6 @@ class MigrationModel
         $tb = MIGRATION;
 
         $sql = "DELETE FROM {$tb} WHERE id = '" . $migration_id . '"';
-        return dba::query($sql);
+        return DB::query($sql);
     }
 }

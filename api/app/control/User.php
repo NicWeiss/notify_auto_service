@@ -10,7 +10,7 @@ use model\CategoryModel;
 use model\SystemModel;
 use model\SessionModel;
 
-class user extends BaseController
+class User extends BaseController
 {
     public static function post()
     {

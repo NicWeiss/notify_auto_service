@@ -2,7 +2,7 @@
 
 namespace model;
 
-use lib\dba as dba;
+use lib\DB;
 use model\NotifyModel;
 
 final class WorkerModel
@@ -14,7 +14,7 @@ final class WorkerModel
 
         $sql = "SELECT * FROM $notify  WHERE status= '1' and `periodic` = 'once'
             and `date` = '$date' and `time` = '$time';";
-        $notify_list = dba::fetch_assoc_all($sql);
+        $notify_list = DB::fetch_assoc_all($sql);
 
         foreach ($notify_list as $key => $value) {
             $notify_list[$key]['acceptorsList'] = NotifyModel::get_acceptors_by_notify_id($value['id'], '1');
@@ -29,7 +29,7 @@ final class WorkerModel
 
         $sql = "SELECT * FROM $notify  WHERE status= '1' and `periodic` = '$type'
             and `time` = '$time';";
-        $notify_list = dba::fetch_assoc_all($sql);
+        $notify_list = DB::fetch_assoc_all($sql);
 
         foreach ($notify_list as $key => $value) {
             $notify_list[$key]['acceptorsList'] = NotifyModel::get_acceptors_by_notify_id($value['id'], '1');
@@ -44,7 +44,7 @@ final class WorkerModel
 
         $sql = "SELECT * FROM $notify  WHERE status= '1' and `periodic` = 'day_of_week'
             and `time` = '$time' and `day_of_week` = '$day_of_week';";
-        $notify_list = dba::fetch_assoc_all($sql);
+        $notify_list = DB::fetch_assoc_all($sql);
 
         foreach ($notify_list as $key => $value) {
             $notify_list[$key]['acceptorsList'] = NotifyModel::get_acceptors_by_notify_id($value['id'], '1');
@@ -60,7 +60,7 @@ final class WorkerModel
 
         $sql = "SELECT * FROM $notify  WHERE status= '1' and `periodic` = 'every_month'
             and `time` = '$time' and `date` like '%$date';";
-        $notify_list = dba::fetch_assoc_all($sql);
+        $notify_list = DB::fetch_assoc_all($sql);
 
         foreach ($notify_list as $key => $value) {
             $notify_list[$key]['acceptorsList'] = NotifyModel::get_acceptors_by_notify_id($value['id'], '1');
@@ -76,7 +76,7 @@ final class WorkerModel
 
         $sql = "SELECT * FROM $notify  WHERE status= '1' and `periodic` = 'every_year'
             and `time` = '$time' and `date` like '%$date';";
-        $notify_list = dba::fetch_assoc_all($sql);
+        $notify_list = DB::fetch_assoc_all($sql);
 
         foreach ($notify_list as $key => $value) {
             $notify_list[$key]['acceptorsList'] = NotifyModel::get_acceptors_by_notify_id($value['id'], '1');

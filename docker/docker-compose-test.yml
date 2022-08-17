@@ -19,6 +19,14 @@ services:
     logging:
       driver: none
 
+  test_redis:
+    image: redis:6.2-alpine
+    restart: always
+    command: redis-server --save 20 1 --loglevel warning --requirepass redispass#123
+    volumes:
+      - ../data/redis:/data
+    container_name: test_notifier_redis
+
   test_backend:
     &base-app
     build:
