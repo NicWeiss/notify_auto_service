@@ -13,8 +13,8 @@ services:
       MYSQL_ROOT_HOST: '%' # needs to be enclosed with quotes
     ports:
       - "8101:3306"
-    volumes:
-      - ../data/mysql_test:/var/lib/mysql
+    # volumes:
+    #   - ../data/mysql_test:/var/lib/mysql
     container_name: test_notifier_mysql
     logging:
       driver: none
