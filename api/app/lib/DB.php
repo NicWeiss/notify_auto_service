@@ -131,7 +131,5 @@ final class DB
                 die;
             }
         }
-
-        self::$link->set_charset("utf8");
     }
 }
