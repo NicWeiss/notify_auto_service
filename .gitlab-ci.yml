@@ -14,7 +14,7 @@ stages:
 test:
   stage: test
   script:
-    - make test
+    - make test || exit 1
   # when: manual
 
 publish:
