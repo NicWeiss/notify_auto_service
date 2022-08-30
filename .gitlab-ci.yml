@@ -15,6 +15,7 @@ test:
   stage: test
   script:
     - make test
+    - echo $?
 
 publish:
   stage: publish
