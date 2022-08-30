@@ -18,7 +18,7 @@ class Processor
 
         if (gettype($db_migrations) != 'array') {
             print("Таблица миграций не инициализирована! \n");
-            exit(127);
+            exit(1);
         }
 
         $result = [];
