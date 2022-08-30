@@ -21,7 +21,8 @@ build:  ## Сборка проекта
 test: ## Запуск тестирования
 	# @docker-compose -f docker/docker-compose-test.yml --project-name="test_" build
 	@docker-compose -f docker/docker-compose-test.yml --project-name="test_" up -d test_mysql test_backend
-	@docker-compose -f docker/docker-compose-test.yml --project-name="test_" up test_runner || echo "FAILURE"
+	@docker-compose -f docker/docker-compose-test.yml --project-name="test_" up test_runner
+	@exit $(echo $?)
 
 publish:  ## Сборка проекта
 	@docker build --no-cache -f ./docker/backend/Dockerfile -t harbor.nic-weiss.tech/notifier/backend:$(VERSION) .
