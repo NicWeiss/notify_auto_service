@@ -16,11 +16,10 @@ class Processor
         $migrations = scandir('app/migration/');
         $db_migrations = MigrationModel::get_list();
 
-        // if (gettype($db_migrations) != 'array') {
-        print("Таблица миграций не инициализирована! \n");
-        // exit(1);
-        throw 'DB ERROR';
-        // }
+        if (gettype($db_migrations) != 'array') {
+            print("Таблица миграций не инициализирована! \n");
+            throw 'DB ERROR';
+        }
 
         $result = [];
 
