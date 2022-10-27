@@ -1,8 +1,11 @@
 <?php
 
+require_once("app/std.php");
 std_env_init();
 
+use lib\Config;
 use lib\migration\Controller as MigrationController;
+$GLOBALS['config'] = new Config();
 
 function print_help()
 {
