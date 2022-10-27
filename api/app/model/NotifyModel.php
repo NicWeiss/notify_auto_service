@@ -145,10 +145,11 @@ final class NotifyModel
     {
         $table = TABLE_OF_NOTIFY;
         $notify_acceptors = TABLE_OF_NOTIFY_ACCEPTORS;
+        $user_id = $user['id'];
 
-        $sql = "DELETE FROM $table WHERE `id`= '$entity_id' and `user_id` = '$user[id]'";
+        $sql = "DELETE FROM $table WHERE `id`= '$entity_id' and `user_id` = '$user_id'";
         DB::query($sql);
-        $sql = "DELETE FROM $notify_acceptors WHERE `id`= '$entity_id' and `user_id` = '$user[id]'";
+        $sql = "DELETE FROM $notify_acceptors WHERE `notify_id`= '$entity_id'";
         DB::query($sql);
 
         return true;
