@@ -2,7 +2,6 @@
 
 dispatcher::add('api/systems', array(
     'control_class' => 'control\System',
-    'control_function' => 'get_all',
     'ember_model' => 'system'
 ));
 
