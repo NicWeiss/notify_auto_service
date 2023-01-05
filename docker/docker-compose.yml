@@ -24,8 +24,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: mysql
       MYSQL_DATABASE: notifier
-    ports:
-      - "8091:3306"
     volumes:
       - ../data/mysql:/var/lib/mysql
     container_name: dev_notifier_mysql

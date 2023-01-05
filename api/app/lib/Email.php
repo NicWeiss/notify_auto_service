@@ -14,7 +14,7 @@ final class Email
         $config = $GLOBALS['config'];
 
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
+        $mail->Host = 'smtp.mail.ru';
         $mail->SMTPAuth = true;
         $mail->Username = $config::$email_sender;
         $mail->Password = $config::$email_password;
