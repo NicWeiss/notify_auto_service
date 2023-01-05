@@ -27,10 +27,8 @@ test: ## Запуск тестирования
 publish:  ## Сборка проекта
 	@docker build --no-cache -f ./docker/backend/Dockerfile -t harbor.nic-weiss.tech/notifier/backend:$(VERSION) .
 	@docker build --no-cache -f ./docker/frontend/Dockerfile --target prod -t harbor.nic-weiss.tech/notifier/frontend:$(VERSION) .
-	@docker build --no-cache -f ./docker/ingress/Dockerfile --target prod -t harbor.nic-weiss.tech/notifier/ingress:latest .
 	@docker push harbor.nic-weiss.tech/notifier/frontend:$(VERSION)
 	@docker push harbor.nic-weiss.tech/notifier/backend:$(VERSION)
-	@docker push harbor.nic-weiss.tech/notifier/ingress:latest
 
 start: ## Запуск проекта для разработки
 	@docker-compose -f docker/docker-compose.yml up
