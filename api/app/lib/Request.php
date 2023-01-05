@@ -56,7 +56,7 @@ final class Request
 
         $url = self::split_given_url($url);
         self::$url = $url;
-        self::$host = $_SERVER['REMOTE_ADDR'];
+        self::$host = $_SERVER['HTTP_X_REAL_IP'];
         self::$referrer = isset($_SERVER['HTTP_REFERER']) ? self::split_given_url($_SERVER['HTTP_REFERER']) : [];
         self::$path = implode('/', $url);
         self::$req = array_merge($_GET, $_POST);
