@@ -107,13 +107,13 @@ class Auth extends BaseController
             throw self::has_no_permission();
         }
 
-        AuthModel::create_code(['email' => $email, 'code' => $code, 'expire_at' => (date_timestamp_get($date) + 300)]);
+        AuthModel::create_code(['email' => $email, 'code' => $code, 'expire_at' => (date_timestamp_get($date) + 150)]);
 
         $is_send = Email::send([
             'to' => $email,
             'title' => 'Код подтверждения',
             'text' => 'Ваш код подтверждения: ' . $code
-                . '. Наберите его в поле ввода длязавершения регистрации'
+                . '. Наберите его в поле ввода для завершения регистрации'
         ]);
         if (!$is_send) {
             throw self::critical_error();
