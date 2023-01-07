@@ -11,8 +11,9 @@ final class AcceptorModel
     public static function create_acceptor($acceptor, $user)
     {
         $table = TABLE_OF_ACCEPTORS;
+        $is_system = $acceptor['is_system'] ? $acceptor['is_system'] : 0;
         $sql = "INSERT INTO  $table ( `user_id`, `name`, `system_id`, `account`, `status`, `is_system`)
-                VALUES ('$user[id]',  '$acceptor[name]', '$acceptor[system_id]', '$acceptor[account]', true, $acceptor[is_system])";
+                VALUES ('$user[id]',  '$acceptor[name]', '$acceptor[system_id]', '$acceptor[account]', true, $is_system)";
         DB::query($sql);
 
         $sql = "SELECT * FROM $table  ORDER BY `id` DESC Limit 1;";
