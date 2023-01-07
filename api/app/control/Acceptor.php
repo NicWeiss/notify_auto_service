@@ -39,7 +39,7 @@ class Acceptor extends BaseController
     public static function update($entity_id)
     {
         $acceptor = AcceptorModel::get_acceptor($entity_id, self::$user);
-        if ($acceptor && $acceptor['is_system'] == true) {
+        if ($acceptor && $acceptor['is_system'] == "1") {
             $acceptor['status'] = self::$request_model['status'];
             $data = $acceptor;
         } else {

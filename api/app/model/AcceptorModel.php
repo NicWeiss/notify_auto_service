@@ -102,12 +102,7 @@ final class AcceptorModel
                 ";
         DB::query($sql);
 
-        $sql = "SELECT * FROM $table WHERE `id`= '$entity_id' and `user_id` = '$user[id]'";
-        DB::query($sql);
-        $acceptor = DB::fetch_assoc();
-
-
-        return $acceptor;
+        return self::get_acceptor($entity_id, $user);
     }
 
     public static function delete_all($user_id)
