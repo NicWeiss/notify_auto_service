@@ -68,5 +68,7 @@ class Acceptor extends BaseController
         $fcm_service = new FcmService(self::$user['id']);
 
         $fcm_service->add_fcm_token($new_fcm_token);
+
+        return 'ok';
     }
 }
