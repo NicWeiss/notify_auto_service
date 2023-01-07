@@ -20,6 +20,8 @@ final class Config
 
     public static $telegram_bot_token = null;
 
+    public static $fcm_server_key = null;
+
     function __construct()
     {
         self::$db_host = getenv('DB_HOST');
@@ -32,5 +34,6 @@ final class Config
         self::$telegram_bot_token = getenv('TELEGRAM_BOT_TOKEN');
         self::$redis_url = getenv('REDIS_URL');
         self::$redis_pass = getenv('REDIS_PASS');
+        self::$fcm_server_key = getenv('FCM_SERVER_KEY');
     }
 }

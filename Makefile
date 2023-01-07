@@ -48,8 +48,8 @@ down_production: ## Останов продакшена
 	docker-compose -f docker/docker-compose-production.yml --project-name="prod_" down
 
 migration:  ## Создание новой миграции
-	@docker-compose -f docker/docker-compose.yml run --user www-data backend sh -c "cd /var/www && php migration.php $(filter-out $@,$(MAKECMDGOALS))"
-	@sudo chown $$USER:$$USER -R $(DIR)/api/app/migration/
+	@docker-compose -f docker/docker-compose.yml run backend sh -c "cd /var/www && php migration.php $(filter-out $@,$(MAKECMDGOALS))"
+	@[ "$(filter-out $@,$(MAKECMDGOALS))" = 'create' ] && echo Change rights && sudo chown $$USER:$$USER -R $(DIR)/api/app/migration/ || exit 0
 
 stat:			# params for migration: Показать доступные миграции без применения.
 	exit

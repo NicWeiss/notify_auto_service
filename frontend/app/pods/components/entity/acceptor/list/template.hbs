@@ -13,7 +13,7 @@
             <th data-th="# ">{{item.id}}</th>
             <td data-th="Тип: " style="width: 10%;"><Utils::FancyType @type={{item.type}}/></td>
             <td data-th="Название: " style="width: 50%;">{{item.name}}</td>
-            <td data-th="Аккаунт: " style="width: 50%;">{{item.account}}</td>
+            <td data-th="Аккаунт: " style="width: 50%;" class="cuted-text">{{item.account}}</td>
             <td data-th="">
               <div class="buttons-bar justify-content-around">
                 {{#if (eq item.status "1")}}
@@ -21,9 +21,19 @@
                 {{else}}
                   <div class="btn btn-outline-secondary btn-icon without-border" {{action 'onChangeStatus' item}}><FaIcon @icon="bell-slash"/></div>
                 {{/if}}
-              <div class="btn btn-outline-primary btn-icon without-border" {{action this.onEdit item bubbles=false}}><FaIcon @icon="pencil-alt"/></div>
-              <div class="btn btn-outline-danger btn-icon without-border" {{action 'onDelete' item}}><FaIcon @icon="trash"/></div>
-            </div>
+
+                {{#if item.is_system}}
+                  <div class="btn btn-outline-primary:disabled btn-icon without-border"><FaIcon @icon="pencil-alt"/></div>
+                {{else}}
+                  <div class="btn btn-outline-primary btn-icon without-border" {{action this.onEdit item bubbles=false}}><FaIcon @icon="pencil-alt"/></div>
+                {{/if}}
+
+                {{#if item.is_system}}
+                  <div class="btn btn-outline-danger:disabled btn-icon without-border"><FaIcon @icon="trash"/></div>
+                {{else}}
+                  <div class="btn btn-outline-danger btn-icon without-border" {{action 'onDelete' item}}><FaIcon @icon="trash"/></div>
+                {{/if}}
+              </div>
             </td>
           </tr>
         {{/unless}}

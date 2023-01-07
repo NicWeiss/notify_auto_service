@@ -7,7 +7,7 @@ class Template
 
     public static function get_empty_migration($id)
     {
-        $template = <<<CLASS
+        return <<<CLASS
 <?php
 /*
 *   migration $id

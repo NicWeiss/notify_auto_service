@@ -2,25 +2,25 @@
 
 namespace generic;
 
-use Exception;
-use model\AuthModel as auth;
+use generic\BaseClass;
 use lib\Request;
 
-class BaseController
+class BaseController extends BaseClass
 {
 
     protected static $model_name = null;
     protected static $answer = [];
-    protected static $user = null;
     protected static $total = 0;
     protected static $request_model;
     protected static $request_json;
+    protected static $query_params;
 
 
     function __construct()
     {
         self::$request_json = self::getDataFromRequestJson();
         self::$request_model = self::getModelDataFromRequest();
+        self::$query_params = self::getQueryParams();
     }
 
     public static function set_total_pages($total)
@@ -31,31 +31,6 @@ class BaseController
     public static function get_total_pages()
     {
         return self::$total;
-    }
-
-    public static function set_session($user_session_id)
-    {
-        self::$user = auth::get_user_by_session($user_session_id);
-    }
-
-    protected static function has_no_permission()
-    {
-        return new Exception(self::error('You do not have access'), 403);
-    }
-
-    protected static function not_found()
-    {
-        return new Exception(self::error('Not found'), 404);
-    }
-
-    protected static function critical_error()
-    {
-        return new Exception(self::error('Critical error'), 500);
-    }
-
-    protected static function unprocessable_entity()
-    {
-        return new Exception(self::error('Unprocessable entity'), 422);
     }
 
     private static function getDataFromRequestJson()
@@ -78,6 +53,11 @@ class BaseController
         }
 
         return Request::get_from_client_Json(self::$model_name);
+    }
+
+    private static function getQueryParams()
+    {
+        return Request::$query_params;
     }
 
     public static function post()
@@ -103,10 +83,5 @@ class BaseController
     public static function delete($entity_id)
     {
         throw self::not_found();
-    }
-
-    private static function error($message)
-    {
-        return json_encode(['errors' => ['error' => $message]]);
     }
 }

@@ -6,4 +6,5 @@ export default class AcceptorModel extends Model {
   @attr('string') account
   @attr('string') status
   @attr('string') type
+  @attr('boolean') is_system
 }

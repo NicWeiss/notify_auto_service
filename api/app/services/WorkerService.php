@@ -7,14 +7,16 @@
 
 namespace services;
 
-use generic\BaseController;
 use lib\Email;
 use lib\Telegram;
+use lib\FirebasePush;
 use helpers\Logger;
 use model\WorkerModel as model;
 use model\WatcherModel;
+use services\FcmService;
 
-class WorkerService extends BaseController
+
+class WorkerService
 {
     private static $workday_list = ['1', '2', '3', '4', '5'];
     private static $weekend_list = ['6', '7'];
@@ -141,6 +143,7 @@ class WorkerService extends BaseController
             $title = $item['notify']['name'];
             $text = $item['notify']['text'] ? $item['notify']['text'] : ' ';
             $type = $item['acceptor']['type'];
+            $user_id = $item['notify']['user_id'];
 
             if (!$type) {
                 Logger::error(array("message" => "Send failed", "error" => "acceptor does not have type"));
@@ -159,6 +162,26 @@ class WorkerService extends BaseController
                     'title' => $title,
                     'text' => $text
                 ]);
+            }
+            if ($type == 'push') {
+                $fcm_service = new FcmService($user_id);
+                $fcm_tokens = [];
+
+                if ($account) {
+                    $fcm_tokens = explode(';', $account);
+                }
+
+                foreach ($fcm_tokens as &$token) {
+                    $result = FirebasePush::send([
+                        'to' => $token,
+                        'title' => $title,
+                        'text' => $text
+                    ]);
+
+                    if (!$result) {
+                        $fcm_service->remove_fcm_token($token);
+                    }
+                }
             }
 
             $end = microtime(true);

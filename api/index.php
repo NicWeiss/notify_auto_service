@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
 }
 
+use generic\BaseClass;
 use lib\Config;
 use lib\Request;
 use lib\RestAdapter;
@@ -60,7 +61,7 @@ final class myapp
             }
         }
 
-        $class::set_session($user_session_id);
+        BaseClass::set_session($user_session_id);
 
         $result = null;
 

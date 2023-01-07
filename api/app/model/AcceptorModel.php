@@ -11,8 +11,8 @@ final class AcceptorModel
     public static function create_acceptor($acceptor, $user)
     {
         $table = TABLE_OF_ACCEPTORS;
-        $sql = "INSERT INTO  $table ( `user_id`, `name`, `system_id`, `account`, `status`)
-                VALUES ('$user[id]',  '$acceptor[name]', '$acceptor[system_id]', '$acceptor[account]', true )";
+        $sql = "INSERT INTO  $table ( `user_id`, `name`, `system_id`, `account`, `status`, `is_system`)
+                VALUES ('$user[id]',  '$acceptor[name]', '$acceptor[system_id]', '$acceptor[account]', true, $acceptor[is_system])";
         DB::query($sql);
 
         $sql = "SELECT * FROM $table  ORDER BY `id` DESC Limit 1;";
@@ -35,7 +35,7 @@ final class AcceptorModel
 
         $status = $status ? " and a.status= '$status'" : null;
 
-        $sql = "SELECT a.id, a.name, a.system_id, a.account, a.status, s.type
+        $sql = "SELECT a.id, a.name, a.system_id, a.account, a.status, s.type, a.is_system
                     FROM $acceptor a
                     left join $system s on s.id = a.system_id
                     WHERE a.user_id= '$user[id]' $status ORDER BY id DESC " . $limit . ";";
@@ -71,10 +71,21 @@ final class AcceptorModel
         $acceptor = TABLE_OF_ACCEPTORS;
         $system = TABLE_OF_SYSTEMS;
 
-        $sql = "SELECT a.id, a.name, a.system_id, a.account, a.status, s.type
+        $sql = "SELECT a.id, a.name, a.system_id, a.account, a.status, s.type, a.is_system
                     FROM $acceptor a
                     left join $system s on s.id = a.system_id
                     WHERE a.id = $acceptor_id and a.user_id= '$user[id]';";
+        DB::query($sql);
+        $acceptor = DB::fetch_assoc();
+
+        return $acceptor;
+    }
+
+    public static function get_one_acceptor_by_system($system_id, $user)
+    {
+        $acceptor = TABLE_OF_ACCEPTORS;
+
+        $sql = "SELECT * FROM $acceptor WHERE `system_id` = $system_id and `user_id`= '$user[id]';";
         DB::query($sql);
         $acceptor = DB::fetch_assoc();
 

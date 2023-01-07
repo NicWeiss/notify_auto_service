@@ -9,7 +9,7 @@ final class SystemModel
     public static function get_all()
     {
         $table = TABLE_OF_SYSTEMS;
-        $sql = "SELECT * FROM  $table";
+        $sql = "SELECT * FROM  $table where `is_system` = false";
 
         return DB::fetch_assoc_all($sql);
     }
@@ -31,5 +31,15 @@ final class SystemModel
         DB::query($sql);
 
         return true;
+    }
+
+    public static function get_system_by_type($type)
+    {
+        $system = TABLE_OF_SYSTEMS;
+
+        $sql = "SELECT * FROM $system  WHERE `type` = '$type';";
+        DB::query($sql);
+
+        return DB::fetch_assoc();
     }
 }

@@ -10,6 +10,7 @@ namespace control;
 use generic\BaseController;
 use lib\Request;
 use model\AcceptorModel;
+use services\FcmService;
 
 class Acceptor extends BaseController
 {
@@ -31,19 +32,41 @@ class Acceptor extends BaseController
 
     public static function get_by_id($entity_id)
     {
-        $notify = AcceptorModel::get_acceptor($entity_id, self::$user);
-        return $notify;
+        $acceptor = AcceptorModel::get_acceptor($entity_id, self::$user);
+        return $acceptor;
     }
 
     public static function update($entity_id)
     {
-        $notify = AcceptorModel::update_acceptor($entity_id, self::$request_model, self::$user);
-        return $notify;
+        $acceptor = AcceptorModel::get_acceptor($entity_id, self::$user);
+        if ($acceptor && $acceptor['is_system'] == true) {
+            $acceptor['status'] = self::$request_model['status'];
+            $data = $acceptor;
+        } else {
+            $data = self::$request_model;
+        }
+
+        $acceptor = AcceptorModel::update_acceptor($entity_id, $data, self::$user);
+
+        return $acceptor;
     }
 
     public static function delete($entity_id)
     {
-        $notify = AcceptorModel::delete_acceptor($entity_id, self::$user);
-        return $notify;
+        $acceptor = AcceptorModel::get_acceptor($entity_id, self::$user);
+        if ($acceptor && $acceptor['is_system'] == true) {
+            throw self::has_no_permission();
+        }
+
+        $acceptor = AcceptorModel::delete_acceptor($entity_id, self::$user);
+        return $acceptor;
+    }
+
+    public static function update_push_acceptor()
+    {
+        $new_fcm_token = self::$request_json['fcm_token'];
+        $fcm_service = new FcmService(self::$user['id']);
+
+        $fcm_service->add_fcm_token($new_fcm_token);
     }
 }
