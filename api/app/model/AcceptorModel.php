@@ -37,7 +37,7 @@ final class AcceptorModel
         $sql = "SELECT a.id, a.name, a.system_id, a.account, a.status, s.type, a.is_system
                     FROM $acceptor a
                     left join $system s on s.id = a.system_id
-                    WHERE a.user_id= '$user[id]' $status ORDER BY id DESC " . $limit . ";";
+                    WHERE a.user_id= '$user[id]' $status ORDER BY id ASC " . $limit . ";";
 
         return DB::fetch_assoc_all($sql);
     }
