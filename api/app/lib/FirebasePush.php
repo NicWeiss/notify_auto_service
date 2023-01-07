@@ -18,7 +18,12 @@ final class FirebasePush
         $curl = curl_init($url);
 
         # Setup Request to send json via POST.
-        $payload = json_encode(array("to" => $fcm_token, "notification" => ["title" => $title, "body" => $text]));
+        $payload = json_encode(array("to" => $fcm_token, "notification" => [
+            "title" => $title,
+            "body" => $text,
+            "icon" => "ic_launcher",
+            "color" => "#de6c20"
+        ]));
         curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
