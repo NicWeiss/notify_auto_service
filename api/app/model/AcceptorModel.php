@@ -16,9 +16,7 @@ final class AcceptorModel
                 VALUES ('$user[id]',  '$acceptor[name]', '$acceptor[system_id]', '$acceptor[account]', true, $is_system)";
         DB::query($sql);
 
-        $sql = "SELECT * FROM $table  ORDER BY `id` DESC Limit 1;";
-
-        return DB::fetch_assoc($sql);
+        return self::get_acceptor(null, $user);
     }
 
     public static function get_acceptors($user, $page, $per_page)
@@ -72,10 +70,12 @@ final class AcceptorModel
         $acceptor = TABLE_OF_ACCEPTORS;
         $system = TABLE_OF_SYSTEMS;
 
+        $where_constraint = $acceptor_id ? "and a.id = $acceptor_id" : " ORDER BY `id` DESC Limit 1";
+
         $sql = "SELECT a.id, a.name, a.system_id, a.account, a.status, s.type, a.is_system
                     FROM $acceptor a
                     left join $system s on s.id = a.system_id
-                    WHERE a.id = $acceptor_id and a.user_id= '$user[id]';";
+                    WHERE a.user_id= '$user[id]' $where_constraint;";
         DB::query($sql);
         $acceptor = DB::fetch_assoc();
 
