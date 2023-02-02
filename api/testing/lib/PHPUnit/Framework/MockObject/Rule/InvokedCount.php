@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * This file is part of PHPUnit.
  *
@@ -7,10 +9,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace PHPUnit\Framework\MockObject\Rule;
 
 use function sprintf;
-use PHPUnit\Framework\ExpectationFailedException;
+use PHPUnit\Framework\Exception\ExpectationFailedException;
 use PHPUnit\Framework\MockObject\Invocation as BaseInvocation;
 
 /**
@@ -60,7 +63,7 @@ final class InvokedCount extends InvocationOrder
             throw new ExpectationFailedException(
                 sprintf(
                     'Method was expected to be called %d times, ' .
-                    'actually called %d times.',
+                        'actually called %d times.',
                     $this->expectedCount,
                     $count
                 )

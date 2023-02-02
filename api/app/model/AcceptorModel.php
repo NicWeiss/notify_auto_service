@@ -72,7 +72,7 @@ final class AcceptorModel
 
         $where_constraint = $acceptor_id ? "and a.id = $acceptor_id" : " ORDER BY `id` DESC Limit 1";
 
-        $sql = "SELECT a.id, a.name, a.system_id, a.account, a.status, s.type, a.is_system
+        $sql = "SELECT a.id, a.name, a.system_id, a.user_id, a.account, a.status, s.type, a.is_system
                     FROM $acceptor a
                     left join $system s on s.id = a.system_id
                     WHERE a.user_id= '$user[id]' $where_constraint;";

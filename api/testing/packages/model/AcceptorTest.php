@@ -19,9 +19,9 @@ final class AcceptorTest extends TestCase
         $acceptor = AcceptorModel::create_acceptor($acceptor_data, $user);
 
         $this->assertEquals(boolval($acceptor), true);
-        $this->assertEquals($acceptor['system_id'], 1);
-        $this->assertEquals($acceptor['account'], 1);
-        $this->assertEquals($acceptor['name'], 'test_acceptor');
-        $this->assertEquals($acceptor['user_id'], '1');
+        $this->assertEquals(1, $acceptor['system_id']);
+        $this->assertEquals(1, $acceptor['account']);
+        $this->assertEquals('test_acceptor', $acceptor['name']);
+        $this->assertEquals('1', $acceptor['user_id'], 'user_id is incorrect');
     }
 }

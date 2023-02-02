@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace PHPUnit\Framework\Exception;
 
+use PHPUnit\Framework\SelfDescribing as SelfDescribing;
+
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */

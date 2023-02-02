@@ -18,8 +18,10 @@ help:  ## Помощь
 build:  ## Сборка проекта
 	@docker-compose -f docker/docker-compose.yml build
 
-test: ## Запуск тестирования
+build_test:	## Сборка окружения для тестирования
 	@docker-compose -f docker/docker-compose-test.yml --project-name="test_" build
+
+test: ## Запуск тестирования
 	@docker-compose -f docker/docker-compose-test.yml --project-name="test_" up -d test_mysql test_backend
 	@docker-compose -f docker/docker-compose-test.yml --project-name="test_" up --exit-code-from test_runner  test_runner
 	@exit $$?

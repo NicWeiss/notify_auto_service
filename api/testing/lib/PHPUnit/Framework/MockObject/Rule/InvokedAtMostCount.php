@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * This file is part of PHPUnit.
  *
@@ -7,9 +9,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace PHPUnit\Framework\MockObject\Rule;
 
-use PHPUnit\Framework\ExpectationFailedException;
+use PHPUnit\Framework\Exception\ExpectationFailedException;
 use PHPUnit\Framework\MockObject\Invocation as BaseInvocation;
 
 /**
@@ -48,7 +51,7 @@ final class InvokedAtMostCount extends InvocationOrder
         if ($count > $this->allowedInvocations) {
             throw new ExpectationFailedException(
                 'Expected invocation at most ' . $this->allowedInvocations .
-                ' times but it occurred ' . $count . ' time(s).'
+                    ' times but it occurred ' . $count . ' time(s).'
             );
         }
     }

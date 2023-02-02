@@ -16,7 +16,7 @@ final class migration_20230106_213526_570884 extends migration
 
     protected function up()
     {
-        $query = "ALTER TABLE notifier.acceptor MODIFY COLUMN account LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL;";
+        $query = "ALTER TABLE `acceptor` MODIFY COLUMN `account` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL;";
         if (!DB::query($query))
             return false;
 

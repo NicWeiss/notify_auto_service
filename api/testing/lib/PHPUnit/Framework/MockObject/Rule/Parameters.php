@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * This file is part of PHPUnit.
  *
@@ -7,6 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace PHPUnit\Framework\MockObject\Rule;
 
 use function count;
@@ -16,7 +19,7 @@ use Exception;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\IsAnything;
 use PHPUnit\Framework\Constraint\IsEqual;
-use PHPUnit\Framework\ExpectationFailedException;
+use PHPUnit\Framework\Exception\ExpectationFailedException;
 use PHPUnit\Framework\MockObject\Invocation as BaseInvocation;
 
 /**
@@ -121,8 +124,10 @@ final class Parameters implements ParametersRule
             // `->withAnyParameters()`.
             //
             // @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/199
-            if (count($this->parameters) === 1 &&
-                get_class($this->parameters[0]) === IsAnything::class) {
+            if (
+                count($this->parameters) === 1 &&
+                get_class($this->parameters[0]) === IsAnything::class
+            ) {
                 $message .= "\nTo allow 0 or more parameters with any value, omit ->with() or use ->withAnyParameters() instead.";
             }
 
@@ -136,7 +141,7 @@ final class Parameters implements ParametersRule
                 $this->invocation->getParameters()[$i],
                 sprintf(
                     'Parameter %s for invocation %s does not match expected ' .
-                    'value.',
+                        'value.',
                     $i,
                     $this->invocation->toString()
                 )
