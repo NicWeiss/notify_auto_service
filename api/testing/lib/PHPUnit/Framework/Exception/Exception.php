@@ -15,6 +15,7 @@ namespace PHPUnit\Framework\Exception;
 use function array_keys;
 use function get_object_vars;
 use PHPUnit\Util\Filter;
+use PHPUnit\Framework\TestFailure;
 use RuntimeException;
 use Throwable;
 

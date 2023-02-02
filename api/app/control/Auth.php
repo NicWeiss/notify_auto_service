@@ -12,6 +12,7 @@ use helpers\Logger;
 use lib\Email;
 use lib\Request;
 use model\AuthModel;
+use model\UserModel;
 
 class Auth extends BaseController
 {
@@ -59,15 +60,13 @@ class Auth extends BaseController
      */
     public static function login()
     {
-        $location_api_response = null;
-
         $email = self::$request_json['email'];
         $client = json_encode(self::$request_json['client']);
         $location = self::getLocation();
         $is_from_mobile = self::$request_json['is_from_mobile'];
         $password = md5(self::$request_json['password']);
 
-        $user = AuthModel::get_user($email, $password);
+        $user = UserModel::get_by_credentials($email, $password);
 
         if (!$user) {
             throw self::has_no_permission();
@@ -100,7 +99,7 @@ class Auth extends BaseController
         $code = random_int(1000, 9999);
         $date = date_create();
 
-        if (AuthModel::check_user_exists($email)) {
+        if (UserModel::check_user_exists($email)) {
             throw self::unprocessable_entity();
         }
         if (AuthModel::is_reg_code_exist($email, date_timestamp_get($date))) {
@@ -144,7 +143,7 @@ class Auth extends BaseController
             $session = md5(uniqid(rand(), true));
             $password = md5(self::$request_json['password']);
 
-            if (AuthModel::check_user_exists($email)) {
+            if (UserModel::check_user_exists($email)) {
                 throw self::unprocessable_entity();
             }
 
@@ -153,15 +152,15 @@ class Auth extends BaseController
                 'password' => $password,
                 'email' => $email
             ];
-            $user_id = AuthModel::create_user($user);
+            $user = UserModel::create_user($user);
 
-            if (!$user_id) {
+            if (!$user['id']) {
                 throw self::critical_error();
             }
 
 
             $data = [
-                'user_id' => $user_id,
+                'user_id' => $user['id'],
                 'session' => $session,
                 'client' => $client,
                 'location' => $location,
@@ -192,7 +191,7 @@ class Auth extends BaseController
         $restore_hash = md5(strval(random_int(1000, 9999) * random_int(1000, 9999)));
 
 
-        if (!AuthModel::check_user_exists($email)) {
+        if (!UserModel::check_user_exists($email)) {
             throw self::unprocessable_entity();
         }
         if (AuthModel::is_restore_code_exist($email, date_timestamp_get($date))) {
@@ -252,7 +251,7 @@ class Auth extends BaseController
             throw self::unprocessable_entity();
         }
 
-        AuthModel::update_password($email, $password);
+        UserModel::update_password($email, $password);
 
         return true;
     }
@@ -275,7 +274,7 @@ class Auth extends BaseController
             throw self::unprocessable_entity();
         }
 
-        AuthModel::update_password(self::$user['email'], $new_password);
+        UserModel::update_password(self::$user['email'], $new_password);
 
         return true;
     }

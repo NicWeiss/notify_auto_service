@@ -3,7 +3,7 @@
 namespace generic;
 
 use Exception;
-use model\AuthModel as auth;
+use model\UserModel;
 
 class BaseClass
 {
@@ -13,7 +13,7 @@ class BaseClass
 
     public static function set_session($user_session_id)
     {
-        self::$user = auth::get_user_by_session($user_session_id);
+        self::$user = UserModel::get_by_session($user_session_id);
     }
 
     protected static function has_no_permission()

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * This file is part of PHPUnit.
  *
@@ -7,6 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace PHPUnit\Framework;
 
 use const LC_ALL;
@@ -72,6 +75,7 @@ use PHPUnit\Framework\Error\Deprecated;
 use PHPUnit\Framework\Error\Error;
 use PHPUnit\Framework\Error\Notice;
 use PHPUnit\Framework\Error\Warning as WarningError;
+use PHPUnit\Framework\Exception\RiskyTestError;
 use PHPUnit\Framework\MockObject\Generator as MockGenerator;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -600,22 +604,22 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             case Deprecated::class:
                 $this->addWarning('Support for using expectException() with PHPUnit\Framework\Error\Deprecated is deprecated and will be removed in PHPUnit 10. Use expectDeprecation() instead.');
 
-            break;
+                break;
 
             case Error::class:
                 $this->addWarning('Support for using expectException() with PHPUnit\Framework\Error\Error is deprecated and will be removed in PHPUnit 10. Use expectError() instead.');
 
-            break;
+                break;
 
             case Notice::class:
                 $this->addWarning('Support for using expectException() with PHPUnit\Framework\Error\Notice is deprecated and will be removed in PHPUnit 10. Use expectNotice() instead.');
 
-            break;
+                break;
 
             case WarningError::class:
                 $this->addWarning('Support for using expectException() with PHPUnit\Framework\Error\Warning is deprecated and will be removed in PHPUnit 10. Use expectWarning() instead.');
 
-            break;
+                break;
         }
         // @codeCoverageIgnoreEnd
 
@@ -759,10 +763,12 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             $this->setTestResultObject($result);
         }
 
-        if (!$this instanceof ErrorTestCase &&
+        if (
+            !$this instanceof ErrorTestCase &&
             !$this instanceof WarningTestCase &&
             !$this instanceof SkippedTestCase &&
-            !$this->handleDependencies()) {
+            !$this->handleDependencies()
+        ) {
             return $result;
         }
 
@@ -1689,8 +1695,8 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         if ($result === false) {
             throw new Exception(
                 'The locale functionality is not implemented on your platform, ' .
-                'the specified locale does not exist or the category name is ' .
-                'invalid.'
+                    'the specified locale does not exist or the category name is ' .
+                    'invalid.'
             );
         }
     }
@@ -1762,8 +1768,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
 
         $mockedMethodsThatDontExist = array_filter(
             $methods,
-            static function (string $method) use ($reflector)
-            {
+            static function (string $method) use ($reflector) {
                 return !$reflector->hasMethod($method);
             }
         );
@@ -1779,12 +1784,12 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         }
 
         return $this->getMockBuilder($originalClassName)
-                    ->disableOriginalConstructor()
-                    ->disableOriginalClone()
-                    ->disableArgumentCloning()
-                    ->disallowMockingUnknownTypes()
-                    ->setMethods(empty($methods) ? null : $methods)
-                    ->getMock();
+            ->disableOriginalConstructor()
+            ->disableOriginalClone()
+            ->disableArgumentCloning()
+            ->disallowMockingUnknownTypes()
+            ->setMethods(empty($methods) ? null : $methods)
+            ->getMock();
     }
 
     /**
@@ -1797,9 +1802,9 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     protected function createTestProxy(string $originalClassName, array $constructorArguments = []): MockObject
     {
         return $this->getMockBuilder($originalClassName)
-                    ->setConstructorArgs($constructorArguments)
-                    ->enableProxyingToOriginalMethods()
-                    ->getMock();
+            ->setConstructorArgs($constructorArguments)
+            ->enableProxyingToOriginalMethods()
+            ->getMock();
     }
 
     /**
@@ -1875,14 +1880,12 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         }
 
         if (!class_exists($originalClassName)) {
-            eval(
-                $this->getMockObjectGenerator()->generateClassFromWsdl(
-                    $wsdlFile,
-                    $originalClassName,
-                    $methods,
-                    $options
-                )
-            );
+            eval($this->getMockObjectGenerator()->generateClassFromWsdl(
+                $wsdlFile,
+                $originalClassName,
+                $methods,
+                $options
+            ));
         }
 
         $mockObject = $this->getMockObjectGenerator()->getMock(
@@ -2092,9 +2095,11 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             }
 
             if (isset($passed[$dependencyTarget])) {
-                if ($passed[$dependencyTarget]['size'] != \PHPUnit\Util\Test::UNKNOWN &&
+                if (
+                    $passed[$dependencyTarget]['size'] != \PHPUnit\Util\Test::UNKNOWN &&
                     $this->getSize() != \PHPUnit\Util\Test::UNKNOWN &&
-                    $passed[$dependencyTarget]['size'] > $this->getSize()) {
+                    $passed[$dependencyTarget]['size'] > $this->getSize()
+                ) {
                     $this->result->addError(
                         $this,
                         new SkippedTestError(
@@ -2230,8 +2235,10 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
 
     private function snapshotGlobalState(): void
     {
-        if ($this->runTestInSeparateProcess || $this->inIsolation ||
-            (!$this->backupGlobals && !$this->backupStaticAttributes)) {
+        if (
+            $this->runTestInSeparateProcess || $this->inIsolation ||
+            (!$this->backupGlobals && !$this->backupStaticAttributes)
+        ) {
             return;
         }
 
@@ -2517,9 +2524,11 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             }
             // @codeCoverageIgnoreEnd
 
-            if ($this->expectedException === 'PHPUnit\Framework\Exception' ||
+            if (
+                $this->expectedException === 'PHPUnit\Framework\Exception' ||
                 $this->expectedException === '\PHPUnit\Framework\Exception' ||
-                $reflector->isSubclassOf(Exception::class)) {
+                $reflector->isSubclassOf(Exception::class)
+            ) {
                 $result = true;
             }
         }
@@ -2572,10 +2581,10 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     private function createMockObject(string $originalClassName): MockObject
     {
         return $this->getMockBuilder($originalClassName)
-                    ->disableOriginalConstructor()
-                    ->disableOriginalClone()
-                    ->disableArgumentCloning()
-                    ->disallowMockingUnknownTypes()
-                    ->getMock();
+            ->disableOriginalConstructor()
+            ->disableOriginalClone()
+            ->disableArgumentCloning()
+            ->disallowMockingUnknownTypes()
+            ->getMock();
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * This file is part of PHPUnit.
  *
@@ -7,6 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace PHPUnit\Util;
 
 use const DIRECTORY_SEPARATOR;
@@ -45,7 +48,7 @@ use SebastianBergmann\GlobalState\Snapshot;
 use SebastianBergmann\Invoker\Invoker;
 use SebastianBergmann\LinesOfCode\Counter;
 use SebastianBergmann\ObjectEnumerator\Enumerator;
-use SebastianBergmann\RecursionContext\Context;
+// use SebastianBergmann\RecursionContext\Context;
 use SebastianBergmann\ResourceOperations\ResourceOperations;
 use SebastianBergmann\Template\Template;
 use SebastianBergmann\Timer\Timer;
@@ -144,8 +147,8 @@ final class ExcludeList
         // sebastian/object-enumerator
         Enumerator::class => 1,
 
-        // sebastian/recursion-context
-        Context::class => 1,
+        // // sebastian/recursion-context
+        // Context::class => 1,
 
         // sebastian/resource-operations
         ResourceOperations::class => 1,

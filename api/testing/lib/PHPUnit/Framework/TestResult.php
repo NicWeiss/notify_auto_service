@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * This file is part of PHPUnit.
  *
@@ -7,6 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace PHPUnit\Framework;
 
 use const PHP_EOL;
@@ -21,6 +24,10 @@ use function xdebug_stop_function_monitor;
 use AssertionError;
 use Countable;
 use Error;
+use PHPUnit\Framework\Exception\OutputError;
+use PHPUnit\Framework\TestFailure;
+use PHPUnit\Framework\Exception\RiskyTestError;
+use PHPUnit\Framework\Exception\Warning;
 use PHPUnit\Util\ErrorHandler;
 use PHPUnit\Util\ExcludeList;
 use PHPUnit\Util\Printer;
@@ -353,7 +360,7 @@ final class TestResult implements Countable
      * Adds a failure to the list of failures.
      * The passed in exception caused the failure.
      */
-    public function addFailure(Test $test, AssertionFailedError $e, float $time): void
+    public function addFailure(Test $test, $e, float $time): void
     {
         if ($e instanceof RiskyTestError || $e instanceof OutputError) {
             $this->recordRisky($test, $e);
@@ -672,19 +679,19 @@ final class TestResult implements Countable
         }
 
         $collectCodeCoverage = $this->codeCoverage !== null &&
-                               !$test instanceof ErrorTestCase &&
-                               !$test instanceof WarningTestCase &&
-                               $isAnyCoverageRequired;
+            !$test instanceof ErrorTestCase &&
+            !$test instanceof WarningTestCase &&
+            $isAnyCoverageRequired;
 
         if ($collectCodeCoverage) {
             $this->codeCoverage->start($test);
         }
 
         $monitorFunctions = $this->beStrictAboutResourceUsageDuringSmallTests &&
-                            !$test instanceof ErrorTestCase &&
-                            !$test instanceof WarningTestCase &&
-                            $size === TestUtil::SMALL &&
-                            function_exists('xdebug_start_function_monitor');
+            !$test instanceof ErrorTestCase &&
+            !$test instanceof WarningTestCase &&
+            $size === TestUtil::SMALL &&
+            function_exists('xdebug_start_function_monitor');
 
         if ($monitorFunctions) {
             /* @noinspection ForgottenDebugOutputInspection */
@@ -697,10 +704,12 @@ final class TestResult implements Countable
         try {
             $invoker = new Invoker;
 
-            if (!$test instanceof ErrorTestCase &&
+            if (
+                !$test instanceof ErrorTestCase &&
                 !$test instanceof WarningTestCase &&
                 $this->shouldTimeLimitBeEnforced($size) &&
-                $invoker->canInvokeWithTimeout()) {
+                $invoker->canInvokeWithTimeout()
+            ) {
                 switch ($size) {
                     case TestUtil::SMALL:
                         $_timeout = $this->timeoutForSmallTests;
@@ -799,8 +808,10 @@ final class TestResult implements Countable
             }
         }
 
-        if ($this->beStrictAboutTestsThatDoNotTestAnything &&
-            $test->getNumAssertions() === 0) {
+        if (
+            $this->beStrictAboutTestsThatDoNotTestAnything &&
+            $test->getNumAssertions() === 0
+        ) {
             $risky = true;
         }
 
@@ -810,10 +821,12 @@ final class TestResult implements Countable
                 $test->getName(false)
             );
 
-            if (!isset($annotations['class']['covers']) &&
+            if (
+                !isset($annotations['class']['covers']) &&
                 !isset($annotations['method']['covers']) &&
                 !isset($annotations['class']['coversNothing']) &&
-                !isset($annotations['method']['coversNothing'])) {
+                !isset($annotations['method']['coversNothing'])
+            ) {
                 $this->addFailure(
                     $test,
                     new MissingCoversAnnotationException(
@@ -862,7 +875,7 @@ final class TestResult implements Countable
             } catch (UnintentionallyCoveredCodeException $cce) {
                 $unintentionallyCoveredCodeError = new UnintentionallyCoveredCodeError(
                     'This test executed code that is not listed as code to be covered or used:' .
-                    PHP_EOL . $cce->getMessage()
+                        PHP_EOL . $cce->getMessage()
                 );
             } catch (OriginalCodeCoverageException $cce) {
                 $error = true;
@@ -889,9 +902,11 @@ final class TestResult implements Countable
                 $unintentionallyCoveredCodeError,
                 $time
             );
-        } elseif ($this->beStrictAboutTestsThatDoNotTestAnything &&
+        } elseif (
+            $this->beStrictAboutTestsThatDoNotTestAnything &&
             !$test->doesNotPerformAssertions() &&
-            $test->getNumAssertions() === 0) {
+            $test->getNumAssertions() === 0
+        ) {
             try {
                 $reflected = new ReflectionClass($test);
                 // @codeCoverageIgnoreStart
@@ -931,9 +946,11 @@ final class TestResult implements Countable
                 ),
                 $time
             );
-        } elseif ($this->beStrictAboutTestsThatDoNotTestAnything &&
+        } elseif (
+            $this->beStrictAboutTestsThatDoNotTestAnything &&
             $test->doesNotPerformAssertions() &&
-            $test->getNumAssertions() > 0) {
+            $test->getNumAssertions() > 0
+        ) {
             $this->addFailure(
                 $test,
                 new RiskyTestError(

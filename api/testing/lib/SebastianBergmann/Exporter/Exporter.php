@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * This file is part of sebastian/exporter.
  *
@@ -7,6 +9,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace SebastianBergmann\Exporter;
 
 use function bin2hex;
@@ -220,6 +223,7 @@ class Exporter
      */
     protected function recursiveExport(&$value, $indentation, $processed = null)
     {
+
         if ($value === null) {
             return 'null';
         }
@@ -255,16 +259,16 @@ class Exporter
             }
 
             return "'" .
-            str_replace(
-                '<lf>',
-                "\n",
                 str_replace(
-                    ["\r\n", "\n\r", "\r", "\n"],
-                    ['\r\n<lf>', '\n\r<lf>', '\r<lf>', '\n<lf>'],
-                    $value
-                )
-            ) .
-            "'";
+                    '<lf>',
+                    "\n",
+                    str_replace(
+                        ["\r\n", "\n\r", "\r", "\n"],
+                        ['\r\n<lf>', '\n\r<lf>', '\r<lf>', '\n<lf>'],
+                        $value
+                    )
+                ) .
+                "'";
         }
 
         $whitespace = str_repeat(' ', 4 * $indentation);
