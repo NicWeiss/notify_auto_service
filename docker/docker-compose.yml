@@ -14,6 +14,19 @@ services:
       - ../data/mysql:/var/lib/mysql
     container_name: dev_notifier_mysql
 
+  postgres:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: test
+      POSTGRES_USER: test
+      POSTGRES_DB: test
+    volumes:
+      - ../data/postgres:/var/lib/postgresql/data
+    ports:
+      - "8097:5432"
+    container_name: dev_notifier_postgres
+
   redis:
     image: redis:6.2-alpine
     restart: always

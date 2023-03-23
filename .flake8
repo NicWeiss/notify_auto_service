@@ -1,0 +1,4 @@
+[flake8]
+max-line-length = 120
+exclude = .git,pycache,init.py,.mypy_cache,.pytest_cache,.nas,migrations,common,venv
+ignore = W291, E722, W503
