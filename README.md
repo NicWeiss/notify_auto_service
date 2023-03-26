@@ -17,3 +17,9 @@
 
 
 more commands - make help
+
+
+генерация ключей для SMTP
+opendkim-genkey --bits 1024 --domain nic-weiss.tech  -s mail -v
+
+данные для DKIM будут внутри mail.txt

@@ -1,0 +1,2 @@
+#имя_ключа домен:селектор:/путь/до/ключа
+mail._domainkey.nic-weiss.tech nic-weiss.tech:mail:/etc/postfix/dkim/mail.private

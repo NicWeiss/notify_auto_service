@@ -32,8 +32,10 @@
 .Trash-100/
 node_modules
 /data/mysql/*
+/data/postgres
 /data/mysql_test/*
 /data/redis/*
 
 .nas/
 __pycache__
+*.private

@@ -1,6 +1,15 @@
 version: "3.6"
-services:
 
+
+x-logging:
+  &default-logging
+  driver: json-file
+  options:
+    max-size: '1m'
+    max-file: '1'
+
+
+services:
   mysql:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
@@ -76,3 +85,17 @@ services:
     working_dir: /frontend
     command: ember s
     container_name: dev_notifier_frontend
+
+  postfix:
+    build:
+      dockerfile: ./docker/postfix/Dockerfile
+      context: ../
+    ports:
+      - "25:25"
+      - "587:587"
+    restart: always
+    command: bash -c "/run.sh"
+    container_name: dev_notifier_postfix
+    stdin_open: true
+    tty: true
+    logging: *default-logging

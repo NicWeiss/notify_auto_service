@@ -1,0 +1,2 @@
+mail._domainkey	IN	TXT	( "v=DKIM1; k=rsa; "
+	  "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDEoLvDSZz9ATPNLr5vLyre7ZpoqGn8tl7aNkDXjRV+i/AYu+QiupK8pgScoFZpGNTZMypg+oyL5LNgHn8TvdSSMRgH8lk2V12DyJz2YI/28CMypTh950X/vFSaSHbClmdFjDbOB8heyt9RglT1IouyeYZEHFsLOkBDjHAUZwVW7wIDAQAB" )  ; ----- DKIM key mail for nic-weiss.tech
