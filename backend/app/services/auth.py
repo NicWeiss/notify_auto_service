@@ -1,5 +1,6 @@
 # from app.repo.crud.user import UserCrud
 import random
+from datetime import timedelta
 
 from arrow import Arrow
 from sqlalchemy.orm import Session
@@ -20,7 +21,7 @@ class AuthService:
         code = random.randint(1000, 9999)
         template = get_template_for_reg_code(reg_code=str(code))
 
-        scheme = RegCodeScheme(code=code, email=email, expire_at=Arrow.now())
+        scheme = RegCodeScheme(code=code, email=email, expire_at=Arrow.now() + timedelta(minutes=3))
         self.reg_code_crud.create(scheme=scheme)
 
         email_service = EmailService()
