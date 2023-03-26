@@ -1,5 +1,5 @@
-from app.repos.models.user import User
-from app.repos.crud.base import Crud
+from app.repo.models.user import User
+from app.repo.crud.base import Crud
 
 
 class UserCrud(Crud):

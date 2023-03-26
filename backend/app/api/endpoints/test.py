@@ -5,7 +5,7 @@ from app.api import schemas
 from sqlalchemy.orm import Session
 
 from app.api import deps
-from app.repos.crud.user import UserCrud
+from app.services.test import TestService
 
 router = APIRouter()
 
@@ -18,9 +18,9 @@ def get_test_response(
     data = {}
     data['some_answer'] = 'EEEEEEEE'
 
-    user_crud = UserCrud(db=db)
-    user = user_crud.get_by_id(1)
+    user_service = TestService(db=db)
+    user_name = user_service.get_name_of_test_user()
 
-    data['user_name'] = user.name
+    data['user_name'] = user_name
 
     return {'data': data}

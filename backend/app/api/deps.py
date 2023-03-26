@@ -1,6 +1,6 @@
 from typing import Generator
 
-from app.repos import LocalSession
+from app.repo import LocalSession
 
 
 def get_pg_db() -> Generator:
