@@ -1,6 +1,6 @@
 from typing import Any
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends
 from app.api import schemas
 from sqlalchemy.orm import Session, DeclarativeBase
 
@@ -13,7 +13,6 @@ router = APIRouter()
 
 @router.get('/categories', response_model=schemas.EmberResponseScheme)
 def get_categories(
-    request: Request,
     db: Session = Depends(deps.get_pg_db),
     user: DeclarativeBase = Depends(deps.auth)
 ) -> Any:
