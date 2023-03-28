@@ -12,3 +12,4 @@ lynx==0.3.1
 psycopg2==2.9.5
 arrow==1.2.3
 MarkupSafe==0.9.2
+requests==2.28.2

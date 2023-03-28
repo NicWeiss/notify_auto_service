@@ -2,10 +2,11 @@ from arrow import Arrow
 from pydantic import BaseModel
 
 
-class RegCodeCreateScheme(BaseModel):
+class UserCreateScheme(BaseModel):
+    name: str
     email: str
-    code: int
-    expire_at: Arrow
+    password: str
+    registred_at: Arrow
 
     class Config:
         arbitrary_types_allowed = True

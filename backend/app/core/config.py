@@ -11,6 +11,8 @@ class Settings:
     NOTIFIER_SENDER_EMAIL: str
     NOTIFIER_SENDER_NAME: str
 
+    IP_LOCATION_PROVIDER_TOKEN: str = ''
+
     IS_DEBUG: bool = False
 
     def __init__(self):
