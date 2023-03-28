@@ -53,10 +53,9 @@ export default class LoginComponent extends Component {
     }
     try {
       await this.api.post({ 'url': 'auth/get_code', 'data': { 'email': this.email } })
-    } catch (errorCode) {
-      if (errorCode === 403) this.notify.error('Код уже был выслан');
-      if (errorCode === 422) this.notify.error('Email уже занят или не корректен или');
-      if (errorCode === 500) this.notify.error('Ошибка на сервере');
+    } catch (error) {
+      this.notify.error(error.data.detail);
+
       return;
     }
     this.notify.info('Код подтверждения отправлен');
@@ -70,11 +69,11 @@ export default class LoginComponent extends Component {
       return;
     }
 
-    let session = null;
+    let response = null;
     const client = detectClientData();
 
     try {
-      session = await this.api.post({
+      response = await this.api.post({
         'url': 'auth/sign_up',
         'data': {
           'name': this.user,
@@ -84,19 +83,18 @@ export default class LoginComponent extends Component {
           'client': client
         }
       })
-    } catch (errorCode) {
-      if (errorCode === 403) {
-        this.notify.error('Неверный код');
-        this.code = null;
-        this.isCanSignUp = false;
+    } catch (error) {
+      if (error.status === 500) {
+        this.notify.error('Ошибка на сервере');
+        return
       }
-      if (errorCode === 422) this.notify.error('Пользователь с таким email уже существует');
-      if (errorCode === 500) this.notify.error('Ошибка на сервере');
+
+      this.notify.error(error.data.detail);
       return
     }
 
     try {
-      request = await this.session.authenticate('authenticator:custom', session, this.password);
+      request = await this.session.authenticate('authenticator:custom', response.session, this.password);
     } catch (error) {
       this.errorMessage = error.error || error;
     }

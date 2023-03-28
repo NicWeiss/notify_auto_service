@@ -50,8 +50,12 @@ export default class LoginComponent extends Component {
         }
       })
     } catch (error) {
-      if (error.status === 403) this.notify.error('Неправильный email или пароль');
-      if (error.status === 500) this.notify.error('Ошибка на сервере');
+      if (error.data && error.data.detail){
+        this.notify.error(error.data.detail);
+       } else {
+        this.notify.error('Server error');
+       }
+
       return;
     }
 

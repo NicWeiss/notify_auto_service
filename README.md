@@ -27,3 +27,9 @@ opendkim-genkey --bits 1024 --domain nic-weiss.tech  -s mail -v
 запуск проекта локально в VENV
 cd backend
 bash -c "export $(cat .env | xargs) && uvicorn main:app --reload --host 0.0.0.0 --port 8800"
+
+Создание нового файла миграции локально в VENV
+bash -c "export $(cat .env | xargs) && alembic revision --autogenerate -m 'Field changes'"
+
+Обновление голов локально в VENV
+bash -c "export $(cat .env | xargs) && alembic upgrade heads"

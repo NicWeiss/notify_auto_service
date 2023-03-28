@@ -162,7 +162,7 @@ export function detectClientData() {
     version: version,
     mobile: mobile,
     os: os,
-    osVersion: osVersion,
+    os_version: osVersion,
     cookies: cookieEnabled,
   };
 }
