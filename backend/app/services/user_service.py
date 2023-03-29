@@ -5,7 +5,7 @@ from typing import Dict
 from arrow import Arrow
 from sqlalchemy.orm import Session
 
-from app.repo.crud.user import UserCrud
+from app.repo.crud.user_crud import UserCrud
 from app.repo.schemas.user_scheme import UserCreateScheme
 from app.services import ServiceResponse
 

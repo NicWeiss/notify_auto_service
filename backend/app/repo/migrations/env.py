@@ -14,7 +14,7 @@ dnm.pop()
 dn = "/".join(dnm)
 sys.path.insert(0, dn)  # Insert <.>/src
 
-from app.repo.models.base import Model
+from app.repo.models.base_model import Model
 from app.core.config import settings
 
 

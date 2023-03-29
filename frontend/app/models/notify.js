@@ -7,8 +7,8 @@ export default class NotifyModel extends Model {
   @attr('string') dayOfWeek
   @attr('string') date
   @attr('string') time
-  @attr('string') status
-  @attr('string') categoryId
+  @attr('boolean') isDisabled
+  @attr('number') categoryId
 
-  @hasMany('acceptor') acceptorsList
+  @hasMany('acceptor') acceptors
 }

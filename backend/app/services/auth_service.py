@@ -1,4 +1,3 @@
-# from app.repo.crud.user import UserCrud
 import random
 from datetime import timedelta
 
@@ -6,11 +5,11 @@ from arrow import Arrow
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
-from app.repo.crud.reg_code import RegCodeCrud
-from app.repo.crud.user import UserCrud
+from app.repo.crud.reg_code_crud import RegCodeCrud
+from app.repo.crud.user_crud import UserCrud
 from app.repo.schemas.reg_code_scheme import RegCodeCreateScheme
 from app.services import ServiceResponse
-from app.services.email import EmailService
+from app.services.email_service import EmailService
 from app.templates.reg_code import get_template_for_reg_code
 
 

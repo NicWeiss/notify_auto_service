@@ -1,5 +1,5 @@
-from app.repo.models.category import Category
-from app.repo.crud.base import Crud
+from app.repo.models.category_model import Category
+from app.repo.crud.base_crud import Crud
 
 
 class CategoryCrud(Crud):

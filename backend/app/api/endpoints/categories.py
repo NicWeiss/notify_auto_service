@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session, DeclarativeBase
 
 from app.api import deps
 from app.api.response import EmberResponse
-from app.services.category import CategoryService
+from app.services.category_service import CategoryService
 
 router = APIRouter()
 

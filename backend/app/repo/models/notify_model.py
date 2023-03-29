@@ -1,6 +1,7 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Unicode
+from sqlalchemy.orm import relationship
 
-from app.repo.models.base import Model
+from app.repo.models.base_model import Model
 
 
 class Notify(Model):
@@ -13,3 +14,5 @@ class Notify(Model):
     time = Column(Unicode)
     is_disabled = Column(Boolean, default=False)
     category_id = Column(ForeignKey('category.id'))
+
+    acceptors = relationship('Acceptor', secondary='notify_acceptor', lazy='joined', backref='acceptor')

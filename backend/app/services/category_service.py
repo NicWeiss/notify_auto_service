@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from app.repo.crud.category import CategoryCrud
+from app.repo.crud.category_crud import CategoryCrud
 from app.services import ServiceResponse
 
 

@@ -4,8 +4,8 @@ from fastapi import Depends, Header, HTTPException
 from sqlalchemy.orm import Session
 
 from app.repo import LocalSession
-from app.services.session import SessionService
-from app.services.user import UserService
+from app.services.session_service import SessionService
+from app.services.user_service import UserService
 
 
 def get_pg_db() -> Generator:

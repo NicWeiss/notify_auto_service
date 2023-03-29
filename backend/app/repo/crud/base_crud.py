@@ -1,7 +1,7 @@
 from typing import Any, Dict, List, Union
 
 from sqlalchemy.orm import Session
-from app.repo.models.base import Model
+from app.repo.models.base_model import Model
 from pydantic import BaseModel
 
 

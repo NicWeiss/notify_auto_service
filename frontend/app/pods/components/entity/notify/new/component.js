@@ -28,7 +28,7 @@ export default class NewComponent extends Component {
 
     if (!this.notifyNew?.id) {
       this.notifyNew = this.store.createRecord('notify');
-      this.notifyNew.acceptorsList = [];
+      this.notifyNew.acceptors = [];
       this.notifyNew.status = '1';
       this.notifyNew.categoryId = this.args.categoryId || 0;
       this.date = new Date();
@@ -91,7 +91,7 @@ export default class NewComponent extends Component {
   validate() {
     let isValid = true;
 
-    if (this.notifyNew.acceptorsList.length === 0) {
+    if (this.notifyNew.acceptors.length === 0) {
       isValid = false;
     }
     if (!this.notifyNew.periodic) {

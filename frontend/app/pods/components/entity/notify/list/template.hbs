@@ -11,12 +11,12 @@
       </tr>
       {{#each @model as | item|}}
         {{#unless  item.isDeleted}}
-          {{#if (eq item.categoryId @categoryId)}}
+          {{#if (or (eq '0' @categoryId)(eq item.categoryId @categoryId))}}
             <tr {{action onShow item}}>
               <th data-th="# ">{{item.id}}</th>
               <td data-th="Название: ">
                 {{item.name}}
-                {{#unless item.acceptorsList}}
+                {{#unless item.acceptors}}
                   <br>
                   <span class="text-danger">Нет получателей</span>
                 {{/unless}}
@@ -31,10 +31,10 @@
               <td data-th="Периодичность: ">{{get PERIODIC item.periodic}}</td>
               <td class="table-controls" data-th="">
                 <div class="buttons-bar justify-content-around">
-                  {{#if (eq item.status "1")}}
-                    <div class="btn btn-outline-success btn-icon without-border" {{action 'onChangeStatus' item bubbles=false}}><FaIcon @icon="bell"/></div>
-                  {{else}}
+                  {{#if item.isDisabled}}
                     <div class="btn btn-outline-secondary btn-icon without-border" {{action 'onChangeStatus' item bubbles=false}}><FaIcon @icon="bell-slash"/></div>
+                  {{else}}
+                    <div class="btn btn-outline-success btn-icon without-border" {{action 'onChangeStatus' item bubbles=false}}><FaIcon @icon="bell"/></div>
                   {{/if}}
                   <div class="btn btn-outline-primary btn-icon without-border" {{action 'onEdit' item bubbles=false}}><FaIcon @icon="pencil-alt"/></div>
                   <div class="btn btn-outline-danger btn-icon without-border" {{action 'onDeleteNotify' item bubbles=false}}><FaIcon @icon="trash"/></div>

@@ -1,5 +1,5 @@
-from app.repo.models.session import Session
-from app.repo.crud.base import Crud
+from app.repo.models.session_model import Session
+from app.repo.crud.base_crud import Crud
 
 
 class SessionCrud(Crud):

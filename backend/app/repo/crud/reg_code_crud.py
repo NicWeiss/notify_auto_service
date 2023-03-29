@@ -1,8 +1,8 @@
 from arrow import Arrow
 from sqlalchemy import and_
 
-from app.repo.models.reg_code import RegCode
-from app.repo.crud.base import Crud
+from app.repo.models.reg_code_model import RegCode
+from app.repo.crud.base_crud import Crud
 
 
 class RegCodeCrud(Crud):

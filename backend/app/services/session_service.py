@@ -6,10 +6,10 @@ from typing import Dict
 
 from sqlalchemy.orm import Session
 
-from app.repo.crud.session import SessionCrud
+from app.repo.crud.session_crud import SessionCrud
 from app.repo.schemas.session_scheme import SessionCreateScheme
 from app.services import ServiceResponse
-from app.services.location import LocationService
+from app.services.location_service import LocationService
 
 
 class SessionService:
@@ -41,3 +41,8 @@ class SessionService:
             return ServiceResponse(is_error=True, description='Session not found')
 
         return ServiceResponse(data=db_object)
+
+    def get_by_user_id(self, user_id: int) -> ServiceResponse:
+        session_models = self.session_crud.get_all_by_user_id(user_id=user_id)
+
+        return ServiceResponse(data=session_models)

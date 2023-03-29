@@ -1,6 +1,6 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Unicode
 
-from app.repo.models.base import Model
+from app.repo.models.base_model import Model
 
 
 class Category(Model):

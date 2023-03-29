@@ -20,7 +20,7 @@ export default class NotificationsShowComponent extends Component {
 
   async setAcceptorList() {
     if (!this.notify) return
-    let list = await this.notify.get('acceptorsList');
+    let list = await this.notify.get('acceptors');
     this.acceptorList = list.map(item => { return item.name }).join(", ")
   }
 

@@ -3,8 +3,9 @@ import { EmbeddedRecordsMixin } from '@ember-data/serializer/rest';
 
 export default class NotifySerializer extends RESTSerializer.extend(EmbeddedRecordsMixin) {
   attrs = {
-    acceptorsList: { embedded: 'always' },
+    acceptors: { embedded: 'always' },
     dayOfWeek: 'day_of_week',
-    categoryId: 'category_id'
+    categoryId: 'category_id',
+    isDisabled: 'is_disabled'
   };
 };

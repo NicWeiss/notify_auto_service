@@ -5,9 +5,9 @@ from app.api import schemas
 from sqlalchemy.orm import Session
 
 from app.api import deps
-from app.services.auth import AuthService
-from app.services.session import SessionService
-from app.services.user import UserService
+from app.services.auth_service import AuthService
+from app.services.session_service import SessionService
+from app.services.user_service import UserService
 
 router = APIRouter()
 

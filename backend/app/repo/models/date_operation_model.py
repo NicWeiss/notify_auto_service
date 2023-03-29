@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Unicode
 
-from app.repo.models.base import Model
+from app.repo.models.base_model import Model
 
 
 class DateOperation(Model):

@@ -1,5 +1,5 @@
-from app.repo.models.user import User
-from app.repo.crud.base import Crud
+from app.repo.models.user_model import User
+from app.repo.crud.base_crud import Crud
 
 from sqlalchemy import and_
 
