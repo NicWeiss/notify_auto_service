@@ -13,20 +13,19 @@ class EmberResponse():
 
         if field_value_type in [type(None), str, int, float, bool]:
             return field_value
+
         if field_value_type is Arrow:
             return str(field_value)
-        elif field_value_type in [list, InstrumentedList]:
+        if field_value_type in [list, InstrumentedList]:
             return [cls.dump_field_value(item) for item in field_value]
-        elif field_value_type is dict:
+        if field_value_type is dict:
             resp_dict = {}
             for key, val in field_value.items():
                 resp_dict[key] = cls.dump_field_value(field_value=val)
             return resp_dict
-        elif hasattr(field_value, '_sa_registry'):
-            return cls.db_object_to_dict(db_object=field_value)
 
-        import pdb
-        pdb.set_trace()
+        if hasattr(field_value, '_sa_registry'):
+            return cls.db_object_to_dict(db_object=field_value)
 
         raise TypeError(f'Unknown field type {field_value_type}')
 
