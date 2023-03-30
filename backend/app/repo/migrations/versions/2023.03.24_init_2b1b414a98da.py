@@ -72,7 +72,7 @@ def upgrade():
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('name', sa.Unicode(), nullable=True),
                     sa.Column('user_id', sa.Integer(), nullable=True),
-                    sa.Column('is_hiden', sa.Boolean(), nullable=True),
+                    sa.Column('is_hidden', sa.Boolean(), nullable=True),
                     sa.Column('is_deleted', sa.Boolean(), nullable=True),
                     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
                     sa.PrimaryKeyConstraint('id')

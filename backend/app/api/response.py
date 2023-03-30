@@ -18,6 +18,7 @@ class EmberResponse():
             return str(field_value)
         if field_value_type in [list, InstrumentedList]:
             return [cls.dump_field_value(item) for item in field_value]
+
         if field_value_type is dict:
             resp_dict = {}
             for key, val in field_value.items():

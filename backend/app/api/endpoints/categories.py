@@ -22,3 +22,21 @@ def get_categories(
     categories = result.data
 
     return EmberResponse(model_name='category', data=categories)
+
+
+@router.post('/categories', response_model=schemas.EmberResponseScheme)
+def create_categories(
+    object_in: schemas.CategoryCreateScheme,
+    db: Session = Depends(deps.get_pg_db),
+    user: DeclarativeBase = Depends(deps.auth)
+) -> Any:
+    category_data_in = object_in.category
+
+    category_service = CategoryService(db=db)
+    result = category_service.create(
+        user_id=user.id,
+        name=category_data_in.name,
+        is_hidden=category_data_in.is_hidden)
+    category = result.data
+
+    return EmberResponse(model_name='category', data=category)
