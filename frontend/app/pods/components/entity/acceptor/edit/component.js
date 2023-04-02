@@ -16,9 +16,9 @@ export default class AcceptorsEditComponent extends Component {
   constructor(owner, args) {
     super(owner, args);
     this.isNew = Boolean(this.args.model.id)
-    // if (this.args.model.id) {
-    //   this.setSelectedSystem();
-    // }
+    if (this.args.model.id) {
+      this.setSelectedSystem();
+    }
   }
 
   async setSelectedSystem() {
@@ -29,7 +29,6 @@ export default class AcceptorsEditComponent extends Component {
   @action
   onSelectSystem(system) {
     this.args.model.systemId = system.id;
-    this.args.model.type = system.type;
     this.systemHelp = system.help;
   }
 

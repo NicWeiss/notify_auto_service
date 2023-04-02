@@ -15,4 +15,10 @@ class Notify(Model):
     is_disabled = Column(Boolean, default=False)
     category_id = Column(ForeignKey('category.id'))
 
-    acceptors = relationship('Acceptor', secondary='notify_acceptor', lazy='joined', backref='acceptor')
+    acceptors = relationship(
+        "Acceptor",
+        secondary='notify_acceptor',
+        primaryjoin="Notify.id==NotifyAcceptor.notify_id",
+        secondaryjoin="and_(NotifyAcceptor.acceptor_id==Acceptor.id, "
+        "Acceptor.is_deleted.is_(False), Acceptor.is_disabled.is_(False))",
+        lazy='joined', backref='acceptor')

@@ -57,7 +57,7 @@ export default class NotificationsComponent extends Component {
 
   @action
   onChangeStatus(notify) {
-    notify.status = notify.status == 0 ? 1 : 0;
+    notify.isDisabled = notify.isDisabled == 0 ? 1 : 0;
     notify.save();
   }
 

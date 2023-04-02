@@ -40,8 +40,8 @@ export default class CategoryViewComponent extends Component {
   }
 
   @action
-  onSelect(categoryId = "0") {
-    this.categoryId = categoryId;
+  onSelect(categoryId = 0) {
+    this.categoryId = parseInt(categoryId);
     this.notifyModel = this.infinity.model('notify', { 'category_id': this.categoryId });
     this.checkBurger();
     this.isInfinityReached = false;

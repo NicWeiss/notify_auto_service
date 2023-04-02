@@ -11,7 +11,7 @@
       </tr>
       {{#each @model as | item|}}
         {{#unless  item.isDeleted}}
-          {{#if (or (eq '0' @categoryId)(eq item.categoryId @categoryId))}}
+          {{#if (or (eq 0 @categoryId)(eq item.categoryId @categoryId))}}
             <tr {{action onShow item}}>
               <th data-th="# ">{{item.id}}</th>
               <td data-th="Название: ">

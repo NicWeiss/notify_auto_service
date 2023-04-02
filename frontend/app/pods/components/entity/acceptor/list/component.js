@@ -23,7 +23,7 @@ export default class AcceptorsListComponent extends Component {
 
   @action
   onChangeStatus(item) {
-    item.status = item.status == 0 ? 1 : 0;
+    item.isDisabled = item.isDisabled == 0 ? 1 : 0;
     item.save()
   }
 

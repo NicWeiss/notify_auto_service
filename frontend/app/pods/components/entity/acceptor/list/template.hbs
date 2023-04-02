@@ -16,19 +16,19 @@
             <td data-th="Аккаунт: " style="width: 50%;" class="cuted-text">{{item.account}}</td>
             <td data-th="">
               <div class="buttons-bar justify-content-around">
-                {{#if (eq item.status "1")}}
-                  <div class="btn btn-outline-success btn-icon without-border" {{action 'onChangeStatus' item}}><FaIcon @icon="bell"/></div>
-                {{else}}
+                {{#if item.isDisabled}}
                   <div class="btn btn-outline-secondary btn-icon without-border" {{action 'onChangeStatus' item}}><FaIcon @icon="bell-slash"/></div>
+                {{else}}
+                  <div class="btn btn-outline-success btn-icon without-border" {{action 'onChangeStatus' item}}><FaIcon @icon="bell"/></div>
                 {{/if}}
 
-                {{#if item.is_system}}
+                {{#if item.isSystem}}
                   <div class="btn btn-outline-primary:disabled btn-icon without-border"><FaIcon @icon="pencil-alt"/></div>
                 {{else}}
                   <div class="btn btn-outline-primary btn-icon without-border" {{action this.onEdit item bubbles=false}}><FaIcon @icon="pencil-alt"/></div>
                 {{/if}}
 
-                {{#if item.is_system}}
+                {{#if item.isSystem}}
                   <div class="btn btn-outline-danger:disabled btn-icon without-border"><FaIcon @icon="trash"/></div>
                 {{else}}
                   <div class="btn btn-outline-danger btn-icon without-border" {{action 'onDelete' item}}><FaIcon @icon="trash"/></div>

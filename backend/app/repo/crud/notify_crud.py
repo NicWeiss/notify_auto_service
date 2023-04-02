@@ -1,4 +1,7 @@
+import math
 from typing import List, Optional
+
+from sqlalchemy import and_, func
 
 from app.repo.models.notify_model import Notify
 from app.repo.crud.base_crud import Crud
@@ -15,10 +18,15 @@ class NotifyCrud(Crud):
         page: int = 1,
         per_page: int = 0
     ) -> List[Optional[Notify]]:
-        query = self.db.query(self.model).filter(self.model.user_id == user_id)
+        query = self.db.query(self.model).filter(and_(
+            self.model.user_id == user_id,
+            self.model.is_deleted.is_(False)
+        ))
 
         if category_id:
             query = query.filter(self.model.category_id == category_id)
+        else:
+            query = query.filter(self.model.category_id.is_(None))
 
         query = query.order_by(self.model.id.desc())
 
@@ -28,3 +36,21 @@ class NotifyCrud(Crud):
             query = query.offset(page * per_page)
 
         return query.all()
+
+    def get_all_by_user_id_and_category_id(self, user_id: int, category_id: int) -> List[Notify]:
+        return self.db.query(self.model).filter(and_(
+            self.model.user_id == user_id,
+            self.model.category_id == category_id,
+            self.model.is_deleted.is_(False)
+        )).all()
+
+    def get_meta(self, user_id: int, category_id: int, per_page: int = 0):
+        records_count = self.db.query(func.count(self.model.id)).filter(and_(
+            self.model.user_id == user_id,
+            self.model.category_id == category_id,
+            self.model.is_deleted.is_(False)
+        )).scalar()
+        if not per_page or per_page < 1:
+            per_page = records_count
+
+        return {'total_pages': math.ceil(records_count / per_page)}

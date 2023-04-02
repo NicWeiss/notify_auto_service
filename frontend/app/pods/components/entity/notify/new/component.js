@@ -18,7 +18,7 @@ export default class NewComponent extends Component {
   @tracked categories = {}
   @tracked notifyNew = null
   @tracked isDateTime = false
-  @tracked queryParams = { 'status': 1 }
+  @tracked queryParams = { 'only_enabled': true }
   @tracked date = null
   @tracked selectedDate = null
 
@@ -29,7 +29,7 @@ export default class NewComponent extends Component {
     if (!this.notifyNew?.id) {
       this.notifyNew = this.store.createRecord('notify');
       this.notifyNew.acceptors = [];
-      this.notifyNew.status = '1';
+      this.notifyNew.isDisabled = false;
       this.notifyNew.categoryId = this.args.categoryId || 0;
       this.date = new Date();
     } else {

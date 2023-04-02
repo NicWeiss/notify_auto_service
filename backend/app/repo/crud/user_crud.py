@@ -14,5 +14,6 @@ class UserCrud(Crud):
     def get_by_password_and_email(self, password: str, email: str) -> User:
         return self.db.query(self.model).filter(and_(
             self.model.password == password,
-            self.model.email == email
+            self.model.email == email,
+            self.model.is_deleted.is_(False)
         )).first()

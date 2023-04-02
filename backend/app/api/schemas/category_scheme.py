@@ -8,3 +8,7 @@ class CreateFields(BaseModel):
 
 class CategoryCreateScheme(BaseModel):
     category: CreateFields
+
+
+class CategoryUpdateScheme(BaseModel):
+    category: CreateFields
