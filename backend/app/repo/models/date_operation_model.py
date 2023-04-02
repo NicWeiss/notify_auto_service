@@ -1,10 +1,14 @@
+import arrow
 from sqlalchemy import Column, Unicode
+from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy_utils import ArrowType
 
 from app.repo.models.base_model import Model
 
 
 class DateOperation(Model):
-    target_date = Column(Unicode)
-    complete_date = Column(Unicode)
-    type = Column(Unicode)
+    date_data = Column(JSONB)
+    create_at = Column(ArrowType, default=arrow.utcnow)
+    complete_at = Column(ArrowType)
+    status = Column(Unicode)
     worker_id = Column(Unicode)

@@ -41,7 +41,7 @@ services:
     restart: always
     ports:
       - '8095:6379'
-    command: redis-server --save 20 1 --loglevel warning --requirepass redispass#123
+    command: redis-server --save 20 1 --loglevel warning --requirepass redispass123
     volumes:
       - ../data/redis:/data
     container_name: dev_notifier_redis
@@ -99,3 +99,26 @@ services:
     stdin_open: true
     tty: true
     logging: *default-logging
+
+  rabbit:
+    hostname: rabbit
+    image: 'rabbitmq:3-management'
+    ports:
+      - '4369:4369'
+      - '5672:5672'
+      - '25672:25672'
+      - '15672:15672'
+    volumes:
+      - ../data/rabbitmq:/var/lib/rabbitmq
+    container_name: dev_notifier_rabbit
+
+  flower:
+    image: mher/flower
+    environment:
+        - CELERY_BROKER_URL=amqp://guest:guest@rabbit:5672//
+        - FLOWER_PORT=5555
+    ports:
+        - 5555:5555
+    depends_on:
+        - rabbit
+    container_name: dev_notifier_flower

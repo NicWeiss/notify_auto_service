@@ -21,4 +21,5 @@ class Notify(Model):
         primaryjoin="Notify.id==NotifyAcceptor.notify_id",
         secondaryjoin="and_(NotifyAcceptor.acceptor_id==Acceptor.id, "
         "Acceptor.is_deleted.is_(False), Acceptor.is_disabled.is_(False))",
-        lazy='joined', backref='acceptor')
+        lazy='joined', backref='acceptor'
+    )

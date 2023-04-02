@@ -13,7 +13,11 @@ class Settings:
 
     IP_LOCATION_PROVIDER_TOKEN: str = ''
 
+    RABBITMQ_DSN: str
+    REDIS_DSN: str
+
     IS_DEBUG: bool = False
+    DO_NOT_RUN_PERIODIC_TASK: bool = False
 
     def __init__(self):
         for key, type in self.__annotations__.items():
