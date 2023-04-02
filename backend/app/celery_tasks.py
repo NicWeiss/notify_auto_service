@@ -32,7 +32,7 @@ def setup_periodic_tasks(sender, **kwargs):
     )
 
 
-@ celery_app.task(acks_late=True, bind=True)
+@celery_app.task(acks_late=True)
 def run_time_watcher(*args, **kw):
     logger.info('START run_time_watcher')
     try:
@@ -41,7 +41,7 @@ def run_time_watcher(*args, **kw):
         logger.error(f'Task error {exc}')
 
 
-@ celery_app.task(acks_late=True, bind=True)
+@celery_app.task(acks_late=True)
 def run_periodic_notify_sender(*args, **kw):
     logger.info('START run_periodic_notify_sender')
     try:

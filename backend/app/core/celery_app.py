@@ -16,6 +16,6 @@ celery_app.conf.task_queues = [
 ]
 
 celery_app.conf.task_routes = {
-    "app.celery_tasks.run_time_watcher": "watcher",
-    "app.celery_tasks.run_periodic_notify_sender": "sender"
+    'app.celery_tasks.run_time_watcher': {'queue': 'watcher'},
+    'app.celery_tasks.run_periodic_notify_sender': {'queue': 'sender'}
 }

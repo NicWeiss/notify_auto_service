@@ -16,7 +16,7 @@ class DateOperationService:
         self.date_operation_crud = DateOperationCrud(db=db)
 
     def create_new_operations(self):
-        now_date = datetime.now().replace(second=0).replace(tzinfo=pytz.UTC)
+        now_date = datetime.utcnow().replace(second=0).replace(tzinfo=pytz.UTC)
         last_operation_model = self.date_operation_crud.get_list_operation()
 
         if last_operation_model:
