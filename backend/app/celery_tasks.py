@@ -20,13 +20,13 @@ def setup_periodic_tasks(sender, **kwargs):
         return
 
     sender.add_periodic_task(
-        10,
+        5,
         run_time_watcher,
         name="Start watch on the time"
     )
 
     sender.add_periodic_task(
-        10,
+        30,
         run_periodic_notify_sender,
         name="Start sending notifies"
     )

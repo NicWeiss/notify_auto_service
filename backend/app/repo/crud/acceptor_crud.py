@@ -22,3 +22,12 @@ class AcceptorCrud(Crud):
             query = query.filter(self.model.is_disabled.is_(False))
 
         return query.all()
+
+    def get_by_user_id_and_system_id(self, user_id: int, system_id: int) -> Acceptor:
+        return self.db.query(self.model).filter(
+            and_(
+                self.model.is_deleted.is_(False),
+                self.model.user_id == user_id,
+                self.model.system_id == system_id
+            )
+        ).first()

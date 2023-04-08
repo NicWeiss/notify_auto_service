@@ -94,7 +94,7 @@ def upgrade():
                     sa.Column('user_id', sa.Integer(), nullable=True),
                     sa.Column('text', sa.Unicode(), nullable=True),
                     sa.Column('periodic', sa.Unicode(), nullable=True),
-                    sa.Column('day_of_week', sa.Unicode(), nullable=True),
+                    sa.Column('day_of_week', sa.Integer(), nullable=True),
                     sa.Column('date', sa.Unicode(), nullable=True),
                     sa.Column('time', sa.Unicode(), nullable=True),
                     sa.Column('is_disabled', sa.Boolean(), nullable=True),

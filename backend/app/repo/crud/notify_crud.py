@@ -54,3 +54,30 @@ class NotifyCrud(Crud):
             per_page = records_count
 
         return {'total_pages': math.ceil(records_count / per_page)}
+
+    def get_by_periodic_and_time(self, periodic: str, time: str) -> List[Notify]:
+        return self.db.query(self.model).filter(and_(
+            self.model.periodic == periodic,
+            self.model.time == time,
+            self.model.is_deleted.is_(False)
+        )).all()
+
+    def get_by_day_of_week_and_time(self, day_of_week: int, time: str) -> List[Notify]:
+        return self.db.query(self.model).filter(and_(
+            self.model.day_of_week == day_of_week,
+            self.model.time == time,
+            self.model.is_deleted.is_(False)
+        )).all()
+
+    def get_by_periodic_and_date_and_time(self, periodic: str, date: str, time: str) -> List[Notify]:
+        filters = []
+        filters.append(self.model.periodic == periodic)
+        filters.append(self.model.time == time)
+        filters.append(self.model.is_deleted.is_(False))
+
+        if '%' in date:
+            filters.append(self.model.date.like(date))
+        else:
+            filters.append(self.model.date == date)
+
+        return self.db.query(self.model).filter(and_(*filters)).all()

@@ -23,7 +23,14 @@ class EmailService:
         self.email = None
         self.smtp_client = SMTPClient(dsn=settings.SMTP_URI)
 
-    def create(self, subject: str, recipients: List, text: str = '', html: str = None, sender: Dict = None):
+    def create(
+        self,
+        subject: str,
+        recipients: List,
+        text: str = '',
+        html: str = None,
+        sender: Dict = settings.NOTIFIER_SENDER
+    ):
         ''' Создание письма
         '''
         self.email = Email(subject=subject, text=text, recipients=recipients, html=html, sender=sender)

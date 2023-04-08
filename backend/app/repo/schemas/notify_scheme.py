@@ -8,7 +8,7 @@ class NotifyCreateScheme(BaseModel):
     name: str
     text: Optional[str]
     periodic: str
-    day_of_week: Optional[str]
+    day_of_week: Optional[int]
     date: Optional[str]
     time: str
     is_disabled: bool = False
@@ -19,7 +19,7 @@ class NotifyUpdateScheme(BaseModel):
     name: Optional[str]
     text: Optional[str]
     periodic: Optional[str]
-    day_of_week: Optional[str]
+    day_of_week: Optional[int]
     date: Optional[str]
     time: Optional[str]
     is_disabled: Optional[bool]

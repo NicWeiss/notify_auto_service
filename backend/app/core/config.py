@@ -19,6 +19,9 @@ class Settings:
     IS_DEBUG: bool = False
     DO_NOT_RUN_PERIODIC_TASK: bool = False
 
+    TELERGAM_BOT_TOKEN: str
+    FCM_SERVER_KEY: str
+
     def __init__(self):
         for key, type in self.__annotations__.items():
             env_value = os.environ.get(key)

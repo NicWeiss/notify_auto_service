@@ -18,7 +18,7 @@ class Acceptor(BaseModel):
 class CreateFields(BaseModel):
     acceptors: List[Acceptor]
     date: Optional[str]
-    day_of_week: Optional[str]
+    day_of_week: Optional[int]
     is_disabled: bool
     name: str
     periodic: str
@@ -34,7 +34,7 @@ class NotifyCreateScheme(BaseModel):
 class UpdateFields(BaseModel):
     acceptors: List[Optional[Acceptor]]
     date: Optional[str]
-    day_of_week: Optional[str]
+    day_of_week: Optional[int]
     is_disabled: Optional[bool]
     name: Optional[str]
     periodic: Optional[str]

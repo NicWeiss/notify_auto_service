@@ -4,7 +4,7 @@ export default class NotifyModel extends Model {
   @attr('string') name
   @attr('string') text
   @attr('string') periodic
-  @attr('string') dayOfWeek
+  @attr('number') dayOfWeek
   @attr('string') date
   @attr('string') time
   @attr('boolean') isDisabled

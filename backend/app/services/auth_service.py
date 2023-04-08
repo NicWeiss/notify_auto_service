@@ -4,7 +4,6 @@ from datetime import timedelta
 from arrow import Arrow
 from sqlalchemy.orm import Session
 
-from app.core.config import settings
 from app.repo.crud.reg_code_crud import RegCodeCrud
 from app.repo.crud.user_crud import UserCrud
 from app.repo.schemas.reg_code_scheme import RegCodeCreateScheme
@@ -31,7 +30,7 @@ class AuthService:
 
         email_service = EmailService()
         email_service.create(subject="Registration code", recipients=[email],
-                             sender=settings.NOTIFIER_SENDER, text='', html=email_template)
+                             text='', html=email_template)
         try:
             email_service.send()
         except Exception:
