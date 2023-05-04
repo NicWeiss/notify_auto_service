@@ -46,3 +46,9 @@ class SessionService:
         session_models = self.session_crud.get_all_by_user_id(user_id=user_id)
 
         return ServiceResponse(data=session_models)
+
+    def delete_session(self, user_id: int, session_id: int):
+        session = self.session_crud.get_by_id_and_user_id(user_id=user_id, id=session_id)
+        self.session_crud.remove_db_object(db_object=session)
+
+        return ServiceResponse()

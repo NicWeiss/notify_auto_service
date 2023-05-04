@@ -118,14 +118,17 @@ class NotifySenderService:
                     subject=title,
                     text=text
                 )
-                self.email_service.send()
+                if not self.email_service.send():
+                    print('Email sent is failure')
 
             elif transport_type == 'tg':
-                Telegram.send(
+                result = Telegram.send(
                     recipient=account,
                     title=title,
                     text=text
                 )
+                if not result:
+                    print('Telegram sent is failure')
 
             elif transport_type == 'push':
                 fcm_service = FcmService(db=self.db, user_id=user_id)

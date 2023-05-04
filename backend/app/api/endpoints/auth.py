@@ -69,41 +69,58 @@ def get_code(
     return {'status': result.status}
 
 
-# @router.post('/auth/restore', response_model=schemas.TestResponse)
-# def restore(
-#     *,
-#     db: Session = Depends(deps.get_pg_db)
-# ) -> Any:
-#     data = {}
+@router.post('/auth/restore')
+def restore(
+    object_in: schemas.AuthRestore,
+    request: Request,
+    db: Session = Depends(deps.get_pg_db)
+) -> Any:
+    service = AuthService(db=db)
+    result = service.send_restore_code_to_email(
+        protocol=request.scope['scheme'],
+        domain=request.scope['headers'][0][1].decode(),
+        email=object_in.email
+    )
 
-#     return {'data': data}
+    if result.is_error:
+        raise HTTPException(status_code=422, detail=result.description)
 
-
-# @router.post('/auth/restore/verify-restore-code', response_model=schemas.TestResponse)
-# def verify_restore_code(
-#     *,
-#     db: Session = Depends(deps.get_pg_db)
-# ) -> Any:
-#     data = {}
-
-#     return {'data': data}
-
-
-# @router.post('/auth/restore/restore-password', response_model=schemas.TestResponse)
-# def restore_password(
-#     *,
-#     db: Session = Depends(deps.get_pg_db)
-# ) -> Any:
-#     data = {}
-
-#     return {'data': data}
+    return {'data': True}
 
 
-# @router.post('/auth/restore/change-password', response_model=schemas.TestResponse)
-# def change_password(
-#     *,
-#     db: Session = Depends(deps.get_pg_db)
-# ) -> Any:
-#     data = {}
+@router.post('/auth/restore/verify-restore-code')
+def verify_restore_code(
+    object_in: schemas.AuthRestoreVerifyCode,
+    db: Session = Depends(deps.get_pg_db)
+) -> Any:
+    service = AuthService(db=db)
+    result = service.verify_restore_code(code=object_in.code)
 
-#     return {'data': data}
+    if result.is_error:
+        raise HTTPException(status_code=422, detail=result.description)
+
+    return {'data': {}}
+
+
+@router.post('/auth/restore/restore-password')
+def restore_password(
+    object_in: schemas.AuthRestorePassword,
+    db: Session = Depends(deps.get_pg_db)
+) -> Any:
+    auth_service = AuthService(db=db)
+    result = auth_service.verify_restore_code(code=object_in.code)
+
+    if result.is_error:
+        raise HTTPException(status_code=422, detail=result.description)
+
+    reg_code = result.data
+    user_service = UserService(db=db)
+
+    result = user_service.change_password_by_code(email=reg_code.email, password=object_in.password)
+
+    if result.is_error:
+        raise HTTPException(status_code=422, detail=result.description)
+
+    result = auth_service.clear_reg_code(code=object_in.code, email=reg_code.email)
+
+    return {'data': {}}

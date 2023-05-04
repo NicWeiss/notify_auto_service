@@ -121,7 +121,7 @@ def create_message(subject, from_, to, **kwargs):
     html = kwargs.get('html', None)
 
     if not text and not html:
-        raise ValueError('Empty message')
+        text = ' '
 
     text = h.html_to_text(html) if html and not text else text
 

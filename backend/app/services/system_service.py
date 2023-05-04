@@ -10,7 +10,7 @@ class SystemService:
         self.system_crud = SystemCrud(db=db)
 
     def get_list(self) -> ServiceResponse:
-        systems_models = self.system_crud.get_all_public()
+        systems_models = self.system_crud.get_all()
 
         return ServiceResponse(data=systems_models)
 

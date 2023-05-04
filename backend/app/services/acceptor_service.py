@@ -4,6 +4,7 @@ from app.repo.crud.acceptor_crud import AcceptorCrud
 from app.repo.crud.notify_acceptor_crud import NotifyAcceptorCrud
 from app.repo.schemas.acceptor_scheme import AcceptorCreateScheme, AcceptorUpdateScheme
 from app.services import ServiceResponse
+from app.services.fcm_service import FcmService
 
 
 class AcceptorService:
@@ -46,5 +47,11 @@ class AcceptorService:
             self.notify_acceptor_crud.remove_db_object(notify_acceptor_model)
 
         self.acceptor_crud.delete_db_object(db_object=acceptor_model)
+
+        return ServiceResponse()
+
+    def update_push_tokens(self, user_id: str, token: str):
+        fcm_service = FcmService(db=self.db, user_id=user_id)
+        fcm_service.add_fcm_token(token=token)
 
         return ServiceResponse()

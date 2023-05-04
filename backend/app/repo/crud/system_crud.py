@@ -10,8 +10,14 @@ class SystemCrud(Crud):
     def __init__(self, db):
         super().__init__(db=db, model=System)
 
-    def get_all_public(self) -> List[System]:
+    def get_all(self) -> List[System]:
         return self.db.query(self.model).filter(and_(
-            self.model.is_system.is_(False),
+            self.model.is_disabled.is_(False),
             self.model.is_deleted.is_(False)
         )).all()
+
+    def get_by_type(self, type: str) -> System:
+        return self.db.query(self.model).filter(and_(
+            self.model.type == type,
+            self.model.is_deleted.is_(False)
+        )).first()

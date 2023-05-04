@@ -12,7 +12,7 @@ router = APIRouter()
 
 
 @router.get('/systems', response_model=schemas.EmberResponseScheme)
-def get_categories(
+def get_systems(
     db: Session = Depends(deps.get_pg_db),
     user: DeclarativeBase = Depends(deps.auth)
 ) -> Any:
@@ -24,7 +24,7 @@ def get_categories(
 
 
 @router.get('/systems/{system_id}', response_model=schemas.EmberResponseScheme)
-def update_category(
+def get_system(
     system_id: int,
     db: Session = Depends(deps.get_pg_db),
     user: DeclarativeBase = Depends(deps.auth)

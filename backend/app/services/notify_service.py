@@ -28,6 +28,11 @@ class NotifyService:
             scheme_object = NotifyAcceptorCreateScheme(notify_id=notify_id, acceptor_id=acceptor['id'])
             self.notify_acceptor_crud.create(scheme=scheme_object)
 
+    def get(self, user_id: int, notify_id: int) -> ServiceResponse:
+        notify = self.notify_crud.get_by_id_and_user_id(user_id=user_id, id=notify_id)
+
+        return ServiceResponse(data=notify)
+
     def get_list(
         self,
         user_id: int,

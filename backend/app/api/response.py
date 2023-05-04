@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import Dict, List, Union
 
 from arrow import Arrow
 from fastapi import HTTPException
@@ -47,6 +47,7 @@ class EmberResponse():
         cls,
         model_name: str,
         data: Union[DeclarativeBase, List[Union[DeclarativeBase, None]]],
+        scheme: Dict = None,
         total_pages: int = 0
     ) -> None:
         response = {'meta': {}}
@@ -57,6 +58,9 @@ class EmberResponse():
             data = [cls.dump_field_value(obj) for obj in data]
         else:
             data = cls.dump_field_value(data)
+
+        if scheme:
+            data = scheme(**data)
 
         response[model_name] = data
         response['meta']['total_pages'] = total_pages

@@ -25,3 +25,7 @@ class UpdateFields(BaseModel):
 
 class AcceptorUpdateScheme(BaseModel):
     acceptor: UpdateFields
+
+
+class AcceptorUpdateFcmToken(BaseModel):
+    token: str

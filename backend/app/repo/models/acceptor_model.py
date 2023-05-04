@@ -1,6 +1,7 @@
 from sqlalchemy import Column, ForeignKey, Unicode, Boolean
 from sqlalchemy.orm import relationship
 
+
 from app.repo.models.base_model import Model
 
 

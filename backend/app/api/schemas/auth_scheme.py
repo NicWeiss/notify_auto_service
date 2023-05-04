@@ -29,3 +29,15 @@ class AuthLogIn(BaseModel):
     client: Optional[Client]
     email: str
     password: str
+
+
+class AuthRestore(BaseModel):
+    email: str
+
+
+class AuthRestoreVerifyCode(BaseModel):
+    code: str
+
+
+class AuthRestorePassword(AuthRestoreVerifyCode):
+    password: str

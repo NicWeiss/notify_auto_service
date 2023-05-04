@@ -21,3 +21,15 @@ def get_sessions(
     sessions = result.data
 
     return EmberResponse(model_name='session', data=sessions)
+
+
+@router.delete('/sessions/{session_id}')
+def update_category(
+    session_id: int,
+    db: Session = Depends(deps.get_pg_db),
+    user: DeclarativeBase = Depends(deps.auth)
+) -> Any:
+    session_service = SessionService(db=db)
+    session_service.delete_session(user_id=user.id, session_id=session_id)
+
+    return EmberResponse(model_name='session', data=True)

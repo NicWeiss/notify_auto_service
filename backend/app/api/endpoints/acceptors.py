@@ -77,3 +77,21 @@ def delete_acceptor(
         raise HTTPException(status_code=404, detail=result.description)
 
     return EmberResponse(model_name='acceptor', data=True)
+
+
+@router.post('/acceptors/update_push_tokens')
+def update_push_tokens(
+    object_in: schemas.AcceptorUpdateFcmToken,
+    db: Session = Depends(deps.get_pg_db),
+    user: DeclarativeBase = Depends(deps.auth)
+) -> Any:
+    acceptor_service = AcceptorService(db=db)
+    result = acceptor_service.update_push_tokens(
+        user_id=user.id,
+        token=object_in.token
+    )
+
+    if result.is_error:
+        raise HTTPException(status_code=404, detail=result.description)
+
+    return EmberResponse(model_name='acceptor', data=True)

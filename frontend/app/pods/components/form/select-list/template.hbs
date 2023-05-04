@@ -2,8 +2,10 @@
 <select class="form-control" onchange={{action select value="target.value"}}>
   <option disabled selected value> -- Выберите систему -- </option>
   {{#each this.model as | item|}}
-    <option value={{item.id}} selected={{if (eq selected item) 'selected'}}>
-      {{item.name}}
-    </option>
+    <Utils::SkipIfValueInFieldEq @object={{item}} @field={{@skipByField}} @value={{@skipWithValue}}>
+      <option value={{item.id}} selected={{if (eq selected item) 'selected'}}>
+        {{item.name}}
+      </option>
+    </Utils::SkipIfValueInFieldEq>
   {{/each}}
 </select>

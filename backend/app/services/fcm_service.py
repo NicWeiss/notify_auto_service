@@ -3,6 +3,7 @@ from typing import List
 from sqlalchemy.orm import Session
 
 from app.repo.crud.acceptor_crud import AcceptorCrud
+from app.repo.crud.system_crud import SystemCrud
 from app.repo.schemas.acceptor_scheme import AcceptorCreateScheme, AcceptorUpdateScheme
 from app.services import ServiceResponse
 
@@ -10,6 +11,7 @@ from app.services import ServiceResponse
 class FcmService:
     def __init__(self, db: Session, user_id: int):
         self.acceptor_crud = AcceptorCrud(db=db)
+        self.system_crud = SystemCrud(db=db)
 
         self.user_id = user_id
         self.push_system_id = self.system_crud.get_by_type(type='push').id
@@ -19,8 +21,8 @@ class FcmService:
         fcm_tokens = []
 
         if self.acceptor:
-            if self.acceptor['account']:
-                fcm_tokens = self.acceptor['account'].split(';')
+            if self.acceptor.account:
+                fcm_tokens = self.acceptor.account.split(';')
 
         return fcm_tokens
 
@@ -36,7 +38,8 @@ class FcmService:
                 name='Push',
                 system_id=self.push_system_id,
                 is_system=True,
-                account=account_string
+                account=account_string,
+                is_disabled=False
             )
             self.acceptor = self.acceptor_crud.create(scheme=acceptor_scheme)
 

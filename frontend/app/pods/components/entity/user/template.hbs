@@ -20,20 +20,20 @@
     </div>
 
     <button type="button" class="btn btn-small btn-primary btn-complete" onclick={{action onSavePersonalData}}>
-      Сохранить
+      Save
     </button>
   </div>
 
-  <div class="section-name">Настройки отправки</div>
+  <div class="section-name">Sending settings</div>
   <div class="section">
-    Временная зона:
+    Time zone:
   </div>
 
-  <div class="section-name">Смена пароля</div>
+  <div class="section-name">Password change</div>
   <div class="section">
 
     <div class="input-container">
-      <div class="label">Текущий пароль</div>
+      <div class="label">Current password</div>
       <Input class="settings-input"
           type="password"
           @value={{password.currentPass}}
@@ -41,7 +41,7 @@
     </div>
 
     <div class="input-container">
-      <div class="label">Новый пароль</div>
+      <div class="label">New password</div>
       <Input class="settings-input"
           type="password"
           @value={{password.newPass}}
@@ -49,29 +49,29 @@
     </div>
 
     <div class="input-container">
-      <div class="label">Повторите новый пароль</div>
+      <div class="label">Repeate new password</div>
       <Input class="settings-input"
           type="password"
           @value={{password.newPassRepeate}}
       />
       {{#unless (eq password.newPass password.newPassRepeate)}}
-        <div style="padding-bottom: 20px; color:red;">Пароли не совпадают</div>
+        <div style="padding-bottom: 20px; color:red;">Passwords are differrent</div>
       {{/unless}}
     </div>
 
     <button type="button" class="btn btn-small btn-primary btn-complete" onclick={{action changePassword}}>
-      Изменить
+      Change
     </button>
   </div>
 
-  <div class="section-name">Активные сессии</div>
+  <div class="section-name">Active sessions</div>
   <div class="section">
     <Entity::Session::List @model={{this.sessions}}/>
   </div>
 
 
   <button type="button" class="btn btn-small btn-danger" onclick={{action deleteAccount}}>
-    Удалить аккаунт
+    Delete account
   </button>
 </div>
 

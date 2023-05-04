@@ -11,7 +11,7 @@
         {{#unless  item.isDeleted}}
           <tr>
             <th data-th="# ">{{item.id}}</th>
-            <td data-th="Тип: " style="width: 10%;"><Utils::FancyType @type={{item.type}}/></td>
+            <td data-th="Тип: " style="width: 10%;"><Utils::FancyType @systems={{systems}} @systemId={{item.systemId}}/></td>
             <td data-th="Название: " style="width: 50%;">{{item.name}}</td>
             <td data-th="Аккаунт: " style="width: 50%;" class="cuted-text">{{item.account}}</td>
             <td data-th="">

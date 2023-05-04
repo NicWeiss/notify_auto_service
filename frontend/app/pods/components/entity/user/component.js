@@ -54,7 +54,6 @@ export default class UserComponent extends Component {
 
   @action
   async changePassword() {
-    console.log(this.password);
     if (this.password.newPass !== this.password.newPassRepeate) {
       this.notify.error('Пароли не совпадают!');
       return;
@@ -66,8 +65,11 @@ export default class UserComponent extends Component {
 
     try {
       await this.api.post({
-        'url': 'auth/restore/change-password',
-        'data': this.password
+        'url': 'user/change-password',
+        'data': {
+          'current_password': this.password.currentPass,
+          'new_password': this.password.newPass
+        }
       })
     } catch (error) {
       this.errors.handle(error);

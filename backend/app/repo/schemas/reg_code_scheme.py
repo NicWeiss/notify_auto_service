@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 class RegCodeCreateScheme(BaseModel):
     email: str
-    code: int
+    code: str
     expire_at: Arrow
 
     class Config:

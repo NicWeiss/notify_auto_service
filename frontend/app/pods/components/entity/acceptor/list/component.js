@@ -11,9 +11,16 @@ export default class AcceptorsListComponent extends Component {
   @tracked selectedModel = null;
   @tracked isShowDeleteModal = false;
   @tracked isShowEditModal = false;
+  @tracked systems = [];
 
   constructor(owner, args) {
     super(owner, args);
+
+    this.loadSystems();
+  }
+
+  async loadSystems() {
+    this.systems = await this.store.findAll('system')
   }
 
   closeModalWondows() {

@@ -35,19 +35,19 @@
         {{#if isCanChangePassword}}
           <div class="container-auth-form-btn">
             <button class="login-auth-form-btn auth-form-btn login" {{action onSubmit}}>
-              Сменить
+              Change
             </button>
           </div>
         {{else}}
           <div class="text-center pt-3 text-danger sign-up">
-            Ссылка для восстановления пароля <br> истекла или некорректна
+            Link for changing password <br> is expired or incorrect
           </div>
         {{/if}}
 
 
         <div class="text-center sign-up">
           <LinkTo @route="auth.restore" class="btn auth-sign-up-link">
-            Запросить новую ссылку
+            Request new restoration link
           </LinkTo>
         </div>
 

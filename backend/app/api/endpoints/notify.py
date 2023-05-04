@@ -27,6 +27,19 @@ def get_notifies(
     return EmberResponse(model_name='notify', data=notifies, total_pages=meta.get('total_pages', 1))
 
 
+@router.get('/notifies/{notify_id}', response_model=schemas.EmberResponseScheme)
+def get_notify(
+    notify_id: int,
+    db: Session = Depends(deps.get_pg_db),
+    user: DeclarativeBase = Depends(deps.auth)
+) -> Any:
+    notify_service = NotifyService(db=db)
+    result = notify_service.get(user_id=user.id, notify_id=notify_id)
+    notify = result.data
+
+    return EmberResponse(model_name='notify', data=notify)
+
+
 @router.put('/notifies/reset_from_category_id')
 def reset_by_category_id(
     object_in: schemas.NotifyResetCategoryScheme,

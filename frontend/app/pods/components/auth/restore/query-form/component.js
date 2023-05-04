@@ -33,14 +33,16 @@ export default class RestoreComponent extends Component {
 
     try {
       await this.api.post({ 'url': 'auth/restore', 'data': { 'email': this.email } })
-    } catch (errorCode) {
-      if (errorCode === 403) {
-        this.notify.error('Код уже выслан. Повторно запросить код можно будет через 5 минут');
-      }
-      if (errorCode === 422) this.notify.error('Пользователь с таким email не существует');
-      if (errorCode === 500) this.notify.error('Ошибка на сервере');
-      return
+    } catch (error) {
+      if (error.data && error.data.detail){
+        this.notify.error(error.data.detail);
+       } else {
+        this.notify.error('Server error');
+       }
+
+      return;
     }
+
     this.notify.success('Ссылка для восстановления выслана на почту');
   }
 }
