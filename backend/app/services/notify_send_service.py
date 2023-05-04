@@ -136,7 +136,7 @@ class NotifySenderService:
 
                 for token in tokens:
                     result = FireBase.send_push(
-                        recipients=account.split(';') if account else '',
+                        recipient=token,
                         title=title,
                         text=text
                     )

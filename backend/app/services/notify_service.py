@@ -70,6 +70,8 @@ class NotifyService:
 
     def create(self, **kwargs):
         acceptors = kwargs.pop('acceptors', [])
+        if kwargs.get('category_id') == 0:
+            kwargs.pop('category_id')
 
         notify_create_scheme = NotifyCreateScheme(**kwargs)
         notify_model = self.notify_crud.create(scheme=notify_create_scheme)
