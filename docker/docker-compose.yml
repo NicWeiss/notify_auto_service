@@ -10,18 +10,18 @@ x-logging:
 
 
 services:
-  mysql:
-    image: mysql
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
-    ports:
-      - "8096:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: mysql
-      MYSQL_DATABASE: notifier
-    volumes:
-      - ../data/mysql:/var/lib/mysql
-    container_name: dev_notifier_mysql
+  # mysql:
+  #   image: mysql
+  #   command: --default-authentication-plugin=mysql_native_password
+  #   restart: always
+  #   ports:
+  #     - "8096:3306"
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: mysql
+  #     MYSQL_DATABASE: notifier
+  #   volumes:
+  #     - ../data/mysql:/var/lib/mysql
+  #   container_name: dev_notifier_mysql
 
   postgres:
     image: postgres:13
@@ -46,23 +46,42 @@ services:
       - ../data/redis:/data
     container_name: dev_notifier_redis
 
-  backend:
+  backend_base:
+    &backend_base
     build:
       dockerfile: docker/backend/Dockerfile
       context: ../
     env_file:
-      - ../api/config/config.env
-    ports:
-      - "8094:80"
+      - ../backend/.env
     links:
-      - mysql
+      - postgres
+      - postfix
+      - rabbit
+      - redis
     depends_on:
-      - mysql
+      - postgres
+      - postfix
+      - rabbit
+      - redis
     volumes:
-      - ../api:/var/www
-      - ./backend/grafana.yml:/etc/agent/agent.yaml
-    command: bash /start.sh
+      - ../backend:/backend
+      # - ./backend/grafana.yml:/etc/agent/agent.yaml
+    container_name: dev_notifier_backend_base
+
+  backend:
+    <<: *backend_base
+    ports:
+      - "8094:8800"
+    command: uvicorn main:app --reload --host 0.0.0.0 --port 8800
     container_name: dev_notifier_backend
+
+  celery:
+    <<: *backend_base
+    working_dir: /backend
+    environment:
+      C_FORCE_ROOT: 'true'
+    command: bash -c "sh /backend/start_celery_worker.sh"
+    container_name: dev_notifier_celery
 
   frontend:
     build:

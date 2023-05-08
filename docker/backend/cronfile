@@ -1,6 +1,0 @@
-SHELL=/bin/bash
-BASH_ENV=/container.env
-* * * * * cd /var/www && /usr/local/bin/php cron_job.php Watcher
-* * * * * cd /var/www && /usr/local/bin/php cron_job.php Worker
-*/5 * * * * cd /var/www && /usr/local/bin/php cron_job.php SessionCleaner
-*/15 * * * * cd /var/www && /usr/local/bin/php cron_job.php OperationCleaner

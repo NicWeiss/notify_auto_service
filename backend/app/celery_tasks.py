@@ -9,13 +9,10 @@ from app.tasks.periondic_notify_send import periondic_notify_send
 logger = logging.getLogger(__name__)
 
 
-@celery_app.task(acks_late=True)
-def test_celery(word: str) -> str:
-    return f"test task return {word}"
-
-
 @celery_app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
+    print('INIT tasks')
+
     if settings.DO_NOT_RUN_PERIODIC_TASK:
         return
 
