@@ -52,3 +52,8 @@ class SessionService:
         self.session_crud.remove_db_object(db_object=session)
 
         return ServiceResponse()
+
+    def clear_expires_sessions(self) -> ServiceResponse:
+        self.session_crud.clear_expires_sessions()
+
+        return ServiceResponse()

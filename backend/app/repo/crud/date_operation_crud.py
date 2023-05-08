@@ -11,3 +11,7 @@ class DateOperationCrud(Crud):
 
     def get_ids_for_process(self):
         return self.db.query(self.model.id).filter(self.model.status == 'new').all()
+
+    def clear_done_operations(self):
+        operations = self.db.query(self.model).filter(self.model.status == 'done')
+        operations.delete(synchronize_session=False)

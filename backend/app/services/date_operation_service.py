@@ -60,3 +60,8 @@ class DateOperationService:
         operation = self.date_operation_crud.get_by_id(id=id)
 
         return ServiceResponse(data=operation)
+
+    def clear_done_operations(self):
+        self.date_operation_crud.clear_done_operations()
+
+        return ServiceResponse()

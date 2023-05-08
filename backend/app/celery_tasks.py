@@ -3,6 +3,7 @@ import logging
 from app.core.celery_app import celery_app
 from app.core.config import settings
 
+from app.tasks.db_clear import db_clear
 from app.tasks.time_watch import time_watch
 from app.tasks.periondic_notify_send import periondic_notify_send
 
@@ -23,9 +24,15 @@ def setup_periodic_tasks(sender, **kwargs):
     )
 
     sender.add_periodic_task(
-        30,
+        10,
         run_periodic_notify_sender,
         name="Start sending notifies"
+    )
+
+    sender.add_periodic_task(
+        300,
+        run_db_clear,
+        name="Start DB clear"
     )
 
 
@@ -43,6 +50,15 @@ def run_periodic_notify_sender(*args, **kw):
     logger.info('START run_periodic_notify_sender')
     try:
         return periondic_notify_send()
+    except Exception as exc:
+        logger.error(f'Task error {exc}')
+
+
+@celery_app.task(acks_late=True)
+def run_db_clear(*args, **kw):
+    logger.info('Start DB clear')
+    try:
+        return db_clear()
     except Exception as exc:
         logger.error(f'Task error {exc}')
 

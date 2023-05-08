@@ -37,14 +37,6 @@ def upgrade():
                     sa.Column('is_deleted', sa.Boolean(), nullable=True),
                     sa.PrimaryKeyConstraint('id')
                     )
-    op.create_table('regstore_code',
-                    sa.Column('id', sa.Integer(), nullable=False),
-                    sa.Column('code', sa.Unicode(), nullable=True),
-                    sa.Column('email', sa.Unicode(), nullable=True),
-                    sa.Column('expire_at', sqlalchemy_utils.types.arrow.ArrowType(), nullable=False),
-                    sa.Column('is_deleted', sa.Boolean(), nullable=True),
-                    sa.PrimaryKeyConstraint('id')
-                    )
     op.create_table('system',
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('name', sa.Unicode(), nullable=True),
@@ -127,7 +119,6 @@ def downgrade():
     op.drop_table('category')
     op.drop_table('acceptor')
     op.drop_table('system')
-    op.drop_table('regstore_code')
     op.drop_table('reg_code')
     op.drop_table('date_operation')
     # ### end Alembic commands ###
