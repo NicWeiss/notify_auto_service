@@ -40,3 +40,6 @@ RUN echo 'while [[ $(service rsyslog status | grep Failed) -ne "" ]]; do echo "W
 RUN echo 'while [[ $(service rsyslog status | grep Failed) -ne "" ]]; do echo "Wait logs"; sleep 2; done'
 RUN echo "tail -f /var/log/syslog | grep postfix" >> /run.sh
 RUN chmod +x /run.sh
+
+
+CMD ["bash", "/run.sh"]

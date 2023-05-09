@@ -3,7 +3,7 @@ FROM python:3.10-slim as base
 ENV PYTHONDONTWRITEBYTECODE yes
 
 RUN apt-get update -y && \
-    apt-get install -y  libpq-dev python3-dev gcc && \
+    apt-get install -y  libpq-dev python3-dev gcc lynx && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir backend
@@ -14,8 +14,8 @@ RUN mkdir -p /var/run/celery/
 
 # ---- PROD build ----
 FROM base as prod
-CMD ["uvicorn main:app --host 0.0.0.0 --port 8800"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8800"]
 
 # ---- PROD build ----
 FROM base as celery
-CMD ["bash -c 'sh /backend/start_celery_worker.sh'"]
+CMD ["bash", "./start_celery_worker.sh"]

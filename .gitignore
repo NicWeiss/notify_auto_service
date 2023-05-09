@@ -40,5 +40,5 @@ node_modules
 .nas/
 __pycache__
 *.private
-.env
+.env*
 backend/celerybeat-schedule

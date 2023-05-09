@@ -31,7 +31,7 @@ class RegCodeCrud(Crud):
     def remove_used_code(self, code: str, email: str) -> bool:
         reg_code = self.get_any_code_by_code_and_email(code=code, email=email)
 
-        return self.remove(id=reg_code.id)
+        return self.remove_by_id(id=reg_code.id)
 
     def get_by_code(self, code: str) -> RegCode:
         return self.db.query(self.model).filter(and_(

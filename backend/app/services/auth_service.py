@@ -83,7 +83,9 @@ class AuthService:
                              text='', html=email_template)
         try:
             email_service.send()
-        except Exception:
+        except Exception as exc:
+            print(f'SMTP error: {exc}')
+
             return ServiceResponse(is_error=True, description='Error while sending code')
 
         create_scheme = RegCodeCreateScheme(

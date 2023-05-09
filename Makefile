@@ -18,68 +18,22 @@ help:  ## Помощь
 build:  ## Сборка проекта
 	@docker-compose -f docker/docker-compose.yml build
 
-build_test:	## Сборка окружения для тестирования
-	@docker-compose -f docker/docker-compose-test.yml --project-name="test_" build
-
-test: ## Запуск тестирования
-	@docker-compose -f docker/docker-compose-test.yml --project-name="test_" up -d test_mysql test_backend
-	@docker-compose -f docker/docker-compose-test.yml --project-name="test_" up --exit-code-from test_runner  test_runner
-	@exit $$?
-
-publish:  ## Сборка проекта
-	@docker build --no-cache -f ./docker/backend/Dockerfile -t harbor.nic-weiss.tech/notifier/backend:$(VERSION) .
-	@docker build --no-cache -f ./docker/frontend/Dockerfile --target prod -t harbor.nic-weiss.tech/notifier/frontend:$(VERSION) .
-	@docker push harbor.nic-weiss.tech/notifier/frontend:$(VERSION)
-	@docker push harbor.nic-weiss.tech/notifier/backend:$(VERSION)
-
 start: ## Запуск проекта для разработки
 	@docker-compose -f docker/docker-compose.yml up
 
 stop: ## Остановка проекта
 	@docker-compose -f docker/docker-compose.yml down
 
-production:  ## Запуск проекта
-	@echo VERSION: $(VERSION)
-	@export VERSION=$(VERSION) && \
-	docker-compose -f docker/docker-compose-production.yml --project-name="prod_" pull && \
-	docker-compose -f docker/docker-compose-production.yml --project-name="prod_" up -d
-
-down_production: ## Останов продакшена
-	@echo VERSION: $(VERSION)
-	@export VERSION=$(VERSION) && \
-	docker-compose -f docker/docker-compose-production.yml --project-name="prod_" down
-
-migration:  ## Создание новой миграции
-	@docker-compose -f docker/docker-compose.yml run backend sh -c "cd /var/www && php migration.php $(filter-out $@,$(MAKECMDGOALS))"
-	@[ "$(filter-out $@,$(MAKECMDGOALS))" = 'create' ] && echo Change rights && sudo chown $$USER:$$USER -R $(DIR)/api/app/migration/ || exit 0
-
-stat:			# params for migration: Показать доступные миграции без применения.
-	exit
-init:			# params for migration: Инициализация таблицы миграций
-	exit
-create: 	# params for migration: Создать миграцию
-	exit
-up:				# params for migration: [count] Применить миграции (применит все доступные миграции);
-	exit
-down: 		# params for migration: [count|migration_id] Откатить миграции (default count=1);
-	exit                         -
-resolve:	# params for migration: Попытаться найти и откатить миграцию которая была удалена с диска, но есть базе
-	exit
-
-migrate_prod:
-	@export VERSION=$(VERSION) && docker-compose -f docker/docker-compose-production.yml run --user www-data backend sh -c "cd /var/www && php migration.php up"
-
-dump_restore:  ## Восстановление базы из бэкапа
-	docker-compose run mysql bash -c "cd mysql && mysql -h mysql -u root -pmysql notifier < dump.sql"
-
-dump_create:  ## Создание бекапа базы
-	docker-compose run mysql bash -c "cd mysql && mysqldump -h mysql -u root -pmysql notifier > dump.sql"
-
 ps:
 	@docker-compose -f docker/docker-compose.yml ps
 
-prod_ps:
-	@docker-compose -f docker/docker-compose-production.yml --project-name="prod_" ps
+publish:  ## Сборка проекта
+	@docker build --no-cache -f ./docker/backend/Dockerfile --target prod -t harbor.nic-weiss.tech/notifier/backend:$(VERSION) .
+	@docker build --no-cache -f ./docker/backend/Dockerfile --target celery -t harbor.nic-weiss.tech/notifier/celery:$(VERSION) .
+	@docker build --no-cache -f ./docker/frontend/Dockerfile --target prod -t harbor.nic-weiss.tech/notifier/frontend:$(VERSION) .
+	@docker build --no-cache -f ./docker/postfix/Dockerfile -t harbor.nic-weiss.tech/notifier/postfix:$(VERSION) .
 
-prod_logs:
-	@docker-compose -f docker/docker-compose-production.yml --project-name="prod_" logs  --tail=100 -f
+	@docker push harbor.nic-weiss.tech/notifier/frontend:$(VERSION)
+	@docker push harbor.nic-weiss.tech/notifier/backend:$(VERSION)
+	@docker push harbor.nic-weiss.tech/notifier/celery:$(VERSION)
+	@docker push harbor.nic-weiss.tech/notifier/postfix:$(VERSION)
