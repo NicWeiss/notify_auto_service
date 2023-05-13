@@ -65,6 +65,7 @@ class NotifyCrud(Crud):
 
     def get_by_day_of_week_and_time(self, day_of_week: int, time: str) -> List[Notify]:
         return self.db.query(self.model).filter(and_(
+            self.model.periodic == 'day_of_week',
             self.model.day_of_week == day_of_week,
             self.model.time == time,
             self.model.is_deleted.is_(False),

@@ -27,8 +27,14 @@
                 {{/if}}
                 <Utils::FromGmt @type="date" @date={{item.date}} @time={{item.time}}/>
               </td>
-              <td data-th="Время выполнения: "><Utils::FromGmt @type="time" @date={{item.date}} @time={{item.time}} /></td>
-              <td data-th="Периодичность: ">{{get PERIODIC item.periodic}}</td>
+              <td data-th="Время выполнения: "> <Utils::FromGmt @type="time" @date={{item.date}} @time={{item.time}} /></td>
+              <td data-th="Периодичность: ">
+                {{#if (or (eq item.periodic "every_several_hours") (eq item.periodic "every_several_minutes"))}}
+                  Каждые {{item.repeateInterval}} {{get INTERVAL_SLUG item.periodic}}
+                {{else}}
+                  {{get PERIODIC item.periodic}}
+                {{/if}}
+              </td>
               <td class="table-controls" data-th="">
                 <div class="buttons-bar justify-content-around">
                   {{#if item.isDisabled}}

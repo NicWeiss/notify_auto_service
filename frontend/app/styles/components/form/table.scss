@@ -81,6 +81,10 @@
       .table-controls {
         opacity: 1 !important;
       }
+
+      .cuted-text {
+        max-width: 322px;
+      }
     }
   }
 }
@@ -109,7 +113,11 @@
 
 @media (min-width: $breakpoint-middle) and (max-width: $breakpoint-max) {
   .rwd-table {
-
+    tr {
+      .cuted-text {
+        max-width: 260px;
+      }
+    }
     th,
     td {
       padding: 5px 2px !important;

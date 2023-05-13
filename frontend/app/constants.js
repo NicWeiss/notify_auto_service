@@ -1,5 +1,7 @@
 export const PERIODIC = {
   'once': 'Разовое',
+  'every_several_minutes': 'Каждые несколько минут',
+  'every_several_hours': 'Каждые несколько часов',
   'day_of_week': 'День недели',
   'everyday': 'Каждый день',
   'workday': 'По будням',
@@ -14,6 +16,14 @@ export const PERIODIC_SELECT = [
   {
     'title': 'Разовое',
     'value': 'once'
+  },
+  {
+    'title': 'Каждые несколько минут',
+    'value': 'every_several_minutes'
+  },
+  {
+    'title': 'Каждые несколько часов',
+    'value': 'every_several_hours'
   },
   {
     'title': 'День недели',
@@ -106,3 +116,19 @@ export const MONTHS = {
   '11': 'Ноябрь',
   '12': 'Декабрь',
 }
+
+export const INTERVAL_SLUG = {
+  'every_several_minutes': 'мин.',
+  'every_several_hours': 'ч.',
+}
+
+export const AUTODISABLE_STATES = [
+  {
+    'title': 'Отключено',
+    'value': 0
+  },
+  {
+    'title': 'Включено',
+    'value': 1
+  }
+]

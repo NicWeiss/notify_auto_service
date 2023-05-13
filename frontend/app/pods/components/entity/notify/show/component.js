@@ -2,9 +2,10 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
-import { PERIODIC, WEEK } from 'frontend/constants';
+import { INTERVAL_SLUG, PERIODIC, WEEK } from 'frontend/constants';
 
 export default class NotificationsShowComponent extends Component {
+  INTERVAL_SLUG = INTERVAL_SLUG
   PERIODIC = PERIODIC
   WEEK = WEEK
 

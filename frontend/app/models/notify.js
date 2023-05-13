@@ -9,6 +9,9 @@ export default class NotifyModel extends Model {
   @attr('string') time
   @attr('boolean') isDisabled
   @attr('number') categoryId
+  @attr('number') repeateInterval
+  @attr('boolean') isAutodisable
+  @attr('string') autodisableAt
 
   @hasMany('acceptor') acceptors
 }

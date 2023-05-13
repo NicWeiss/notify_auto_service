@@ -6,6 +6,9 @@ export default class NotifySerializer extends RESTSerializer.extend(EmbeddedReco
     acceptors: { embedded: 'always' },
     dayOfWeek: 'day_of_week',
     categoryId: 'category_id',
-    isDisabled: 'is_disabled'
+    isDisabled: 'is_disabled',
+    repeateInterval: 'repeate_interval',
+    isAutodisable: 'is_autodisable',
+    autodisableAt: 'autodisable_at'
   };
 };

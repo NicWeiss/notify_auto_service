@@ -4,13 +4,14 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { updateModelByModel } from 'frontend/helpers/updateModelByModel';
 
-import { PERIODIC_SELECT, PERIDOIC_TYPES_NEED_DAY, WEEK_SELECT } from 'frontend/constants';
+import { AUTODISABLE_STATES, PERIODIC_SELECT, PERIDOIC_TYPES_NEED_DAY, WEEK_SELECT } from 'frontend/constants';
 
 
 export default class NewComponent extends Component {
   @service store;
   @service notify
 
+  AUTODISABLE_STATES = AUTODISABLE_STATES
   PERIODIC_SELECT = PERIODIC_SELECT
   PERIDOIC_TYPES_NEED_DAY = PERIDOIC_TYPES_NEED_DAY
   WEEK_SELECT = WEEK_SELECT
@@ -20,6 +21,7 @@ export default class NewComponent extends Component {
   @tracked isDateTime = false
   @tracked queryParams = { 'only_enabled': true }
   @tracked date = null
+  @tracked autodisableAt= null
   @tracked selectedDate = null
 
   constructor(owner, args) {
@@ -48,6 +50,11 @@ export default class NewComponent extends Component {
     const date = this.notifyNew.date || `${new Date().getUTCFullYear()}-01-01`
 
     this.date = new Date(`${date}T${time}Z`);
+    if (this.notifyNew.autodisableAt) {
+    this.autodisableAt = new Date(this.notifyNew.autodisableAt);
+    } else {
+      this.autodisableAt = new Date();
+    }
   }
 
   prepareDateAndTime() {
@@ -69,6 +76,16 @@ export default class NewComponent extends Component {
   @action
   onSelectDate(date) {
     this.selectedDate = date;
+  }
+
+  @action
+  onChangeAutodisable(value) {
+    this.notifyNew.isAutodisable =  Boolean(Number(value));
+  }
+
+  @action
+  onSelectDateAutodisable(date) {
+    this.notifyNew.autodisableAt = date.toISOString();
   }
 
   @action
