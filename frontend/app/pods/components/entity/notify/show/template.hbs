@@ -7,23 +7,29 @@
   <div class="body">
     <table>
       <tr>
-        <td>Название:</td>
+        <td>Название: </td>
         <td>{{@model.name}}</td>
       </tr>
       <tr>
-        <td>Содержимое:</td>
+        <td>Содержимое: </td>
         <td>{{@model.text}}</td>
       </tr>
       <tr>
-        <td>Получатели:</td>
+        <td>Получатели: </td>
         <td>{{this.acceptorList}}</td>
       </tr>
       <tr>
-        <td>Периодичность:</td>
-        <td>{{get PERIODIC @model.periodic}}</td>
+        <td>Периодичность: </td>
+        <td>
+          {{#if (or (eq @model.periodic "every_several_hours") (eq @model.periodic "every_several_minutes"))}}
+            Каждые {{@model.repeateInterval}} {{get INTERVAL_SLUG @model.periodic}}
+          {{else}}
+            {{get PERIODIC @model.periodic}}
+          {{/if}}
+        </td>
       </tr>
       <tr>
-        <td>День выполнения:</td>
+        <td>День выполнения: </td>
         <td>
           {{#if @model.dayOfWeek}}
             {{get WEEK @model.dayOfWeek}}
@@ -32,7 +38,7 @@
         </td>
       </tr>
       <tr>
-        <td>Время выполнения:</td>
+        <td>Время выполнения: </td>
         <td><Utils::FromGmt @type="time" @date={{@model.date}} @time={{@model.time}} /></td>
       </tr>
     </table>

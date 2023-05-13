@@ -3,7 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
-import { PERIODIC, WEEK } from 'frontend/constants';
+import { INTERVAL_SLUG, PERIODIC, WEEK } from 'frontend/constants';
 
 export default class NotificationsComponent extends Component {
   @service notify;
@@ -14,6 +14,7 @@ export default class NotificationsComponent extends Component {
   @tracked isShowShowModal = false;
   @tracked categoryId = false;
 
+  INTERVAL_SLUG = INTERVAL_SLUG
   PERIODIC = PERIODIC
   WEEK = WEEK
 

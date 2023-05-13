@@ -1,4 +1,6 @@
 import logging
+import pytz
+from datetime import datetime, timedelta
 from typing import List
 
 from arrow import Arrow
@@ -47,6 +49,8 @@ class NotifySenderService:
         self._find_day_of_week(time=time, day_of_week=day_of_week)
         self._find_every_month(day=day, time=time)
         self._find_every_year(month=month, day=day, time=time)
+        self._find_by_periodic(periodic='every_several_minutes', time=time)
+        self._find_by_periodic(periodic='every_several_hours', time=time)
 
         if first_day == day:
             self._find_by_periodic(periodic='first_month_day', time=time)
@@ -100,6 +104,20 @@ class NotifySenderService:
             if not notify.acceptors:
                 logger.info(f'Notify {notify.id} has no acceptors')
                 continue
+
+            if notify.periodic == 'every_several_minutes':
+                previous_time = datetime.strptime(notify.time, "%H:%M")
+                next_time = previous_time + timedelta(minutes=notify.repeate_interval)
+                self.notify_crud.update(db_object=notify, scheme={"time": next_time.time().strftime("%H:%M")})
+
+            if notify.periodic == 'every_several_hours':
+                previous_time = datetime.strptime(notify.time, "%H:%M")
+                next_time = previous_time + timedelta(hours=notify.repeate_interval)
+                self.notify_crud.update(db_object=notify, scheme={"time": next_time.time().strftime("%H:%M")})
+
+            if notify.is_autodisable:
+                if datetime.now().replace(tzinfo=pytz.UTC) > notify.autodisable_at.replace(tzinfo=pytz.UTC):
+                    self.notify_crud.update(db_object=notify, scheme={"is_disabled": True})
 
             for acceptor in notify.acceptors:
                 self.notify_pairs.append((notify, acceptor))

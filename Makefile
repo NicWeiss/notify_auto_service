@@ -24,6 +24,19 @@ start: ## Запуск проекта для разработки
 stop: ## Остановка проекта
 	@docker-compose -f docker/docker-compose.yml down
 
+migrate:  ## Обновление БД проекта
+	@docker-compose -f docker/docker-compose.yml run backend \
+			sh -c "alembic `([ ! -z "$(downgrade)" ] && echo "downgrade -$(downgrade)") || \
+  		([ ! -z "$(upgrade)" ] && echo "upgrade $(upgrade)") || \
+			echo "upgrade head"`"
+
+migration_create:  ## Создание новой миграции
+	@[ -z "$(msg)" ] && \
+		echo -e '${Red}Добавьте msg${Color_Off}' || \
+	  docker-compose -f docker/docker-compose.yml run backend sh -c "alembic revision --autogenerate -m '$(msg)'"
+	@sudo chown $$USER:$$USER -R $(DIR)/backend/app/repo/migrations/versions
+
+
 ps:
 	@docker-compose -f docker/docker-compose.yml ps
 

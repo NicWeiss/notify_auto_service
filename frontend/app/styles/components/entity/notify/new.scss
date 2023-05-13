@@ -1,3 +1,20 @@
+.autodisable-wrapper {
+  display: flex;
+  flex-direction: row;
+
+  .autodisable {
+    width: 100%;
+  }
+
+  .date-time {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    padding-left: 20px;
+    width: 100%;
+  }
+}
+
 .periodic-time-wrapper {
   display: flex;
   flex-direction: row;
@@ -26,6 +43,15 @@
 }
 
 @media (max-width: 500px) {
+  .autodisable-wrapper {
+    flex-direction: column;
+
+    .date-time {
+      padding: 0;
+      width: 100%;
+    }
+  }
+
   .periodic-time-wrapper {
     flex-direction: column;
 

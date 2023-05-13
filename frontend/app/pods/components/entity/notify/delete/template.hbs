@@ -12,14 +12,20 @@
       </tr>
       <tr>
         <td>Периодичность:</td>
-        <td>{{get PERIODIC @notify.periodic}}</td>
+        <td>
+          {{#if (or (eq @notify.periodic "every_several_hours") (eq @notify.periodic "every_several_minutes"))}}
+            Каждые {{@notify.repeateInterval}} {{get INTERVAL_SLUG @notify.periodic}}
+          {{else}}
+            {{get PERIODIC @notify.periodic}}
+          {{/if}}
+        </td>
       </tr>
       <tr>
         <td>День выполнения:</td>
         <td><Utils::FromGmt @type="date" @date={{@notify.date}} @time={{@notify.time}} /></td>
       </tr>
       <tr>
-        <td>Время выполнения:</td>
+        <td>Время выполнения: </td>
         <td><Utils::FromGmt @type="time" @date={{@notify.date}} @time={{@notify.time}} /></td>
       </tr>
     </table>

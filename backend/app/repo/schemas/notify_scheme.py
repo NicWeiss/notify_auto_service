@@ -1,3 +1,4 @@
+from arrow import Arrow
 from typing import Optional, Union
 
 from pydantic import BaseModel
@@ -13,6 +14,12 @@ class NotifyCreateScheme(BaseModel):
     time: str
     is_disabled: bool = False
     category_id: Union[int, None]
+    repeate_interval: Optional[int]
+    is_autodisable: Optional[bool]
+    autodisable_at: Optional[Arrow]
+
+    class Config:
+        arbitrary_types_allowed = True
 
 
 class NotifyUpdateScheme(BaseModel):
@@ -24,3 +31,9 @@ class NotifyUpdateScheme(BaseModel):
     time: Optional[str]
     is_disabled: Optional[bool]
     category_id: Optional[Union[int, None]]
+    repeate_interval: Optional[int]
+    is_autodisable: Optional[bool]
+    autodisable_at: Optional[Arrow]
+
+    class Config:
+        arbitrary_types_allowed = True
