@@ -7,9 +7,19 @@
   <form class="custom-form">
   <div class="form-container">
 
-    <div class="form-group">
-      <label for="notify-name">Название</label>
-      <Input type="text" class="form-control" id="notify-name" @value={{this.notifyNew.name}} />
+    <div class="name-wrapper">
+      <div class="form-group name">
+        <label for="notify-name">Название</label>
+        <Input type="text" class="form-control" id="notify-name" @value={{this.notifyNew.name}} />
+      </div>
+      <div class="form-group form-checkbox">
+        <label for="notify-name">Статус</label>
+        {{#if this.notifyNew.isDisabled}}
+          <div class="btn btn-secondary" {{action 'changeDisabled' item bubbles=false}}><FaIcon @icon="bell-slash"/></div>
+        {{else}}
+          <div class="btn btn-success" {{action 'changeDisabled' item bubbles=false}}><FaIcon @icon="bell"/></div>
+        {{/if}}
+      </div>
     </div>
 
     <div class="form-group">
@@ -89,7 +99,6 @@
         </div>
       </div>
     </div>
-
 
     <div class="autodisable-wrapper">
       <div class="form-group autodisable">

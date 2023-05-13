@@ -23,10 +23,12 @@ export default class NewComponent extends Component {
   @tracked date = null
   @tracked autodisableAt= null
   @tracked selectedDate = null
+  @tracked isNotDisabled = true
 
   constructor(owner, args) {
     super(owner, args);
     this.notifyNew = this.args.model;
+    this.isNotDisabled = !this.notifyNew.isDisabled;
 
     if (!this.notifyNew?.id) {
       this.notifyNew = this.store.createRecord('notify');
@@ -71,6 +73,11 @@ export default class NewComponent extends Component {
     }
 
     this.notifyNew.time = `${hours}:${minutes}`;
+  }
+
+  @action
+  changeDisabled(value) {
+    this.notifyNew.isDisabled = !this.notifyNew.isDisabled;
   }
 
   @action
@@ -147,7 +154,7 @@ export default class NewComponent extends Component {
     } else {
       await this.notifyNew.save();
     }
-    this.notify.idDeleted = false;
+    // this.notify.idDeleted = false;
 
     this.args.onComplete(isNew);
   }
