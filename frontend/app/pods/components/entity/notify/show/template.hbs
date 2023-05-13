@@ -41,6 +41,12 @@
         <td>Время выполнения: </td>
         <td><Utils::FromGmt @type="time" @date={{@model.date}} @time={{@model.time}} /></td>
       </tr>
+      {{#if @model.isAutodisable}}
+        <tr>
+          <td>Автоотключение после: </td>
+          <td><Utils::FromIsoString @isoString={{@model.autodisableAt}} /></td>
+        </tr>
+      {{/if}}
     </table>
     <div class="buttons-bar">
       <div class="btn btn-full btn-outline-primary" {{action onEdit}}>Редактировать</div>
