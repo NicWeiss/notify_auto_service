@@ -44,9 +44,11 @@ publish:  ## Сборка проекта
 	@docker build --no-cache -f ./docker/backend/Dockerfile --target prod -t harbor.nic-weiss.tech/notifier/backend:$(VERSION) .
 	@docker build --no-cache -f ./docker/backend/Dockerfile --target celery -t harbor.nic-weiss.tech/notifier/celery:$(VERSION) .
 	@docker build --no-cache -f ./docker/frontend/Dockerfile --target prod -t harbor.nic-weiss.tech/notifier/frontend:$(VERSION) .
-	@docker build --no-cache -f ./docker/postfix/Dockerfile -t harbor.nic-weiss.tech/notifier/postfix:$(VERSION) .
 
 	@docker push harbor.nic-weiss.tech/notifier/frontend:$(VERSION)
 	@docker push harbor.nic-weiss.tech/notifier/backend:$(VERSION)
 	@docker push harbor.nic-weiss.tech/notifier/celery:$(VERSION)
+
+publish_postfix:  ## Сборка проекта
+	@docker build --no-cache -f ./docker/postfix/Dockerfile -t harbor.nic-weiss.tech/notifier/postfix:$(VERSION) .
 	@docker push harbor.nic-weiss.tech/notifier/postfix:$(VERSION)

@@ -65,3 +65,12 @@ class DateOperationService:
         self.date_operation_crud.clear_done_operations()
 
         return ServiceResponse()
+
+    def check_stuck_db_clearoperation(self):
+        stucked_operations = self.date_operation_crud.get_stucked_operations()
+
+        for operation in stucked_operations:
+            print(f'Operation {operation.id} is stuck and dropped to new')
+            self.date_operation_crud.update(db_object=operation, scheme={'status': 'new', 'start_process_at': None})
+
+        return ServiceResponse()

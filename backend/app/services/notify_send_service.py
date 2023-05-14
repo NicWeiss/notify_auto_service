@@ -32,43 +32,51 @@ class NotifySenderService:
 
     def process_operation(self, operation) -> None:
         print(f'Start operation {operation.id}')
-        scheme = DateOperationUpdateScheme(status='process')
+        scheme = DateOperationUpdateScheme(status='process', start_process_at=Arrow.now())
         self.date_operation_crud.update(db_object=operation, scheme=scheme)
 
-        first_day = operation.date_data['first_day']
-        last_day = operation.date_data['last_day']
-        day = operation.date_data['day']
-        day_of_week = operation.date_data['day_of_week']
-        month = operation.date_data['month']
+        try:
 
-        time = operation.date_data['time']
-        date = operation.date_data['date']
+            first_day = operation.date_data['first_day']
+            last_day = operation.date_data['last_day']
+            day = operation.date_data['day']
+            day_of_week = operation.date_data['day_of_week']
+            month = operation.date_data['month']
 
-        self._find_by_periodic(periodic='everyday', time=time)
-        self._find_once(date=date, time=time)
-        self._find_day_of_week(time=time, day_of_week=day_of_week)
-        self._find_every_month(day=day, time=time)
-        self._find_every_year(month=month, day=day, time=time)
-        self._find_by_periodic(periodic='every_several_minutes', time=time)
-        self._find_by_periodic(periodic='every_several_hours', time=time)
+            time = operation.date_data['time']
+            date = operation.date_data['date']
 
-        if first_day == day:
-            self._find_by_periodic(periodic='first_month_day', time=time)
+            self._find_by_periodic(periodic='everyday', time=time)
+            self._find_once(date=date, time=time)
+            self._find_day_of_week(time=time, day_of_week=day_of_week)
+            self._find_every_month(day=day, time=time)
+            self._find_every_year(month=month, day=day, time=time)
+            self._find_by_periodic(periodic='every_several_minutes', time=time)
+            self._find_by_periodic(periodic='every_several_hours', time=time)
 
-        if last_day == day:
-            self._find_by_periodic(periodic='last_month_day', time=time)
+            if first_day == day:
+                self._find_by_periodic(periodic='first_month_day', time=time)
 
-        if day_of_week in WORKDAYS:
-            self._find_by_periodic(periodic='workday', time=time)
+            if last_day == day:
+                self._find_by_periodic(periodic='last_month_day', time=time)
 
-        if day_of_week in HOLIDAYS:
-            self._find_by_periodic(periodic='weekend', time=time)
+            if day_of_week in WORKDAYS:
+                self._find_by_periodic(periodic='workday', time=time)
 
-        scheme = DateOperationUpdateScheme(status='done', complete_at=Arrow.now())
-        self.date_operation_crud.update(db_object=operation, scheme=scheme)
+            if day_of_week in HOLIDAYS:
+                self._find_by_periodic(periodic='weekend', time=time)
 
-        self._send_pairs()
-        print(f'Operation {operation.id} is done!')
+            scheme = DateOperationUpdateScheme(status='done', complete_at=Arrow.now())
+            self.date_operation_crud.update(db_object=operation, scheme=scheme)
+
+            self._send_pairs()
+
+            print(f'Operation {operation.id} is done!')
+        except Exception:
+            scheme = DateOperationUpdateScheme(status='error', complete_at=Arrow.now())
+            self.date_operation_crud.update(db_object=operation, scheme=scheme)
+
+            print(f'Operation {operation.id} is fail!')
 
         return ServiceResponse()
 

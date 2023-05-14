@@ -19,6 +19,9 @@ export default Component.extend({
   init() {
     this._super(...arguments);
     this.set('inputId', this.uuidv4());
+    if (!this.date) {
+      this.date = new Date();
+    }
     this.picker = new Picker(this.date.toISOString(), this.pickerType, this.inputId, this.setInput.bind(this));
   },
 

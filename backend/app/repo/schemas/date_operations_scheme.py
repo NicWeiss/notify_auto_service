@@ -17,6 +17,7 @@ class DateOperationCreateScheme(BaseModel):
 class DateOperationUpdateScheme(BaseModel):
     status: Optional[str]
     complete_at: Optional[Arrow]
+    start_process_at: Optional[Arrow]
 
     class Config:
         arbitrary_types_allowed = True
