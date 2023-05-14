@@ -12,7 +12,6 @@ export default class FromIsoString extends Component {
   }
 
   didReceiveAttrs() {
-    console.log(this.isoString);
     let date = new Date(this.isoString);
     this.output = date.toLocaleString()
   }

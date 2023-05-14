@@ -1,6 +1,6 @@
 from typing import Any
 
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException, Request, Header
 from app.api import schemas
 from sqlalchemy.orm import Session
 
@@ -15,8 +15,8 @@ router = APIRouter()
 @router.post('/auth/login')
 def login(
     object_in: schemas.AuthLogIn,
-    request: Request,
-    db: Session = Depends(deps.get_pg_db)
+    db: Session = Depends(deps.get_pg_db),
+    x_real_ip: str = Header(None, alias='X-Real-IP')
 ) -> Any:
     user_service = UserService(db=db)
     result = user_service.get_by_password_and_email(password=object_in.password, email=object_in.email)
@@ -27,7 +27,7 @@ def login(
     user = result.data
 
     session_service = SessionService(db=db)
-    result = session_service.set_session(user_id=user.id, user_ip=request.client.host, session_data=object_in)
+    result = session_service.set_session(user_id=user.id, user_ip=x_real_ip, session_data=object_in)
 
     return {'session': result.data}
 
@@ -35,8 +35,8 @@ def login(
 @router.post('/auth/sign_up')
 def sign_up(
     object_in: schemas.AuthSignUp,
-    request: Request,
-    db: Session = Depends(deps.get_pg_db)
+    db: Session = Depends(deps.get_pg_db),
+    x_real_ip: str = Header(None, alias='X-Real-IP')
 ) -> Any:
     auth_service = AuthService(db=db)
     result = auth_service.verify_code_and_email(code=object_in.code, email=object_in.email)
@@ -49,7 +49,7 @@ def sign_up(
     user = result.data
 
     session_service = SessionService(db=db)
-    result = session_service.set_session(user_id=user.id, user_ip=request.client.host, session_data=object_in)
+    result = session_service.set_session(user_id=user.id, user_ip=x_real_ip, session_data=object_in)
     auth_service.clear_reg_code(code=object_in.code, email=object_in.email)
 
     return {'session': result.data}
