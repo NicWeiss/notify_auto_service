@@ -14,7 +14,7 @@ RUN mkdir -p /var/run/celery/
 
 # ---- PROD build ----
 FROM base as prod
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8800"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8800", "--proxy-headers"]
 
 # ---- PROD build ----
 FROM base as celery

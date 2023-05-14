@@ -22,6 +22,7 @@ class SessionService:
         expire_delta = timedelta(days=3650) if data.get('client', {}).get('mobile', False) else timedelta(days=1)
 
         result = LocationService().get_location(ip=user_ip)
+
         if not result.is_error:
             data['location'] = result.data
 

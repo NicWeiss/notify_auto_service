@@ -10,6 +10,7 @@ class Location(BaseModel):
     region: Optional[str]
     country_name: Optional[str]
     continent_name: Optional[str]
+    message: Optional[str]
 
 
 class Client(BaseModel):
