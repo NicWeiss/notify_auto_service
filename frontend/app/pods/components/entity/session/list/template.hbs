@@ -18,7 +18,7 @@
             </td>
             <td data-th="Клиент: ">{{item.client.client}} {{item.client.version}} on {{item.client.os}}</td>
             <td data-th="IP адресс: ">{{item.location.ip}}</td>
-            <td data-th="Истекает: "><Utils::FromTimestamp @timestamp={{item.expireAt}}/></td>
+            <td data-th="Истекает: "><Utils::FromIsoString @isoString={{item.expireAt}}/></td>
             <td data-th="">
               <div class="buttons-bar justify-content-around">
                 <div class="btn btn-outline-danger btn-icon without-border" {{action 'onDelete' item}}><FaIcon @icon="trash"/></div>
