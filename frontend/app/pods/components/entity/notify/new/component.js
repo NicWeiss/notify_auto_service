@@ -28,7 +28,6 @@ export default class NewComponent extends Component {
   constructor(owner, args) {
     super(owner, args);
     this.notifyNew = this.args.model;
-    this.isNotDisabled = !this.notifyNew.isDisabled;
 
     if (!this.notifyNew?.id) {
       this.notifyNew = this.store.createRecord('notify');
@@ -37,6 +36,7 @@ export default class NewComponent extends Component {
       this.notifyNew.categoryId = this.args.categoryId || 0;
       this.date = new Date();
     } else {
+      this.isNotDisabled = !this.notifyNew.isDisabled;
       this.restoreDateAndTime();
 
       if (PERIDOIC_TYPES_NEED_DAY.includes(this.notifyNew.periodic)) {
@@ -92,6 +92,10 @@ export default class NewComponent extends Component {
 
   @action
   onSelectDateAutodisable(date) {
+    if (!date) {
+      this.date = new Date();
+    }
+
     this.notifyNew.autodisableAt = date.toISOString();
   }
 
