@@ -9,5 +9,5 @@ class Session(Model):
     session = Column(Unicode)
     user_id = Column(ForeignKey('user.id'))
     client = Column(JSONB)
-    Nlocation = Column(JSONB)
+    location = Column(JSONB)
     expire_at = Column(ArrowType, nullable=False)
