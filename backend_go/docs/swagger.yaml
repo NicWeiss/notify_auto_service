@@ -1,0 +1,58 @@
+definitions:
+  api_utils.ErrorData:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+    type: object
+  api_utils.ErrorResponse:
+    properties:
+      error:
+        $ref: '#/definitions/api_utils.ErrorData'
+      status:
+        type: string
+    type: object
+  services.album:
+    properties:
+      artist:
+        type: string
+      id:
+        type: string
+      price:
+        type: number
+      title:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /albums:
+    get:
+      description: Get list of albums
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/services.album'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Get albums
+      tags:
+      - API
+  /tracks:
+    get:
+      description: Get list of tracks
+      produces:
+      - application/json
+      responses: {}
+      summary: Get tracks
+      tags:
+      - API
+swagger: "2.0"

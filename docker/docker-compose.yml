@@ -62,7 +62,7 @@ services:
     <<: *backend_base
     ports:
       - "8094:8800"
-    command: uvicorn main:app --reload --host 0.0.0.0 --port 8800 --proxy-headers
+    command: python run.py
     stdin_open: true
     tty: true
     container_name: dev_notifier_backend
@@ -120,7 +120,7 @@ services:
       - '25672:25672'
       - '15672:15672'
     volumes:
-      - ../data/rabbitmq:/var/lib/rabbitmq
+      - ../data/rabbitmq2:/var/lib/rabbitmq
     container_name: dev_notifier_rabbit
 
   flower:

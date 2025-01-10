@@ -4,6 +4,7 @@ from time import sleep
 from app.repo import LocalSession
 from app.services.date_operation_service import DateOperationService
 from app.services.notify_send_service import NotifySenderService
+from app.utils.logger import logger
 
 IN_RUN = {}
 

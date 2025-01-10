@@ -1,19 +1,15 @@
-import logging
-
 from app.core.celery_app import celery_app
 from app.core.config import settings
-
 from app.tasks.check_stuck_operation import check_stuck_operation
 from app.tasks.db_clear import db_clear
-from app.tasks.time_watch import time_watch
 from app.tasks.periondic_notify_send import periondic_notify_send
-
-logger = logging.getLogger(__name__)
+from app.tasks.time_watch import time_watch
+from app.utils.logger import logger
 
 
 @celery_app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
-    print('INIT tasks')
+    logger.info('INIT tasks')
 
     if settings.DO_NOT_RUN_PERIODIC_TASK:
         return
