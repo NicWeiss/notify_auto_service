@@ -42,3 +42,4 @@ __pycache__
 *.private
 .env*
 backend/celerybeat-schedule
+__debug*

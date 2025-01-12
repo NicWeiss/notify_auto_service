@@ -15,46 +15,46 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/albums": {
-            "get": {
-                "description": "Get list of albums",
+        "/auth/login": {
+            "post": {
+                "description": "Login, create new session, return auth cookies",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "API"
+                    "Auth"
                 ],
-                "summary": "Get albums",
+                "summary": "Login in system",
+                "parameters": [
+                    {
+                        "description": "Login credentials",
+                        "name": "payload",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.LoginParams"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Session token",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/services.album"
-                            }
+                            "$ref": "#/definitions/schemas.SessionResponse"
                         }
                     },
-                    "404": {
-                        "description": "Not Found",
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/api_utils.ErrorResponse"
                         }
                     }
                 }
-            }
-        },
-        "/tracks": {
-            "get": {
-                "description": "Get list of tracks",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "API"
-                ],
-                "summary": "Get tracks",
-                "responses": {}
             }
         }
     },
@@ -81,19 +81,21 @@ const docTemplate = `{
                 }
             }
         },
-        "services.album": {
+        "schemas.LoginParams": {
             "type": "object",
             "properties": {
-                "artist": {
+                "email": {
                     "type": "string"
                 },
-                "id": {
+                "password": {
                     "type": "string"
-                },
-                "price": {
-                    "type": "number"
-                },
-                "title": {
+                }
+            }
+        },
+        "schemas.SessionResponse": {
+            "type": "object",
+            "properties": {
+                "session": {
                     "type": "string"
                 }
             }

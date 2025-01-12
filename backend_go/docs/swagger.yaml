@@ -13,46 +13,46 @@ definitions:
       status:
         type: string
     type: object
-  services.album:
+  schemas.LoginParams:
     properties:
-      artist:
+      email:
         type: string
-      id:
+      password:
         type: string
-      price:
-        type: number
-      title:
+    type: object
+  schemas.SessionResponse:
+    properties:
+      session:
         type: string
     type: object
 info:
   contact: {}
 paths:
-  /albums:
-    get:
-      description: Get list of albums
+  /auth/login:
+    post:
+      description: Login, create new session, return auth cookies
+      parameters:
+      - description: Login credentials
+        in: body
+        name: payload
+        schema:
+          $ref: '#/definitions/schemas.LoginParams'
       produces:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Session token
           schema:
-            items:
-              $ref: '#/definitions/services.album'
-            type: array
-        "404":
-          description: Not Found
+            $ref: '#/definitions/schemas.SessionResponse'
+        "400":
+          description: Bad Request
           schema:
             $ref: '#/definitions/api_utils.ErrorResponse'
-      summary: Get albums
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Login in system
       tags:
-      - API
-  /tracks:
-    get:
-      description: Get list of tracks
-      produces:
-      - application/json
-      responses: {}
-      summary: Get tracks
-      tags:
-      - API
+      - Auth
 swagger: "2.0"
