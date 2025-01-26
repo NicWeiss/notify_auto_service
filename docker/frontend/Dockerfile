@@ -1,7 +1,7 @@
 # ---- Prod build ----
-FROM node:16.16.0 as base
+FROM node:18.20.6 as base
 
-RUN sed -i 's/stable\/updates/stable-security\/updates/' /etc/apt/sources.list
+#RUN sed -i 's/stable\/updates/stable-security\/updates/' /etc/apt/sources.list
 RUN apt-get update && \
   apt-get install -y --no-install-recommends \
   nginx
@@ -13,12 +13,14 @@ COPY ./frontend/vendor/ /frontend/vendor/
 COPY ./frontend/.ember-cli /frontend/
 COPY ./frontend/app.json /frontend/
 COPY ./frontend/ember-cli-build.js /frontend/
+COPY ./frontend/.babelrc.js /frontend/
 COPY ./frontend/package.json /frontend/
 
 WORKDIR /frontend
 
 RUN npm install
 RUN npm install -g ember-cli@3.24.0
+RUN export NODE_OPTIONS=--openssl-legacy-provider
 
 
 # ---- Dev build ----

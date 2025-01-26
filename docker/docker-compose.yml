@@ -91,8 +91,8 @@ services:
       - ../frontend/app.json:/frontend/app.json
       - ../frontend/ember-cli-build.js:/frontend/ember-cli-build.js
       - ../frontend/package.json:/frontend/package.json
-    depends_on:
-      - backend
+#    depends_on:
+#      - backend
     working_dir: /frontend
     command: ember s
     container_name: dev_notifier_frontend

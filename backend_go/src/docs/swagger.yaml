@@ -1,0 +1,184 @@
+definitions:
+  api_utils.ErrorData:
+    properties:
+      code:
+        type: string
+      description:
+        type: string
+    type: object
+  api_utils.ErrorResponse:
+    properties:
+      error:
+        $ref: '#/definitions/api_utils.ErrorData'
+      status:
+        type: string
+    type: object
+  models.Category:
+    properties:
+      id:
+        type: integer
+      is_deleted:
+        type: boolean
+      is_hidden:
+        type: boolean
+      name:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  models.Notify:
+    properties:
+      acceptors: {}
+      autodisable_at:
+        type: string
+      category_id:
+        type: integer
+      date:
+        type: string
+      day_of_week:
+        type: integer
+      id:
+        type: integer
+      is_autodisable:
+        type: boolean
+      is_deleted:
+        type: boolean
+      is_disabled:
+        type: boolean
+      name:
+        type: string
+      periodic:
+        type: string
+      repeate_interval:
+        type: integer
+      text:
+        type: string
+      time:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  schemas.EmberCategories:
+    properties:
+      category:
+        items:
+          $ref: '#/definitions/models.Category'
+        type: array
+      meta:
+        $ref: '#/definitions/schemas.EmberMeta'
+    type: object
+  schemas.EmberMeta:
+    properties:
+      total_pages:
+        type: integer
+    type: object
+  schemas.EmberNotifies:
+    properties:
+      meta:
+        $ref: '#/definitions/schemas.EmberMeta'
+      notify:
+        items:
+          $ref: '#/definitions/models.Notify'
+        type: array
+    type: object
+  schemas.LoginParams:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  schemas.SessionResponse:
+    properties:
+      session:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /auth/login:
+    post:
+      description: Login, create new session, return auth cookies
+      parameters:
+      - description: Login credentials
+        in: body
+        name: payload
+        schema:
+          $ref: '#/definitions/schemas.LoginParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Session token
+          schema:
+            $ref: '#/definitions/schemas.SessionResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Login in system
+      tags:
+      - Auth
+  /categories:
+    get:
+      description: Getting notify categories which user created
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of categories
+          schema:
+            $ref: '#/definitions/schemas.EmberCategories'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Getting notify categories
+      tags:
+      - Category
+  /notifies:
+    get:
+      description: Getting notify  which user created
+      parameters:
+      - description: Id for select only linked notifies
+        in: query
+        name: category_id
+        type: integer
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of notifies
+          schema:
+            $ref: '#/definitions/schemas.EmberNotifies'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Getting notifies
+      tags:
+      - Category
+swagger: "2.0"

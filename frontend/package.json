@@ -11,6 +11,7 @@
     "test": "tests"
   },
   "scripts": {
+    "postinstall": "npm run build",
     "build": "ember build --environment=production",
     "lint": "npm-run-all --aggregate-output --continue-on-error --parallel lint:*",
     "lint:hbs": "ember-template-lint .",

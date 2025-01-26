@@ -16,6 +16,6 @@ export default RESTAdapter.extend({
       'session': session
     };
   },
-  namespace: 'api/v2'
+  namespace: 'api/v3'
 });
 

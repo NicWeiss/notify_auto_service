@@ -41,7 +41,7 @@ export default Service.extend({
 
     const config = {
       method,
-      url: `/api/v2/${url}${queryParams}`,
+      url: `/api/v3/${url}${queryParams}`,
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Session': session,
