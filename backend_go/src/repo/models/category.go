@@ -1,11 +1,5 @@
 package models
 
-import (
-	"database/sql"
-
-	"notifier/src/utils"
-)
-
 type Category struct {
 	Id        int    `json:"id"`
 	IsDeleted bool   `json:"is_deleted"`
@@ -14,17 +8,16 @@ type Category struct {
 	IsHidden  bool   `json:"is_hidden"`
 }
 
-func (u Category) GetFromRows(rows *sql.Rows) ([]Category, error) {
-	var records []Category
+func (n *Category) GetEmptyItem() (any, any) {
+	nt := Category{}
+	return nt, &nt
+}
 
-	for rows.Next() {
-		var model = Category{}
-		err := utils.MapRowToModel(rows, &model)
-		if err != nil {
-			return nil, err
-		}
-		records = append(records, model)
+func (n *Category) MapRecords(prepared []interface{}) []Category {
+	var result = make([]Category, 0)
+	for _, element := range prepared {
+		result = append(result, element.(Category))
 	}
 
-	return records, nil
+	return result
 }

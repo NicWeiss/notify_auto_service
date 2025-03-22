@@ -1,10 +1,7 @@
 package models
 
 import (
-	"database/sql"
 	"time"
-
-	"notifier/src/utils"
 )
 
 type Session struct {
@@ -17,14 +14,16 @@ type Session struct {
 	Location  interface{} `json:"location"`
 }
 
-func (m Session) GetFromRows(rows *sql.Rows) ([]Session, error) {
-	var records []Session
+func (n *Session) GetEmptyItem() (any, any) {
+	nt := Session{}
+	return nt, &nt
+}
 
-	for rows.Next() {
-		var model = Session{}
-		utils.MapRowToModel(rows, &model)
-		records = append(records, model)
+func (n *Session) MapRecords(prepared []interface{}) []Session {
+	var result = make([]Session, 0)
+	for _, element := range prepared {
+		result = append(result, element.(Session))
 	}
 
-	return records, nil
+	return result
 }

@@ -3,25 +3,15 @@ package crud
 import (
 	"notifier/src/core"
 	"notifier/src/repo/models"
+	"notifier/src/utils/query"
 )
 
 var emptyCategory = models.Category{}
-var emptyCategories = make([]models.Category, 0)
 
 func GetCategoriesByUserID(userId int) ([]models.Category, error) {
-	query := `select * from "category" where "user_id"=$1`
-	rows, query_err := core.Session.Query(query, userId)
+	sql := `select * from "category" where "user_id"=$1`
+	rows, queryErr := core.Session.Query(sql, userId)
 
-	if query_err != nil {
-		return emptyCategories, query_err
-	}
-
-	defer rows.Close()
-	var records, errors = emptyCategory.GetFromRows(rows)
-
-	if errors != nil || len(records) == 0 {
-		return emptyCategories, errors
-	}
-
-	return records, errors
+	res, processErr := query.QueryProcess(&emptyCategory, rows, queryErr)
+	return emptyCategory.MapRecords(res), processErr
 }

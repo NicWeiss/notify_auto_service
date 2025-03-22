@@ -1,50 +1,32 @@
 package crud
 
 import (
-	"database/sql"
 	"notifier/src/core"
 	"notifier/src/repo/models"
+	"notifier/src/utils/query"
 )
 
-var emptyModel = models.Notify{}
-var emptyModels = make([]models.Notify, 0)
-
-func processQuery(rows *sql.Rows, queryErr error) ([]models.Notify, error) {
-	if queryErr != nil {
-		return emptyModels, queryErr
-	}
-
-	defer rows.Close()
-	var records, errors = emptyModel.GetFromRows(rows)
-
-	if errors != nil {
-		return emptyModels, errors
-	}
-
-	if records == nil {
-		return emptyModels, nil
-	}
-
-	return records, errors
-}
+var notify = models.Notify{}
 
 func GetNotifiesByUserId(userId int) ([]models.Notify, error) {
-	query := `select * from "notify" where "user_id"=$1`
-	rows, queryErr := core.Session.Query(query, userId)
+	sql := `select * from "notify" where "user_id"=$1`
+	rows, queryErr := core.Session.Query(sql, userId)
 
-	return processQuery(rows, queryErr)
+	res, processErr := query.QueryProcess(&notify, rows, queryErr)
+	return notify.MapRecords(res), processErr
 }
 
 func GetNotifiesByUserIdAndCategoryId(userId int, categoryId int) ([]models.Notify, error) {
-	query := `select * from "notify" where "user_id"=$1`
+	sql := `select * from "notify" where "user_id"=$1`
 
 	if categoryId == 0 {
-		query = query + ` and ("category_id" is null or "category_id" = $2)`
+		sql = sql + ` and ("category_id" is null or "category_id" = $2)`
 	} else {
-		query = query + ` and "category_id"=$2`
+		sql = sql + ` and "category_id"=$2`
 	}
 
-	rows, queryErr := core.Session.Query(query, userId, categoryId)
+	rows, queryErr := core.Session.Query(sql, userId, categoryId)
 
-	return processQuery(rows, queryErr)
+	res, processErr := query.QueryProcess(&notify, rows, queryErr)
+	return notify.MapRecords(res), processErr
 }

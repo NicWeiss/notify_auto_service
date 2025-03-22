@@ -16,9 +16,9 @@ func CryptPassword(password string) string {
 	return sha1_hash
 }
 
-func GetByPasswordAndEmail(password string, email string) (models.User, bool) {
+func GetByPasswordAndEmail(password string, email string) (models.User, error) {
 	var md5_pass = CryptPassword(password)
-	var user, is_error = crud.GetUserByPasswordAndEmail(md5_pass, email)
+	var user, crudError = crud.GetUserByPasswordAndEmail(md5_pass, email)
 
-	return user, is_error
+	return user, crudError
 }

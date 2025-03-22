@@ -1,10 +1,7 @@
 package models
 
 import (
-	"database/sql"
 	"time"
-
-	"notifier/src/utils"
 )
 
 type Notify struct {
@@ -25,17 +22,16 @@ type Notify struct {
 	Acceptors       interface{} `json:"acceptors"`
 }
 
-func (u Notify) GetFromRows(rows *sql.Rows) ([]Notify, error) {
-	var records []Notify
+func (n *Notify) GetEmptyItem() (any, any) {
+	nt := Notify{}
+	return nt, &nt
+}
 
-	for rows.Next() {
-		var model = Notify{}
-		err := utils.MapRowToModel(rows, &model)
-		if err != nil {
-			return nil, err
-		}
-		records = append(records, model)
+func (n *Notify) MapRecords(prepared []interface{}) []Notify {
+	var result = make([]Notify, 0)
+	for _, element := range prepared {
+		result = append(result, element.(Notify))
 	}
 
-	return records, nil
+	return result
 }

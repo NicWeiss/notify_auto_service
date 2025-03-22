@@ -22,12 +22,18 @@ func MapRowToModel(rows *sql.Rows, model interface{}) error {
 		return err
 	}
 
-	v := reflect.ValueOf(model)
-	if v.Kind() != reflect.Ptr {
-		return errors.New("there is need to pass a pointer, not a value, to StructScan destination")
+	var v reflect.Value
+
+	if reflect.ValueOf(model).Kind() == reflect.Ptr {
+		v = reflect.ValueOf(model)
+		if v.Kind() != reflect.Ptr {
+			return errors.New("there is need to pass a pointer, not a value, to StructScan destination")
+		}
+		v = reflect.Indirect(v)
+	} else {
+		v = reflect.ValueOf(model)
 	}
 
-	v = reflect.Indirect(v)
 	t := v.Type()
 
 	var m = make(map[string]interface{})

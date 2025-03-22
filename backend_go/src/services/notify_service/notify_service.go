@@ -6,6 +6,7 @@ import (
 )
 
 func GetNotifies(user models.User, categoryId int) ([]models.Notify, error) {
+
 	var err error
 	var notifies []models.Notify
 

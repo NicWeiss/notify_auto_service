@@ -1,10 +1,7 @@
 package models
 
 import (
-	"database/sql"
 	"time"
-
-	"notifier/src/utils"
 )
 
 type User struct {
@@ -16,17 +13,16 @@ type User struct {
 	RegistredAt time.Time `json:"registred_at"`
 }
 
-func (u User) GetFromRows(rows *sql.Rows) ([]User, error) {
-	var records []User
+func (n *User) GetEmptyItem() (any, any) {
+	nt := User{}
+	return nt, &nt
+}
 
-	for rows.Next() {
-		var model = User{}
-		err := utils.MapRowToModel(rows, &model)
-		if err != nil {
-			return nil, err
-		}
-		records = append(records, model)
+func (n *User) MapRecords(prepared []interface{}) []User {
+	var result = make([]User, 0)
+	for _, element := range prepared {
+		result = append(result, element.(User))
 	}
 
-	return records, nil
+	return result
 }

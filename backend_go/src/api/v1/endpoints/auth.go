@@ -31,8 +31,8 @@ func login(c *gin.Context) {
 		return
 	}
 
-	var user, is_user_error = user_service.GetByPasswordAndEmail(params.Password, params.Email)
-	if is_user_error {
+	var user, serviceError = user_service.GetByPasswordAndEmail(params.Password, params.Email)
+	if serviceError != nil {
 		api_utils.SendApiError(c, http.StatusUnauthorized, "auth_error", "Wrong email or password")
 		return
 	}
