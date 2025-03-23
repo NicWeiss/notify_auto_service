@@ -9,6 +9,14 @@ import (
 
 var session = models.Session{}
 
+func GetSessionsByUserId(userId int) ([]models.Session, error) {
+	sql := `select * from "session" where "user_id"=$1`
+	rows, queryErr := core.Session.Query(sql, userId)
+
+	res, processErr := query.QueryProcess(&session, rows, queryErr)
+	return session.MapRecords(res), processErr
+}
+
 func GetLatestSessionByUserId(user_id int) (models.Session, error) {
 	sql := `select * from "session" where "user_id"=$1 order by id desc limit 1`
 	rows, queryErr := core.Session.Query(sql, user_id)

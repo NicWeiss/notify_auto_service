@@ -13,6 +13,25 @@ definitions:
       status:
         type: string
     type: object
+  models.Acceptor:
+    properties:
+      account:
+        type: string
+      id:
+        type: integer
+      is_deleted:
+        type: boolean
+      is_disabled:
+        type: boolean
+      is_system:
+        type: boolean
+      name:
+        type: string
+      system_id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
   models.Category:
     properties:
       id:
@@ -58,6 +77,62 @@ definitions:
       user_id:
         type: integer
     type: object
+  models.Session:
+    properties:
+      client: {}
+      expire_at:
+        type: string
+      id:
+        type: integer
+      is_deleted:
+        type: boolean
+      location: {}
+      session:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  models.System:
+    properties:
+      help:
+        type: string
+      id:
+        type: integer
+      is_deleted:
+        type: boolean
+      is_disabled:
+        type: boolean
+      is_system:
+        type: boolean
+      name:
+        type: string
+      type:
+        type: string
+    type: object
+  models.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      is_deleted:
+        type: boolean
+      name:
+        type: string
+      password:
+        type: string
+      registred_at:
+        type: string
+    type: object
+  schemas.EmberAcceptors:
+    properties:
+      acceptor:
+        items:
+          $ref: '#/definitions/models.Acceptor'
+        type: array
+      meta:
+        $ref: '#/definitions/schemas.EmberMeta'
+    type: object
   schemas.EmberCategories:
     properties:
       category:
@@ -81,6 +156,31 @@ definitions:
           $ref: '#/definitions/models.Notify'
         type: array
     type: object
+  schemas.EmberSessions:
+    properties:
+      meta:
+        $ref: '#/definitions/schemas.EmberMeta'
+      session:
+        items:
+          $ref: '#/definitions/models.Session'
+        type: array
+    type: object
+  schemas.EmberSystems:
+    properties:
+      meta:
+        $ref: '#/definitions/schemas.EmberMeta'
+      system:
+        items:
+          $ref: '#/definitions/models.System'
+        type: array
+    type: object
+  schemas.EmberUser:
+    properties:
+      meta:
+        $ref: '#/definitions/schemas.EmberMeta'
+      user:
+        $ref: '#/definitions/models.User'
+    type: object
   schemas.LoginParams:
     properties:
       email:
@@ -96,6 +196,33 @@ definitions:
 info:
   contact: {}
 paths:
+  /acceptors:
+    get:
+      description: Getting acceptors which user created
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of acceptorss
+          schema:
+            $ref: '#/definitions/schemas.EmberAcceptors'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Getting acceptors
+      tags:
+      - Category
   /auth/login:
     post:
       description: Login, create new session, return auth cookies
@@ -179,6 +306,81 @@ paths:
           schema:
             $ref: '#/definitions/api_utils.ErrorResponse'
       summary: Getting notifies
+      tags:
+      - Category
+  /sessions:
+    get:
+      description: Getting sessions which user created
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of sessions
+          schema:
+            $ref: '#/definitions/schemas.EmberSessions'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Getting sessions
+      tags:
+      - Category
+  /systems:
+    get:
+      description: Getting systems available for sending
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: List of systems
+          schema:
+            $ref: '#/definitions/schemas.EmberSystems'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Getting systems
+      tags:
+      - Category
+  /user:
+    get:
+      description: Getting data obout current authorized user
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Current user
+          schema:
+            $ref: '#/definitions/schemas.EmberUser'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Getting user
       tags:
       - Category
 swagger: "2.0"

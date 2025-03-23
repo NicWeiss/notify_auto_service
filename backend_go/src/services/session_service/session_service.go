@@ -28,3 +28,17 @@ func SetSession(user models.User) (models.Session, error) {
 
 	return session_model, nil
 }
+
+func GetSessions(user models.User) ([]models.Session, error) {
+
+	var err error
+	var sessions []models.Session
+
+	sessions, err = crud.GetSessionsByUserId(user.Id)
+
+	if err != nil {
+		return sessions, err
+	}
+
+	return sessions, err
+}

@@ -4,6 +4,47 @@
         "contact": {}
     },
     "paths": {
+        "/acceptors": {
+            "get": {
+                "description": "Getting acceptors which user created",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Getting acceptors",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of acceptorss",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.EmberAcceptors"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/login": {
             "post": {
                 "description": "Login, create new session, return auth cookies",
@@ -133,6 +174,120 @@
                     }
                 }
             }
+        },
+        "/sessions": {
+            "get": {
+                "description": "Getting sessions which user created",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Getting sessions",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of sessions",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.EmberSessions"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/systems": {
+            "get": {
+                "description": "Getting systems available for sending",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Getting systems",
+                "responses": {
+                    "200": {
+                        "description": "List of systems",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.EmberSystems"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user": {
+            "get": {
+                "description": "Getting data obout current authorized user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Getting user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Current user",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.EmberUser"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -155,6 +310,35 @@
                 },
                 "status": {
                     "type": "string"
+                }
+            }
+        },
+        "models.Acceptor": {
+            "type": "object",
+            "properties": {
+                "account": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_deleted": {
+                    "type": "boolean"
+                },
+                "is_disabled": {
+                    "type": "boolean"
+                },
+                "is_system": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "system_id": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -226,6 +410,91 @@
                 }
             }
         },
+        "models.Session": {
+            "type": "object",
+            "properties": {
+                "client": {},
+                "expire_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_deleted": {
+                    "type": "boolean"
+                },
+                "location": {},
+                "session": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.System": {
+            "type": "object",
+            "properties": {
+                "help": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_deleted": {
+                    "type": "boolean"
+                },
+                "is_disabled": {
+                    "type": "boolean"
+                },
+                "is_system": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.User": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "is_deleted": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "registred_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.EmberAcceptors": {
+            "type": "object",
+            "properties": {
+                "acceptor": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Acceptor"
+                    }
+                },
+                "meta": {
+                    "$ref": "#/definitions/schemas.EmberMeta"
+                }
+            }
+        },
         "schemas.EmberCategories": {
             "type": "object",
             "properties": {
@@ -259,6 +528,45 @@
                     "items": {
                         "$ref": "#/definitions/models.Notify"
                     }
+                }
+            }
+        },
+        "schemas.EmberSessions": {
+            "type": "object",
+            "properties": {
+                "meta": {
+                    "$ref": "#/definitions/schemas.EmberMeta"
+                },
+                "session": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Session"
+                    }
+                }
+            }
+        },
+        "schemas.EmberSystems": {
+            "type": "object",
+            "properties": {
+                "meta": {
+                    "$ref": "#/definitions/schemas.EmberMeta"
+                },
+                "system": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.System"
+                    }
+                }
+            }
+        },
+        "schemas.EmberUser": {
+            "type": "object",
+            "properties": {
+                "meta": {
+                    "$ref": "#/definitions/schemas.EmberMeta"
+                },
+                "user": {
+                    "$ref": "#/definitions/models.User"
                 }
             }
         },

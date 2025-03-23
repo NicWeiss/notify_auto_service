@@ -22,6 +22,10 @@ func DefineApi(router *gin.Engine) {
 		v1.DefineAuth(api_router)
 		v1.DefineCategories(api_router)
 		v1.DefineNotifies(api_router)
+		v1.DefineSessions(api_router)
+		v1.DefineUsers(api_router)
+		v1.DefineSystems(api_router)
+		v1.DefineAcceptors(api_router)
 	}
 }
 
