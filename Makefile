@@ -50,5 +50,5 @@ publish:  ## Сборка проекта
 	@docker push harbor.nic-weiss.tech/notifier/celery:$(VERSION)
 
 publish_postfix:  ## Сборка проекта
-	@docker build --no-cache -f ./docker/postfix/Dockerfile -t harbor.nic-weiss.tech/notifier/postfix:$(VERSION) .
+	@docker build -f ./docker/postfix/Dockerfile -t harbor.nic-weiss.tech/notifier/postfix:$(VERSION) .
 	@docker push harbor.nic-weiss.tech/notifier/postfix:$(VERSION)
