@@ -42,3 +42,7 @@ __pycache__
 *.private
 .env*
 backend/celerybeat-schedule
+backend_go/pkg
+backend_go/.idea
+backend_go/tmp
+backend_go/__debug*
