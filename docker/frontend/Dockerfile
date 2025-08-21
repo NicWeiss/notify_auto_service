@@ -1,7 +1,7 @@
 # ---- Prod build ----
-FROM node:18.20.6 as base
+FROM node:18.16.0 as base
 
-#RUN sed -i 's/stable\/updates/stable-security\/updates/' /etc/apt/sources.list
+# RUN sed -i 's/stable\/updates/stable-security\/updates/' /etc/apt/sources.list
 RUN apt-get update && \
   apt-get install -y --no-install-recommends \
   nginx

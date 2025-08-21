@@ -49,7 +49,7 @@
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-modal-dialog": "^3.0.1",
     "ember-moment": "^8.0.0",
-    "ember-notify": "^6.0.0",
+    "ember-notify": "6.0.0",
     "ember-qunit": "^4.6.0",
     "ember-resolver": "^8.0.2",
     "ember-route-action-helper": "^2.0.8",

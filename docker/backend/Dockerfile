@@ -9,7 +9,6 @@ RUN apt-get update -y && \
 RUN mkdir backend
 COPY ./backend /backend
 WORKDIR /backend
-# RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 RUN mkdir -p /var/run/celery/
 
