@@ -18,8 +18,8 @@ COPY ./frontend/package.json /frontend/
 
 WORKDIR /frontend
 
-RUN npm install
-RUN npm install -g ember-cli@3.24.0
+RUN npm install -legacy-peer-deps
+RUN npm install -g ember-cli@3.24.0 -legacy-peer-deps
 RUN export NODE_OPTIONS=--openssl-legacy-provider
 
 
