@@ -42,23 +42,59 @@ func CreateNewOperations(now time.Time) (int, error) {
 		}
 
 		minutes := int(now.Sub(lastDate) / time.Minute)
-		if minutes > core.Cfg.CatchUpMinutes {
-			log.Printf("Service was down for %d minutes, only the last %d are checked", minutes, core.Cfg.CatchUpMinutes)
-			minutes = core.Cfg.CatchUpMinutes
+		if limit := core.Cfg.CatchUpMinutes; limit > 0 && minutes > limit {
+			log.Printf("Service was down for %d minutes, only the last %d are checked", minutes, limit)
+			minutes = limit
+		} else if minutes > 5 {
+			log.Printf("Service was down for %d minutes, all of them are checked", minutes)
 		}
 
-		for back := minutes - 1; back >= 0; back-- {
-			date := now.Add(-time.Duration(back) * time.Minute)
-			if err = crud.CreateDateOperation(tx, DateData(date), now); err != nil {
-				return err
-			}
-			created++
-		}
-
-		return nil
+		created = minutes
+		return crud.CreateDateOperations(tx, minutesBetween(now.Add(-time.Duration(minutes-1)*time.Minute), now), now)
 	})
 
 	return created, err
+}
+
+// minutesBetween describes every minute from first to last inclusive.
+func minutesBetween(first time.Time, last time.Time) []models.DateData {
+	result := make([]models.DateData, 0, int(last.Sub(first)/time.Minute)+1)
+
+	for minute := first; !minute.After(last); minute = minute.Add(time.Minute) {
+		result = append(result, DateData(minute))
+	}
+
+	return result
+}
+
+// Backfill creates operations for the minutes [from, to] (UTC). It is for the
+// time which was lost before the catch up was fixed; the matcher processes the
+// operations like usual ones.
+func Backfill(from time.Time, to time.Time) (int, error) {
+	from, to = from.UTC().Truncate(time.Minute), to.UTC().Truncate(time.Minute)
+	now := time.Now().UTC().Truncate(time.Minute)
+
+	// operations of the same minute must not be duplicated
+	if to.After(now) {
+		to = now.Add(-time.Minute)
+	}
+	if to.Before(from) {
+		return 0, nil
+	}
+
+	minutes := minutesBetween(from, to)
+
+	err := core.InTx(func(tx *sql.Tx) error {
+		if _, err := tx.Exec(`select pg_advisory_xact_lock($1)`, timeWatcherLockId); err != nil {
+			return err
+		}
+
+		// create_at is the creation time like for the usual operations, so the
+		// time watcher does not start to look for the "missed" minutes again
+		return crud.CreateDateOperations(tx, minutes, now)
+	})
+
+	return len(minutes), err
 }
 
 // DateData describes a minute. Day of week: monday is 1, sunday is 7.

@@ -6,6 +6,7 @@ package notify_send_service
 import (
 	"database/sql"
 	"log"
+	"sort"
 	"strings"
 	"time"
 
@@ -13,9 +14,10 @@ import (
 	"notifier/src/repo/crud"
 	"notifier/src/repo/models"
 	"notifier/src/services/date_operation_service"
+	"notifier/src/services/delivery_service"
 )
 
-const claimBatch = 20
+const claimBatch = 200
 
 // plan is everything what has to be written for one minute.
 type plan struct {
@@ -109,33 +111,61 @@ func accounts(acceptor models.Acceptor) []string {
 	return tokens
 }
 
+// match finds the notifies of a minute and applies the changes which do not
+// depend on the delivery (next time, autodisable). The messages are returned,
+// not saved: the caller decides what to do with them.
+func match(q core.Querier, minute models.DateData, now time.Time) (plan, error) {
+	notifies, err := crud.FindNotifiesForMinute(q, minute)
+	if err != nil {
+		return plan{}, err
+	}
+
+	result := buildPlan(notifies, now)
+
+	if err = crud.UpdateNotifyTimes(q, result.nextTimeIds, result.nextTimes); err != nil {
+		return plan{}, err
+	}
+	if err = crud.DisableNotifies(q, result.disableIds); err != nil {
+		return plan{}, err
+	}
+
+	return result, nil
+}
+
 // ProcessOperation matches one minute and writes the result in one
 // transaction: either the operation is done and its messages are queued, or
 // nothing has happened and the operation can be repeated.
 func ProcessOperation(operation models.DateOperation) (int, error) {
+	return processBatch([]models.DateOperation{operation})
+}
+
+// processBatch does the same for many minutes in ONE transaction: the minutes
+// are handled in the order of ids (a notify "every N minutes" depends on the
+// previous minute), and the commit is paid once. This is what makes a catch up
+// after a long downtime fast.
+func processBatch(operations []models.DateOperation) (int, error) {
 	queued := 0
 
 	err := core.InTx(func(tx *sql.Tx) error {
-		notifies, err := crud.FindNotifiesForMinute(tx, operation.DateData)
-		if err != nil {
-			return err
-		}
-
+		queued = 0
 		now := time.Now()
-		result := buildPlan(notifies, now)
+		ids := make([]int64, 0, len(operations))
 
-		if err = crud.UpdateNotifyTimes(tx, result.nextTimeIds, result.nextTimes); err != nil {
-			return err
-		}
-		if err = crud.DisableNotifies(tx, result.disableIds); err != nil {
-			return err
-		}
-		if err = crud.InsertDeliveries(tx, result.deliveries, now); err != nil {
-			return err
+		for _, operation := range operations {
+			result, err := match(tx, operation.DateData, now)
+			if err != nil {
+				return err
+			}
+
+			if err = crud.InsertDeliveries(tx, result.deliveries, now); err != nil {
+				return err
+			}
+
+			queued += len(result.deliveries)
+			ids = append(ids, int64(operation.Id))
 		}
 
-		queued = len(result.deliveries)
-		return crud.FinishDateOperation(tx, operation.Id, crud.StatusDone, now)
+		return crud.FinishDateOperations(tx, ids, crud.StatusDone, now)
 	})
 
 	return queued, err
@@ -151,27 +181,96 @@ func ProcessPending() (int, error) {
 		if err != nil {
 			return total, err
 		}
-
-		for _, operation := range operations {
-			queued, err := ProcessOperation(operation)
-			if err != nil {
-				log.Printf("Operation %d is fail: %v", operation.Id, err)
-
-				if err = date_operation_service.FinishOperation(operation.Id, true); err != nil {
-					log.Printf("Can't save status of operation %d: %v", operation.Id, err)
-				}
-				continue
-			}
-
-			if queued > 0 {
-				log.Printf("Operation %d (%s %s): %d messages queued",
-					operation.Id, operation.DateData.Date, operation.DateData.Time, queued)
-			}
-			total += queued
-		}
-
-		if len(operations) < claimBatch {
+		if len(operations) == 0 {
 			return total, nil
 		}
+
+		queued, err := processBatch(operations)
+		if err != nil {
+			// find the bad minute: handle them one by one
+			log.Printf("Batch of %d operations is fail, retry one by one: %v", len(operations), err)
+			queued = 0
+
+			for _, operation := range operations {
+				one, err := processBatch([]models.DateOperation{operation})
+				if err != nil {
+					log.Printf("Operation %d is fail: %v", operation.Id, err)
+
+					if err = date_operation_service.FinishOperation(operation.Id, true); err != nil {
+						log.Printf("Can't save status of operation %d: %v", operation.Id, err)
+					}
+					continue
+				}
+				queued += one
+			}
+		}
+
+		if queued > 0 || len(operations) > 1 {
+			first, last := operations[0].DateData, operations[len(operations)-1].DateData
+			log.Printf("Operations %d-%d (%s %s - %s %s): %d messages queued",
+				operations[0].Id, operations[len(operations)-1].Id, first.Date, first.Time, last.Date, last.Time, queued)
+		}
+		total += queued
+
+		if queued > 0 {
+			delivery_service.Nudge() // deliver while the next minutes are matched
+		}
 	}
+}
+
+// Report is the result of a dry run.
+type Report struct {
+	Minutes  int
+	Messages int
+	ByType   map[string]int
+	ByNotify []NotifyCount
+}
+
+type NotifyCount struct {
+	Id       int
+	Name     string
+	Periodic string
+	Count    int
+}
+
+// DryRun counts the messages which the minutes [from, to] would produce. It
+// goes through the same code as the real processing, inside a transaction
+// which is always rolled back: nothing is changed or sent.
+func DryRun(from time.Time, to time.Time) (Report, error) {
+	report := Report{ByType: map[string]int{}}
+	counts := map[int]*NotifyCount{}
+
+	tx, err := core.DB.Begin()
+	if err != nil {
+		return report, err
+	}
+	defer tx.Rollback()
+
+	now := time.Now()
+	for minute := from.UTC().Truncate(time.Minute); !minute.After(to); minute = minute.Add(time.Minute) {
+		result, err := match(tx, date_operation_service.DateData(minute), now)
+		if err != nil {
+			return report, err
+		}
+
+		report.Minutes++
+		for _, delivery := range result.deliveries {
+			report.Messages++
+			report.ByType[delivery.Type]++
+
+			entry := counts[delivery.NotifyId]
+			if entry == nil {
+				entry = &NotifyCount{Id: delivery.NotifyId, Name: delivery.Title}
+				counts[delivery.NotifyId] = entry
+			}
+			entry.Count++
+		}
+	}
+
+	for _, entry := range counts {
+		report.ByNotify = append(report.ByNotify, *entry)
+	}
+	sort.Slice(report.ByNotify, func(i, j int) bool { return report.ByNotify[i].Count > report.ByNotify[j].Count })
+
+	return report, nil
 }
