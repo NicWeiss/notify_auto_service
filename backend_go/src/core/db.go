@@ -2,8 +2,11 @@ package core
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"log"
+	"net/url"
+	"strings"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -22,7 +25,7 @@ var DB *sql.DB
 func InitDBConnection() error {
 	db, err := sql.Open("postgres", Cfg.DatabaseURL)
 	if err != nil {
-		return err
+		return redact(err)
 	}
 
 	db.SetMaxOpenConns(50)
@@ -35,12 +38,12 @@ func InitDBConnection() error {
 			break
 		}
 
-		log.Printf("waiting for database (%d/30): %v", attempt, err)
+		log.Printf("waiting for database (%d/30): %v", attempt, redact(err))
 		time.Sleep(time.Second)
 	}
 
 	if err != nil {
-		return fmt.Errorf("can't connect to database: %w", err)
+		return fmt.Errorf("can't connect to database: %w", redact(err))
 	}
 
 	DB = db
@@ -69,4 +72,22 @@ func InTx(fn func(tx *sql.Tx) error) (err error) {
 	}
 
 	return tx.Commit()
+}
+
+// redact removes the database password from an error text: drivers like to
+// quote the connection string.
+func redact(err error) error {
+	if err == nil {
+		return nil
+	}
+
+	message := err.Error()
+	if parsed, parseErr := url.Parse(Cfg.DatabaseURL); parseErr == nil && parsed.User != nil {
+		if password, ok := parsed.User.Password(); ok && password != "" {
+			message = strings.ReplaceAll(message, password, "***")
+			message = strings.ReplaceAll(message, url.QueryEscape(password), "***")
+		}
+	}
+
+	return errors.New(message)
 }

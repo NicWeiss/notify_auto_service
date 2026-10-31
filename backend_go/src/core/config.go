@@ -105,23 +105,58 @@ func envInt(key string, fallback int) int {
 // normalizeDSN converts SQLAlchemy style URIs (postgresql+psycopg2://...) into
 // something lib/pq understands. Without an explicit sslmode lib/pq would
 // require TLS, while psycopg2 (used before) silently fell back to plain text.
+//
+// The password is allowed to contain characters like '#', '@', '/' or '?'
+// without percent-encoding (the python backend accepted it, and the existing
+// .env files rely on it), so the string is not given to url.Parse as is:
+// the credentials are cut off by the last '@' and encoded afterwards.
 func normalizeDSN(dsn string) string {
-	parsed, err := url.Parse(dsn)
-	if err != nil {
+	scheme, rest, found := strings.Cut(dsn, "://")
+	if !found {
 		return dsn
 	}
-
-	if i := strings.Index(parsed.Scheme, "+"); i >= 0 {
-		parsed.Scheme = parsed.Scheme[:i]
+	if i := strings.Index(scheme, "+"); i >= 0 {
+		scheme = scheme[:i]
 	}
 
-	query := parsed.Query()
+	result := &url.URL{Scheme: scheme}
+
+	if at := strings.LastIndex(rest, "@"); at >= 0 {
+		name, password, hasPassword := strings.Cut(rest[:at], ":")
+		name, password = unescapeIfEncoded(name), unescapeIfEncoded(password)
+
+		if hasPassword {
+			result.User = url.UserPassword(name, password)
+		} else {
+			result.User = url.User(name)
+		}
+		rest = rest[at+1:]
+	}
+
+	location, err := url.Parse("//" + rest)
+	if err != nil {
+		// do not show the string: it contains the password
+		return dsn
+	}
+	result.Host, result.Path = location.Host, location.Path
+
+	query := location.Query()
 	if query.Get("sslmode") == "" {
 		query.Set("sslmode", "disable")
 	}
-	parsed.RawQuery = query.Encode()
+	result.RawQuery = query.Encode()
 
-	return parsed.String()
+	return result.String()
+}
+
+// unescapeIfEncoded decodes %XX sequences; a value with a stray '%' is
+// returned as it is.
+func unescapeIfEncoded(value string) string {
+	if decoded, err := url.PathUnescape(value); err == nil {
+		return decoded
+	}
+
+	return value
 }
 
 // loadDotEnv reads KEY=VALUE lines. Variables already present in the
