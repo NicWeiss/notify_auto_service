@@ -61,12 +61,12 @@ func notifyData(c *gin.Context, requireAll bool) (notify_service.NotifyData, boo
 			Name:            fields.Name,
 			Text:            fields.Text,
 			Periodic:        fields.Periodic,
-			DayOfWeek:       fields.DayOfWeek,
+			DayOfWeek:       fields.DayOfWeek.Int(),
 			Date:            fields.Date,
 			Time:            fields.Time,
-			RepeateInterval: fields.RepeateInterval,
+			RepeateInterval: fields.RepeateInterval.Int(),
 			IsDisabled:      fields.IsDisabled,
-			CategoryId:      fields.CategoryId,
+			CategoryId:      fields.CategoryId.Int(),
 			IsAutodisable:   fields.IsAutodisable,
 			AutodisableAt:   autodisableAt,
 		},
@@ -75,7 +75,7 @@ func notifyData(c *gin.Context, requireAll bool) (notify_service.NotifyData, boo
 	if fields.Acceptors != nil {
 		data.AcceptorIds = make([]int, 0, len(*fields.Acceptors))
 		for _, acceptor := range *fields.Acceptors {
-			data.AcceptorIds = append(data.AcceptorIds, acceptor.Id)
+			data.AcceptorIds = append(data.AcceptorIds, int(acceptor.Id))
 		}
 	}
 
@@ -227,7 +227,7 @@ func resetByCategoryId(c *gin.Context, user models.User) {
 		return
 	}
 
-	if err := notify_service.ResetCategory(user, params.CategoryId); err != nil {
+	if err := notify_service.ResetCategory(user, int(params.CategoryId)); err != nil {
 		api_utils.HandleError(c, err)
 		return
 	}
@@ -249,7 +249,7 @@ func deleteByCategoryId(c *gin.Context, user models.User) {
 		return
 	}
 
-	if err := notify_service.DeleteByCategory(user, params.CategoryId); err != nil {
+	if err := notify_service.DeleteByCategory(user, int(params.CategoryId)); err != nil {
 		api_utils.HandleError(c, err)
 		return
 	}
