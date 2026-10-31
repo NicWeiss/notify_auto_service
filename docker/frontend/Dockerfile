@@ -14,11 +14,13 @@ COPY ./frontend/.ember-cli /frontend/
 COPY ./frontend/app.json /frontend/
 COPY ./frontend/ember-cli-build.js /frontend/
 COPY ./frontend/.babelrc.js /frontend/
-COPY ./frontend/package.json /frontend/
+COPY ./frontend/package.json ./frontend/package-lock.json /frontend/
 
 WORKDIR /frontend
 
-RUN npm install -legacy-peer-deps
+# npm ci installs exactly the versions of package-lock.json. "npm install" took the
+# newest versions allowed by package.json, so a rebuilt image could stop working.
+RUN npm ci --legacy-peer-deps
 RUN npm install -g ember-cli@3.24.0 -legacy-peer-deps
 RUN export NODE_OPTIONS=--openssl-legacy-provider
 
