@@ -31,8 +31,8 @@ type Config struct {
 	DoNotRunPeriodicTask bool
 	IsDebug              bool
 
-	// Minutes which are checked after a downtime of the service. Notifies of
-	// older minutes are lost.
+	// Limit of the minutes which are checked after a downtime of the service
+	// (the older ones are lost). 0 - no limit: everything missed is sent.
 	CatchUpMinutes int
 
 	// Parallel senders of every channel and the Telegram limit (messages per second).
@@ -66,7 +66,7 @@ func LoadConfig() {
 		DoNotRunPeriodicTask: envBool("DO_NOT_RUN_PERIODIC_TASK", false),
 		IsDebug:              envBool("IS_DEBUG", false),
 
-		CatchUpMinutes:  envInt("CATCH_UP_MINUTES", 1440),
+		CatchUpMinutes:  envInt("CATCH_UP_MINUTES", 0),
 		EmailWorkers:    envInt("DELIVERY_EMAIL_WORKERS", 16),
 		TelegramWorkers: envInt("DELIVERY_TELEGRAM_WORKERS", 8),
 		PushWorkers:     envInt("DELIVERY_PUSH_WORKERS", 16),
