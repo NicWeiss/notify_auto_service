@@ -6,6 +6,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"os"
 	"os/signal"
 	"syscall"
 	"time"
@@ -21,6 +22,11 @@ import (
 // @version     3.0
 // @BasePath    /api/v3
 func main() {
+	if len(os.Args) > 1 && os.Args[1] == "backfill" {
+		runBackfill(os.Args[2:])
+		return
+	}
+
 	core.LoadConfig()
 
 	if !core.Cfg.IsDebug {
