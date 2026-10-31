@@ -1,36 +1,56 @@
 package endpoints
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
-	"net/http"
+
 	"notifier/src/api/api_utils"
-	"notifier/src/api/v1/responses"
-	"notifier/src/api/v1/schemas"
 	"notifier/src/repo/models"
 	"notifier/src/services/system_service"
 	"notifier/src/utils/decorators"
 )
 
-// CreateTags     godoc
 // @Summary       Getting systems
 // @Description   Getting systems available for sending
 // @Produce       application/json
+// @Param         Session  header  string  true  "Session token"
 // @Success       200  {object}   schemas.EmberSystems "List of systems"
-// @Failure       400  {object}  api_utils.ErrorResponse
 // @Failure       401  {object}  api_utils.ErrorResponse
-// @Tags          Category
+// @Tags          System
 // @Router        /systems [get]
 func getListOfSystems(c *gin.Context, user models.User) {
-	var systems, getErr = system_service.GetSystems()
-	if getErr != nil {
-		fmt.Println(getErr)
-		api_utils.SendApiError(c, http.StatusUnauthorized, "notify_error", "Can't get system list")
+	systems, err := system_service.GetSystems()
+	if err != nil {
+		api_utils.HandleError(c, err)
 		return
 	}
-	responses.EmberResponse(c, &schemas.EmberSystems{}, systems)
+
+	api_utils.Ember(c, "system", systems, 0)
+}
+
+// @Summary       Getting system
+// @Produce       application/json
+// @Param         Session  header  string  true  "Session token"
+// @Param         id       path    int     true  "System id"
+// @Success       200  {object}   schemas.EmberSystem
+// @Failure       404  {object}  api_utils.ErrorResponse
+// @Tags          System
+// @Router        /systems/{id} [get]
+func getSystem(c *gin.Context, user models.User) {
+	id, ok := pathId(c)
+	if !ok {
+		return
+	}
+
+	system, err := system_service.GetSystem(id)
+	if err != nil {
+		api_utils.HandleError(c, err)
+		return
+	}
+
+	api_utils.Ember(c, "system", system, 0)
 }
 
 func DefineSystems(router *gin.RouterGroup) {
 	router.GET("/systems", decorators.WithUser(getListOfSystems))
+	router.GET("/systems/:id", decorators.WithUser(getSystem))
 }

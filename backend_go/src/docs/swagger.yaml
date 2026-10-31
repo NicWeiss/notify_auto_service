@@ -1,15 +1,12 @@
+basePath: /api/v3
 definitions:
-  api_utils.ErrorData:
-    properties:
-      code:
-        type: string
-      description:
-        type: string
-    type: object
   api_utils.ErrorResponse:
     properties:
-      error:
-        $ref: '#/definitions/api_utils.ErrorData'
+      detail:
+        type: string
+    type: object
+  api_utils.StatusResponse:
+    properties:
       status:
         type: string
     type: object
@@ -45,9 +42,29 @@ definitions:
       user_id:
         type: integer
     type: object
+  models.ClientInfo:
+    properties:
+      client:
+        type: string
+      cookies:
+        type: boolean
+      mobile:
+        type: boolean
+      os:
+        type: string
+      os_version:
+        type: string
+      screen:
+        type: string
+      version:
+        type: string
+    type: object
   models.Notify:
     properties:
-      acceptors: {}
+      acceptors:
+        items:
+          $ref: '#/definitions/models.Acceptor'
+        type: array
       autodisable_at:
         type: string
       category_id:
@@ -79,14 +96,16 @@ definitions:
     type: object
   models.Session:
     properties:
-      client: {}
+      client:
+        type: object
       expire_at:
         type: string
       id:
         type: integer
       is_deleted:
         type: boolean
-      location: {}
+      location:
+        type: object
       session:
         type: string
       user_id:
@@ -119,10 +138,100 @@ definitions:
         type: boolean
       name:
         type: string
-      password:
-        type: string
       registred_at:
         type: string
+    type: object
+  schemas.AcceptorCreateFields:
+    properties:
+      account:
+        type: string
+      is_disabled:
+        type: boolean
+      is_system:
+        type: boolean
+      name:
+        type: string
+      system_id:
+        type: integer
+    required:
+    - name
+    - system_id
+    type: object
+  schemas.AcceptorCreateParams:
+    properties:
+      acceptor:
+        $ref: '#/definitions/schemas.AcceptorCreateFields'
+    required:
+    - acceptor
+    type: object
+  schemas.AcceptorRef:
+    properties:
+      id:
+        type: integer
+    type: object
+  schemas.AcceptorUpdateFields:
+    properties:
+      account:
+        type: string
+      is_disabled:
+        type: boolean
+      name:
+        type: string
+      system_id:
+        type: integer
+    type: object
+  schemas.AcceptorUpdateParams:
+    properties:
+      acceptor:
+        $ref: '#/definitions/schemas.AcceptorUpdateFields'
+    required:
+    - acceptor
+    type: object
+  schemas.CategoryFields:
+    properties:
+      is_hidden:
+        type: boolean
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  schemas.CategoryParams:
+    properties:
+      category:
+        $ref: '#/definitions/schemas.CategoryFields'
+    required:
+    - category
+    type: object
+  schemas.ChangePasswordParams:
+    properties:
+      current_password:
+        type: string
+      new_password:
+        type: string
+    required:
+    - current_password
+    - new_password
+    type: object
+  schemas.CodeRequestParams:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
+  schemas.DataResponse:
+    properties:
+      data:
+        additionalProperties: {}
+        type: object
+    type: object
+  schemas.EmberAcceptor:
+    properties:
+      acceptor:
+        $ref: '#/definitions/models.Acceptor'
+      meta:
+        $ref: '#/definitions/schemas.EmberMeta'
     type: object
   schemas.EmberAcceptors:
     properties:
@@ -142,6 +251,13 @@ definitions:
       meta:
         $ref: '#/definitions/schemas.EmberMeta'
     type: object
+  schemas.EmberCategory:
+    properties:
+      category:
+        $ref: '#/definitions/models.Category'
+      meta:
+        $ref: '#/definitions/schemas.EmberMeta'
+    type: object
   schemas.EmberMeta:
     properties:
       total_pages:
@@ -156,6 +272,13 @@ definitions:
           $ref: '#/definitions/models.Notify'
         type: array
     type: object
+  schemas.EmberNotify:
+    properties:
+      meta:
+        $ref: '#/definitions/schemas.EmberMeta'
+      notify:
+        $ref: '#/definitions/models.Notify'
+    type: object
   schemas.EmberSessions:
     properties:
       meta:
@@ -164,6 +287,13 @@ definitions:
         items:
           $ref: '#/definitions/models.Session'
         type: array
+    type: object
+  schemas.EmberSystem:
+    properties:
+      meta:
+        $ref: '#/definitions/schemas.EmberMeta'
+      system:
+        $ref: '#/definitions/models.System'
     type: object
   schemas.EmberSystems:
     properties:
@@ -183,18 +313,131 @@ definitions:
     type: object
   schemas.LoginParams:
     properties:
+      client:
+        $ref: '#/definitions/models.ClientInfo'
       email:
         type: string
       password:
         type: string
+    required:
+    - email
+    - password
+    type: object
+  schemas.NotifyCategoryParams:
+    properties:
+      category_id:
+        type: integer
+    required:
+    - category_id
+    type: object
+  schemas.NotifyFields:
+    properties:
+      acceptors:
+        items:
+          $ref: '#/definitions/schemas.AcceptorRef'
+        type: array
+      autodisable_at:
+        type: string
+      category_id:
+        type: integer
+      date:
+        type: string
+      day_of_week:
+        type: integer
+      is_autodisable:
+        type: boolean
+      is_disabled:
+        type: boolean
+      name:
+        type: string
+      periodic:
+        type: string
+      repeate_interval:
+        type: integer
+      text:
+        type: string
+      time:
+        type: string
+    type: object
+  schemas.NotifyParams:
+    properties:
+      notify:
+        $ref: '#/definitions/schemas.NotifyFields'
+    required:
+    - notify
+    type: object
+  schemas.PushTokenParams:
+    properties:
+      token:
+        type: string
+    required:
+    - token
+    type: object
+  schemas.RestoreParams:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
+  schemas.RestorePasswordParams:
+    properties:
+      code:
+        type: string
+      password:
+        type: string
+    required:
+    - code
+    - password
+    type: object
+  schemas.RestoreVerifyCodeParams:
+    properties:
+      code:
+        type: string
+    required:
+    - code
     type: object
   schemas.SessionResponse:
     properties:
       session:
         type: string
     type: object
+  schemas.SignUpParams:
+    properties:
+      client:
+        $ref: '#/definitions/models.ClientInfo'
+      code:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    required:
+    - code
+    - email
+    - name
+    - password
+    type: object
+  schemas.UserUpdateFields:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+    type: object
+  schemas.UserUpdateParams:
+    properties:
+      user:
+        $ref: '#/definitions/schemas.UserUpdateFields'
+    required:
+    - user
+    type: object
 info:
   contact: {}
+  title: Notifier
+  version: "3.0"
 paths:
   /acceptors:
     get:
@@ -205,31 +448,177 @@ paths:
         name: Session
         required: true
         type: string
+      - description: Skip disabled acceptors
+        in: query
+        name: only_enabled
+        type: boolean
       produces:
       - application/json
       responses:
         "200":
-          description: List of acceptorss
+          description: List of acceptors
           schema:
             $ref: '#/definitions/schemas.EmberAcceptors'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/api_utils.ErrorResponse'
         "401":
           description: Unauthorized
           schema:
             $ref: '#/definitions/api_utils.ErrorResponse'
       summary: Getting acceptors
       tags:
-      - Category
+      - Acceptor
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      - description: Acceptor
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.AcceptorCreateParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.EmberAcceptor'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Create acceptor
+      tags:
+      - Acceptor
+  /acceptors/{id}:
+    delete:
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      - description: Acceptor id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.EmberAcceptor'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Delete acceptor
+      tags:
+      - Acceptor
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      - description: Acceptor id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Acceptor
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.AcceptorUpdateParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.EmberAcceptor'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Update acceptor
+      tags:
+      - Acceptor
+  /acceptors/update_push_tokens:
+    post:
+      consumes:
+      - application/json
+      description: Add a firebase token of the device to the push acceptor
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      - description: Token
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.PushTokenParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.EmberAcceptor'
+      summary: Add push token
+      tags:
+      - Acceptor
+  /auth/get_code:
+    post:
+      consumes:
+      - application/json
+      description: Send a code for the registration to the email
+      parameters:
+      - description: Email
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.CodeRequestParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api_utils.StatusResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Get registration code
+      tags:
+      - Auth
   /auth/login:
     post:
-      description: Login, create new session, return auth cookies
+      consumes:
+      - application/json
+      description: Login, create new session and return its token
       parameters:
       - description: Login credentials
         in: body
         name: payload
+        required: true
         schema:
           $ref: '#/definitions/schemas.LoginParams'
       produces:
@@ -239,15 +628,115 @@ paths:
           description: Session token
           schema:
             $ref: '#/definitions/schemas.SessionResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/api_utils.ErrorResponse'
-        "401":
-          description: Unauthorized
+        "422":
+          description: Unprocessable Entity
           schema:
             $ref: '#/definitions/api_utils.ErrorResponse'
       summary: Login in system
+      tags:
+      - Auth
+  /auth/restore:
+    post:
+      consumes:
+      - application/json
+      description: Send a link for the password restoring to the email
+      parameters:
+      - description: Email
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.RestoreParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.DataResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Restore password
+      tags:
+      - Auth
+  /auth/restore/restore-password:
+    post:
+      consumes:
+      - application/json
+      description: Change the password by the code from the restore link
+      parameters:
+      - description: Code and the new password
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.RestorePasswordParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.DataResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Set new password
+      tags:
+      - Auth
+  /auth/restore/verify-restore-code:
+    post:
+      consumes:
+      - application/json
+      description: Check that the code from the restore link is alive
+      parameters:
+      - description: Code
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.RestoreVerifyCodeParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.DataResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Verify restore code
+      tags:
+      - Auth
+  /auth/sign_up:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user by the code from the letter and create a session
+      parameters:
+      - description: Registration data
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.SignUpParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Session token
+          schema:
+            $ref: '#/definitions/schemas.SessionResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Sign up
       tags:
       - Auth
   /categories:
@@ -266,10 +755,6 @@ paths:
           description: List of categories
           schema:
             $ref: '#/definitions/schemas.EmberCategories'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/api_utils.ErrorResponse'
         "401":
           description: Unauthorized
           schema:
@@ -277,19 +762,118 @@ paths:
       summary: Getting notify categories
       tags:
       - Category
-  /notifies:
-    get:
-      description: Getting notify  which user created
+    post:
+      consumes:
+      - application/json
       parameters:
-      - description: Id for select only linked notifies
-        in: query
-        name: category_id
-        type: integer
       - description: Session token
         in: header
         name: Session
         required: true
         type: string
+      - description: Category
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.CategoryParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.EmberCategory'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Create category
+      tags:
+      - Category
+  /categories/{id}:
+    delete:
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      - description: Category id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.EmberCategory'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Delete category
+      tags:
+      - Category
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      - description: Category id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Category
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.CategoryParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.EmberCategory'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Update category
+      tags:
+      - Category
+  /notifies:
+    get:
+      description: Getting notifies of one category (without category_id - notifies
+        without a category)
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      - description: Category id
+        in: query
+        name: category_id
+        type: integer
+      - description: Page number, from 1
+        in: query
+        name: page
+        type: integer
+      - description: Page size
+        in: query
+        name: per_page
+        type: integer
       produces:
       - application/json
       responses:
@@ -297,17 +881,182 @@ paths:
           description: List of notifies
           schema:
             $ref: '#/definitions/schemas.EmberNotifies'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/api_utils.ErrorResponse'
         "401":
           description: Unauthorized
           schema:
             $ref: '#/definitions/api_utils.ErrorResponse'
       summary: Getting notifies
       tags:
-      - Category
+      - Notify
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      - description: Notify
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.NotifyParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.EmberNotify'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Create notify
+      tags:
+      - Notify
+  /notifies/{id}:
+    delete:
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      - description: Notify id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.EmberNotify'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Delete notify
+      tags:
+      - Notify
+    get:
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      - description: Notify id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.EmberNotify'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Getting notify
+      tags:
+      - Notify
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      - description: Notify id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Notify
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.NotifyParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.EmberNotify'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Update notify
+      tags:
+      - Notify
+  /notifies/delete_by_category_id:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      - description: Category
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.NotifyCategoryParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api_utils.StatusResponse'
+      summary: Delete notifies of category
+      tags:
+      - Notify
+  /notifies/reset_from_category_id:
+    put:
+      consumes:
+      - application/json
+      description: Notifies of the category stay alive but lose the category
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      - description: Category
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.NotifyCategoryParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api_utils.StatusResponse'
+      summary: Remove notifies from category
+      tags:
+      - Notify
   /sessions:
     get:
       description: Getting sessions which user created
@@ -324,20 +1073,49 @@ paths:
           description: List of sessions
           schema:
             $ref: '#/definitions/schemas.EmberSessions'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/api_utils.ErrorResponse'
         "401":
           description: Unauthorized
           schema:
             $ref: '#/definitions/api_utils.ErrorResponse'
       summary: Getting sessions
       tags:
-      - Category
+      - Session
+  /sessions/{id}:
+    delete:
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      - description: Session id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.EmberSessions'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Delete session
+      tags:
+      - Session
   /systems:
     get:
       description: Getting systems available for sending
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -345,20 +1123,43 @@ paths:
           description: List of systems
           schema:
             $ref: '#/definitions/schemas.EmberSystems'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/api_utils.ErrorResponse'
         "401":
           description: Unauthorized
           schema:
             $ref: '#/definitions/api_utils.ErrorResponse'
       summary: Getting systems
       tags:
-      - Category
+      - System
+  /systems/{id}:
+    get:
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      - description: System id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.EmberSystem'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Getting system
+      tags:
+      - System
   /user:
     get:
-      description: Getting data obout current authorized user
+      description: Getting data about current authorized user
       parameters:
       - description: Session token
         in: header
@@ -372,15 +1173,76 @@ paths:
           description: Current user
           schema:
             $ref: '#/definitions/schemas.EmberUser'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/api_utils.ErrorResponse'
         "401":
           description: Unauthorized
           schema:
             $ref: '#/definitions/api_utils.ErrorResponse'
       summary: Getting user
       tags:
-      - Category
+      - User
+  /user/change-password:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      - description: Passwords
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.ChangePasswordParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.DataResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Change password
+      tags:
+      - User
+  /users/{id}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Session token
+        in: header
+        name: Session
+        required: true
+        type: string
+      - description: User id (only the current user can be changed)
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Name and email
+        in: body
+        name: payload
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.UserUpdateParams'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.EmberUser'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/api_utils.ErrorResponse'
+      summary: Update user
+      tags:
+      - User
 swagger: "2.0"

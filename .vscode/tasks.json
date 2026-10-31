@@ -6,7 +6,7 @@
         {
             "label": "SWAG_init",
             "type": "shell",
-            "command": "cd backend_go && swag init"
+            "command": "cd backend_go && go run github.com/swaggo/swag/cmd/swag@v1.16.4 init -g main.go -d src -o src/docs"
         }
     ]
 }

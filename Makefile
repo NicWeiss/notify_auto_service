@@ -24,17 +24,17 @@ start: ## Запуск проекта для разработки
 stop: ## Остановка проекта
 	@docker-compose -f docker/docker-compose.yml down
 
-migrate:  ## Обновление БД проекта
-	@docker-compose -f docker/docker-compose.yml run backend \
-			sh -c "alembic `([ ! -z "$(downgrade)" ] && echo "downgrade -$(downgrade)") || \
-  		([ ! -z "$(upgrade)" ] && echo "upgrade $(upgrade)") || \
-			echo "upgrade head"`"
-
-migration_create:  ## Создание новой миграции
+# Миграции применяются автоматически при старте бэкэнда.
+# Новая миграция - файл backend_go/src/core/migrations/NNN_name.sql
+migration_create:  ## Создание новой миграции (make migration_create msg=add_field)
 	@[ -z "$(msg)" ] && \
 		echo -e '${Red}Добавьте msg${Color_Off}' || \
-	  docker-compose -f docker/docker-compose.yml run backend sh -c "alembic revision --autogenerate -m '$(msg)'"
-	@sudo chown $$USER:$$USER -R $(DIR)/backend/app/repo/migrations/versions
+		(n=$$(ls $(DIR)/backend_go/src/core/migrations | wc -l); \
+		f=$(DIR)/backend_go/src/core/migrations/$$(printf '%03d' $$((n + 1)))_$(msg).sql; \
+		touch $$f && echo $$f)
+
+test:  ## Тесты бэкэнда
+	@docker run --rm -v $(DIR)/backend_go:/app -w /app golang:1.23-alpine go test ./...
 
 
 ps:
@@ -42,12 +42,10 @@ ps:
 
 publish:  ## Сборка проекта
 	@docker build --no-cache -f ./docker/backend/Dockerfile --target prod -t harbor.nic-weiss.tech/notifier/backend:$(VERSION) .
-	@docker build --no-cache -f ./docker/backend/Dockerfile --target celery -t harbor.nic-weiss.tech/notifier/celery:$(VERSION) .
 	@docker build --no-cache -f ./docker/frontend/Dockerfile --target prod -t harbor.nic-weiss.tech/notifier/frontend:$(VERSION) .
 
 	@docker push harbor.nic-weiss.tech/notifier/frontend:$(VERSION)
 	@docker push harbor.nic-weiss.tech/notifier/backend:$(VERSION)
-	@docker push harbor.nic-weiss.tech/notifier/celery:$(VERSION)
 
 publish_postfix:  ## Сборка проекта
 	@docker build -f ./docker/postfix/Dockerfile -t harbor.nic-weiss.tech/notifier/postfix:$(VERSION) .

@@ -22,7 +22,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Category"
+                    "Acceptor"
                 ],
                 "summary": "Getting acceptors",
                 "parameters": [
@@ -32,19 +32,19 @@ const docTemplate = `{
                         "name": "Session",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Skip disabled acceptors",
+                        "name": "only_enabled",
+                        "in": "query"
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of acceptorss",
+                        "description": "List of acceptors",
                         "schema": {
                             "$ref": "#/definitions/schemas.EmberAcceptors"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/api_utils.ErrorResponse"
                         }
                     },
                     "401": {
@@ -54,11 +54,231 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Acceptor"
+                ],
+                "summary": "Create acceptor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Acceptor",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AcceptorCreateParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.EmberAcceptor"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/acceptors/update_push_tokens": {
+            "post": {
+                "description": "Add a firebase token of the device to the push acceptor",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Acceptor"
+                ],
+                "summary": "Add push token",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Token",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.PushTokenParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.EmberAcceptor"
+                        }
+                    }
+                }
+            }
+        },
+        "/acceptors/{id}": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Acceptor"
+                ],
+                "summary": "Update acceptor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Acceptor id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Acceptor",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.AcceptorUpdateParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.EmberAcceptor"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Acceptor"
+                ],
+                "summary": "Delete acceptor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Acceptor id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.EmberAcceptor"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/get_code": {
+            "post": {
+                "description": "Send a code for the registration to the email",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get registration code",
+                "parameters": [
+                    {
+                        "description": "Email",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CodeRequestParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.StatusResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    }
+                }
             }
         },
         "/auth/login": {
             "post": {
-                "description": "Login, create new session, return auth cookies",
+                "description": "Login, create new session and return its token",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -71,6 +291,7 @@ const docTemplate = `{
                         "description": "Login credentials",
                         "name": "payload",
                         "in": "body",
+                        "required": true,
                         "schema": {
                             "$ref": "#/definitions/schemas.LoginParams"
                         }
@@ -83,14 +304,168 @@ const docTemplate = `{
                             "$ref": "#/definitions/schemas.SessionResponse"
                         }
                     },
-                    "400": {
-                        "description": "Bad Request",
+                    "422": {
+                        "description": "Unprocessable Entity",
                         "schema": {
                             "$ref": "#/definitions/api_utils.ErrorResponse"
                         }
+                    }
+                }
+            }
+        },
+        "/auth/restore": {
+            "post": {
+                "description": "Send a link for the password restoring to the email",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Restore password",
+                "parameters": [
+                    {
+                        "description": "Email",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.RestoreParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.DataResponse"
+                        }
                     },
-                    "401": {
-                        "description": "Unauthorized",
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/restore/restore-password": {
+            "post": {
+                "description": "Change the password by the code from the restore link",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Set new password",
+                "parameters": [
+                    {
+                        "description": "Code and the new password",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.RestorePasswordParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.DataResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/restore/verify-restore-code": {
+            "post": {
+                "description": "Check that the code from the restore link is alive",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Verify restore code",
+                "parameters": [
+                    {
+                        "description": "Code",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.RestoreVerifyCodeParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.DataResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/sign_up": {
+            "post": {
+                "description": "Register a new user by the code from the letter and create a session",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Sign up",
+                "parameters": [
+                    {
+                        "description": "Registration data",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.SignUpParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Session token",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.SessionResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
                         "schema": {
                             "$ref": "#/definitions/api_utils.ErrorResponse"
                         }
@@ -124,10 +499,48 @@ const docTemplate = `{
                             "$ref": "#/definitions/schemas.EmberCategories"
                         }
                     },
-                    "400": {
-                        "description": "Bad Request",
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Create category",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Category",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CategoryParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.EmberCategory"
                         }
                     },
                     "401": {
@@ -139,29 +552,133 @@ const docTemplate = `{
                 }
             }
         },
-        "/notifies": {
-            "get": {
-                "description": "Getting notify  which user created",
+        "/categories/{id}": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "Category"
                 ],
-                "summary": "Getting notifies",
+                "summary": "Update category",
                 "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Id for select only linked notifies",
-                        "name": "category_id",
-                        "in": "query"
-                    },
                     {
                         "type": "string",
                         "description": "Session token",
                         "name": "Session",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Category id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Category",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.CategoryParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.EmberCategory"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Category"
+                ],
+                "summary": "Delete category",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Category id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.EmberCategory"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/notifies": {
+            "get": {
+                "description": "Getting notifies of one category (without category_id - notifies without a category)",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Notify"
+                ],
+                "summary": "Getting notifies",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Category id",
+                        "name": "category_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page number, from 1",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page size",
+                        "name": "per_page",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -171,14 +688,264 @@ const docTemplate = `{
                             "$ref": "#/definitions/schemas.EmberNotifies"
                         }
                     },
-                    "400": {
-                        "description": "Bad Request",
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/api_utils.ErrorResponse"
                         }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Notify"
+                ],
+                "summary": "Create notify",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
                     },
-                    "401": {
-                        "description": "Unauthorized",
+                    {
+                        "description": "Notify",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.NotifyParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.EmberNotify"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/notifies/delete_by_category_id": {
+            "delete": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Notify"
+                ],
+                "summary": "Delete notifies of category",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Category",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.NotifyCategoryParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/notifies/reset_from_category_id": {
+            "put": {
+                "description": "Notifies of the category stay alive but lose the category",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Notify"
+                ],
+                "summary": "Remove notifies from category",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Category",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.NotifyCategoryParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/notifies/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Notify"
+                ],
+                "summary": "Getting notify",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Notify id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.EmberNotify"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Notify"
+                ],
+                "summary": "Update notify",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Notify id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Notify",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.NotifyParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.EmberNotify"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Notify"
+                ],
+                "summary": "Delete notify",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Notify id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.EmberNotify"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/api_utils.ErrorResponse"
                         }
@@ -193,7 +960,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Category"
+                    "Session"
                 ],
                 "summary": "Getting sessions",
                 "parameters": [
@@ -212,14 +979,49 @@ const docTemplate = `{
                             "$ref": "#/definitions/schemas.EmberSessions"
                         }
                     },
-                    "400": {
-                        "description": "Bad Request",
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/api_utils.ErrorResponse"
                         }
+                    }
+                }
+            }
+        },
+        "/sessions/{id}": {
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Session"
+                ],
+                "summary": "Delete session",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
                     },
-                    "401": {
-                        "description": "Unauthorized",
+                    {
+                        "type": "integer",
+                        "description": "Session id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.EmberSessions"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/api_utils.ErrorResponse"
                         }
@@ -234,20 +1036,23 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Category"
+                    "System"
                 ],
                 "summary": "Getting systems",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "List of systems",
                         "schema": {
                             "$ref": "#/definitions/schemas.EmberSystems"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/api_utils.ErrorResponse"
                         }
                     },
                     "401": {
@@ -259,14 +1064,55 @@ const docTemplate = `{
                 }
             }
         },
-        "/user": {
+        "/systems/{id}": {
             "get": {
-                "description": "Getting data obout current authorized user",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Category"
+                    "System"
+                ],
+                "summary": "Getting system",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "System id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.EmberSystem"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user": {
+            "get": {
+                "description": "Getting data about current authorized user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
                 ],
                 "summary": "Getting user",
                 "parameters": [
@@ -285,14 +1131,107 @@ const docTemplate = `{
                             "$ref": "#/definitions/schemas.EmberUser"
                         }
                     },
-                    "400": {
-                        "description": "Bad Request",
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/api_utils.ErrorResponse"
                         }
+                    }
+                }
+            }
+        },
+        "/user/change-password": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Change password",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
                     },
-                    "401": {
-                        "description": "Unauthorized",
+                    {
+                        "description": "Passwords",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.ChangePasswordParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.DataResponse"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/api_utils.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Session token",
+                        "name": "Session",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "User id (only the current user can be changed)",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Name and email",
+                        "name": "payload",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/schemas.UserUpdateParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/schemas.EmberUser"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
                         "schema": {
                             "$ref": "#/definitions/api_utils.ErrorResponse"
                         }
@@ -302,23 +1241,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "api_utils.ErrorData": {
+        "api_utils.ErrorResponse": {
             "type": "object",
             "properties": {
-                "code": {
-                    "type": "string"
-                },
-                "description": {
+                "detail": {
                     "type": "string"
                 }
             }
         },
-        "api_utils.ErrorResponse": {
+        "api_utils.StatusResponse": {
             "type": "object",
             "properties": {
-                "error": {
-                    "$ref": "#/definitions/api_utils.ErrorData"
-                },
                 "status": {
                     "type": "string"
                 }
@@ -373,10 +1306,41 @@ const docTemplate = `{
                 }
             }
         },
+        "models.ClientInfo": {
+            "type": "object",
+            "properties": {
+                "client": {
+                    "type": "string"
+                },
+                "cookies": {
+                    "type": "boolean"
+                },
+                "mobile": {
+                    "type": "boolean"
+                },
+                "os": {
+                    "type": "string"
+                },
+                "os_version": {
+                    "type": "string"
+                },
+                "screen": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Notify": {
             "type": "object",
             "properties": {
-                "acceptors": {},
+                "acceptors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Acceptor"
+                    }
+                },
                 "autodisable_at": {
                     "type": "string"
                 },
@@ -424,7 +1388,9 @@ const docTemplate = `{
         "models.Session": {
             "type": "object",
             "properties": {
-                "client": {},
+                "client": {
+                    "type": "object"
+                },
                 "expire_at": {
                     "type": "string"
                 },
@@ -434,7 +1400,9 @@ const docTemplate = `{
                 "is_deleted": {
                     "type": "boolean"
                 },
-                "location": {},
+                "location": {
+                    "type": "object"
+                },
                 "session": {
                     "type": "string"
                 },
@@ -484,11 +1452,150 @@ const docTemplate = `{
                 "name": {
                     "type": "string"
                 },
-                "password": {
-                    "type": "string"
-                },
                 "registred_at": {
                     "type": "string"
+                }
+            }
+        },
+        "schemas.AcceptorCreateFields": {
+            "type": "object",
+            "required": [
+                "name",
+                "system_id"
+            ],
+            "properties": {
+                "account": {
+                    "type": "string"
+                },
+                "is_disabled": {
+                    "type": "boolean"
+                },
+                "is_system": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "system_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.AcceptorCreateParams": {
+            "type": "object",
+            "required": [
+                "acceptor"
+            ],
+            "properties": {
+                "acceptor": {
+                    "$ref": "#/definitions/schemas.AcceptorCreateFields"
+                }
+            }
+        },
+        "schemas.AcceptorRef": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.AcceptorUpdateFields": {
+            "type": "object",
+            "properties": {
+                "account": {
+                    "type": "string"
+                },
+                "is_disabled": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "system_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.AcceptorUpdateParams": {
+            "type": "object",
+            "required": [
+                "acceptor"
+            ],
+            "properties": {
+                "acceptor": {
+                    "$ref": "#/definitions/schemas.AcceptorUpdateFields"
+                }
+            }
+        },
+        "schemas.CategoryFields": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "is_hidden": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CategoryParams": {
+            "type": "object",
+            "required": [
+                "category"
+            ],
+            "properties": {
+                "category": {
+                    "$ref": "#/definitions/schemas.CategoryFields"
+                }
+            }
+        },
+        "schemas.ChangePasswordParams": {
+            "type": "object",
+            "required": [
+                "current_password",
+                "new_password"
+            ],
+            "properties": {
+                "current_password": {
+                    "type": "string"
+                },
+                "new_password": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.CodeRequestParams": {
+            "type": "object",
+            "required": [
+                "email"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.DataResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "additionalProperties": {}
+                }
+            }
+        },
+        "schemas.EmberAcceptor": {
+            "type": "object",
+            "properties": {
+                "acceptor": {
+                    "$ref": "#/definitions/models.Acceptor"
+                },
+                "meta": {
+                    "$ref": "#/definitions/schemas.EmberMeta"
                 }
             }
         },
@@ -520,6 +1627,17 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.EmberCategory": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "$ref": "#/definitions/models.Category"
+                },
+                "meta": {
+                    "$ref": "#/definitions/schemas.EmberMeta"
+                }
+            }
+        },
         "schemas.EmberMeta": {
             "type": "object",
             "properties": {
@@ -542,6 +1660,17 @@ const docTemplate = `{
                 }
             }
         },
+        "schemas.EmberNotify": {
+            "type": "object",
+            "properties": {
+                "meta": {
+                    "$ref": "#/definitions/schemas.EmberMeta"
+                },
+                "notify": {
+                    "$ref": "#/definitions/models.Notify"
+                }
+            }
+        },
         "schemas.EmberSessions": {
             "type": "object",
             "properties": {
@@ -553,6 +1682,17 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/models.Session"
                     }
+                }
+            }
+        },
+        "schemas.EmberSystem": {
+            "type": "object",
+            "properties": {
+                "meta": {
+                    "$ref": "#/definitions/schemas.EmberMeta"
+                },
+                "system": {
+                    "$ref": "#/definitions/models.System"
                 }
             }
         },
@@ -583,11 +1723,132 @@ const docTemplate = `{
         },
         "schemas.LoginParams": {
             "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
             "properties": {
+                "client": {
+                    "$ref": "#/definitions/models.ClientInfo"
+                },
                 "email": {
                     "type": "string"
                 },
                 "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.NotifyCategoryParams": {
+            "type": "object",
+            "required": [
+                "category_id"
+            ],
+            "properties": {
+                "category_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schemas.NotifyFields": {
+            "type": "object",
+            "properties": {
+                "acceptors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schemas.AcceptorRef"
+                    }
+                },
+                "autodisable_at": {
+                    "type": "string"
+                },
+                "category_id": {
+                    "type": "integer"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "day_of_week": {
+                    "type": "integer"
+                },
+                "is_autodisable": {
+                    "type": "boolean"
+                },
+                "is_disabled": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "periodic": {
+                    "type": "string"
+                },
+                "repeate_interval": {
+                    "type": "integer"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "time": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.NotifyParams": {
+            "type": "object",
+            "required": [
+                "notify"
+            ],
+            "properties": {
+                "notify": {
+                    "$ref": "#/definitions/schemas.NotifyFields"
+                }
+            }
+        },
+        "schemas.PushTokenParams": {
+            "type": "object",
+            "required": [
+                "token"
+            ],
+            "properties": {
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.RestoreParams": {
+            "type": "object",
+            "required": [
+                "email"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.RestorePasswordParams": {
+            "type": "object",
+            "required": [
+                "code",
+                "password"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.RestoreVerifyCodeParams": {
+            "type": "object",
+            "required": [
+                "code"
+            ],
+            "properties": {
+                "code": {
                     "type": "string"
                 }
             }
@@ -599,17 +1860,65 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        },
+        "schemas.SignUpParams": {
+            "type": "object",
+            "required": [
+                "code",
+                "email",
+                "name",
+                "password"
+            ],
+            "properties": {
+                "client": {
+                    "$ref": "#/definitions/models.ClientInfo"
+                },
+                "code": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.UserUpdateFields": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas.UserUpdateParams": {
+            "type": "object",
+            "required": [
+                "user"
+            ],
+            "properties": {
+                "user": {
+                    "$ref": "#/definitions/schemas.UserUpdateFields"
+                }
+            }
         }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
+	Version:          "3.0",
 	Host:             "",
-	BasePath:         "",
+	BasePath:         "/api/v3",
 	Schemes:          []string{},
-	Title:            "",
+	Title:            "Notifier",
 	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

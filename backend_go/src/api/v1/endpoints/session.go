@@ -1,37 +1,55 @@
 package endpoints
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
-	"net/http"
+
 	"notifier/src/api/api_utils"
-	"notifier/src/api/v1/responses"
-	"notifier/src/api/v1/schemas"
 	"notifier/src/repo/models"
 	"notifier/src/services/session_service"
 	"notifier/src/utils/decorators"
 )
 
-// CreateTags     godoc
 // @Summary       Getting sessions
 // @Description   Getting sessions which user created
 // @Produce       application/json
 // @Param         Session      header  string  true   "Session token"
 // @Success       200  {object}   schemas.EmberSessions "List of sessions"
-// @Failure       400  {object}  api_utils.ErrorResponse
 // @Failure       401  {object}  api_utils.ErrorResponse
-// @Tags          Category
+// @Tags          Session
 // @Router        /sessions [get]
 func getListOfSessions(c *gin.Context, user models.User) {
-	var sessions, getErr = session_service.GetSessions(user)
-	if getErr != nil {
-		fmt.Println(getErr)
-		api_utils.SendApiError(c, http.StatusUnauthorized, "session_error", "Can't get session list")
+	sessions, err := session_service.GetSessions(user)
+	if err != nil {
+		api_utils.HandleError(c, err)
 		return
 	}
-	responses.EmberResponse(c, &schemas.EmberSessions{}, sessions)
+
+	api_utils.Ember(c, "session", sessions, 0)
+}
+
+// @Summary       Delete session
+// @Produce       application/json
+// @Param         Session  header  string  true  "Session token"
+// @Param         id       path    int     true  "Session id"
+// @Success       200  {object}   schemas.EmberSessions
+// @Failure       404  {object}  api_utils.ErrorResponse
+// @Tags          Session
+// @Router        /sessions/{id} [delete]
+func deleteSession(c *gin.Context, user models.User) {
+	id, ok := pathId(c)
+	if !ok {
+		return
+	}
+
+	if err := session_service.DeleteSession(user, id); err != nil {
+		api_utils.HandleError(c, err)
+		return
+	}
+
+	api_utils.Ember(c, "session", true, 0)
 }
 
 func DefineSessions(router *gin.RouterGroup) {
 	router.GET("/sessions", decorators.WithUser(getListOfSessions))
+	router.DELETE("/sessions/:id", decorators.WithUser(deleteSession))
 }

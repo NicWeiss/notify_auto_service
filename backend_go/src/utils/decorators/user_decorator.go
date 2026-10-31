@@ -1,27 +1,35 @@
 package decorators
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
+
 	"notifier/src/api/api_utils"
-	"notifier/src/repo/crud"
 	"notifier/src/repo/models"
+	"notifier/src/services/apperr"
+	"notifier/src/services/session_service"
 )
 
 type methodType func(*gin.Context, models.User)
 
-func WithUser(apiMethod methodType) func(c *gin.Context) {
+// WithUser passes the owner of the Session header to the handler. Requests
+// without an alive session are answered with 401.
+func WithUser(apiMethod methodType) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		session, isOk := c.Request.Header["Session"]
-		if !isOk {
-			api_utils.SendApiError(c, http.StatusUnauthorized, "auth_error", "Not authorized")
+		session := c.GetHeader("Session")
+		if session == "" {
+			api_utils.SendApiError(c, http.StatusUnauthorized, "Auth required")
 			return
 		}
 
-		sessionString := session[0]
-		user, err := crud.GetUserBySession(sessionString)
+		user, err := session_service.GetUserBySession(session)
 		if err != nil {
-			api_utils.SendApiError(c, http.StatusUnauthorized, "auth_error", "Not authorized")
+			if apperr.IsNoRows(err) {
+				api_utils.SendApiError(c, http.StatusUnauthorized, "Auth required")
+			} else {
+				api_utils.HandleError(c, err)
+			}
 			return
 		}
 

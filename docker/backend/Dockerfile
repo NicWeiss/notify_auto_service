@@ -1,21 +1,18 @@
-FROM python:3.10-slim as base
+FROM golang:1.23-alpine AS build
 
-ENV PYTHONDONTWRITEBYTECODE yes
+WORKDIR /src
+COPY ./backend_go/go.mod ./backend_go/go.sum ./
+RUN go mod download
 
-RUN apt-get update -y && \
-    apt-get install -y  libpq-dev python3-dev gcc lynx && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
-
-RUN mkdir backend
-COPY ./backend /backend
-WORKDIR /backend
-RUN pip install -r requirements.txt
-RUN mkdir -p /var/run/celery/
+COPY ./backend_go/ ./
+RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /out/notifier ./src
 
 # ---- PROD build ----
-FROM base as prod
-CMD ["python", "run.py"]
+# One binary serves the api and runs the periodic jobs (the former celery worker).
+FROM alpine:3.20 AS prod
 
-# ---- PROD build ----
-FROM base as celery
-CMD ["bash", "./start_celery_worker.sh"]
+RUN apk add --no-cache ca-certificates tzdata
+COPY --from=build /out/notifier /usr/local/bin/notifier
+
+EXPOSE 8800
+CMD ["notifier"]

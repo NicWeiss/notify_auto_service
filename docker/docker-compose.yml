@@ -24,56 +24,29 @@ services:
       - "8097:5432"
     container_name: dev_notifier_postgres
 
-  redis:
-    image: redis:6.2-alpine
-    restart: always
-    ports:
-      - '8095:6379'
-    command: redis-server --save 20 1 --loglevel warning --requirepass redispass123
-    volumes:
-      - ../data/redis:/data
-    container_name: dev_notifier_redis
 
   backend_base:
     &backend_base
     build:
       dockerfile: docker/backend/Dockerfile
       context: ../
+      target: prod
     env_file:
-      - ../backend/.env
+      - ../backend_go/.env
     links:
       - postgres
       - postfix
-      - rabbit
-      - redis
     depends_on:
       - postgres
       - postfix
-      - rabbit
-      - redis
-    volumes:
-      - ../backend:/backend
-      # - ./backend/grafana.yml:/etc/agent/agent.yaml
-    stdin_open: true
-    tty: true
     container_name: dev_notifier_backend_base
 
   backend:
     <<: *backend_base
     ports:
       - "8094:8800"
-    command: python run.py
-    stdin_open: true
-    tty: true
     container_name: dev_notifier_backend
 
-  celery:
-    <<: *backend_base
-    working_dir: /backend
-    environment:
-      C_FORCE_ROOT: 'true'
-    command: bash -c "sh /backend/start_celery_worker.sh"
-    container_name: dev_notifier_celery
 
   frontend:
     build:
@@ -111,25 +84,3 @@ services:
     tty: true
     logging: *default-logging
 
-  rabbit:
-    hostname: rabbit
-    image: 'rabbitmq:3-management'
-    ports:
-      - '4369:4369'
-      - '5672:5672'
-      - '25672:25672'
-      - '15672:15672'
-    volumes:
-      - ../data/rabbitmq2:/var/lib/rabbitmq
-    container_name: dev_notifier_rabbit
-
-  flower:
-    image: mher/flower
-    environment:
-        - CELERY_BROKER_URL=amqp://guest:guest@rabbit:5672//
-        - FLOWER_PORT=5555
-    ports:
-        - 8098:5555
-    depends_on:
-        - rabbit
-    container_name: dev_notifier_flower

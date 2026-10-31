@@ -10,6 +10,7 @@
 
 # misc
 /frontend/.env*
+!.env.example
 /frontend/.pnp*
 /frontend/.sass-cache
 /frontend/connect.lock
@@ -46,3 +47,4 @@ backend_go/pkg
 backend_go/.idea
 backend_go/tmp
 backend_go/__debug*
+backend_go/notifier

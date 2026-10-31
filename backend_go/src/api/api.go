@@ -11,21 +11,27 @@ import (
 
 var Prefix = "/api/v3"
 
+// LegacyPrefix is the path of the python backend, old clients (the mobile
+// application) still use it.
+var LegacyPrefix = "/api/v2"
+
 func InitApi(router *gin.Engine) {
 	DefineApi(router)
 	DefineSwagger(router)
 }
 
 func DefineApi(router *gin.Engine) {
-	api_router := router.Group(Prefix)
-	{
-		v1.DefineAuth(api_router)
-		v1.DefineCategories(api_router)
-		v1.DefineNotifies(api_router)
-		v1.DefineSessions(api_router)
-		v1.DefineUsers(api_router)
-		v1.DefineSystems(api_router)
-		v1.DefineAcceptors(api_router)
+	for _, prefix := range []string{Prefix, LegacyPrefix} {
+		apiRouter := router.Group(prefix)
+		{
+			v1.DefineAuth(apiRouter)
+			v1.DefineCategories(apiRouter)
+			v1.DefineNotifies(apiRouter)
+			v1.DefineSessions(apiRouter)
+			v1.DefineUsers(apiRouter)
+			v1.DefineSystems(apiRouter)
+			v1.DefineAcceptors(apiRouter)
+		}
 	}
 }
 

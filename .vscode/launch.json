@@ -10,7 +10,7 @@
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "SWAG_init",
-            "program": "backend_go/main.go",
+            "program": "${workspaceFolder}/backend_go/src",
             "console": "integratedTerminal",
         },
     ]

@@ -1,44 +1,82 @@
 package session_service
 
 import (
+	"crypto/rand"
+	"encoding/hex"
+	"encoding/json"
 	"time"
 
-	"github.com/google/uuid"
-
+	"notifier/src/core"
+	"notifier/src/integrations/location"
 	"notifier/src/repo/crud"
 	"notifier/src/repo/models"
-	"notifier/src/repo/schemas"
+	"notifier/src/services/apperr"
 )
 
-func SetSession(user models.User) (models.Session, error) {
-	var now = time.Now()
-	var expire_date = now.AddDate(0, 0, 1)
+const (
+	webSessionLifetime    = 24 * time.Hour
+	mobileSessionLifetime = 3650 * 24 * time.Hour
+)
 
-	var session_data = schemas.SessionCreate{
-		Session:  uuid.New().String(),
-		ExpireAt: expire_date,
-		UserId:   user.Id,
+func newToken() (string, error) {
+	raw := make([]byte, 16)
+	if _, err := rand.Read(raw); err != nil {
+		return "", err
 	}
 
-	var session_model, err = crud.CreateSession(session_data)
+	return hex.EncodeToString(raw), nil
+}
 
+// SetSession creates a session for the user and returns its token.
+func SetSession(userId int, userIp string, client *models.ClientInfo) (string, error) {
+	lifetime := webSessionLifetime
+	if client != nil && client.Mobile != nil && *client.Mobile {
+		lifetime = mobileSessionLifetime
+	}
+
+	token, err := newToken()
 	if err != nil {
-		return models.Session{}, err
+		return "", err
 	}
 
-	return session_model, nil
+	var clientJson json.RawMessage
+	if client != nil {
+		if clientJson, err = json.Marshal(client); err != nil {
+			return "", err
+		}
+	}
+
+	locationJson := location.Lookup(core.Cfg.IPLocationToken, userIp)
+
+	_, err = crud.CreateSession(core.DB, token, userId, clientJson, locationJson, time.Now().Add(lifetime))
+	if err != nil {
+		return "", err
+	}
+
+	return token, nil
+}
+
+// GetUserBySession returns the owner of an alive session.
+func GetUserBySession(token string) (models.User, error) {
+	return crud.GetUserBySession(core.DB, token, time.Now())
 }
 
 func GetSessions(user models.User) ([]models.Session, error) {
+	return crud.GetSessionsByUserId(core.DB, user.Id)
+}
 
-	var err error
-	var sessions []models.Session
-
-	sessions, err = crud.GetSessionsByUserId(user.Id)
-
+func DeleteSession(user models.User, sessionId int) error {
+	found, err := crud.DeleteSession(core.DB, sessionId, user.Id)
 	if err != nil {
-		return sessions, err
+		return err
+	}
+	if !found {
+		return apperr.NotFound("Session not found")
 	}
 
-	return sessions, err
+	return nil
+}
+
+func ClearExpiredSessions() error {
+	return crud.ClearExpiredSessions(core.DB, time.Now())
 }
