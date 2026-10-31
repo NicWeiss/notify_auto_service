@@ -1,8 +1,42 @@
 package schemas
 
 import (
+	"fmt"
+	"strconv"
+	"strings"
+
 	"notifier/src/repo/models"
 )
+
+// FlexInt is a number which may also come as a string: Ember Data sends the ids
+// of the records as strings ("id": "2"), and the python backend (pydantic)
+// converted them silently.
+type FlexInt int
+
+func (f *FlexInt) UnmarshalJSON(raw []byte) error {
+	text := strings.Trim(strings.TrimSpace(string(raw)), `"`)
+	if text == "null" {
+		return nil
+	}
+
+	number, err := strconv.Atoi(text)
+	if err != nil {
+		return fmt.Errorf("%q is not an integer", text)
+	}
+
+	*f = FlexInt(number)
+	return nil
+}
+
+// Int returns the value of an optional field.
+func (f *FlexInt) Int() *int {
+	if f == nil {
+		return nil
+	}
+
+	value := int(*f)
+	return &value
+}
 
 // --- responses (used for the swagger docs) ---
 
@@ -115,11 +149,11 @@ type CategoryParams struct {
 // --- acceptor ---
 
 type AcceptorCreateFields struct {
-	Name       string `json:"name" binding:"required"`
-	Account    string `json:"account"`
-	SystemId   int    `json:"system_id" binding:"required"`
-	IsSystem   bool   `json:"is_system"`
-	IsDisabled bool   `json:"is_disabled"`
+	Name       string  `json:"name" binding:"required"`
+	Account    string  `json:"account"`
+	SystemId   FlexInt `json:"system_id" binding:"required"`
+	IsSystem   bool    `json:"is_system"`
+	IsDisabled bool    `json:"is_disabled"`
 }
 
 type AcceptorCreateParams struct {
@@ -127,10 +161,10 @@ type AcceptorCreateParams struct {
 }
 
 type AcceptorUpdateFields struct {
-	Name       *string `json:"name"`
-	Account    *string `json:"account"`
-	SystemId   *int    `json:"system_id"`
-	IsDisabled *bool   `json:"is_disabled"`
+	Name       *string  `json:"name"`
+	Account    *string  `json:"account"`
+	SystemId   *FlexInt `json:"system_id"`
+	IsDisabled *bool    `json:"is_disabled"`
 }
 
 type AcceptorUpdateParams struct {
@@ -144,7 +178,7 @@ type PushTokenParams struct {
 // --- notify ---
 
 type AcceptorRef struct {
-	Id int `json:"id"`
+	Id FlexInt `json:"id"`
 }
 
 type NotifyFields struct {
@@ -152,12 +186,12 @@ type NotifyFields struct {
 	Name            *string        `json:"name"`
 	Text            *string        `json:"text"`
 	Periodic        *string        `json:"periodic"`
-	DayOfWeek       *int           `json:"day_of_week"`
+	DayOfWeek       *FlexInt       `json:"day_of_week"`
 	Date            *string        `json:"date"`
 	Time            *string        `json:"time"`
-	RepeateInterval *int           `json:"repeate_interval"`
+	RepeateInterval *FlexInt       `json:"repeate_interval"`
 	IsDisabled      *bool          `json:"is_disabled"`
-	CategoryId      *int           `json:"category_id"`
+	CategoryId      *FlexInt       `json:"category_id"`
 	IsAutodisable   *bool          `json:"is_autodisable"`
 	AutodisableAt   *string        `json:"autodisable_at"`
 }
@@ -167,7 +201,7 @@ type NotifyParams struct {
 }
 
 type NotifyCategoryParams struct {
-	CategoryId int `json:"category_id" binding:"required"`
+	CategoryId FlexInt `json:"category_id" binding:"required"`
 }
 
 // --- user ---

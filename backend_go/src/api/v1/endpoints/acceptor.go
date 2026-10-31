@@ -49,7 +49,7 @@ func createAcceptor(c *gin.Context, user models.User) {
 
 	fields := params.Acceptor
 	acceptor, err := acceptor_service.Create(user, crud.AcceptorCreate{
-		SystemId:   fields.SystemId,
+		SystemId:   int(fields.SystemId),
 		Name:       fields.Name,
 		Account:    fields.Account,
 		IsDisabled: fields.IsDisabled,
@@ -89,7 +89,7 @@ func updateAcceptor(c *gin.Context, user models.User) {
 		Name:       fields.Name,
 		Account:    fields.Account,
 		IsDisabled: fields.IsDisabled,
-		SystemId:   fields.SystemId,
+		SystemId:   fields.SystemId.Int(),
 	})
 	if err != nil {
 		api_utils.HandleError(c, err)
