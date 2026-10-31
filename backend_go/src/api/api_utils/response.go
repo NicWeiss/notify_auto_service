@@ -1,10 +1,15 @@
 package api_utils
 
 import (
+	"encoding/json"
+	"errors"
+	"fmt"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 
 	"notifier/src/services/apperr"
 )
@@ -59,9 +64,29 @@ func SendStatusOk(c *gin.Context) {
 // BindJSON reads a request body, a bad one is answered with 422.
 func BindJSON(c *gin.Context, destination any) bool {
 	if err := c.ShouldBindJSON(destination); err != nil {
-		SendApiError(c, http.StatusUnprocessableEntity, "Bad request params")
+		SendApiError(c, http.StatusUnprocessableEntity, badParamsMessage(err))
 		return false
 	}
 
 	return true
+}
+
+// badParamsMessage tells which field is wrong (the values are not shown).
+func badParamsMessage(err error) string {
+	var typeError *json.UnmarshalTypeError
+	if errors.As(err, &typeError) && typeError.Field != "" {
+		return fmt.Sprintf("Bad request params: %s must be %s", typeError.Field, typeError.Type)
+	}
+
+	var validationErrors validator.ValidationErrors
+	if errors.As(err, &validationErrors) && len(validationErrors) > 0 {
+		return fmt.Sprintf("Bad request params: %s is required", validationErrors[0].Namespace())
+	}
+
+	// a value of the wrong kind in a field with a custom decoder (FlexInt)
+	if strings.Contains(err.Error(), "is not an integer") {
+		return "Bad request params: " + err.Error()
+	}
+
+	return "Bad request params"
 }
